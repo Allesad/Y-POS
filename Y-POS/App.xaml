@@ -1,0 +1,10 @@
+﻿<Application x:Class="Y_POS.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    
+    <Application.Resources>
+         <ResourceDictionary Source="/Y-POS.UI;component/Themes/YPosTheme.xaml"/>
+    </Application.Resources>
+    
+</Application>

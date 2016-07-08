@@ -1,0 +1,11 @@
+bin
+obj
+*.suo
+*.user
+*.userprefs
+/.vs/
+/packages/
+/node_modules/
+/YumaPos.Client.GUI/Modules/
+
+!SQLite.Interop.dll
