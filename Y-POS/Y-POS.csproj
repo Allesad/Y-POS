@@ -119,6 +119,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Y-POS.Localization\Y-POS.Localization.csproj">
+      <Project>{e62b3f23-21fd-48aa-b178-824446e60152}</Project>
+      <Name>Y-POS.Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Y-POS.Module.Auth\Y-POS.Module.Auth.csproj">
       <Project>{F7574774-46E8-4C01-9542-E40222BA2FF7}</Project>
       <Name>Y-POS.Module.Auth</Name>
@@ -128,9 +132,7 @@
       <Name>Y-POS.UI</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

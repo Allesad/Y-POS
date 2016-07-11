@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y-POS.Module.Auth", "Y-POS.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y-POS.Localization", "Y-POS.Localization\Y-POS.Localization.csproj", "{E62B3F23-21FD-48AA-B178-824446E60152}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orders", "Orders", "{E1697066-3FDF-4C16-BC99-16778D065596}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{09E62EAD-FA5C-4E20-987F-AA13E3AED34F} = {60B83331-7313-4C95-AFCC-B12B0DF8D774}
 		{F7574774-46E8-4C01-9542-E40222BA2FF7} = {09E62EAD-FA5C-4E20-987F-AA13E3AED34F}
+		{E1697066-3FDF-4C16-BC99-16778D065596} = {60B83331-7313-4C95-AFCC-B12B0DF8D774}
 	EndGlobalSection
 EndGlobal

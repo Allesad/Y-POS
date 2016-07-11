@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Action_Break" xml:space="preserve">
-    <value>Break</value>
+    <value>Пауза</value>
   </data>
   <data name="Action_ClockIn" xml:space="preserve">
     <value>Clock In</value>
@@ -127,14 +127,14 @@
     <value>Clock Out</value>
   </data>
   <data name="Action_Login" xml:space="preserve">
-    <value>Login</value>
+    <value>Войти</value>
     <comment>Verb (e.g. login button label)</comment>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Login</value>
+    <value>Логин</value>
     <comment>Noun (e.g. input field label)</comment>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>Пароль</value>
   </data>
 </root>

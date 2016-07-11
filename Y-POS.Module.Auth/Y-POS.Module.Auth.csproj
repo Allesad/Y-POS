@@ -88,6 +88,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Y-POS.Localization\Y-POS.Localization.csproj">
+      <Project>{E62B3F23-21FD-48AA-B178-824446E60152}</Project>
+      <Name>Y-POS.Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Y-POS.UI\Y-POS.UI.csproj">
       <Project>{8C9171FD-446F-405E-9AB1-F584511C026C}</Project>
       <Name>Y-POS.UI</Name>

@@ -110,7 +110,7 @@
     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBoxBase}}">
         <Setter Property="FontSize" Value="30" />
         <Setter Property="FontFamily" Value="Segoe UI Light" />
-        <Setter Property="helpers:PlaceholderTextHelper.PlaceholderText" Value="PLACEHOLDER" />
+        <Setter Property="helpers:PlaceholderTextHelper.PlaceholderText" Value="Placeholder" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
@@ -130,6 +130,7 @@
                                                Style="{StaticResource DefaultSmallText}"
                                                FontFamily="{StaticResource DefaultFontFamily}"
                                                Text="{TemplateBinding helpers:PlaceholderTextHelper.PlaceholderText}"
+                                               helpers:TextCaseHelper.TextCase="Upper"
                                                FontSize="12"
                                                Foreground="{StaticResource PlaceholderTextBrush}"
                                                IsHitTestVisible="False"
@@ -152,7 +153,7 @@
                     </AdornerDecorator>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="FocusBorder" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="FocusBorder" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Placeholder" Property="Foreground" Value="{StaticResource TextBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>

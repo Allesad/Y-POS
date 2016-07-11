@@ -4,5 +4,6 @@
 
     <converters:InvertThicknessConverter x:Key="InvertThicknessConverter"/>
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <converters:TextCaseCoverter x:Key="UpperCaseCoverter"/>
     
 </ResourceDictionary>
