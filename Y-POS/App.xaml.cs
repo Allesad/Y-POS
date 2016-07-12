@@ -3,6 +3,8 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using ReactiveUI;
+using Splat;
 
 namespace Y_POS
 {
@@ -14,7 +16,7 @@ namespace Y_POS
         protected override void OnStartup(StartupEventArgs e)
         {
             Thread.CurrentThread.Name = "Imidus.Win";
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
             CultureInfo.DefaultThreadCurrentUICulture = Thread.CurrentThread.CurrentUICulture;
@@ -29,6 +31,13 @@ namespace Y_POS
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
             base.OnStartup(e);
+        }
+
+        private void Bootstrap()
+        {
+            var resolver = Locator.CurrentMutable;
+
+            resolver.RegisterLazySingleton(() => this, typeof(IScreen));
         }
     }
 }

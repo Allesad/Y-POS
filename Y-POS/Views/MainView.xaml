@@ -4,17 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:Y_POS.Views"
-             xmlns:ui="clr-namespace:Y_POS.UI;assembly=Y-POS.UI"
              mc:Ignorable="d" 
              d:DesignHeight="768" 
              d:DesignWidth="1024">
     
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ui:SharedResourceDictionary Source="/Y-POS.UI;component/Themes/YPosTheme.xaml"/> 
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>

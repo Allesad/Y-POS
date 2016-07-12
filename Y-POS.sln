@@ -5,17 +5,16 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y-POS", "Y-POS\Y-POS.csproj", "{3B466B35-35A3-48BE-9504-118864212754}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y-POS.UI", "Y-POS.UI\Y-POS.UI.csproj", "{8C9171FD-446F-405E-9AB1-F584511C026C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BE8D3248-36B4-4D38-9E0F-D876EF3338A2}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{60B83331-7313-4C95-AFCC-B12B0DF8D774}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y-POS.Core", "Y-POS.Core\Y-POS.Core.csproj", "{095868FA-1370-4DF0-9618-8BEABB3A05D0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{09E62EAD-FA5C-4E20-987F-AA13E3AED34F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y-POS.Module.Auth", "Y-POS.Module.Auth\Y-POS.Module.Auth.csproj", "{F7574774-46E8-4C01-9542-E40222BA2FF7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y-POS.Localization", "Y-POS.Localization\Y-POS.Localization.csproj", "{E62B3F23-21FD-48AA-B178-824446E60152}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orders", "Orders", "{E1697066-3FDF-4C16-BC99-16778D065596}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YumaPos.WPF.UI", "YumaPos.WPF.UI\YumaPos.WPF.UI.csproj", "{50EEB71B-B902-4E40-8032-E2CC191D553F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,25 +26,16 @@ Global
 		{3B466B35-35A3-48BE-9504-118864212754}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B466B35-35A3-48BE-9504-118864212754}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B466B35-35A3-48BE-9504-118864212754}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8C9171FD-446F-405E-9AB1-F584511C026C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C9171FD-446F-405E-9AB1-F584511C026C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C9171FD-446F-405E-9AB1-F584511C026C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C9171FD-446F-405E-9AB1-F584511C026C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F7574774-46E8-4C01-9542-E40222BA2FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7574774-46E8-4C01-9542-E40222BA2FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7574774-46E8-4C01-9542-E40222BA2FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7574774-46E8-4C01-9542-E40222BA2FF7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E62B3F23-21FD-48AA-B178-824446E60152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E62B3F23-21FD-48AA-B178-824446E60152}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E62B3F23-21FD-48AA-B178-824446E60152}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E62B3F23-21FD-48AA-B178-824446E60152}.Release|Any CPU.Build.0 = Release|Any CPU
+		{095868FA-1370-4DF0-9618-8BEABB3A05D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{095868FA-1370-4DF0-9618-8BEABB3A05D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{095868FA-1370-4DF0-9618-8BEABB3A05D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{095868FA-1370-4DF0-9618-8BEABB3A05D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50EEB71B-B902-4E40-8032-E2CC191D553F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50EEB71B-B902-4E40-8032-E2CC191D553F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50EEB71B-B902-4E40-8032-E2CC191D553F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50EEB71B-B902-4E40-8032-E2CC191D553F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{09E62EAD-FA5C-4E20-987F-AA13E3AED34F} = {60B83331-7313-4C95-AFCC-B12B0DF8D774}
-		{F7574774-46E8-4C01-9542-E40222BA2FF7} = {09E62EAD-FA5C-4E20-987F-AA13E3AED34F}
-		{E1697066-3FDF-4C16-BC99-16778D065596} = {60B83331-7313-4C95-AFCC-B12B0DF8D774}
 	EndGlobalSection
 EndGlobal

@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using Y_POS.Module.Auth.Views;
 
 namespace Y_POS.Views
 {
@@ -13,6 +12,9 @@ namespace Y_POS.Views
             InitializeComponent();
 
             Page.Content = new LoginView();
+            /*var vm = new AppMainVm();
+            vm.Init();
+            DataContext = vm;*/
         }
     }
 }

@@ -1,0 +1,73 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+                    xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
+                    xmlns:ui="clr-namespace:YumaPos.WPF.UI;assembly=YumaPos.WPF.UI">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Themes/ColorScheme.xaml" />
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/Button.xaml" />
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/TextBlock.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="IconActionBar" TargetType="{x:Type Path}">
+        <Setter Property="Width" Value="26" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="Fill" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="ActionBarButtonText" TargetType="TextBlock" BasedOn="{StaticResource DefaultSmallText}">
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="None" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="LineHeight" Value="14" />
+    </Style>
+
+    <Style x:Key="ActionBarButton" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource ActionBarButtonBgHover}" />
+        <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource ActionBarButtonBgPressed}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <StackPanel VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="0,5"
+                                Orientation="Vertical">
+                        <Path Style="{StaticResource IconActionBar}"
+                              Stretch="Uniform"
+                              Data="F1M22,24L6,24 6,18 8,18 8,22 20,22 20,2 8,2 8,6 6,6 6,0 22,0z M12,7L10.586,8.414 13.172,11 0,11 0,13 13.172,13 10.586,15.586 12,17 17,12z" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   Margin="0,10,0,0"
+                                   Text="Clock In" />
+                    </StackPanel>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- MENU DATA TEMPLATE -->
+    <DataTemplate x:Key="MenuDt">
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0,5"
+                    Orientation="Vertical">
+            <Path Style="{StaticResource IconActionBar}"
+                  Stretch="Uniform"
+                  Data="F1M27.966,17.587C27.966,16.941,27.441,16.417,26.796,16.417L14.977,16.417 12.989,16.417 1.17,16.417C0.524,16.417 0,16.941 0,17.587 0,18.232 0.524,18.757 1.17,18.757L12.989,18.757 14.977,18.757 26.796,18.757C27.441,18.757,27.966,18.233,27.966,17.587 M27.966,9.379C27.966,8.733,27.441,8.208,26.796,8.208L14.977,8.208 12.989,8.208 1.17,8.208C0.524,8.208 0,8.733 0,9.379 0,10.024 0.524,10.549 1.17,10.549L12.989,10.549 14.977,10.549 26.796,10.549C27.441,10.549,27.966,10.024,27.966,9.379 M26.796,2.34L14.977,2.34 12.989,2.34 1.17,2.34C0.524,2.34 0,1.816 0,1.17 0,0.525 0.524,0 1.17,0L12.989,0 14.977,0 26.796,0C27.441,0 27.966,0.525 27.966,1.17 27.966,1.816 27.441,2.34 26.796,2.34" />
+            <TextBlock HorizontalAlignment="Center"
+                       Margin="0,10,0,0"
+                       Text="{x:Static p:Resources.Menu}" />
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

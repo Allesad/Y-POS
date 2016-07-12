@@ -1,8 +1,6 @@
 ﻿<Window x:Class="Y_POS.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:helpers="clr-namespace:Y_POS.UI.Helpers;assembly=Y-POS.UI"
-        xmlns:controls="clr-namespace:Y_POS.UI.Controls;assembly=Y-POS.UI"
         Title="MainWindow" 
         >
     <Window.Style>

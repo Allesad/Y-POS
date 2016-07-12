@@ -4,17 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:properties="clr-namespace:Y_POS.Properties"
-             xmlns:ui="clr-namespace:Y_POS.UI;assembly=Y-POS.UI"
-             xmlns:ex="clr-namespace:Y_POS.UI.MarkupExtensions;assembly=Y-POS.UI"
+             xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
              mc:Ignorable="d"
              d:DesignHeight="768"
              d:DesignWidth="1024">
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ui:SharedResourceDictionary Source="/Y-POS.UI;component/Themes/YPosTheme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
 
             <SolidColorBrush x:Key="DrawerBg" Color="{StaticResource TextColor}" Opacity="0.85" />
             <SolidColorBrush x:Key="MenuItemBgHover" Color="{StaticResource PrimaryColor}" Opacity="0.15" />

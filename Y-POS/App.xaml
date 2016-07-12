@@ -4,7 +4,7 @@
              StartupUri="MainWindow.xaml">
     
     <Application.Resources>
-         <ResourceDictionary Source="/Y-POS.UI;component/Themes/YPosTheme.xaml"/>
+         <ResourceDictionary Source="/Y-POS;component/Themes/YPosTheme.xaml"/>
     </Application.Resources>
     
 </Application>

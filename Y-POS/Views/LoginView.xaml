@@ -1,22 +1,16 @@
-﻿<UserControl x:Class="Y_POS.Module.Auth.Views.LoginView"
+﻿<UserControl x:Class="Y_POS.Views.LoginView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ui="clr-namespace:Y_POS.UI;assembly=Y-POS.UI"
-             xmlns:helpers="clr-namespace:Y_POS.UI.Helpers;assembly=Y-POS.UI"
-             xmlns:p="clr-namespace:Y_POS.Localization.Properties;assembly=Y-POS.Localization"
+             xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
+             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              mc:Ignorable="d" 
              d:DesignHeight="300" 
              d:DesignWidth="300"
              Background="{StaticResource DefaultImageBg}">
     
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ui:SharedResourceDictionary Source="pack://application:,,,/Y-POS.UI;component/Themes/YPosTheme.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
     </UserControl.Resources>
     
     <StackPanel Orientation="Vertical">
