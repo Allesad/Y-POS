@@ -11,10 +11,12 @@
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/Button.xaml"/>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/RadioButton.xaml"/>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/ListBox.xaml"/>
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/Separator.xaml"/>
         
         <!-- Custom Styles -->
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/CustomStyles/CustomControls.xaml"/>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/CustomStyles/ActionBar.xaml"/>
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/CustomStyles/OrderMaker.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
     <system:Double x:Key="SideColumnWidth">310</system:Double>

@@ -7,8 +7,31 @@
              xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
+        <Style x:Key="HeaderTb" TargetType="TextBlock" BasedOn="{StaticResource DefaultSmallText}">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="helpers:TextCaseHelper.TextCase" Value="Upper" />
+        </Style>
+
+        <DataTemplate x:Key="NewOrderDt">
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,5">
+
+                <Path Style="{StaticResource IconActionBar}"
+                      Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
+                      Stretch="Uniform"
+                      Data="F1M27.966,13.983C27.966,14.629,27.442,15.153,26.796,15.153L15.153,15.153 15.153,26.796C15.153,27.441 14.629,27.966 13.983,27.966 13.337,27.966 12.813,27.441 12.813,26.796L12.813,15.153 1.17,15.153C0.525,15.153 0,14.628 0,13.983 0,13.337 0.525,12.813 1.17,12.813L12.813,12.813 12.813,1.17C12.813,0.524 13.338,0 13.983,0 14.629,0 15.153,0.524 15.153,1.17L15.153,12.813 26.796,12.813C27.442,12.813,27.966,13.337,27.966,13.983" />
+
+                <TextBlock VerticalAlignment="Center"
+                           Margin="15,0,0,0"
+                           Text="{Binding Source={x:Static p:Resources.Action_NewOrder}, Converter={StaticResource UpperCaseCoverter}}" />
+
+            </StackPanel>
+        </DataTemplate>
     </UserControl.Resources>
 
     <Grid>
@@ -20,35 +43,30 @@
 
         <!-- HEADER -->
         <Border Grid.Row="0"
-                Background="{StaticResource ActionBarBg}"
-                TextElement.Foreground="{StaticResource PrimaryBrush}"
-                TextElement.FontSize="12">
+                Background="{StaticResource ActionBarBg}">
 
             <StackPanel Orientation="Horizontal">
 
                 <!-- ORDER NUMBER -->
-                <TextBlock VerticalAlignment="Center"
+                <TextBlock Style="{StaticResource HeaderTb}"
                            Text="#" />
 
                 <!-- DATE/TIME -->
-                <TextBlock VerticalAlignment="Center"
-                           helpers:TextCaseHelper.TextCase="Upper"
-                           Text="{x:Static p:Resources.Date_Time}" />
+                <TextBlock Style="{StaticResource HeaderTb}"
+                           Name="DateTime"
+                           Text="{Binding Source={x:Static p:Resources.Date_Time}, Converter={StaticResource UpperCaseCoverter}}" />
 
                 <!-- STATUS -->
-                <TextBlock VerticalAlignment="Center"
-                           helpers:TextCaseHelper.TextCase="Upper"
-                           Text="{x:Static p:Resources.Status}" />
+                <TextBlock Style="{StaticResource HeaderTb}"
+                           Text="{Binding Source={x:Static p:Resources.Status}, Converter={StaticResource UpperCaseCoverter}}" />
 
                 <!-- CUSTOMER -->
-                <TextBlock VerticalAlignment="Center"
-                           helpers:TextCaseHelper.TextCase="Upper"
-                           Text="{x:Static p:Resources.Customer}" />
+                <TextBlock Style="{StaticResource HeaderTb}"
+                           Text="{Binding Source={x:Static p:Resources.Customer}, Converter={StaticResource UpperCaseCoverter}}" />
 
                 <!-- AMOUNT -->
-                <TextBlock VerticalAlignment="Center"
-                           helpers:TextCaseHelper.TextCase="Upper"
-                           Text="{x:Static p:Resources.Amount}" />
+                <TextBlock Style="{StaticResource HeaderTb}"
+                           Text="{Binding Source={x:Static p:Resources.Amount}, Converter={StaticResource UpperCaseCoverter}}" />
 
             </StackPanel>
 
@@ -59,15 +77,24 @@
 
         <!-- ACTION BAR -->
         <DockPanel LastChildFill="False"
-                    Grid.Row="2"
-                    Background="{StaticResource ActionBarBg}"
-                    Height="75">
-            
+                   Grid.Row="2"
+                   Background="{StaticResource ActionBarBg}"
+                   Height="75">
+
             <!-- MENU -->
             <Button DockPanel.Dock="Left"
-                    Style="{StaticResource ActionBarButton}"
-                    ContentTemplate="{StaticResource MenuDt}"/>
+                    Style="{StaticResource ActionBarMenuButton}" 
+                    Click="ButtonBase_OnClick"/>
             
+            <Separator Style="{StaticResource VSeparator}"
+                       DockPanel.Dock="Left"/>
+
+            <Button DockPanel.Dock="Right"
+                    Name="NewOrderBtn"
+                    Style="{StaticResource ActionBarMainActionButton}"
+                    ContentTemplate="{StaticResource NewOrderDt}" 
+                    Click="NewOrderBtn_OnClick"/>
+
         </DockPanel>
 
     </Grid>

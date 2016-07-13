@@ -37,13 +37,13 @@
                                      Style="{StaticResource UnlabeledTextBox}"
                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                      Margin="{TemplateBinding Padding, Converter={StaticResource InvertThicknessConverter}}"
+                                     Padding="6,0"
                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                      TextAlignment="{TemplateBinding TextAlignment}"
                                      FontSize="{TemplateBinding FontSize}"
                                      Background="Transparent"
                                      Foreground="{TemplateBinding Foreground}"
                                      helpers:PlaceholderTextHelper.PlaceholderText="{TemplateBinding LabelText}"
-                                     helpers:PlaceholderTextHelper.IsMonitoring="True"
                                      BorderThickness="0"
                                      Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text, Mode=TwoWay}" />
 

@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace Y_POS.Views
 {
@@ -10,6 +11,16 @@ namespace Y_POS.Views
         public ActiveOrdersView()
         {
             InitializeComponent();
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            NewOrderBtn.IsEnabled = !NewOrderBtn.IsEnabled;
+        }
+
+        private void NewOrderBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            ((Window)Window.GetWindow(this)).Content = new OrderMakerView();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace YumaPos.WPF.UI.Helpers
 
         public static readonly DependencyProperty TextCaseProperty = DependencyProperty.RegisterAttached(
             "TextCase", typeof (CharacterCasing), typeof (TextCaseHelper),
-            new PropertyMetadata(CharacterCasing.Normal, OnTextCaseChanged));
+            new FrameworkPropertyMetadata(CharacterCasing.Normal, FrameworkPropertyMetadataOptions.AffectsRender, OnTextCaseChanged));
 
         public static void SetTextCase(DependencyObject element, CharacterCasing value)
         {

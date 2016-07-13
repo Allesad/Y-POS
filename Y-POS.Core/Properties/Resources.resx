@@ -130,8 +130,14 @@
     <value>Login</value>
     <comment>Verb (e.g. login button label)</comment>
   </data>
+  <data name="Action_NewOrder" xml:space="preserve">
+    <value>New Order</value>
+  </data>
   <data name="Amount" xml:space="preserve">
     <value>Amount</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>Customer</value>

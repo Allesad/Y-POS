@@ -5,6 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Themes/ColorScheme.xaml" />
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Converters/Converters.xaml" />
         <ui:SharedResourceDictionary Source="TextBlock.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
@@ -37,6 +38,7 @@
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="SelectionBrush" Value="{StaticResource AccentBrush}" />
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="helpers:PlaceholderTextHelper.PlaceholderText" Value="" />
         <Setter Property="CaretBrush">
             <Setter.Value>
@@ -51,23 +53,24 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 Background="{TemplateBinding Background}"
-                                Padding="{TemplateBinding Padding}"
                                 SnapsToDevicePixels="True">
                             <Grid>
                                 <!-- DO NOT RENAME ScrollViewer!
                                 The ControlTemplate for a TextBox must contain exactly one element that is tagged as the content host element; this element will be used to render the contents of the TextBox. To tag an element as the content host, assign it the special name PART_ContentHost. The content host element must be either a ScrollViewer or an AdornerDecorator. The content host element may not host any child elements.
                                 -->
                                 <ScrollViewer x:Name="PART_ContentHost" RenderOptions.ClearTypeHint="Enabled"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 <TextBlock x:Name="Placeholder"
                                            Text="{TemplateBinding helpers:PlaceholderTextHelper.PlaceholderText}"
-                                           FontStyle="Italic"
                                            Foreground="{TemplateBinding Foreground}"
+                                           FontStyle="Italic"
                                            IsHitTestVisible="False"
                                            Opacity="0.5"
+                                           Margin="{TemplateBinding Padding}"
+                                           Padding="2,0,0,0"
                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                           VerticalAlignment="Center"
-                                           Margin="6,0,0,0" />
+                                           VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
                     </AdornerDecorator>
@@ -168,7 +171,8 @@
     </Style>
 
     <Style x:Key="UnlabeledTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBoxBase}}">
-        <Setter Property="Padding" Value="4,10" />
+        <Setter Property="helpers:PlaceholderTextHelper.IsMonitoring" Value="True"/>
+        <Setter Property="Padding" Value="10,4" />
     </Style>
 
 </ResourceDictionary>
