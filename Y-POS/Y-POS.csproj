@@ -81,15 +81,13 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="YumaPos.Client.Core">
-      <HintPath>..\Y-POS.Core\Libs\YumaPos.Client.Core.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\MenuSelectorControl.cs" />
     <Compile Include="Views\ActionBar.xaml.cs">
       <DependentUpon>ActionBar.xaml</DependentUpon>
     </Compile>
@@ -140,6 +138,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\CustomStyles\CustomControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\CustomStyles\OrderMaker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -240,7 +242,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bootstrap\" />
-    <Folder Include="Controls\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\bg.png" />

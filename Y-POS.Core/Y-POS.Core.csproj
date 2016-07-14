@@ -75,7 +75,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="DialogManagement.Core">
-      <HintPath>Libs\DialogManagement.Core.dll</HintPath>
+      <HintPath>..\Libs\DialogManagement.Core.dll</HintPath>
     </Reference>
     <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\reactiveui-core.6.5.0\lib\Portable-Net45+Win8+WP8+WPA81\ReactiveUI.dll</HintPath>
@@ -102,22 +102,22 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="YumaPos.Client.Core">
-      <HintPath>Libs\YumaPos.Client.Core.dll</HintPath>
+      <HintPath>..\Libs\YumaPos.Client.Core.dll</HintPath>
     </Reference>
     <Reference Include="YumaPos.Client.LocalData">
-      <HintPath>Libs\YumaPos.Client.LocalData.dll</HintPath>
+      <HintPath>..\Libs\YumaPos.Client.LocalData.dll</HintPath>
     </Reference>
     <Reference Include="YumaPos.Common.Infrastructure">
-      <HintPath>Libs\YumaPos.Common.Infrastructure.dll</HintPath>
+      <HintPath>..\Libs\YumaPos.Common.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="YumaPos.FrontEnd.Infrastructure">
-      <HintPath>Libs\YumaPos.FrontEnd.Infrastructure.dll</HintPath>
+      <HintPath>..\Libs\YumaPos.FrontEnd.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="YumaPos.Hardware.PinpadHardware.Core.Contracts">
-      <HintPath>Libs\YumaPos.Hardware.PinpadHardware.Core.Contracts.dll</HintPath>
+      <HintPath>..\Libs\YumaPos.Hardware.PinpadHardware.Core.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="YumaPos.Shared.Infrastructure">
-      <HintPath>Libs\YumaPos.Shared.Infrastructure.dll</HintPath>
+      <HintPath>..\Libs\YumaPos.Shared.Infrastructure.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
