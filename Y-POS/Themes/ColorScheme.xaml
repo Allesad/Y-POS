@@ -23,6 +23,7 @@
     
     <!-- TEXT BLOCK -->
     <SolidColorBrush x:Key="DisabledText" Color="{StaticResource TextColor}" Opacity="0.6"/>
+    <SolidColorBrush x:Key="DimmedTextBackground" Color="{StaticResource TextColor}" Opacity="0.5"/>
     
     <!-- TEXT BOX -->
     <SolidColorBrush x:Key="InputBackground" Color="{StaticResource PrimaryColor}"/>

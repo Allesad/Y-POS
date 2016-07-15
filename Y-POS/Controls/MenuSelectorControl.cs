@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Documents;
 
 namespace Y_POS.Controls
 {
@@ -50,8 +52,18 @@ namespace Y_POS.Controls
         #region Categories columns property
 
         public static readonly DependencyProperty CategoriesColumnsProperty = DependencyProperty.Register(
-            "CategoriesColumns", typeof (int), typeof (MenuSelectorControl), new PropertyMetadata(5));
+            "CategoriesColumns", typeof (int), typeof (MenuSelectorControl), new FrameworkPropertyMetadata(5, null,
+                (o, value) =>
+                {
+                    int v = (int) value;
+                    if (v < 2) return 2;
+                    if (v > 5) return 5;
+                    return v;
+                }));
 
+        /// <summary>
+        /// Min: 2, Max: 5
+        /// </summary>
         public int CategoriesColumns
         {
             get { return (int) GetValue(CategoriesColumnsProperty); }
@@ -63,8 +75,18 @@ namespace Y_POS.Controls
         #region Categories rows property
 
         public static readonly DependencyProperty CategoriesRowsProperty = DependencyProperty.Register(
-            "CategoriesRows", typeof (int), typeof (MenuSelectorControl), new PropertyMetadata(1));
+            "CategoriesRows", typeof (int), typeof (MenuSelectorControl), new FrameworkPropertyMetadata(1, null,
+                (o, value) =>
+                {
+                    int v = (int) value;
+                    if (v < 1) return 1;
+                    if (v > 2) return 2;
+                    return v;
+                }));
 
+        /// <summary>
+        /// Min: 1, Max: 2
+        /// </summary>
         public int CategoriesRows
         {
             get { return (int) GetValue(CategoriesRowsProperty); }
@@ -133,7 +155,8 @@ namespace Y_POS.Controls
         {
             base.OnApplyTemplate();
 
-
+            BindCategories("PART_Categories");
+            BindCategoryItems("PART_CategoryItems");
         }
 
         #endregion
@@ -144,12 +167,52 @@ namespace Y_POS.Controls
         {
             var categoriesList = GetTemplateChild(partName) as Selector;
 
-            categoriesList.SelectionChanged += CategoriesListOnSelectionChanged;
+            var contentList = new List<string>
+            {
+                "Coffee",
+                "Tea",
+                "Desserts",
+                "Meat",
+                "Fish",
+                "Drinks"
+            };
 
-            var b = new Binding("Items");
-            b.Source = this;
+            categoriesList.ItemsSource = contentList;
+        }
 
-            categoriesList.SetBinding(ItemsControl.ItemsSourceProperty, b);
+        private void BindCategoryItems(string partName)
+        {
+            var categoriesItemsList = GetTemplateChild(partName) as ItemsControl;
+
+            var contentList = new List<Button>
+            {
+                new Button(){Content = "Chocolate mousse with prunes"},
+                new Button(){Content = "Italian-style bakewell tart"},
+                new Button(){Content = "Lemon Sorbet"},
+                new Button(){Content = "Chocolate mousse with prunes"},
+                new Button(){Content = "Italian-style bakewell tart"},
+                new Button(){Content = "Lemon Sorbet"},
+                new Button(){Content = "Chocolate mousse with prunes"},
+                new Button(){Content = "Italian-style bakewell tart"},
+                new Button(){Content = "Lemon Sorbet"},
+                new Button(){Content = "Chocolate mousse with prunes"},
+                new Button(){Content = "Italian-style bakewell tart"},
+                new Button(){Content = "Lemon Sorbet"},
+                new Button(){Content = "Chocolate mousse with prunes"},
+                new Button(){Content = "Italian-style bakewell tart"},
+                new Button(){Content = "Lemon Sorbet"},
+                new Button(){Content = "Chocolate mousse with prunes"},
+                new Button(){Content = "Italian-style bakewell tart"},
+                new Button(){Content = "Lemon Sorbet"},
+                new Button(){Content = "Chocolate mousse with prunes"},
+                new Button(){Content = "Italian-style bakewell tart"},
+                new Button(){Content = "Lemon Sorbet"},
+                new Button(){Content = "Chocolate mousse with prunes"},
+                new Button(){Content = "Italian-style bakewell tart"},
+                new Button(){Content = "Lemon Sorbet"},
+            };
+
+            categoriesItemsList.ItemsSource = contentList;
         }
 
         private void CategoriesListOnSelectionChanged(object sender, SelectionChangedEventArgs e)

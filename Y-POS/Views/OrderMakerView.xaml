@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
-             xmlns:controls="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI"
              xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
+             xmlns:controls="clr-namespace:Y_POS.Controls"
+             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -37,11 +38,12 @@
                 <!-- CONTENT -->
                 <StackPanel VerticalAlignment="Center"
                             Margin="25,0">
-                    <TextBlock Text="CUSTOMER"
+                    <TextBlock Text="{Binding Source={x:Static p:Resources.Customer}, 
+                                    Converter={StaticResource UpperCaseCoverter}}"
                                FontSize="12"
                                Margin="0,0,0,10" />
 
-                    <TextBlock Text="Add Customer"
+                    <TextBlock Text="{Binding Source={x:Static p:Resources.AddCustomer}}"
                                FontSize="18"
                                Foreground="{StaticResource TextBrush}" />
                 </StackPanel>
@@ -116,7 +118,7 @@
             <!-- CHECKOUT -->
             <Button DockPanel.Dock="Right"
                     Style="{StaticResource ActionBarMainActionButton}"
-                    Content="CHECKOUT" />
+                    Content="{Binding Source={x:Static p:Resources.Checkout}, Converter={StaticResource UpperCaseCoverter}}" />
 
         </DockPanel>
 
@@ -136,8 +138,10 @@
             <TextBlock Grid.Row="0"
                        FontSize="18"
                        VerticalAlignment="Center"
-                       Margin="15,5"
-                       Text="Order #123" />
+                       Margin="15,5">
+                <Run Text="{Binding Source={x:Static p:Resources.Order}, Mode=OneWay}"/>
+                <Run Text=" #123"/>
+            </TextBlock>
 
             <!-- SEARCH CUSTOMER -->
             <Button Grid.Row="1"
@@ -169,7 +173,7 @@
                 <TextBlock DockPanel.Dock="Left"
                            FontSize="12"
                            Foreground="{StaticResource DisabledText}"
-                           Text="TOTAL" />
+                           Text="{Binding Source={x:Static p:Resources.Total}, Converter={StaticResource UpperCaseCoverter}}" />
 
                 <!-- TOTAL AMOUNT -->
                 <TextBlock DockPanel.Dock="Right"
@@ -196,12 +200,23 @@
 
             <TextBox Grid.Row="0" Grid.Column="0"
                      Style="{StaticResource UnlabeledTextBox}"
+                     FontSize="18"
                      BorderThickness="0"
                      helpers:PlaceholderTextHelper.PlaceholderText="Search Item" />
 
             <Button Grid.Row="0" Grid.Column="1"
                     Style="{StaticResource SearchButton}"
                     Padding="10,3,10,5" />
+            
+            <controls:MenuSelectorControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                          CategoriesColumns="6"
+                                          CategoriesRows="1"
+                                          CategoryItemsColumns="5"
+                                          />
+            
+            <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                       Style="{StaticResource HSeparator}"
+                       VerticalAlignment="Top"/>
 
         </Grid>
 

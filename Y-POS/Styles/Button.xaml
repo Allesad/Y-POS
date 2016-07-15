@@ -4,13 +4,13 @@
                     xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI">
 
     <ResourceDictionary.MergedDictionaries>
-        <ui:SharedResourceDictionary Source="/Y-POS;component/Themes/ColorScheme.xaml"/>
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Themes/ColorScheme.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="ButtonBase">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="{StaticResource ButtonBackground}" />
-        <Setter Property="Foreground" Value="{StaticResource ButtonText}"/>
+        <Setter Property="Foreground" Value="{StaticResource ButtonText}" />
         <Setter Property="BorderBrush" Value="{StaticResource ButtonBorder}" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -81,13 +81,50 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
-    <Style TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}"></Style>
-    
+
+    <Style TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}" />
+
     <Style x:Key="AccentButton" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
-        <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
-        <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource AccentSecondaryBrush}"/>
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource AccentSecondaryBrush}" />
         <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource AccentBrush}" />
+    </Style>
+
+    <Style x:Key="NavigationNextButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Path Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
+                          Height="24"
+                          Width="24"
+                          Stretch="Uniform"
+                          Data="F1M15.52,13.993C15.748,14.221 15.86,14.521 15.86,14.818 15.86,15.115 15.748,15.415 15.52,15.64L2.001,29.293C1.547,29.756 0.807,29.759 0.346,29.303 -0.111,28.848 -0.118,28.105 0.339,27.646L11.895,15.978 13.096,14.78 11.871,13.634 0.339,1.993C-0.118,1.538 -0.111,0.795 0.346,0.336 0.807,-0.116 1.547,-0.112 2.001,0.347z"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NavigationPrevButton" TargetType="Button" BasedOn="{StaticResource NavigationNextButton}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Path Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
+                          Height="24"
+                          Width="24"
+                          Stretch="Uniform"
+                          Data="F1M15.52,13.993C15.748,14.221 15.86,14.521 15.86,14.818 15.86,15.115 15.748,15.415 15.52,15.64L2.001,29.293C1.547,29.756 0.807,29.759 0.346,29.303 -0.111,28.848 -0.118,28.105 0.339,27.646L11.895,15.978 13.096,14.78 11.871,13.634 0.339,1.993C-0.118,1.538 -0.111,0.795 0.346,0.336 0.807,-0.116 1.547,-0.112 2.001,0.347z"
+                          RenderTransformOrigin="0.5,0.5">
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="180" />
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

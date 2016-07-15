@@ -133,11 +133,17 @@
   <data name="Action_NewOrder" xml:space="preserve">
     <value>Новый заказ</value>
   </data>
+  <data name="AddCustomer" xml:space="preserve">
+    <value>Добавить Клиента</value>
+  </data>
   <data name="Amount" xml:space="preserve">
     <value>Сумма</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>Назад</value>
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value>Расчет</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>Клиент</value>
@@ -152,10 +158,16 @@
   <data name="Menu" xml:space="preserve">
     <value>Меню</value>
   </data>
+  <data name="Order" xml:space="preserve">
+    <value>Заказ</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
   <data name="Status" xml:space="preserve">
     <value>Статус</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Всего</value>
   </data>
 </root>
