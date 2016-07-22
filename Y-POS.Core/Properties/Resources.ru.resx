@@ -142,14 +142,23 @@
   <data name="Back" xml:space="preserve">
     <value>Назад</value>
   </data>
+  <data name="Change" xml:space="preserve">
+    <value>Сдача</value>
+  </data>
   <data name="Checkout" xml:space="preserve">
     <value>Расчет</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Очистить</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>Клиент</value>
   </data>
   <data name="Date_Time" xml:space="preserve">
     <value>Дата/Время</value>
+  </data>
+  <data name="GiftCard" xml:space="preserve">
+    <value>Подарочная карта</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Логин</value>
@@ -164,10 +173,31 @@
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
+  <data name="Print" xml:space="preserve">
+    <value>Печать</value>
+  </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Чек</value>
+  </data>
+  <data name="Received" xml:space="preserve">
+    <value>Получено</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Статус</value>
   </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>Промежуточный итог</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Чаевые</value>
+  </data>
   <data name="Total" xml:space="preserve">
     <value>Всего</value>
+  </data>
+  <data name="Void" xml:space="preserve">
+    <value>Аннулировать</value>
   </data>
 </root>

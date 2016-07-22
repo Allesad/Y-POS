@@ -5,6 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Themes/ColorScheme.xaml"/>
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Icons/Icons.xaml"/>
         <!--<ui:SharedResourceDictionary Source="/Y-POS;component/Converters/Converters.xaml" />-->
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/TextBlock.xaml"/>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/TextBox.xaml"/>
@@ -21,6 +22,9 @@
     
     <system:Double x:Key="SideColumnWidth">310</system:Double>
     <system:Double x:Key="CenterColumnWidth">404</system:Double>
+    
+    <GridLength x:Key="SideColumnWidthGrid">310</GridLength>
+    <GridLength x:Key="CenterColumnWidthGrid">404</GridLength>
     
     <ImageBrush x:Key="DefaultImageBg" ImageSource="/Y-POS;component/Images/bg.png"/>
     <SolidColorBrush x:Key="DefaultBg" Color="{StaticResource SecondaryColor}"/>

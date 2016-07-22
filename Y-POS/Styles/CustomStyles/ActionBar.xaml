@@ -3,13 +3,18 @@
                     xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
                     xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
                     xmlns:ui="clr-namespace:YumaPos.WPF.UI;assembly=YumaPos.WPF.UI"
-                    xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI">
+                    xmlns:controls="clr-namespace:Y_POS.Controls"
+                    xmlns:converters="clr-namespace:Y_POS.Converters">
 
     <ResourceDictionary.MergedDictionaries>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Themes/ColorScheme.xaml" />
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/Button.xaml" />
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/TextBlock.xaml" />
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Converters/Converters.xaml" />
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Icons/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <converters:ActionBarIconVisibilityConterter x:Key="ActionBarIconVisibilityConverter" />
 
     <Style x:Key="IconActionBar" TargetType="{x:Type Path}">
         <Setter Property="Width" Value="26" />
@@ -31,131 +36,207 @@
     </Style>
 
     <!-- BASE ACTION BAR BUTTON -->
-    <Style x:Key="ActionBarButton" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
+    <Style x:Key="ActionBarButton" TargetType="controls:ActionBarButton" BasedOn="{StaticResource {x:Type ButtonBase}}">
+        <Setter Property="Height" Value="75" />
+        <Setter Property="MaxWidth" Value="140"/>
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
-        <Setter Property="Padding" Value="25,5"/>
+        <Setter Property="Padding" Value="15,5" />
         <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource ActionBarButtonBgHover}" />
         <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource ActionBarButtonBgPressed}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FontSize" Value="14" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <Path Style="{StaticResource IconActionBar}"
+                              Stretch="Uniform"
+                              Data="{Binding RelativeSource={RelativeSource AncestorType=controls:ActionBarButton}, Path=IconPath}" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   Margin="0,10,0,0"
+                                   Text="{Binding RelativeSource={RelativeSource AncestorType=controls:ActionBarButton}, Path=Title}" 
+                                   TextWrapping="NoWrap"
+                                   TextTrimming="CharacterEllipsis"/>
+                    </StackPanel>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.3"/>
+                <Setter Property="Opacity" Value="0.3" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <!-- MAIN ACTION BUTTON STYLE -->
-    <Style x:Key="ActionBarMainActionButton" TargetType="Button" BasedOn="{StaticResource ActionBarButton}">
-        <Setter Property="FontSize" Value="22"/>
-        <Setter Property="Padding" Value="20,5"/>
-        <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-        <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource AccentSecondaryBrush}"/>
+    <Style x:Key="ActionBarMainActionButton" TargetType="controls:ActionBarButton"
+           BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="MaxWidth" Value="1000"/>
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Padding" Value="20,5" />
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource AccentSecondaryBrush}" />
         <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource AccentBrush}" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Path Style="{StaticResource IconActionBar}"
+                              Fill="{StaticResource TextBrush}"
+                              Margin="0,0,10,0"
+                              Stretch="Uniform"
+                              Data="{Binding RelativeSource={RelativeSource AncestorType=controls:ActionBarButton}, Path=IconPath}"
+                              Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Data, Converter={StaticResource ActionBarIconVisibilityConverter}}" />
+                        <TextBlock HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding RelativeSource={RelativeSource AncestorType=controls:ActionBarButton}, Path=Title}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="Opacity" Value="1" />
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource PrimaryColor}" Opacity="0.1"/>
+                        <SolidColorBrush Color="{StaticResource PrimaryColor}" Opacity="0.1" />
                     </Setter.Value>
                 </Setter>
                 <Setter Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.8"/>
+                        <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.8" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="ActionBarNegativeActionButton" TargetType="Button" BasedOn="{StaticResource ActionBarButton}">
-        <Setter Property="FontSize" Value="22"/>
+    <Style x:Key="ActionBarNegativeActionButton" TargetType="controls:ActionBarButton"
+           BasedOn="{StaticResource ActionBarMainActionButton}">
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.8"/>
+                <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.8" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
         <Setter Property="ex:StyleExtensions.BgOnHover">
             <Setter.Value>
-                <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.4"/>
+                <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.4" />
             </Setter.Value>
         </Setter>
         <Setter Property="ex:StyleExtensions.BgOnPressed">
             <Setter.Value>
-                <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.8"/>
+                <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.8" />
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="Opacity" Value="1" />
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.2"/>
+                        <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.2" />
                     </Setter.Value>
                 </Setter>
                 <Setter Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource PrimaryColor}" Opacity="0.3"/>
+                        <SolidColorBrush Color="{StaticResource PrimaryColor}" Opacity="0.3" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <!-- MENU DATA TEMPLATE -->
-    <DataTemplate x:Key="ActionBarMenuDt">
-        <StackPanel VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Margin="0,5"
-                    Orientation="Vertical">
-            <Path Style="{StaticResource IconActionBar}"
-                  Stretch="Uniform"
-                  Data="F1M27.966,17.587C27.966,16.941,27.441,16.417,26.796,16.417L14.977,16.417 12.989,16.417 1.17,16.417C0.524,16.417 0,16.941 0,17.587 0,18.232 0.524,18.757 1.17,18.757L12.989,18.757 14.977,18.757 26.796,18.757C27.441,18.757,27.966,18.233,27.966,17.587 M27.966,9.379C27.966,8.733,27.441,8.208,26.796,8.208L14.977,8.208 12.989,8.208 1.17,8.208C0.524,8.208 0,8.733 0,9.379 0,10.024 0.524,10.549 1.17,10.549L12.989,10.549 14.977,10.549 26.796,10.549C27.441,10.549,27.966,10.024,27.966,9.379 M26.796,2.34L14.977,2.34 12.989,2.34 1.17,2.34C0.524,2.34 0,1.816 0,1.17 0,0.525 0.524,0 1.17,0L12.989,0 14.977,0 26.796,0C27.441,0 27.966,0.525 27.966,1.17 27.966,1.816 27.441,2.34 26.796,2.34" />
-            <TextBlock HorizontalAlignment="Center"
-                       Margin="0,10,0,0"
-                       helpers:TextCaseHelper.TextCase="Upper"
-                       Text="{x:Static p:Resources.Menu}" />
-        </StackPanel>
-    </DataTemplate>
-
-    <!-- BACK DATA TEMPLATE -->
-    <DataTemplate x:Key="ActionBarBackDt">
-        <StackPanel VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Margin="0,5"
-                    Orientation="Vertical">
-            <Path Style="{StaticResource IconActionBar}"
-                  Stretch="Uniform"
-                  Data="F1M13.859,0.347C14.313,-0.112 15.053,-0.116 15.514,0.337 15.972,0.796 15.979,1.538 15.521,1.994L3.989,13.634 30.578,13.634C31.223,13.634 31.748,14.159 31.748,14.805 31.748,15.454 31.223,15.978 30.578,15.978L3.965,15.978 15.521,27.646C15.979,28.106 15.972,28.848 15.514,29.304 15.053,29.759 14.313,29.756 13.859,29.293L0.34,15.64C0.113,15.416 0,15.115 0,14.818 0,14.522 0.113,14.221 0.34,13.993z" />
-            <TextBlock HorizontalAlignment="Center"
-                       Margin="0,10,0,0"
-                       helpers:TextCaseHelper.TextCase="Upper"
-                       Text="{x:Static p:Resources.Back}" />
-        </StackPanel>
-    </DataTemplate>
-
     <!-- MENU BUTTON STYLE -->
-    <Style x:Key="ActionBarMenuButton" TargetType="Button" BasedOn="{StaticResource ActionBarButton}">
+    <Style x:Key="ActionBarMenuButton" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Padding" Value="25,5" />
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.8"/>
+                <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.8" />
             </Setter.Value>
         </Setter>
         <Setter Property="ex:StyleExtensions.BgOnHover">
             <Setter.Value>
-                <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.4"/>
+                <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.4" />
             </Setter.Value>
         </Setter>
-        <Setter Property="ContentTemplate" Value="{StaticResource ActionBarMenuDt}"/>
+        <Setter Property="Title"
+                Value="{Binding Source={x:Static p:Resources.Menu}, 
+            Converter={StaticResource UpperCaseCoverter}}" />
+        <Setter Property="IconPath" Value="{StaticResource NavMenuIcon}" />
+    </Style>
+
+    <!-- BACK BUTTON STYLE -->
+    <Style x:Key="ActionBarBackButton" TargetType="controls:ActionBarButton"
+           BasedOn="{StaticResource ActionBarMenuButton}">
+        <Setter Property="Title"
+                Value="{Binding Source={x:Static p:Resources.Back}, 
+            Converter={StaticResource UpperCaseCoverter}}" />
+        <Setter Property="IconPath" Value="{StaticResource BackIcon}" />
+    </Style>
+
+    <!-- LOGIN BUTTON STYLE -->
+    <Style x:Key="ActionBarLogin" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title"
+                Value="{Binding Source={x:Static p:Resources.Action_Login}, Converter={StaticResource UpperCaseCoverter}}" />
+        <Setter Property="IconPath" Value="{StaticResource LoginIcon}" />
+    </Style>
+
+    <!-- CLOCK IN BUTTON STYLE -->
+    <Style x:Key="ActionBarClockIn" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title"
+                Value="{Binding Source={x:Static p:Resources.Action_ClockIn}, Converter={StaticResource UpperCaseCoverter}}" />
+        <Setter Property="IconPath" Value="{StaticResource ClockInIcon}" />
+    </Style>
+
+    <!-- CLOCK OUT BUTTON STYLE -->
+    <Style x:Key="ActionBarClockOut" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title"
+                Value="{Binding Source={x:Static p:Resources.Action_ClockOut}, Converter={StaticResource UpperCaseCoverter}}" />
+        <Setter Property="IconPath" Value="{StaticResource ClockOutIcon}" />
+    </Style>
+
+    <!-- BREAK BUTTON STYLE -->
+    <Style x:Key="ActionBarBreak" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title"
+                Value="{Binding Source={x:Static p:Resources.Action_Break}, Converter={StaticResource UpperCaseCoverter}}" />
+        <Setter Property="IconPath" Value="{StaticResource BreakIcon}" />
+    </Style>
+
+    <!-- CLEAR BUTTON STYLE -->
+    <Style x:Key="ActionBarClear" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title"
+                Value="{Binding Source={x:Static p:Resources.Clear}, Converter={StaticResource UpperCaseCoverter}}" />
+        <Setter Property="IconPath" Value="{StaticResource DeleteIcon}" />
+    </Style>
+
+    <!-- VOID BUTTON STYLE -->
+    <Style x:Key="ActionBarVoid" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title"
+                Value="{Binding Source={x:Static p:Resources.Void}, Converter={StaticResource UpperCaseCoverter}}" />
+        <Setter Property="IconPath" Value="{StaticResource ClearIcon}" />
+    </Style>
+
+    <!-- GIFT CARD BUTTON STYLE -->
+    <Style x:Key="ActionBarGiftCard" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title"
+                Value="{Binding Source={x:Static p:Resources.GiftCard}, Converter={StaticResource UpperCaseCoverter}}" />
+        <Setter Property="IconPath" Value="{StaticResource GiftCardIcon}" />
+    </Style>
+
+    <!-- PRINT BUTTON STYLE -->
+    <Style x:Key="ActionBarPrint" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title"
+                Value="{Binding Source={x:Static p:Resources.Print}, Converter={StaticResource UpperCaseCoverter}}" />
+        <Setter Property="IconPath"
+                Value="{StaticResource PrintIcon}" />
     </Style>
     
-    <!-- BACK BUTTON STYLE -->
-    <Style x:Key="ActionBarBackButton" TargetType="Button" BasedOn="{StaticResource ActionBarMenuButton}">
-        <Setter Property="ContentTemplate" Value="{StaticResource ActionBarBackDt}"/>
+    <!-- SEND BUTTON STYLE -->
+    <Style x:Key="ActionBarSend" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title" Value="{Binding Source={x:Static p:Resources.Send}, Converter={StaticResource UpperCaseCoverter}}"/>
+        <Setter Property="IconPath" Value="{StaticResource SendIcon}"/>
     </Style>
 
 </ResourceDictionary>

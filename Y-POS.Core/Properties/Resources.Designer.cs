@@ -134,11 +134,29 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change.
+        /// </summary>
+        public static string Change {
+            get {
+                return ResourceManager.GetString("Change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Checkout.
         /// </summary>
         public static string Checkout {
             get {
                 return ResourceManager.GetString("Checkout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        public static string Clear {
+            get {
+                return ResourceManager.GetString("Clear", resourceCulture);
             }
         }
         
@@ -157,6 +175,15 @@ namespace Y_POS.Core.Properties {
         public static string Date_Time {
             get {
                 return ResourceManager.GetString("Date_Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gift Card.
+        /// </summary>
+        public static string GiftCard {
+            get {
+                return ResourceManager.GetString("GiftCard", resourceCulture);
             }
         }
         
@@ -197,6 +224,42 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Print.
+        /// </summary>
+        public static string Print {
+            get {
+                return ResourceManager.GetString("Print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Receipt.
+        /// </summary>
+        public static string Receipt {
+            get {
+                return ResourceManager.GetString("Receipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received.
+        /// </summary>
+        public static string Received {
+            get {
+                return ResourceManager.GetString("Received", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        public static string Send {
+            get {
+                return ResourceManager.GetString("Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         public static string Status {
@@ -206,11 +269,38 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Subtotal.
+        /// </summary>
+        public static string Subtotal {
+            get {
+                return ResourceManager.GetString("Subtotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tips.
+        /// </summary>
+        public static string Tips {
+            get {
+                return ResourceManager.GetString("Tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
         public static string Total {
             get {
                 return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Void.
+        /// </summary>
+        public static string Void {
+            get {
+                return ResourceManager.GetString("Void", resourceCulture);
             }
         }
     }

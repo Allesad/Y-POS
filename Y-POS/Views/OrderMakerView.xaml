@@ -20,7 +20,7 @@
                 <!-- ICON -->
                 <Path DockPanel.Dock="Left"
                       VerticalAlignment="Center"
-                      Data="F1M6.008,8.001C6.008,4.692 8.699,2.001 12.008,2.001 15.317,2.001 18.008,4.692 18.008,8.001 18.008,11.31 15.317,14 12.008,14 8.699,14 6.008,11.31 6.008,8.001 M16.218,14.764C18.485,13.352 20.008,10.862 20.008,8.001 20.008,3.59 16.419,0.001 12.008,0.001 7.597,0.001 4.008,3.59 4.008,8.001 4.008,10.858 5.524,13.358 7.784,14.772 3.797,16.244 0.785,19.726 0,24L2.039,24C3.056,19.431 7.136,16 12.008,16 16.88,16 20.96,19.431 21.977,24L24.016,24C23.229,19.72,20.213,16.233,16.218,14.764"
+                      Data="{StaticResource CustomerIcon}"
                       Height="20"
                       Width="20"
                       Stretch="Uniform"
@@ -38,10 +38,11 @@
                 <!-- CONTENT -->
                 <StackPanel VerticalAlignment="Center"
                             Margin="25,0">
-                    <TextBlock Text="{Binding Source={x:Static p:Resources.Customer}, 
+                    <TextBlock
+                        Text="{Binding Source={x:Static p:Resources.Customer}, 
                                     Converter={StaticResource UpperCaseCoverter}}"
-                               FontSize="12"
-                               Margin="0,0,0,10" />
+                        FontSize="12"
+                        Margin="0,0,0,10" />
 
                     <TextBlock Text="{Binding Source={x:Static p:Resources.AddCustomer}}"
                                FontSize="18"
@@ -93,13 +94,13 @@
         <DataTemplate x:Key="SearchDt">
             <Path Fill="White"
                   Stretch="Uniform"
-                  Data="F1M13.437,4.51C11.639,3.996 9.748,4.213 8.113,5.119 6.48,6.029 5.297,7.518 4.784,9.315 4.632,9.846 4.94,10.4 5.471,10.551 5.563,10.578 5.655,10.59 5.746,10.59 6.181,10.59 6.582,10.304 6.707,9.865 7.074,8.581 7.918,7.517 9.084,6.868 10.252,6.22 11.603,6.067 12.886,6.433 13.414,6.584 13.971,6.279 14.122,5.746 14.275,5.215 13.967,4.662 13.437,4.51 M19.066,4.923C15.167,1.025 8.823,1.024 4.924,4.923 1.025,8.822 1.025,15.167 4.924,19.065 8.822,22.964 15.167,22.965 19.066,19.065 22.965,15.166 22.965,8.822 19.066,4.923 M20.48,20.48C15.801,25.158 8.189,25.159 3.51,20.48 -1.17,15.801 -1.169,8.188 3.51,3.509 8.188,-1.17 15.801,-1.17 20.48,3.509 25.159,8.188 25.159,15.801 20.48,20.48 M25.927,25.967C25.538,26.356,24.902,26.356,24.513,25.967L19.046,20.459C18.657,20.071 18.657,19.434 19.046,19.045 19.434,18.656 20.071,18.656 20.46,19.045L25.927,24.553C26.316,24.942,26.316,25.578,25.927,25.967" />
+                  Data="{StaticResource SearchIcon}" />
         </DataTemplate>
-        
+
         <Style x:Key="SearchButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Background" Value="{StaticResource ActionBarBg}"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="ContentTemplate" Value="{StaticResource SearchDt}"/>
+            <Setter Property="Background" Value="{StaticResource ActionBarBg}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="ContentTemplate" Value="{StaticResource SearchDt}" />
         </Style>
     </UserControl.Resources>
 
@@ -111,14 +112,33 @@
                    Dock="Bottom">
 
             <!-- BACK -->
-            <Button DockPanel.Dock="Left"
-                    Style="{StaticResource ActionBarBackButton}"
-                    Click="ButtonBase_OnClick" />
+            <controls:ActionBarButton DockPanel.Dock="Left"
+                                      Style="{StaticResource ActionBarBackButton}"
+                                      Click="ButtonBase_OnClick" />
 
             <!-- CHECKOUT -->
-            <Button DockPanel.Dock="Right"
-                    Style="{StaticResource ActionBarMainActionButton}"
-                    Content="{Binding Source={x:Static p:Resources.Checkout}, Converter={StaticResource UpperCaseCoverter}}" />
+            <controls:ActionBarButton DockPanel.Dock="Right"
+                                      Style="{StaticResource ActionBarMainActionButton}"
+                                      IconPath="{StaticResource AddIcon}"
+                                      Title="{Binding Source={x:Static p:Resources.Checkout}, 
+                                        Converter={StaticResource UpperCaseCoverter}}"
+                                      Click="OnCheckoutClick" />
+
+            <!-- PRINT -->
+            <controls:ActionBarButton DockPanel.Dock="Right"
+                                      Style="{StaticResource ActionBarPrint}" />
+
+            <!-- GIFT CARD -->
+            <controls:ActionBarButton DockPanel.Dock="Right"
+                                      Style="{StaticResource ActionBarGiftCard}" />
+
+            <!-- VOID -->
+            <controls:ActionBarButton DockPanel.Dock="Right"
+                                      Style="{StaticResource ActionBarVoid}" />
+
+            <!-- CLEAR -->
+            <controls:ActionBarButton DockPanel.Dock="Right"
+                                      Style="{StaticResource ActionBarClear}" />
 
         </DockPanel>
 
@@ -139,8 +159,8 @@
                        FontSize="18"
                        VerticalAlignment="Center"
                        Margin="15,5">
-                <Run Text="{Binding Source={x:Static p:Resources.Order}, Mode=OneWay}"/>
-                <Run Text=" #123"/>
+                <Run Text="{Binding Source={x:Static p:Resources.Order}, Mode=OneWay}" />
+                <Run Text=" #123" />
             </TextBlock>
 
             <!-- SEARCH CUSTOMER -->
@@ -149,13 +169,16 @@
                     BorderBrush="{StaticResource SeparatorBrush}"
                     HorizontalContentAlignment="Stretch"
                     Padding="15,15"
-                    ContentTemplate="{StaticResource AddCustomerDt}" />
+                    ContentTemplate="{StaticResource AddCustomerDt}"
+                    Click="SwitchGridSize" />
 
             <ListBox Grid.Row="2"
                      ItemContainerStyle="{StaticResource OrderedItemsListItem}">
                 <ListBox.Items>
                     <system:String>1</system:String>
                     <system:String>2</system:String>
+                    <system:String>3</system:String>
+                    <system:String>3</system:String>
                     <system:String>3</system:String>
                 </ListBox.Items>
             </ListBox>
@@ -206,17 +229,18 @@
 
             <Button Grid.Row="0" Grid.Column="1"
                     Style="{StaticResource SearchButton}"
-                    Padding="10,3,10,5" />
-            
+                    Padding="10,3,10,5"
+                    Click="AddCategory" />
+
             <controls:MenuSelectorControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                          CategoriesColumns="6"
-                                          CategoriesRows="1"
+                                          x:Name="MSC"
                                           CategoryItemsColumns="5"
-                                          />
-            
+                                          CategoryChanged="MSC_OnCategoryChanged"
+                                          CategoryItemSelected="MSC_OnCategoryItemSelected" />
+
             <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                        Style="{StaticResource HSeparator}"
-                       VerticalAlignment="Top"/>
+                       VerticalAlignment="Top" />
 
         </Grid>
 

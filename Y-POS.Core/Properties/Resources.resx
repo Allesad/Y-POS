@@ -142,14 +142,24 @@
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+    <comment>Received - Total = Change</comment>
+  </data>
   <data name="Checkout" xml:space="preserve">
     <value>Checkout</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>Customer</value>
   </data>
   <data name="Date_Time" xml:space="preserve">
     <value>Date/Time</value>
+  </data>
+  <data name="GiftCard" xml:space="preserve">
+    <value>Gift Card</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
@@ -164,10 +174,31 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Receipt</value>
+  </data>
+  <data name="Received" xml:space="preserve">
+    <value>Received</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tips</value>
+  </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
+  </data>
+  <data name="Void" xml:space="preserve">
+    <value>Void</value>
   </data>
 </root>

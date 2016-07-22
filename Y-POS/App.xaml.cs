@@ -17,6 +17,7 @@ namespace Y_POS
         {
             Thread.CurrentThread.Name = "Imidus.Win";
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
             CultureInfo.DefaultThreadCurrentUICulture = Thread.CurrentThread.CurrentUICulture;

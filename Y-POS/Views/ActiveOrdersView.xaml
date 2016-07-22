@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
+             xmlns:controls="clr-namespace:Y_POS.Controls"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -82,18 +83,18 @@
                    Height="75">
 
             <!-- MENU -->
-            <Button DockPanel.Dock="Left"
-                    Style="{StaticResource ActionBarMenuButton}" 
-                    Click="ButtonBase_OnClick"/>
-            
-            <Separator Style="{StaticResource VSeparator}"
-                       DockPanel.Dock="Left"/>
+            <controls:ActionBarButton DockPanel.Dock="Left"
+                                      Style="{StaticResource ActionBarMenuButton}"
+                                      Click="ButtonBase_OnClick" />
 
-            <Button DockPanel.Dock="Right"
-                    Name="NewOrderBtn"
-                    Style="{StaticResource ActionBarMainActionButton}"
-                    ContentTemplate="{StaticResource NewOrderDt}" 
-                    Click="NewOrderBtn_OnClick"/>
+            <!--<Separator Style="{StaticResource VSeparator}"
+                       DockPanel.Dock="Left" />-->
+
+            <controls:ActionBarButton DockPanel.Dock="Right"
+                                      x:Name="NewOrderBtn"
+                                      Style="{StaticResource ActionBarMainActionButton}"
+                                      ContentTemplate="{StaticResource NewOrderDt}"
+                                      Click="NewOrderBtn_OnClick" />
 
         </DockPanel>
 

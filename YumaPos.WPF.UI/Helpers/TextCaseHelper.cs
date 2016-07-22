@@ -5,7 +5,7 @@ using YumaPos.WPF.UI.Converters;
 
 namespace YumaPos.WPF.UI.Helpers
 {
-    public class TextCaseHelper
+    public static class TextCaseHelper
     {
         #region Case property
 
@@ -32,7 +32,10 @@ namespace YumaPos.WPF.UI.Helpers
 
             var original = tb.GetBindingExpression(TextBlock.TextProperty);
 
-            var b = new Binding();
+            var b = new Binding
+            {
+                Source = tb
+            };
 
             if (original != null)
             {

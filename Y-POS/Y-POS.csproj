@@ -87,12 +87,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ActionBarButton.cs" />
     <Compile Include="Controls\MenuSelectorControl.cs" />
+    <Compile Include="Controls\NumericKeypadControl.cs" />
+    <Compile Include="Converters\ActionBarIconVisibilityConterter.cs" />
+    <Compile Include="MarkupExtensions\ActionBarExtensions.cs" />
     <Compile Include="Views\ActionBar.xaml.cs">
       <DependentUpon>ActionBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ActiveOrdersView.xaml.cs">
       <DependentUpon>ActiveOrdersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CheckoutParts\CheckoutPaymentView.xaml.cs">
+      <DependentUpon>CheckoutPaymentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CheckoutView.xaml.cs">
+      <DependentUpon>CheckoutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -110,6 +120,10 @@
       <DependentUpon>PinLoginView.xaml</DependentUpon>
     </Compile>
     <Page Include="Converters\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Icons\Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,6 +192,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ActiveOrdersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CheckoutParts\CheckoutPaymentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CheckoutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

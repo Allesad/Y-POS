@@ -13,67 +13,24 @@
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="CategoryDt">
-        <!--<StackPanel>
-            <Image Stretch="Uniform"
-                   Source="../../Images/img.png"
-                   Margin="0,0,0,5" />
+        <Grid Name="ContainerGrid">
 
-            <Border Background="{StaticResource DimmedTextBackground}"
-                    Padding="10,5">
-                <TextBlock Text="{Binding}"
-                           HorizontalAlignment="Center" />
-            </Border>
-        </StackPanel>-->
-        <Grid>
-
-            <!--<Grid.RowDefinitions>
+            <Grid.RowDefinitions>
                 <RowDefinition Height="3*" />
                 <RowDefinition Height="2*" />
-            </Grid.RowDefinitions>-->
+            </Grid.RowDefinitions>
 
-            <Image Grid.Row="0" 
-                   Stretch="Uniform"
-                   Source="../../Images/Peri-Peri-new-3001.png"
-                   Height="130" />
+            <Image Grid.Row="0" Grid.RowSpan="2" 
+                Height="{Binding ElementName=ContainerGrid, Path=ActualHeight}"
+                Stretch="Uniform"
+                Source="../../Images/Peri-Peri-new-3001.png" />
 
-            <Border Grid.Row="0"
+            <Border Grid.Row="1"
                     Background="{StaticResource DimmedTextBackground}"
-                    Padding="10,8">
-                <TextBlock Style="{StaticResource DefaultLargeText}"
-                           VerticalAlignment="Center"
-                           TextAlignment="Center"
-                           TextWrapping="Wrap"
-                           TextTrimming="WordEllipsis"
-                           Text="{Binding}" />
-            </Border>
-        </Grid>
-    </DataTemplate>
-
-    <DataTemplate x:Key="CategoryItemDt">
-        <Grid>
-            <Image Stretch="Uniform"
-                   Source="../../Images/img.png" />
-
-            <!-- PRICE -->
-            <Border Background="{StaticResource DimmedTextBackground}"
-                    Padding="3"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Right">
+                    Padding="10,8"
+                    VerticalAlignment="Bottom">
                 <TextBlock Style="{StaticResource DefaultText}"
                            VerticalAlignment="Center"
-                           HorizontalAlignment="Right"
-                           Focusable="False"
-                           Text="12.99" />
-            </Border>
-
-            <!-- TITLE -->
-            <Border Background="{StaticResource DimmedTextBackground}"
-                    MinHeight="40"
-                    MaxHeight="60"
-                    Padding="3"
-                    VerticalAlignment="Bottom">
-                <TextBlock Style="{StaticResource DefaultSmallText}"
-                           VerticalAlignment="Center"
                            TextAlignment="Center"
                            TextWrapping="Wrap"
                            TextTrimming="WordEllipsis"
@@ -81,10 +38,12 @@
             </Border>
         </Grid>
     </DataTemplate>
+
 
     <Style x:Key="CategoryListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
         <Setter Property="Background" Value="White" />
         <Setter Property="Foreground" Value="White" />
+        <Setter Property="ex:StyleExtensions.ForegroundOnHover" Value="{StaticResource PrimaryBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Margin" Value="0,0,1,1" />
@@ -96,10 +55,55 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Margin" Value="0,0,1,1" />
         <Setter Property="Padding" Value="5" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
-        <Setter Property="ContentTemplate" Value="{StaticResource CategoryItemDt}" />
         <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource SecondaryBrush}" />
     </Style>
+
+    <DataTemplate x:Key="CategoryItemDt">
+        <Button Style="{StaticResource CategoryItemListItem}"
+                Tag="{Binding}">
+            <Button.Content>
+                <Grid >
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image Stretch="Uniform" Grid.Row="0" Grid.RowSpan="2"
+                   Source="../../Images/img.png" />
+
+                    <!-- PRICE -->
+                    <Border Background="{StaticResource DimmedTextBackground}"
+                    Grid.Row="0"
+                    Padding="3"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right">
+                        <TextBlock Style="{StaticResource DefaultText}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right"
+                           Focusable="False"
+                           Text="12.99" />
+                    </Border>
+
+                    <!-- TITLE -->
+                    <Border Background="{StaticResource DimmedTextBackground}"
+                    Grid.Row="1"
+                    Padding="3"
+                    VerticalAlignment="Stretch">
+                        <TextBlock Style="{StaticResource DefaultSmallText}"
+                           VerticalAlignment="Center"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           TextTrimming="WordEllipsis"
+                           Text="{Binding}" />
+                    </Border>
+                </Grid>
+            </Button.Content>
+        </Button>
+    </DataTemplate>
 
     <Style x:Key="NavNextBtn" TargetType="Button" BasedOn="{StaticResource NavigationNextButton}">
         <Style.Triggers>
@@ -119,6 +123,7 @@
 
     <Style TargetType="{x:Type controls:MenuSelectorControl}">
         <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:MenuSelectorControl}">
@@ -127,7 +132,7 @@
                           SnapsToDevicePixels="True"
                           ClipToBounds="True">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" MinHeight="130"/>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
@@ -141,53 +146,37 @@
                                  Name="PART_Categories"
                                  Margin="0,0,-1,-1"
                                  Background="{StaticResource SeparatorBrush}"
-                                 VerticalContentAlignment="Stretch"
-                                 HorizontalContentAlignment="Stretch"
                                  UseLayoutRounding="False"
                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                 ItemContainerStyle="{StaticResource CategoryListItem}">
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid IsItemsHost="True"
-                                                 Rows="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MenuSelectorControl}}, Path=CategoriesRows}"
-                                                 Columns="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MenuSelectorControl}}, Path=CategoriesColumns}" />
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
+                                 ItemContainerStyle="{StaticResource CategoryListItem}"/>
 
                         <!-- ITEMS -->
                         <ItemsControl Grid.Row="1" Grid.Column="0"
                                       Name="PART_CategoryItems"
                                       Margin="0,0,-1,-1"
                                       Background="{StaticResource SeparatorBrush}"
-                                      ItemContainerStyle="{StaticResource CategoryItemListItem}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid IsItemsHost="True"
-                                                 Rows="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MenuSelectorControl}}, Path=CategoryItemsRows}"
-                                                 Columns="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MenuSelectorControl}}, Path=CategoryItemsColumns}" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
+                                      ItemTemplate="{StaticResource CategoryItemDt}"/>
 
                         <!-- CATEGORIES NAVIGATION -->
                         <UniformGrid Grid.Row="0" Grid.Column="1"
                                      Rows="2" Columns="1">
                             <Button Style="{StaticResource NavNextBtn}"
+                                    Name="PART_CategoriesNext"
                                     BorderThickness="0,0,0,1"
                                     BorderBrush="{StaticResource SeparatorBrush}" />
-                            <Button Style="{StaticResource NavPrevBtn}" />
+                            <Button Style="{StaticResource NavPrevBtn}"
+                                    Name="PART_CategoriesBack"/>
                         </UniformGrid>
 
                         <!-- ITEMS NAVIGATION -->
                         <UniformGrid Grid.Row="1" Grid.Column="1"
                                      Rows="2" Columns="1">
                             <Button Style="{StaticResource NavNextBtn}"
+                                    Name="PART_ItemsNext"
                                     BorderThickness="0,0,0,1"
-                                    BorderBrush="{StaticResource SeparatorBrush}"
-                                    IsEnabled="False" />
+                                    BorderBrush="{StaticResource SeparatorBrush}"/>
                             <Button Style="{StaticResource NavPrevBtn}"
-                                    IsEnabled="False" />
+                                    Name="PART_ItemsBack"/>
                         </UniformGrid>
 
                         <Separator Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"

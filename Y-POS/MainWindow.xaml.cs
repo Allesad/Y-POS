@@ -14,7 +14,6 @@ namespace Y_POS
             InitializeComponent();
 
             Content = new MainView();
-            //Content = new PinLoginView();
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -23,6 +22,11 @@ namespace Y_POS
 
             // Begin dragging the window 
             this.DragMove();
+        }
+
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            //Topmost = true;
         }
     }
 }

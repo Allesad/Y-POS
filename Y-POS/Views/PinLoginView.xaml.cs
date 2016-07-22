@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Y_POS.Views
@@ -11,6 +12,13 @@ namespace Y_POS.Views
         public PinLoginView()
         {
             InitializeComponent();
+
+            Keypad.ButtonClick += KeypadOnButtonClick;
+        }
+
+        private void KeypadOnButtonClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Clicked: " + e.OriginalSource);
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
