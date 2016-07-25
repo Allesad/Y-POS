@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-             xmlns:checkoutParts="clr-namespace:Y_POS.Views.CheckoutParts"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -47,8 +45,8 @@
 
             </DockPanel>
         </DataTemplate>
-        
-        <SolidColorBrush x:Key="OperationListSelectionBrush" Color="{StaticResource TextColor}" Opacity="0.8"/>
+
+        <SolidColorBrush x:Key="OperationListSelectionBrush" Color="{StaticResource TextColor}" Opacity="0.8" />
 
         <Style x:Key="OperationListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
             <Setter Property="Padding" Value="35,15,25,15" />
@@ -84,13 +82,12 @@
                                       HorizontalAlignment="Center"
                                       Data="{StaticResource GreaterThanIcon}"
                                       Fill="{StaticResource PrimaryBrush}"
-                                      RenderTransformOrigin="0.5,0.5"
-                                      >
+                                      RenderTransformOrigin="0.5,0.5">
                                     <Path.RenderTransform>
-                                        <RotateTransform Angle="180"/>
+                                        <RotateTransform Angle="180" />
                                     </Path.RenderTransform>
                                 </Path>
-                                
+
                             </Border>
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -103,15 +100,12 @@
                                 Path=(ex:StyleExtensions.ForegroundOnHover)}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <!--<Setter Property="Background"
-                                        Value="{Binding RelativeSource={RelativeSource Self}, 
-                                Path=(ex:StyleExtensions.BgOnPressed)}" />-->
                                 <Setter Property="Foreground"
                                         Value="{Binding RelativeSource={RelativeSource Self},
                                 Path=(ex:StyleExtensions.ForegroundOnPressed)}" />
-                                <Setter TargetName="SelectionMark" Property="Visibility" Value="Visible"/>
-                                <Setter Property="BorderBrush" Value="{StaticResource OperationListSelectionBrush}"/>
-                                <Setter Property="BorderThickness" Value="0,1"/>
+                                <Setter TargetName="SelectionMark" Property="Visibility" Value="Visible" />
+                                <Setter Property="BorderBrush" Value="{StaticResource OperationListSelectionBrush}" />
+                                <Setter Property="BorderThickness" Value="0,1" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -120,115 +114,102 @@
         </Style>
     </UserControl.Resources>
 
-    <DockPanel Grid.IsSharedSizeScope="True">
+    <Grid>
 
-        <!-- ACTION BAR -->
-        <Grid DockPanel.Dock="Bottom"
-              Background="{StaticResource ActionBarBg}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="LeftColumn" />
-                <ColumnDefinition SharedSizeGroup="CenterColumn" />
-                <ColumnDefinition SharedSizeGroup="RightColumn" />
-            </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-            <DockPanel Grid.Column="0" LastChildFill="False">
-                <!-- BACK -->
-                <controls:ActionBarButton Style="{StaticResource ActionBarBackButton}"
-                                          DockPanel.Dock="Left"
-                                          Click="OnBackClick" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}" SharedSizeGroup="LeftColumn" />
+            <ColumnDefinition Width="{StaticResource CenterColumnWidthGrid}" SharedSizeGroup="CenterColumn" />
+            <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}" SharedSizeGroup="RightColumn" />
+        </Grid.ColumnDefinitions>
 
-                <!-- SEND -->
-                <controls:ActionBarButton Style="{StaticResource ActionBarSend}"
-                                          DockPanel.Dock="Right" />
+        <!-- LEFT SIDE BACKGROUND -->
+        <Border Grid.Row="0" Grid.Column="0"
+                Background="{StaticResource PrimaryBrush}"
+                BorderThickness="0,0,1,0"
+                BorderBrush="{StaticResource SeparatorBrush}" />
 
-                <!-- PRINT -->
-                <controls:ActionBarButton Style="{StaticResource ActionBarPrint}"
-                                          DockPanel.Dock="Right" />
-            </DockPanel>
+        <!-- RIGHT SIDE BACKGROUND -->
+        <Border Grid.Row="0" Grid.Column="2"
+                Background="{StaticResource PrimaryBrush}"
+                BorderThickness="1,0,0,0"
+                BorderBrush="{StaticResource SeparatorBrush}" />
 
-            <controls:ActionBarButton Grid.Column="1"
-                                      Style="{StaticResource ActionBarMainActionButton}"
-                                      Title="{Binding Source={x:Static p:Resources.Checkout}, 
+        <!-- RECEIPT -->
+        <TextBlock Grid.Row="0" Grid.Column="0"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   FontSize="40"
+                   Text="{Binding Source={x:Static p:Resources.Receipt}, Converter={StaticResource UpperCaseCoverter}}" />
+
+        <!-- CENTRAL CONTENT -->
+        <ContentPresenter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                          Name="Content" />
+
+        <!-- PAYMENT TYPES -->
+        <StackPanel Grid.Row="0" Grid.Column="2">
+
+            <UniformGrid
+                Columns="2"
+                Height="150"
+                Margin="1,0,0,0"
+                VerticalAlignment="Top">
+
+                <Button Content="CASH"
+                        Style="{StaticResource PaymentTypeButton}"
+                        BorderBrush="{StaticResource SeparatorBrush}"
+                        Click="SwitchToPayment" />
+                <Button Content="CARD"
+                        Style="{StaticResource PaymentTypeButton}"
+                        BorderThickness="0,0,0,1"
+                        BorderBrush="{StaticResource SeparatorBrush}"
+                        Click="SwitchToPayment" />
+                <Button Content="MOBILE"
+                        Style="{StaticResource PaymentTypeButton}"
+                        BorderBrush="{StaticResource SeparatorBrush}"
+                        Click="SwitchToPayment" />
+                <Button Content="GIFT CARD"
+                        Style="{StaticResource PaymentTypeButton}"
+                        BorderBrush="{StaticResource SeparatorBrush}"
+                        BorderThickness="0,0,0,1"
+                        Click="SwitchToPayment" />
+
+            </UniformGrid>
+
+            <!-- OPERATIONS LIST -->
+            <ListBox Name="OperationsList"
+                     ItemContainerStyle="{StaticResource OperationListItem}"
+                     SelectionChanged="OperationsList_OnSelectionChanged" />
+
+        </StackPanel>
+
+        <!-- ACTION BAR (LEFT) -->
+        <DockPanel Grid.Row="1" Grid.Column="0" LastChildFill="False"
+                   Background="{StaticResource ActionBarBg}">
+            <!-- BACK -->
+            <controls:ActionBarButton Style="{StaticResource ActionBarBackButton}"
+                                      DockPanel.Dock="Left"
+                                      Click="OnBackClick" />
+
+            <!-- SEND -->
+            <controls:ActionBarButton Style="{StaticResource ActionBarSend}"
+                                      DockPanel.Dock="Right" />
+
+            <!-- PRINT -->
+            <controls:ActionBarButton Style="{StaticResource ActionBarPrint}"
+                                      DockPanel.Dock="Right" />
+        </DockPanel>
+
+        <!-- VOID ACTION -->
+        <controls:ActionBarButton Grid.Row="1" Grid.Column="2"
+                                  Style="{StaticResource ActionBarNegativeActionButton}"
+                                  Title="{Binding Source={x:Static p:Resources.Void}, 
                                         Converter={StaticResource UpperCaseCoverter}}" />
 
-            <controls:ActionBarButton Grid.Column="2"
-                                      Style="{StaticResource ActionBarNegativeActionButton}"
-                                      Title="{Binding Source={x:Static p:Resources.Void}, 
-                                        Converter={StaticResource UpperCaseCoverter}}" />
-
-        </Grid>
-
-        <Grid ShowGridLines="False">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}" SharedSizeGroup="LeftColumn" />
-                <ColumnDefinition Width="{StaticResource CenterColumnWidthGrid}" SharedSizeGroup="CenterColumn" />
-                <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}" SharedSizeGroup="RightColumn" />
-            </Grid.ColumnDefinitions>
-
-            <!-- LEFT SIDE BACKGROUND -->
-            <Border Grid.Column="0"
-                    Background="{StaticResource PrimaryBrush}"
-                    BorderThickness="0,0,1,0"
-                    BorderBrush="{StaticResource SeparatorBrush}" />
-
-            <!-- RIGHT SIDE BACKGROUND -->
-            <Border Grid.Column="2"
-                    Background="{StaticResource PrimaryBrush}"
-                    BorderThickness="1,0,0,0"
-                    BorderBrush="{StaticResource SeparatorBrush}" />
-
-            <!-- RECEIPT -->
-            <TextBlock Grid.Column="0"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       FontSize="40"
-                       Text="{Binding Source={x:Static p:Resources.Receipt}, Converter={StaticResource UpperCaseCoverter}}" />
-
-            <!-- CENTRAL CONTENT -->
-            <ContentPresenter Grid.Column="1"
-                              Name="Content"/>
-            <!--<checkoutParts:CheckoutPaymentView Grid.Column="1" />-->
-            <!--<checkoutParts:CheckoutCustomerView Grid.Column="1"/>-->
-            <!--<checkoutParts:CheckoutDiscountView Grid.Column="1"/>-->
-
-            <!-- PAYMENT TYPES -->
-            <StackPanel Grid.Column="2">
-
-                <UniformGrid
-                    Columns="2"
-                    Height="150"
-                    Margin="1,0,0,0"
-                    VerticalAlignment="Top">
-
-                    <Button Content="CASH"
-                            Style="{StaticResource PaymentTypeButton}"
-                            BorderBrush="{StaticResource SeparatorBrush}" 
-                            Click="SwitchToPayment"/>
-                    <Button Content="CARD"
-                            Style="{StaticResource PaymentTypeButton}"
-                            BorderThickness="0,0,0,1"
-                            BorderBrush="{StaticResource SeparatorBrush}"
-                            Click="SwitchToPayment" />
-                    <Button Content="MOBILE"
-                            Style="{StaticResource PaymentTypeButton}"
-                            BorderBrush="{StaticResource SeparatorBrush}" 
-                            Click="SwitchToPayment"/>
-                    <Button Content="GIFT CARD"
-                            Style="{StaticResource PaymentTypeButton}"
-                            BorderBrush="{StaticResource SeparatorBrush}"
-                            BorderThickness="0,0,0,1" 
-                            Click="SwitchToPayment"/>
-
-                </UniformGrid>
-
-                <ListBox Name="OperationsList" 
-                         ItemContainerStyle="{StaticResource OperationListItem}"
-                         SelectionChanged="OperationsList_OnSelectionChanged"/>
-
-            </StackPanel>
-
-        </Grid>
-
-    </DockPanel>
+    </Grid>
 
 </UserControl>

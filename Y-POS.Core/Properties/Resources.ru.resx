@@ -182,6 +182,9 @@
   <data name="Menu" xml:space="preserve">
     <value>Меню</value>
   </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ок</value>
+  </data>
   <data name="Order" xml:space="preserve">
     <value>Заказ</value>
   </data>

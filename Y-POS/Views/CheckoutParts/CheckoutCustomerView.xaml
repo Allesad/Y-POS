@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI"
+             xmlns:commonControls="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
+             xmlns:controls="clr-namespace:Y_POS.Controls"
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="404">
 
@@ -25,17 +26,17 @@
                                     Background="{StaticResource SecondaryBrush}"
                                     Margin="0,0,15,0">
                                 <Image Width="60"
-                                       Height="60" 
-                                       Source="../../Images/63.jpg"/>
+                                       Height="60"
+                                       Source="../../Images/63.jpg" />
                             </Border>
 
                             <StackPanel VerticalAlignment="Center"
                                         HorizontalAlignment="Stretch">
 
                                 <!-- NAME -->
-                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text="{Binding Name}" />
                                 <!-- PHONE -->
-                                <TextBlock Text="{Binding Phone}"/>
+                                <TextBlock Text="{Binding Phone}" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -44,68 +45,90 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <DockPanel>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+        <!-- ACTION BAR -->
+        <UniformGrid DockPanel.Dock="Bottom"
+                     Columns="2">
 
-        <!-- SEARCH CUSTOMER -->
-        <controls:SearchTextBox Grid.Row="0"
-                                Name="SearchCustomer"
-                                HorizontalAlignment="Stretch"
-                                BorderThickness="0,1"
-                                Height="65"
-                                LabelText="{Binding Source={x:Static p:Resources.Search_Customer}, 
+            <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
+                                      BorderThickness="0,0,1,0"
+                                      BorderBrush="{StaticResource ActionBarBg}"
+                                      Title="{Binding Source={x:Static p:Resources.Clear}, 
+                                        Converter={StaticResource UpperCaseCoverter}}" />
+            <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
+                                      Title="{Binding Source={x:Static p:Resources.Ok}, 
+                                        Converter={StaticResource UpperCaseCoverter}}" />
+
+        </UniformGrid>
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!-- SEARCH CUSTOMER -->
+            <commonControls:SearchTextBox Grid.Row="0"
+                                          Name="SearchCustomer"
+                                          HorizontalAlignment="Stretch"
+                                          BorderThickness="0,0,0,1"
+                                          Height="65"
+                                          LabelText="{Binding Source={x:Static p:Resources.Search_Customer}, 
                                     Converter={StaticResource UpperCaseCoverter}}" />
 
-        <StackPanel Grid.Row="1"
-                    Margin="15,0">
+            <StackPanel Grid.Row="1"
+                        Margin="15,0">
 
-            <Border Background="{StaticResource PrimaryBrush}"
-                    Margin="0,40,0,20"
-                    HorizontalAlignment="Center">
-                <!-- AVATAR -->
-                <Image Width="180"
-                       Height="180" />
-            </Border>
-            
-            <!-- POINTS -->
-            <TextBlock HorizontalAlignment="Center"
-                       FontSize="24"
-                       FontFamily="Segoe UI Light"
-                       Margin="0,0,0,20"
-                       Text="156 points"/>
+                <Border Background="{StaticResource PrimaryBrush}"
+                        Margin="0,40,0,20"
+                        HorizontalAlignment="Center">
+                    <!-- AVATAR -->
+                    <Image Width="180"
+                           Height="180"
+                           Source="../../Images/63.jpg"/>
+                </Border>
 
-            <!-- FIRST NAME -->
-            <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.FirstName}}"
-                     Height="65"
-                     Margin="0,0,0,10" />
+                <!-- POINTS -->
+                <TextBlock HorizontalAlignment="Center"
+                           FontSize="24"
+                           FontFamily="Segoe UI Light"
+                           Margin="0,0,0,20"
+                           Text="156 points" />
 
-            <!-- LAST NAME -->
-            <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.LastName}}"
-                     Height="65"
-                     Margin="0,0,0,10" />
+                <!-- FIRST NAME -->
+                <TextBox
+                    helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.FirstName}}"
+                    Height="65"
+                    Margin="0,0,0,10" />
 
-            <!-- PHONE -->
-            <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Phone}}"
-                     Height="65"
-                     Margin="0,0,0,10" />
+                <!-- LAST NAME -->
+                <TextBox
+                    helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.LastName}}"
+                    Height="65"
+                    Margin="0,0,0,10" />
 
-            <!-- EMAIL -->
-            <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Email}}"
-                     Height="65"
-                     Margin="0,0,0,10" />
+                <!-- PHONE -->
+                <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Phone}}"
+                         Height="65"
+                         Margin="0,0,0,10" />
 
-        </StackPanel>
+                <!-- EMAIL -->
+                <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Email}}"
+                         Height="65"
+                         Margin="0,0,0,10" />
 
-        <!-- CUSTOMERS LIST -->
-        <ListBox Grid.Row="1"
-                 Name="CustomersList" 
-                 Background="{StaticResource PrimaryBrush}"
-                 ItemContainerStyle="{StaticResource CustomersListItem}"/>
+            </StackPanel>
 
-    </Grid>
+            <!-- CUSTOMERS LIST -->
+            <ListBox Grid.Row="1"
+                     Name="CustomersList"
+                     Background="{StaticResource PrimaryBrush}"
+                     ItemContainerStyle="{StaticResource CustomersListItem}" />
+
+        </Grid>
+
+    </DockPanel>
 
 </UserControl>
