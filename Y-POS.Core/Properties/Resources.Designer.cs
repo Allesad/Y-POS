@@ -161,6 +161,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom Discount.
+        /// </summary>
+        public static string CustomDiscount {
+            get {
+                return ResourceManager.GetString("CustomDiscount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer.
         /// </summary>
         public static string Customer {
@@ -175,6 +184,15 @@ namespace Y_POS.Core.Properties {
         public static string Date_Time {
             get {
                 return ResourceManager.GetString("Date_Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discount.
+        /// </summary>
+        public static string Discount {
+            get {
+                return ResourceManager.GetString("Discount", resourceCulture);
             }
         }
         
@@ -269,6 +287,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Promo.
+        /// </summary>
+        public static string Promo {
+            get {
+                return ResourceManager.GetString("Promo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Receipt.
         /// </summary>
         public static string Receipt {
@@ -310,6 +337,15 @@ namespace Y_POS.Core.Properties {
         public static string Send {
             get {
                 return ResourceManager.GetString("Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split.
+        /// </summary>
+        public static string Split {
+            get {
+                return ResourceManager.GetString("Split", resourceCulture);
             }
         }
         

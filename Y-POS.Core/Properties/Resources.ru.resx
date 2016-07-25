@@ -151,11 +151,17 @@
   <data name="Clear" xml:space="preserve">
     <value>Очистить</value>
   </data>
+  <data name="CustomDiscount" xml:space="preserve">
+    <value>Особая скидка</value>
+  </data>
   <data name="Customer" xml:space="preserve">
     <value>Клиент</value>
   </data>
   <data name="Date_Time" xml:space="preserve">
     <value>Дата/Время</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Скидка</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Почта</value>
@@ -188,6 +194,9 @@
   <data name="Print" xml:space="preserve">
     <value>Печать</value>
   </data>
+  <data name="Promo" xml:space="preserve">
+    <value>Промо</value>
+  </data>
   <data name="Receipt" xml:space="preserve">
     <value>Чек</value>
   </data>
@@ -202,6 +211,9 @@
   </data>
   <data name="Send" xml:space="preserve">
     <value>Отправить</value>
+  </data>
+  <data name="Split" xml:space="preserve">
+    <value>Разбить чек</value>
   </data>
   <data name="Status" xml:space="preserve">
     <value>Статус</value>

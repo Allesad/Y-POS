@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Y_POS.Views.CheckoutParts.CheckoutDiscountView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="404">
+    
+    <UserControl.Resources>
+        <DataTemplate x:Key="DiscountItemDt">
+            <Button FontSize="18"
+                    Height="65"
+                    Foreground="{StaticResource TextBrush}"
+                    Padding="15"
+                    Margin="0,0,0,10"
+                    Content="{Binding}"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <ItemsControl Margin="10"
+                  Name="Discounts"
+                  HorizontalAlignment="Stretch"
+                  ItemTemplate="{StaticResource DiscountItemDt}">
+        
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+
+        <ItemsControl.Items>
+            <system:String>5% - Morning Hours</system:String>
+            <system:String>10% - Happy Hours</system:String>
+            <system:String>10% - Best Customer</system:String>
+            <system:String>15% - War Veterans</system:String>
+            <system:String>CUSTOM DISCOUNT</system:String>
+        </ItemsControl.Items>
+
+    </ItemsControl>
+
+</UserControl>
