@@ -100,6 +100,9 @@
     <Compile Include="Views\CheckoutParts\CheckoutCustomerView.xaml.cs">
       <DependentUpon>CheckoutCustomerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CheckoutParts\CheckoutDiscountView.xaml.cs">
+      <DependentUpon>CheckoutDiscountView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CheckoutParts\CheckoutPaymentView.xaml.cs">
       <DependentUpon>CheckoutPaymentView.xaml</DependentUpon>
     </Compile>
@@ -198,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CheckoutParts\CheckoutCustomerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CheckoutParts\CheckoutDiscountView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

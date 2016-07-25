@@ -185,8 +185,11 @@
                        Text="{Binding Source={x:Static p:Resources.Receipt}, Converter={StaticResource UpperCaseCoverter}}" />
 
             <!-- CENTRAL CONTENT -->
+            <ContentPresenter Grid.Column="1"
+                              Name="Content"/>
             <!--<checkoutParts:CheckoutPaymentView Grid.Column="1" />-->
-            <checkoutParts:CheckoutCustomerView Grid.Column="1"/>
+            <!--<checkoutParts:CheckoutCustomerView Grid.Column="1"/>-->
+            <!--<checkoutParts:CheckoutDiscountView Grid.Column="1"/>-->
 
             <!-- PAYMENT TYPES -->
             <StackPanel Grid.Column="2">
@@ -199,23 +202,28 @@
 
                     <Button Content="CASH"
                             Style="{StaticResource PaymentTypeButton}"
-                            BorderBrush="{StaticResource SeparatorBrush}" />
+                            BorderBrush="{StaticResource SeparatorBrush}" 
+                            Click="SwitchToPayment"/>
                     <Button Content="CARD"
                             Style="{StaticResource PaymentTypeButton}"
                             BorderThickness="0,0,0,1"
-                            BorderBrush="{StaticResource SeparatorBrush}" />
+                            BorderBrush="{StaticResource SeparatorBrush}"
+                            Click="SwitchToPayment" />
                     <Button Content="MOBILE"
                             Style="{StaticResource PaymentTypeButton}"
-                            BorderBrush="{StaticResource SeparatorBrush}" />
+                            BorderBrush="{StaticResource SeparatorBrush}" 
+                            Click="SwitchToPayment"/>
                     <Button Content="GIFT CARD"
                             Style="{StaticResource PaymentTypeButton}"
                             BorderBrush="{StaticResource SeparatorBrush}"
-                            BorderThickness="0,0,0,1" />
+                            BorderThickness="0,0,0,1" 
+                            Click="SwitchToPayment"/>
 
                 </UniformGrid>
 
                 <ListBox Name="OperationsList" 
-                         ItemContainerStyle="{StaticResource OperationListItem}"/>
+                         ItemContainerStyle="{StaticResource OperationListItem}"
+                         SelectionChanged="OperationsList_OnSelectionChanged"/>
 
             </StackPanel>
 
