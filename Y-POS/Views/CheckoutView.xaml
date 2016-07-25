@@ -185,7 +185,8 @@
                        Text="{Binding Source={x:Static p:Resources.Receipt}, Converter={StaticResource UpperCaseCoverter}}" />
 
             <!-- CENTRAL CONTENT -->
-            <checkoutParts:CheckoutPaymentView Grid.Column="1" />
+            <!--<checkoutParts:CheckoutPaymentView Grid.Column="1" />-->
+            <checkoutParts:CheckoutCustomerView Grid.Column="1"/>
 
             <!-- PAYMENT TYPES -->
             <StackPanel Grid.Column="2">
@@ -214,14 +215,7 @@
                 </UniformGrid>
 
                 <ListBox Name="OperationsList" 
-                         ItemContainerStyle="{StaticResource OperationListItem}">
-                    <!--<ListBox.Items>
-                        <system:String>Add Customer</system:String>
-                        <system:String>Discount</system:String>
-                        <system:String>All on One</system:String>
-                        <system:String>Promo</system:String>
-                    </ListBox.Items>-->
-                </ListBox>
+                         ItemContainerStyle="{StaticResource OperationListItem}"/>
 
             </StackPanel>
 

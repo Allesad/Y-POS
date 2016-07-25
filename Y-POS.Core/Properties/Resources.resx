@@ -158,8 +158,17 @@
   <data name="Date_Time" xml:space="preserve">
     <value>Date/Time</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
   <data name="GiftCard" xml:space="preserve">
     <value>Gift Card</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last Name</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
@@ -174,6 +183,9 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
   <data name="Print" xml:space="preserve">
     <value>Print</value>
   </data>
@@ -182,6 +194,12 @@
   </data>
   <data name="Received" xml:space="preserve">
     <value>Received</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Search_Customer" xml:space="preserve">
+    <value>Search Customer</value>
   </data>
   <data name="Send" xml:space="preserve">
     <value>Send</value>
