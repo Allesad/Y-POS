@@ -183,6 +183,9 @@
   <data name="Menu" xml:space="preserve">
     <value>Menu</value>
   </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
   <data name="Order" xml:space="preserve">
     <value>Order</value>
   </data>

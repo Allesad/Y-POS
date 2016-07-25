@@ -13,6 +13,8 @@ namespace Y_POS.Views
         public CheckoutView()
         {
             InitializeComponent();
+
+            Content.Content = new CheckoutPaymentView();
             
             OperationsList.SetValue(ItemsControl.ItemsSourceProperty, new[]
             {
