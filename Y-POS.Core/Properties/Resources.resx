@@ -142,6 +142,9 @@
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Change" xml:space="preserve">
     <value>Change</value>
     <comment>Received - Total = Change</comment>
