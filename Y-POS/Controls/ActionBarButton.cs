@@ -28,8 +28,8 @@ namespace Y_POS.Controls
 
         public string Title
         {
-            get { return (string) GetValue(IconPathProperty); }
-            set { SetValue(IconPathProperty, value); }
+            get { return (string) GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
         }
 
         #endregion

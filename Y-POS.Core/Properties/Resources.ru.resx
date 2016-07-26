@@ -126,12 +126,21 @@
   <data name="Action_ClockOut" xml:space="preserve">
     <value>Clock Out</value>
   </data>
+  <data name="Action_CloseAndNewOrder" xml:space="preserve">
+    <value>Закрыть и создать новый</value>
+  </data>
+  <data name="Action_CloseOrder" xml:space="preserve">
+    <value>Закрыть заказ</value>
+  </data>
   <data name="Action_Login" xml:space="preserve">
     <value>Войти</value>
     <comment>Verb (e.g. login button label)</comment>
   </data>
   <data name="Action_NewOrder" xml:space="preserve">
     <value>Новый заказ</value>
+  </data>
+  <data name="ActiveOrders" xml:space="preserve">
+    <value>Активные заказы</value>
   </data>
   <data name="AddCustomer" xml:space="preserve">
     <value>Добавить Клиента</value>
@@ -191,6 +200,9 @@
   <data name="Order" xml:space="preserve">
     <value>Заказ</value>
   </data>
+  <data name="OrderPaidSuccess" xml:space="preserve">
+    <value>Заказ был успешно оплачен!</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
@@ -209,6 +221,9 @@
   <data name="Received" xml:space="preserve">
     <value>Получено</value>
   </data>
+  <data name="Refund" xml:space="preserve">
+    <value>Возврат</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Найти</value>
   </data>
@@ -221,6 +236,9 @@
   <data name="Split" xml:space="preserve">
     <value>Разбить чек</value>
   </data>
+  <data name="StaffMember" xml:space="preserve">
+    <value>Работник</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Статус</value>
   </data>
@@ -232,6 +250,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Всего</value>
+  </data>
+  <data name="Transaction" xml:space="preserve">
+    <value>Транзакция</value>
   </data>
   <data name="Void" xml:space="preserve">
     <value>Аннулировать</value>

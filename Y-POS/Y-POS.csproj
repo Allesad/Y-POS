@@ -103,11 +103,17 @@
     <Compile Include="Views\CheckoutParts\CheckoutDiscountView.xaml.cs">
       <DependentUpon>CheckoutDiscountView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CheckoutParts\CheckoutPaymentCompleteView.xaml.cs">
+      <DependentUpon>CheckoutPaymentCompleteView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CheckoutParts\CheckoutPaymentView.xaml.cs">
       <DependentUpon>CheckoutPaymentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CheckoutParts\CheckoutSplittingsView.xaml.cs">
       <DependentUpon>CheckoutSplittingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CheckoutParts\CheckoutPromoView.xaml.cs">
+      <DependentUpon>CheckoutPromoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CheckoutView.xaml.cs">
       <DependentUpon>CheckoutView.xaml</DependentUpon>
@@ -211,11 +217,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CheckoutParts\CheckoutPaymentCompleteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CheckoutParts\CheckoutPaymentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CheckoutParts\CheckoutSplittingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CheckoutParts\CheckoutPromoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -297,6 +311,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\63.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\promo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Receipt.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

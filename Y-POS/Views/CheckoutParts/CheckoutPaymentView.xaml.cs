@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Y_POS.Views.CheckoutParts
 {
@@ -23,6 +11,21 @@ namespace Y_POS.Views.CheckoutParts
         public CheckoutPaymentView()
         {
             InitializeComponent();
+        }
+
+        private void DoCheckout(object sender, RoutedEventArgs e)
+        {
+            RoutedEventArgs args = new RoutedEventArgs(CheckoutEvent);
+            RaiseEvent(args);
+        }
+
+        public static readonly RoutedEvent CheckoutEvent = EventManager.RegisterRoutedEvent("Checkout",
+            RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (CheckoutPaymentView));
+
+        public event RoutedEventHandler Checkout
+        {
+            add { AddHandler(CheckoutEvent, value);}
+            remove { RemoveHandler(CheckoutEvent, value);}
         }
     }
 }

@@ -89,6 +89,24 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close &amp; New Order.
+        /// </summary>
+        public static string Action_CloseAndNewOrder {
+            get {
+                return ResourceManager.GetString("Action_CloseAndNewOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close Order.
+        /// </summary>
+        public static string Action_CloseOrder {
+            get {
+                return ResourceManager.GetString("Action_CloseOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Action_Login {
@@ -103,6 +121,15 @@ namespace Y_POS.Core.Properties {
         public static string Action_NewOrder {
             get {
                 return ResourceManager.GetString("Action_NewOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active Orders.
+        /// </summary>
+        public static string ActiveOrders {
+            get {
+                return ResourceManager.GetString("ActiveOrders", resourceCulture);
             }
         }
         
@@ -278,6 +305,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order was successfully paid!.
+        /// </summary>
+        public static string OrderPaidSuccess {
+            get {
+                return ResourceManager.GetString("OrderPaidSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -332,6 +368,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refund.
+        /// </summary>
+        public static string Refund {
+            get {
+                return ResourceManager.GetString("Refund", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string Search {
@@ -368,6 +413,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Staff Member.
+        /// </summary>
+        public static string StaffMember {
+            get {
+                return ResourceManager.GetString("StaffMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         public static string Status {
@@ -400,6 +454,15 @@ namespace Y_POS.Core.Properties {
         public static string Total {
             get {
                 return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction.
+        /// </summary>
+        public static string Transaction {
+            get {
+                return ResourceManager.GetString("Transaction", resourceCulture);
             }
         }
         

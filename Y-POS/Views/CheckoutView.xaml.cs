@@ -10,6 +10,8 @@ namespace Y_POS.Views
     /// </summary>
     public partial class CheckoutView : UserControl
     {
+        private bool _isPaid;
+
         public CheckoutView()
         {
             InitializeComponent();
@@ -40,11 +42,17 @@ namespace Y_POS.Views
             UserControl content = null;
             switch (OperationsList.SelectedIndex)
             {
+                case -1:
+                    content = new CheckoutPaymentView();
+                    break;
                 case 0:
                     content = new CheckoutCustomerView();
                     break;
                 case 1:
                     content = new CheckoutDiscountView();
+                    break;
+                case 3:
+                    content = new CheckoutPromoView();
                     break;
             }
             if (content != null)
@@ -65,6 +73,28 @@ namespace Y_POS.Views
                 Title = title;
                 Content = content;
             }
+        }
+
+        private void SwitchActionBar(object sender, RoutedEventArgs e)
+        {
+            if (!_isPaid) return;
+
+            ActionBarLeftContainer.SetValue(Grid.ColumnSpanProperty, 1);
+            Content.Content = new CheckoutPaymentView();
+            RightActionButton.Title = Core.Properties.Resources.Void.ToUpper();
+            PaymentTypesContainer.IsEnabled = true;
+            OperationsList.IsEnabled = true;
+        }
+
+        private void Content_OnCheckout(object sender, RoutedEventArgs e)
+        {
+            ActionBarLeftContainer.SetValue(Grid.ColumnSpanProperty, 2);
+            Content.Content = new CheckoutPaymentCompleteView();
+            RightActionButton.Title = Core.Properties.Resources.Refund.ToUpper();
+            PaymentTypesContainer.IsEnabled = false;
+            OperationsList.IsEnabled = false;
+
+            _isPaid = true;
         }
     }
 }
