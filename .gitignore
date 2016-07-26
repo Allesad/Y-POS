@@ -6,5 +6,6 @@ obj
 /.vs/
 /packages/
 /node_modules/
+!.nuget/NuGet.exe
 
 !SQLite.Interop.dll
