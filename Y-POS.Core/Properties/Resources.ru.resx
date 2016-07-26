@@ -142,6 +142,9 @@
   <data name="Back" xml:space="preserve">
     <value>Назад</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
   <data name="Change" xml:space="preserve">
     <value>Сдача</value>
   </data>
