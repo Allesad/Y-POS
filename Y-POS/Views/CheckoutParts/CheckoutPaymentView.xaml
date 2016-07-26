@@ -14,7 +14,8 @@
         <controls:ActionBarButton DockPanel.Dock="Bottom"
                                   Style="{StaticResource ActionBarMainActionButton}"
                                   Title="{Binding Source={x:Static p:Resources.Checkout}, 
-                                        Converter={StaticResource UpperCaseCoverter}}" />
+                                        Converter={StaticResource UpperCaseCoverter}}" 
+                                  Click="DoCheckout"/>
 
         <!-- CONTENT -->
         <Grid Margin="20,15">

@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="Y_POS.Views.CheckoutParts.CheckoutPaymentCompleteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="404"
+             Margin="0,0,0,75">
+    
+    <UserControl.Resources>
+        
+        <Style x:Key="SummaryText" TargetType="TextBlock" BasedOn="{StaticResource DefaultLargeText}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+        </Style>
+        
+        <Style x:Key="SummaryActionButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Height" Value="65"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        </Style>
+        
+    </UserControl.Resources>
+    
+    <StackPanel Margin="20,15">
+        
+        <!-- RESULT TEXT -->
+        <TextBlock Style="{StaticResource SummaryText}"
+                   Margin="0,30,0,15"
+                   FontSize="36"
+                   TextWrapping="Wrap"
+                   Text="{Binding Source={x:Static p:Resources.OrderPaidSuccess}}"/>
+        
+        <!-- AMOUNT -->
+        <TextBlock Style="{StaticResource SummaryText}"
+                   Margin="0,0,0,15"
+                   FontSize="46"
+                   Text="$185,52"/>
+        
+        <!-- DATE -->
+        <TextBlock FontSize="24"
+                   Margin="0,0,0,25"
+                   Style="{StaticResource SummaryText}"
+                   Text="10/10/2015 5:55 PM"/>
+        
+        <!-- TRANSACTION # -->
+        <TextBlock Style="{StaticResource SummaryText}"
+                   FontFamily="{StaticResource DefaultFontFamily}"
+                   FontSize="18">
+            <Run Text="{Binding Source={x:Static p:Resources.Transaction}, Mode=OneTime}"/>
+            <Run Text=" #2345"/>
+        </TextBlock>
+        
+        <!-- STAFF MEMBER -->
+        <TextBlock Style="{StaticResource SummaryText}"
+                   Margin="0,0,0,25"
+                   FontFamily="{StaticResource DefaultFontFamily}"
+                   FontSize="18">
+            <Run Text="{Binding Source={x:Static p:Resources.StaffMember}, Mode=OneTime}"/>
+            <Run Text=": Jack Smart"/>
+        </TextBlock>
+        
+        <!-- ACTIONS -->
+
+        <Button Style="{StaticResource SummaryActionButton}" 
+                Content="{Binding Source={x:Static p:Resources.Action_CloseOrder}}"/>
+
+        <Button Style="{StaticResource SummaryActionButton}" 
+                Content="{Binding Source={x:Static p:Resources.Action_CloseAndNewOrder}}"/>
+
+        <Button Style="{StaticResource SummaryActionButton}" 
+                Content="{Binding Source={x:Static p:Resources.Action_NewOrder}}"/>
+
+        <Button Style="{StaticResource SummaryActionButton}" 
+                Content="{Binding Source={x:Static p:Resources.ActiveOrders}}"/>
+        
+    </StackPanel>
+    
+</UserControl>
