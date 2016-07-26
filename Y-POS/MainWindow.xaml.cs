@@ -26,7 +26,7 @@ namespace Y_POS
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            //Topmost = true;
+            Topmost = true;
         }
     }
 }

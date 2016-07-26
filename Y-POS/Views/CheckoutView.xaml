@@ -6,6 +6,7 @@
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
+             xmlns:checkoutParts="clr-namespace:Y_POS.Views.CheckoutParts"
              mc:Ignorable="d"
              d:DesignHeight="768" d:DesignWidth="1024">
 
@@ -141,12 +142,14 @@
 
         <!-- CENTRAL CONTENT -->
         <ContentPresenter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
-                          Name="Content" />
+                          Name="Content" 
+                          checkoutParts:CheckoutPaymentView.Checkout="Content_OnCheckout"/>
 
         <!-- PAYMENT TYPES -->
         <StackPanel Grid.Row="0" Grid.Column="2">
 
             <UniformGrid
+                Name="PaymentTypesContainer"
                 Columns="2"
                 Height="150"
                 Margin="1,0,0,0"
@@ -181,7 +184,9 @@
         </StackPanel>
 
         <!-- ACTION BAR (LEFT) -->
-        <DockPanel Grid.Row="1" Grid.Column="0" LastChildFill="False"
+        <DockPanel Grid.Row="1" Grid.Column="0" 
+                   Name="ActionBarLeftContainer"
+                   LastChildFill="False"
                    Background="{StaticResource ActionBarBg}">
             <!-- BACK -->
             <controls:ActionBarButton Style="{StaticResource ActionBarBackButton}"
@@ -199,9 +204,11 @@
 
         <!-- VOID ACTION -->
         <controls:ActionBarButton Grid.Row="1" Grid.Column="2"
+                                  x:Name="RightActionButton"
                                   Style="{StaticResource ActionBarNegativeActionButton}"
                                   Title="{Binding Source={x:Static p:Resources.Void}, 
-                                        Converter={StaticResource UpperCaseCoverter}}" />
+                                        Converter={StaticResource UpperCaseCoverter}}" 
+                                  Click="SwitchActionBar"/>
         
         <!-- LEFT SEPARATOR -->
         <Separator Grid.Row="0" Grid.Column="0" 
