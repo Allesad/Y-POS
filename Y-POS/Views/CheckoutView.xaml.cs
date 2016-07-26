@@ -40,6 +40,9 @@ namespace Y_POS.Views
             UserControl content = null;
             switch (OperationsList.SelectedIndex)
             {
+                case -1:
+                    content = new CheckoutPaymentView();
+                    break;
                 case 0:
                     content = new CheckoutCustomerView();
                     break;
