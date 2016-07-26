@@ -106,6 +106,9 @@
     <Compile Include="Views\CheckoutParts\CheckoutPaymentView.xaml.cs">
       <DependentUpon>CheckoutPaymentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CheckoutParts\CheckoutPromoView.xaml.cs">
+      <DependentUpon>CheckoutPromoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CheckoutView.xaml.cs">
       <DependentUpon>CheckoutView.xaml</DependentUpon>
     </Compile>
@@ -212,6 +215,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CheckoutParts\CheckoutPromoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CheckoutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -290,6 +297,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\63.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\promo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Receipt.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

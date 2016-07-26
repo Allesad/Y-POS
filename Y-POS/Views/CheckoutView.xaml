@@ -7,7 +7,7 @@
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="768" d:DesignWidth="1024">
 
     <UserControl.Resources>
         <Style x:Key="PaymentTypeButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
@@ -129,22 +129,15 @@
 
         <!-- LEFT SIDE BACKGROUND -->
         <Border Grid.Row="0" Grid.Column="0"
-                Background="{StaticResource PrimaryBrush}"
-                BorderThickness="0,0,1,0"
-                BorderBrush="{StaticResource SeparatorBrush}" />
+                Background="{StaticResource PrimaryBrush}"/>
 
         <!-- RIGHT SIDE BACKGROUND -->
         <Border Grid.Row="0" Grid.Column="2"
-                Background="{StaticResource PrimaryBrush}"
-                BorderThickness="1,0,0,0"
-                BorderBrush="{StaticResource SeparatorBrush}" />
+                Background="{StaticResource PrimaryBrush}"/>
 
         <!-- RECEIPT -->
-        <TextBlock Grid.Row="0" Grid.Column="0"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   FontSize="40"
-                   Text="{Binding Source={x:Static p:Resources.Receipt}, Converter={StaticResource UpperCaseCoverter}}" />
+        <Image Grid.Row="0" Grid.Column="0"
+               Source="../Images/Receipt.png"/>
 
         <!-- CENTRAL CONTENT -->
         <ContentPresenter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
@@ -209,6 +202,17 @@
                                   Style="{StaticResource ActionBarNegativeActionButton}"
                                   Title="{Binding Source={x:Static p:Resources.Void}, 
                                         Converter={StaticResource UpperCaseCoverter}}" />
+        
+        <!-- LEFT SEPARATOR -->
+        <Separator Grid.Row="0" Grid.Column="0" 
+                   Style="{StaticResource VSeparator}"
+                   HorizontalAlignment="Right"
+                   />
+        
+        <!-- RIGHT SEPARATOR -->
+        <Separator Grid.Row="0" Grid.Column="2"
+                   Style="{StaticResource VSeparator}"
+                   HorizontalAlignment="Left"/>
 
     </Grid>
 
