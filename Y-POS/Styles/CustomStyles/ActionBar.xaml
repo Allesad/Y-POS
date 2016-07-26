@@ -85,7 +85,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Path Style="{StaticResource IconActionBar}"
                               Fill="{StaticResource TextBrush}"
-                              Margin="0,0,10,0"
+                              Margin="0,0,15,0"
                               Stretch="Uniform"
                               Data="{Binding RelativeSource={RelativeSource AncestorType=controls:ActionBarButton}, Path=IconPath}"
                               Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Data, Converter={StaticResource ActionBarIconVisibilityConverter}}" />
