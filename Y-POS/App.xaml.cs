@@ -16,9 +16,10 @@ namespace Y_POS
         protected override void OnStartup(StartupEventArgs e)
         {
             Thread.CurrentThread.Name = "Imidus.Win";
-            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            //const string lang = "ru-RU";
+            const string lang = "en-US";
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
 
             CultureInfo.DefaultThreadCurrentUICulture = Thread.CurrentThread.CurrentUICulture;
             CultureInfo.DefaultThreadCurrentCulture = Thread.CurrentThread.CurrentCulture;

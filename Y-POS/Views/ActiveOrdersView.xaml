@@ -13,29 +13,100 @@
         <Style x:Key="HeaderTb" TargetType="TextBlock" BasedOn="{StaticResource DefaultSmallText}">
             <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Margin" Value="5" />
+            <Setter Property="Margin" Value="10,0" />
             <Setter Property="FontSize" Value="12" />
             <Setter Property="helpers:TextCaseHelper.TextCase" Value="Upper" />
         </Style>
 
-        <DataTemplate x:Key="NewOrderDt">
-            <StackPanel Orientation="Horizontal"
-                        Margin="0,5">
+        <Style x:Key="OrdersListItemText" TargetType="TextBlock" BasedOn="{StaticResource DefaultText}">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Margin" Value="10,0" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
 
-                <Path Style="{StaticResource IconActionBar}"
-                      Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
-                      Stretch="Uniform"
-                      Data="F1M27.966,13.983C27.966,14.629,27.442,15.153,26.796,15.153L15.153,15.153 15.153,26.796C15.153,27.441 14.629,27.966 13.983,27.966 13.337,27.966 12.813,27.441 12.813,26.796L12.813,15.153 1.17,15.153C0.525,15.153 0,14.628 0,13.983 0,13.337 0.525,12.813 1.17,12.813L12.813,12.813 12.813,1.17C12.813,0.524 13.338,0 13.983,0 14.629,0 15.153,0.524 15.153,1.17L15.153,12.813 26.796,12.813C27.442,12.813,27.966,13.337,27.966,13.983" />
+        <DataTemplate x:Key="OrdersListItemDt">
+            <Grid Height="65"
+                  HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70" SharedSizeGroup="Column1" />
+                    <ColumnDefinition Width="220" SharedSizeGroup="Column2" />
+                    <ColumnDefinition Width="200" SharedSizeGroup="Column3" />
+                    <ColumnDefinition Width="320" SharedSizeGroup="Column4" />
+                    <ColumnDefinition Width="140" SharedSizeGroup="Column5" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-                <TextBlock VerticalAlignment="Center"
-                           Margin="15,0,0,0"
-                           Text="{Binding Source={x:Static p:Resources.Action_NewOrder}, Converter={StaticResource UpperCaseCoverter}}" />
+                <!-- ORDER # -->
+                <TextBlock Grid.Column="0"
+                           Style="{StaticResource OrdersListItemText}"
+                           Text="{Binding OrderNumber}" />
 
-            </StackPanel>
+                <!-- DATE/TIME -->
+                <TextBlock Grid.Column="1"
+                           Style="{StaticResource OrdersListItemText}"
+                           Text="{Binding DateCreated, StringFormat=g}" />
+
+                <!-- STATUS -->
+                <Path Grid.Column="2"
+                      Data="{StaticResource StarFilledIcon}"
+                      Fill="{StaticResource AccentBrush}"
+                      HorizontalAlignment="Left"
+                      Margin="10,0,0,0"
+                      Width="30"
+                      Height="30" />
+                <TextBlock Grid.Column="2"
+                           Style="{StaticResource OrdersListItemText}"
+                           HorizontalAlignment="Left"
+                           Margin="50,0,10,0"
+                           Text="{Binding Status}" />
+
+                <!-- CUSTOMER -->
+                <Border Grid.Column="3"
+                        Margin="10,5,0,5"
+                        Background="{StaticResource SecondaryBrush}"
+                        HorizontalAlignment="Left">
+                    
+                    <!-- AVATAR -->
+                    <Image Width="54"
+                           Height="54"
+                           Source="../Images/63.jpg"/>
+                    
+                </Border>
+                <TextBlock Grid.Column="3"
+                           Style="{StaticResource OrdersListItemText}"
+                           HorizontalAlignment="Left"
+                           Margin="74,0,10,0"
+                           Text="{Binding CustomerName}" />
+
+                <!-- AMOUNT -->
+                <TextBlock Grid.Column="4"
+                           Style="{StaticResource OrdersListItemText}"
+                           HorizontalAlignment="Right"
+                           Text="{Binding Amount, StringFormat=c}" />
+                
+                <!-- NAVIGATION -->
+                <Button Grid.Column="5"
+                        Style="{StaticResource NavigationNextButton}"
+                        Margin="10,0"
+                        HorizontalAlignment="Right"
+                        Background="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Background}"
+                        Click="NewOrderBtn_OnClick"/>
+
+            </Grid>
         </DataTemplate>
+
+        <Style x:Key="OrdersListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}" />
+            <Setter Property="ContentTemplate" Value="{StaticResource OrdersListItemDt}" />
+        </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid IsSharedSizeScope="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
@@ -43,38 +114,52 @@
         </Grid.RowDefinitions>
 
         <!-- HEADER -->
-        <Border Grid.Row="0"
-                Background="{StaticResource ActionBarBg}">
+        <Grid Grid.Row="0"
+              Background="{StaticResource ActionBarBg}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="Column1" />
+                <ColumnDefinition SharedSizeGroup="Column2" />
+                <ColumnDefinition SharedSizeGroup="Column3" />
+                <ColumnDefinition SharedSizeGroup="Column4" />
+                <ColumnDefinition SharedSizeGroup="Column5" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal">
+            <!-- ORDER NUMBER -->
+            <TextBlock Grid.Column="0"
+                       Style="{StaticResource HeaderTb}"
+                       HorizontalAlignment="Center"
+                       Text="#" />
 
-                <!-- ORDER NUMBER -->
-                <TextBlock Style="{StaticResource HeaderTb}"
-                           Text="#" />
+            <!-- DATE/TIME -->
+            <TextBlock Grid.Column="1"
+                       Style="{StaticResource HeaderTb}"
+                       Name="DateTime"
+                       HorizontalAlignment="Center"
+                       Text="{Binding Source={x:Static p:Resources.Date_Time}, Converter={StaticResource UpperCaseCoverter}}" />
 
-                <!-- DATE/TIME -->
-                <TextBlock Style="{StaticResource HeaderTb}"
-                           Name="DateTime"
-                           Text="{Binding Source={x:Static p:Resources.Date_Time}, Converter={StaticResource UpperCaseCoverter}}" />
+            <!-- STATUS -->
+            <TextBlock Grid.Column="2"
+                       Style="{StaticResource HeaderTb}"
+                       Text="{Binding Source={x:Static p:Resources.Status}, Converter={StaticResource UpperCaseCoverter}}" />
 
-                <!-- STATUS -->
-                <TextBlock Style="{StaticResource HeaderTb}"
-                           Text="{Binding Source={x:Static p:Resources.Status}, Converter={StaticResource UpperCaseCoverter}}" />
+            <!-- CUSTOMER -->
+            <TextBlock Grid.Column="3"
+                       Style="{StaticResource HeaderTb}"
+                       Text="{Binding Source={x:Static p:Resources.Customer}, Converter={StaticResource UpperCaseCoverter}}" />
 
-                <!-- CUSTOMER -->
-                <TextBlock Style="{StaticResource HeaderTb}"
-                           Text="{Binding Source={x:Static p:Resources.Customer}, Converter={StaticResource UpperCaseCoverter}}" />
-
-                <!-- AMOUNT -->
-                <TextBlock Style="{StaticResource HeaderTb}"
-                           Text="{Binding Source={x:Static p:Resources.Amount}, Converter={StaticResource UpperCaseCoverter}}" />
-
-            </StackPanel>
-
-        </Border>
+            <!-- AMOUNT -->
+            <TextBlock Grid.Column="4"
+                       Style="{StaticResource HeaderTb}"
+                       HorizontalAlignment="Right"
+                       Text="{Binding Source={x:Static p:Resources.Amount}, Converter={StaticResource UpperCaseCoverter}}" />
+        </Grid>
 
         <!-- ORDERS LIST -->
-        <ListBox Grid.Row="1" />
+        <ListBox Grid.Row="1"
+                 Name="OrdersList"
+                 Background="{StaticResource PrimaryBrush}"
+                 ItemContainerStyle="{StaticResource OrdersListItem}" />
 
         <!-- ACTION BAR -->
         <DockPanel LastChildFill="False"
@@ -87,13 +172,12 @@
                                       Style="{StaticResource ActionBarMenuButton}"
                                       Click="ButtonBase_OnClick" />
 
-            <!--<Separator Style="{StaticResource VSeparator}"
-                       DockPanel.Dock="Left" />-->
-
             <controls:ActionBarButton DockPanel.Dock="Right"
                                       x:Name="NewOrderBtn"
                                       Style="{StaticResource ActionBarMainActionButton}"
-                                      ContentTemplate="{StaticResource NewOrderDt}"
+                                      IconPath="{StaticResource AddIcon}"
+                                      Title="{Binding Source={x:Static p:Resources.Action_NewOrder}, 
+                                        Converter={StaticResource UpperCaseCoverter}}"
                                       Click="NewOrderBtn_OnClick" />
 
         </DockPanel>
