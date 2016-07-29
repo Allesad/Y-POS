@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="Y_POS.Views.CashDrawerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Y_POS.Views"
+             xmlns:controls="clr-namespace:Y_POS.Controls"
+             xmlns:cashDrawerParts="clr-namespace:Y_POS.Views.CashDrawerParts"
+             mc:Ignorable="d"
+             d:DesignHeight="768" d:DesignWidth="1024">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="CashDrawerOperationDt">
+            <StackPanel Orientation="Horizontal"
+                        UseLayoutRounding="True"
+                        Margin="0, 10">
+
+                <!-- ICON -->
+                <Path VerticalAlignment="Center"
+                      Data="{Binding Icon}"
+                      Height="24"
+                      Width="24"
+                      Margin="0,0,35,0"
+                      Stretch="Uniform"
+                      Fill="{StaticResource TextBrush}" />
+
+                <!-- TITLE -->
+                <TextBlock Text="{Binding Title}"
+                           VerticalAlignment="Center"
+                           FontSize="18"
+                           Foreground="{StaticResource TextBrush}" />
+
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <DockPanel>
+
+        <!-- RIGHT SIDE -->
+        <DockPanel DockPanel.Dock="Right"
+                   Width="{StaticResource SideColumnWidth}"
+                   Background="{StaticResource PrimaryBrush}">
+
+            <!-- ACTION BAR -->
+            <controls:ActionBarButton DockPanel.Dock="Bottom"
+                                      Style="{StaticResource ActionBarNegativeActionButton}"
+                                      Title="OPEN CASHDRAWER" />
+
+            <ListBox Name="OperationsList"
+                     ItemContainerStyle="{StaticResource RightOperationListItem}" 
+                     ItemTemplate="{StaticResource CashDrawerOperationDt}"/>
+
+        </DockPanel>
+
+        <Separator DockPanel.Dock="Right"
+                   Style="{StaticResource VSeparator}" />
+
+        <!-- ACTION BAR -->
+        <DockPanel DockPanel.Dock="Bottom"
+                   Background="{StaticResource ActionBarBg}"
+                   LastChildFill="False">
+
+            <controls:ActionBarButton DockPanel.Dock="Left"
+                                      Style="{StaticResource ActionBarBackButton}"
+                                      Command="GoToPage"
+                                      CommandParameter="ActiveOrders" />
+
+            <controls:ActionBarButton DockPanel.Dock="Right"
+                                      Style="{StaticResource ActionBarMainActionButton}"
+                                      Width="{StaticResource CenterColumnWidth}"
+                                      Title="CASHIER IN" />
+
+        </DockPanel>
+
+        <!-- LEFT SIDE -->
+        <Border>
+            <cashDrawerParts:CashDrawerInitView HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"/>
+            <!--<TextBlock FontSize="40"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Text="CONTENT" />-->
+        </Border>
+
+
+    </DockPanel>
+
+</UserControl>

@@ -26,14 +26,10 @@ namespace Y_POS.Views
             OrdersList.ItemsSource = arr;
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private void OnMenuClick(object sender, RoutedEventArgs e)
         {
-            NewOrderBtn.IsEnabled = !NewOrderBtn.IsEnabled;
-        }
-
-        private void NewOrderBtn_OnClick(object sender, RoutedEventArgs e)
-        {
-            ((Window) Window.GetWindow(this)).Content = new OrderMakerView();
+            //NewOrderBtn.IsEnabled = !NewOrderBtn.IsEnabled;
+            MainView.SwitchMenuState();
         }
 
         private static DateTime GetRandomDate(DateTime from, DateTime to)
