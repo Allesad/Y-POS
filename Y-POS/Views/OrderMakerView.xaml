@@ -114,7 +114,8 @@
             <!-- BACK -->
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarBackButton}"
-                                      Click="ButtonBase_OnClick" />
+                                      Command="NavigationCommands.GoToPage"
+                                      CommandParameter="ActiveOrders" />
 
             <!-- CHECKOUT -->
             <controls:ActionBarButton DockPanel.Dock="Right"
@@ -122,7 +123,8 @@
                                       IconPath="{StaticResource AddIcon}"
                                       Title="{Binding Source={x:Static p:Resources.Checkout}, 
                                         Converter={StaticResource UpperCaseCoverter}}"
-                                      Click="OnCheckoutClick" />
+                                      Command="NavigationCommands.GoToPage"
+                                      CommandParameter="Checkout" />
 
             <!-- PRINT -->
             <controls:ActionBarButton DockPanel.Dock="Right"

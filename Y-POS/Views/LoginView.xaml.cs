@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace Y_POS.Views
 {
@@ -11,11 +10,6 @@ namespace Y_POS.Views
         public LoginView()
         {
             InitializeComponent();
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            ((Window)Window.GetWindow(this)).Content = new PinLoginView();
         }
     }
 }

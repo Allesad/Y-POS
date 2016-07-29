@@ -195,6 +195,24 @@
   <data name="Menu" xml:space="preserve">
     <value>Menu</value>
   </data>
+  <data name="Navigation_ActiveOrders" xml:space="preserve">
+    <value>Active Orders</value>
+  </data>
+  <data name="Navigation_Cashdrawer" xml:space="preserve">
+    <value>Cashdrawer</value>
+  </data>
+  <data name="Navigation_ClosedOrders" xml:space="preserve">
+    <value>Closed Orders</value>
+  </data>
+  <data name="Navigation_Quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="Navigation_Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="Navigation_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>

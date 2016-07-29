@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using Y_POS.Controls;
 
 namespace Y_POS.Views
 {
@@ -27,11 +26,6 @@ namespace Y_POS.Views
                     new Category("Fish", _rnd.Next(10,30)), 
                     new Category("Drinks", _rnd.Next(10,30)), 
                 };
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            ((Window)Window.GetWindow(this)).Content = new ActiveOrdersView();
         }
 
         private void AddCategory(object sender, RoutedEventArgs e)
@@ -94,11 +88,6 @@ namespace Y_POS.Views
         private void MSC_OnCategoryItemSelected(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             MessageBox.Show(string.Format("Selected '{0}'", e.NewValue));
-        }
-
-        private void OnCheckoutClick(object sender, RoutedEventArgs e)
-        {
-            ((Window)Window.GetWindow(this)).Content = new CheckoutView();
         }
     }
 }

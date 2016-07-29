@@ -194,6 +194,24 @@
   <data name="Menu" xml:space="preserve">
     <value>Меню</value>
   </data>
+  <data name="Navigation_ActiveOrders" xml:space="preserve">
+    <value>Активные заказы</value>
+  </data>
+  <data name="Navigation_Cashdrawer" xml:space="preserve">
+    <value>Касса</value>
+  </data>
+  <data name="Navigation_ClosedOrders" xml:space="preserve">
+    <value>Закрытые заказы</value>
+  </data>
+  <data name="Navigation_Quit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="Navigation_Reports" xml:space="preserve">
+    <value>Отчеты</value>
+  </data>
+  <data name="Navigation_Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
   <data name="Ok" xml:space="preserve">
     <value>Ок</value>
   </data>

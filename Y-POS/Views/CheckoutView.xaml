@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-             xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
              xmlns:checkoutParts="clr-namespace:Y_POS.Views.CheckoutParts"
              mc:Ignorable="d"
              d:DesignHeight="768" d:DesignWidth="1024">
@@ -15,103 +14,6 @@
             <Setter Property="FontSize" Value="18" />
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="BorderThickness" Value="0,0,1,1" />
-        </Style>
-
-        <DataTemplate x:Key="OperationListItemDt">
-
-            <DockPanel>
-
-                <!-- ICON -->
-                <Path DockPanel.Dock="Left"
-                      VerticalAlignment="Center"
-                      Data="{Binding Icon}"
-                      Height="20"
-                      Width="20"
-                      Margin="0,0,35,0"
-                      Stretch="Uniform"
-                      Fill="{StaticResource TextBrush}" />
-
-                <!-- CONTENT -->
-                <StackPanel VerticalAlignment="Center">
-                    <TextBlock
-                        Text="{Binding Title, Converter={StaticResource UpperCaseCoverter}}"
-                        Foreground="{StaticResource ButtonText}"
-                        FontSize="12"
-                        Margin="0,0,0,10" />
-
-                    <TextBlock Text="{Binding Content}"
-                               FontSize="18"
-                               Foreground="{StaticResource TextBrush}" />
-                </StackPanel>
-
-            </DockPanel>
-        </DataTemplate>
-
-        <SolidColorBrush x:Key="OperationListSelectionBrush" Color="{StaticResource TextColor}" Opacity="0.8" />
-
-        <Style x:Key="OperationListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-            <Setter Property="Padding" Value="35,15,25,15" />
-            <Setter Property="BorderThickness" Value="0,0,0,1" />
-            <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}" />
-            <Setter Property="ContentTemplate" Value="{StaticResource OperationListItemDt}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                        <Grid>
-                            <Border Background="{TemplateBinding Background}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    BorderBrush="{TemplateBinding BorderBrush}">
-                                <!-- This is used for ListView that does not use GridView -->
-                                <ContentPresenter x:Name="ContentPresenter"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  Content="{TemplateBinding ContentControl.Content}"
-                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
-                                                  ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
-                                                  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
-                                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-                            </Border>
-
-                            <Border Name="SelectionMark"
-                                    Background="{StaticResource OperationListSelectionBrush}"
-                                    Width="20"
-                                    VerticalAlignment="Stretch"
-                                    HorizontalAlignment="Left"
-                                    Visibility="Collapsed">
-
-                                <Path VerticalAlignment="Center"
-                                      HorizontalAlignment="Center"
-                                      Data="{StaticResource GreaterThanIcon}"
-                                      Fill="{StaticResource PrimaryBrush}"
-                                      RenderTransformOrigin="0.5,0.5">
-                                    <Path.RenderTransform>
-                                        <RotateTransform Angle="180" />
-                                    </Path.RenderTransform>
-                                </Path>
-
-                            </Border>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background"
-                                        Value="{Binding RelativeSource={RelativeSource Self}, 
-                                Path=(ex:StyleExtensions.BgOnHover)}" />
-                                <Setter Property="Foreground"
-                                        Value="{Binding RelativeSource={RelativeSource Self},
-                                Path=(ex:StyleExtensions.ForegroundOnHover)}" />
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Foreground"
-                                        Value="{Binding RelativeSource={RelativeSource Self},
-                                Path=(ex:StyleExtensions.ForegroundOnPressed)}" />
-                                <Setter TargetName="SelectionMark" Property="Visibility" Value="Visible" />
-                                <Setter Property="BorderBrush" Value="{StaticResource OperationListSelectionBrush}" />
-                                <Setter Property="BorderThickness" Value="0,1" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
         </Style>
     </UserControl.Resources>
 
@@ -130,20 +32,20 @@
 
         <!-- LEFT SIDE BACKGROUND -->
         <Border Grid.Row="0" Grid.Column="0"
-                Background="{StaticResource PrimaryBrush}"/>
+                Background="{StaticResource PrimaryBrush}" />
 
         <!-- RIGHT SIDE BACKGROUND -->
         <Border Grid.Row="0" Grid.Column="2"
-                Background="{StaticResource PrimaryBrush}"/>
+                Background="{StaticResource PrimaryBrush}" />
 
         <!-- RECEIPT -->
         <Image Grid.Row="0" Grid.Column="0"
-               Source="../Images/Receipt.png"/>
+               Source="../Images/Receipt.png" />
 
         <!-- CENTRAL CONTENT -->
         <ContentPresenter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
-                          Name="Content" 
-                          checkoutParts:CheckoutPaymentView.Checkout="Content_OnCheckout"/>
+                          Name="Content"
+                          checkoutParts:CheckoutPaymentView.Checkout="Content_OnCheckout" />
 
         <!-- PAYMENT TYPES -->
         <StackPanel Grid.Row="0" Grid.Column="2">
@@ -178,20 +80,21 @@
 
             <!-- OPERATIONS LIST -->
             <ListBox Name="OperationsList"
-                     ItemContainerStyle="{StaticResource OperationListItem}"
+                     ItemContainerStyle="{StaticResource RightOperationListItem}"
                      SelectionChanged="OperationsList_OnSelectionChanged" />
 
         </StackPanel>
 
         <!-- ACTION BAR (LEFT) -->
-        <DockPanel Grid.Row="1" Grid.Column="0" 
+        <DockPanel Grid.Row="1" Grid.Column="0"
                    Name="ActionBarLeftContainer"
                    LastChildFill="False"
                    Background="{StaticResource ActionBarBg}">
             <!-- BACK -->
             <controls:ActionBarButton Style="{StaticResource ActionBarBackButton}"
                                       DockPanel.Dock="Left"
-                                      Click="OnBackClick" />
+                                      Command="NavigationCommands.GoToPage"
+                                      CommandParameter="OrderMaker" />
 
             <!-- SEND -->
             <controls:ActionBarButton Style="{StaticResource ActionBarSend}"
@@ -207,19 +110,18 @@
                                   x:Name="RightActionButton"
                                   Style="{StaticResource ActionBarNegativeActionButton}"
                                   Title="{Binding Source={x:Static p:Resources.Void}, 
-                                        Converter={StaticResource UpperCaseCoverter}}" 
-                                  Click="SwitchActionBar"/>
-        
+                                        Converter={StaticResource UpperCaseCoverter}}"
+                                  Click="SwitchActionBar" />
+
         <!-- LEFT SEPARATOR -->
-        <Separator Grid.Row="0" Grid.Column="0" 
+        <Separator Grid.Row="0" Grid.Column="0"
                    Style="{StaticResource VSeparator}"
-                   HorizontalAlignment="Right"
-                   />
-        
+                   HorizontalAlignment="Right" />
+
         <!-- RIGHT SEPARATOR -->
         <Separator Grid.Row="0" Grid.Column="2"
                    Style="{StaticResource VSeparator}"
-                   HorizontalAlignment="Left"/>
+                   HorizontalAlignment="Left" />
 
     </Grid>
 

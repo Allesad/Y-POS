@@ -59,7 +59,8 @@
                     VerticalAlignment="Stretch"
                     FontSize="24"
                     Content="{Binding Source={x:Static p:Resources.Action_Login}, Converter={StaticResource UpperCaseCoverter}}"
-                    Click="ButtonBase_OnClick"
+                    Command="NavigationCommands.GoToPage"
+                    CommandParameter="PinLogin"
                     />
         </Grid>
         
