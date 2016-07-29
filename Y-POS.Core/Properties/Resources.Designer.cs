@@ -287,6 +287,60 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active Orders.
+        /// </summary>
+        public static string Navigation_ActiveOrders {
+            get {
+                return ResourceManager.GetString("Navigation_ActiveOrders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cashdrawer.
+        /// </summary>
+        public static string Navigation_Cashdrawer {
+            get {
+                return ResourceManager.GetString("Navigation_Cashdrawer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closed Orders.
+        /// </summary>
+        public static string Navigation_ClosedOrders {
+            get {
+                return ResourceManager.GetString("Navigation_ClosedOrders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quit.
+        /// </summary>
+        public static string Navigation_Quit {
+            get {
+                return ResourceManager.GetString("Navigation_Quit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reports.
+        /// </summary>
+        public static string Navigation_Reports {
+            get {
+                return ResourceManager.GetString("Navigation_Reports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Navigation_Settings {
+            get {
+                return ResourceManager.GetString("Navigation_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         public static string Ok {
