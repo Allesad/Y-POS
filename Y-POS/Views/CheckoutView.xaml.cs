@@ -51,6 +51,9 @@ namespace Y_POS.Views
                 case 1:
                     content = new CheckoutDiscountView();
                     break;
+                case 2:
+                    content = new CheckoutSplittingsView();
+                    break;
                 case 3:
                     content = new CheckoutPromoView();
                     break;

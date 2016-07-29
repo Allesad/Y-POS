@@ -84,6 +84,26 @@
 
     <Style TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}" />
 
+    <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ButtonBase}}">
+        <Setter Property="ex:StyleExtensions.BgOnChecked" Value="{StaticResource ButtonBackgroundPressed}"/>
+        <Setter Property="ex:StyleExtensions.ForegroundOnChecked">
+            <Setter.Value>
+                <Binding RelativeSource="{RelativeSource Self}" Path="Foreground" />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, 
+                                Path=(ex:StyleExtensions.BgOnChecked)}"/>
+                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self},
+                                Path=(ex:StyleExtensions.ForegroundOnChecked)}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="1"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="AccentButton" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Background" Value="{StaticResource AccentBrush}" />
         <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource AccentSecondaryBrush}" />
