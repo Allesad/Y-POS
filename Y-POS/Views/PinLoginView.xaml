@@ -17,7 +17,7 @@
               HorizontalAlignment="Stretch"
               Background="{StaticResource ActionBarBg}"
               Height="75">
-            
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -28,25 +28,29 @@
             <controls:ActionBarButton Grid.Column="0"
                                       Style="{StaticResource ActionBarLogin}"
                                       Padding="10,5"
-                                      Click="ButtonBase_OnClick1" />
+                                      Command="NavigationCommands.GoToPage"
+                                      CommandParameter="ActiveOrders" />
             <controls:ActionBarButton Grid.Column="1"
                                       Style="{StaticResource ActionBarClockIn}"
                                       Padding="10,5"
-                                      Click="ButtonBase_OnClick" />
+                                      Command="NavigationCommands.GoToPage"
+                                      CommandParameter="Login" />
             <controls:ActionBarButton Grid.Column="2"
                                       Style="{StaticResource ActionBarClockOut}"
                                       Padding="10,5"
-                                      Click="ButtonBase_OnClick" />
+                                      Command="NavigationCommands.GoToPage"
+                                      CommandParameter="Login" />
             <controls:ActionBarButton Grid.Column="3"
                                       Style="{StaticResource ActionBarBreak}"
                                       Padding="10,5"
-                                      Click="ButtonBase_OnClick" />
+                                      Command="NavigationCommands.GoToPage"
+                                      CommandParameter="Login" />
         </Grid>
 
         <!-- NUMPAD -->
-        <controls:NumericKeypadControl DockPanel.Dock="Bottom" 
+        <controls:NumericKeypadControl DockPanel.Dock="Bottom"
                                        x:Name="Keypad"
-                                       Margin="0,25,0,40"/>
+                                       Margin="0,25,0,40" />
 
         <!-- OUPUT -->
         <TextBox DockPanel.Dock="Bottom"

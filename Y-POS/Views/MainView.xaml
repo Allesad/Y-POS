@@ -10,6 +10,10 @@
     
     <UserControl.Resources>
     </UserControl.Resources>
+    
+    <UserControl.CommandBindings>
+        <CommandBinding Command="NavigationCommands.GoToPage" Executed="CommandBinding_OnNavigateToPage"/>
+    </UserControl.CommandBindings>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -22,6 +26,8 @@
         </Grid>
 
         <Grid Grid.Row="0"
+              Name="NavMenuContainer"
+              Margin="0,0,0,75"
               Visibility="{Binding Path=IsExpandedNavMenu, 
                 Converter={StaticResource BoolToVisibilityConverter}}">
             <views:NavMenuView DataContext="{Binding NavMenuVm, Mode=OneWay}" />

@@ -27,11 +27,6 @@ namespace Y_POS.Views
             });
         }
 
-        private void OnBackClick(object sender, RoutedEventArgs e)
-        {
-            ((Window)Window.GetWindow(this)).Content = new OrderMakerView();
-        }
-
         private void SwitchToPayment(object sender, RoutedEventArgs e)
         {
             Content.Content = new CheckoutPaymentView();

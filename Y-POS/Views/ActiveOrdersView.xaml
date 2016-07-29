@@ -68,12 +68,12 @@
                         Margin="10,5,0,5"
                         Background="{StaticResource SecondaryBrush}"
                         HorizontalAlignment="Left">
-                    
+
                     <!-- AVATAR -->
                     <Image Width="54"
                            Height="54"
-                           Source="../Images/63.jpg"/>
-                    
+                           Source="../Images/63.jpg" />
+
                 </Border>
                 <TextBlock Grid.Column="3"
                            Style="{StaticResource OrdersListItemText}"
@@ -86,14 +86,15 @@
                            Style="{StaticResource OrdersListItemText}"
                            HorizontalAlignment="Right"
                            Text="{Binding Amount, StringFormat=c}" />
-                
+
                 <!-- NAVIGATION -->
                 <Button Grid.Column="5"
                         Style="{StaticResource NavigationNextButton}"
                         Margin="10,0"
                         HorizontalAlignment="Right"
                         Background="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Background}"
-                        Click="NewOrderBtn_OnClick"/>
+                        Command="NavigationCommands.GoToPage"
+                        CommandParameter="OrderMaker" />
 
             </Grid>
         </DataTemplate>
@@ -170,7 +171,7 @@
             <!-- MENU -->
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarMenuButton}"
-                                      Click="ButtonBase_OnClick" />
+                                      Click="OnMenuClick" />
 
             <controls:ActionBarButton DockPanel.Dock="Right"
                                       x:Name="NewOrderBtn"
@@ -178,7 +179,8 @@
                                       IconPath="{StaticResource AddIcon}"
                                       Title="{Binding Source={x:Static p:Resources.Action_NewOrder}, 
                                         Converter={StaticResource UpperCaseCoverter}}"
-                                      Click="NewOrderBtn_OnClick" />
+                                      Command="NavigationCommands.GoToPage"
+                                      CommandParameter="OrderMaker" />
 
         </DockPanel>
 
