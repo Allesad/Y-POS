@@ -236,6 +236,15 @@
   <data name="Split" xml:space="preserve">
     <value>Разбить чек</value>
   </data>
+  <data name="Split_AllOnOne" xml:space="preserve">
+    <value>Единый чек</value>
+  </data>
+  <data name="Split_BySeats" xml:space="preserve">
+    <value>По местам</value>
+  </data>
+  <data name="Split_Evenly" xml:space="preserve">
+    <value>Поровну</value>
+  </data>
   <data name="StaffMember" xml:space="preserve">
     <value>Работник</value>
   </data>

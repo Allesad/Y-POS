@@ -413,6 +413,33 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All on One.
+        /// </summary>
+        public static string Split_AllOnOne {
+            get {
+                return ResourceManager.GetString("Split_AllOnOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By Seats.
+        /// </summary>
+        public static string Split_BySeats {
+            get {
+                return ResourceManager.GetString("Split_BySeats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evenly.
+        /// </summary>
+        public static string Split_Evenly {
+            get {
+                return ResourceManager.GetString("Split_Evenly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Staff Member.
         /// </summary>
         public static string StaffMember {

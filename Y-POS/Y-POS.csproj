@@ -109,6 +109,9 @@
     <Compile Include="Views\CheckoutParts\CheckoutPaymentView.xaml.cs">
       <DependentUpon>CheckoutPaymentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CheckoutParts\CheckoutSplittingsView.xaml.cs">
+      <DependentUpon>CheckoutSplittingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CheckoutParts\CheckoutPromoView.xaml.cs">
       <DependentUpon>CheckoutPromoView.xaml</DependentUpon>
     </Compile>
@@ -219,6 +222,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CheckoutParts\CheckoutPaymentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CheckoutParts\CheckoutSplittingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

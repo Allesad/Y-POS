@@ -237,6 +237,15 @@
   <data name="Split" xml:space="preserve">
     <value>Split</value>
   </data>
+  <data name="Split_AllOnOne" xml:space="preserve">
+    <value>All on One</value>
+  </data>
+  <data name="Split_BySeats" xml:space="preserve">
+    <value>By Seats</value>
+  </data>
+  <data name="Split_Evenly" xml:space="preserve">
+    <value>Evenly</value>
+  </data>
   <data name="StaffMember" xml:space="preserve">
     <value>Staff Member</value>
   </data>
