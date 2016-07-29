@@ -47,25 +47,6 @@
         <controls:NumericKeypadControl DockPanel.Dock="Bottom" 
                                        x:Name="Keypad"
                                        Margin="0,25,0,40"/>
-        <!--<UniformGrid DockPanel.Dock="Bottom"
-                     Columns="3" Rows="4"
-                     Width="294"
-                     Height="376"
-                     HorizontalAlignment="Center"
-                     Margin="0,25,0,40">
-            <Button Style="{StaticResource NumpadButton}" Content="1" />
-            <Button Style="{StaticResource NumpadButton}" Content="2" />
-            <Button Style="{StaticResource NumpadButton}" Content="3" />
-            <Button Style="{StaticResource NumpadButton}" Content="4" />
-            <Button Style="{StaticResource NumpadButton}" Content="5" />
-            <Button Style="{StaticResource NumpadButton}" Content="6" />
-            <Button Style="{StaticResource NumpadButton}" Content="7" />
-            <Button Style="{StaticResource NumpadButton}" Content="8" />
-            <Button Style="{StaticResource NumpadButton}" Content="9" />
-            <Button Style="{StaticResource NumpadButton}" Content="&lt;" />
-            <Button Style="{StaticResource NumpadButton}" Content="0" />
-            <Button Style="{StaticResource NumpadButton}" Content="." />
-        </UniformGrid>-->
 
         <!-- OUPUT -->
         <TextBox DockPanel.Dock="Bottom"

@@ -104,6 +104,22 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="SquareButton" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
+        <Setter Property="Height">
+            <Setter.Value>
+                <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SquareToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Setter Property="Height">
+            <Setter.Value>
+                <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="AccentButton" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Background" Value="{StaticResource AccentBrush}" />
         <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource AccentSecondaryBrush}" />

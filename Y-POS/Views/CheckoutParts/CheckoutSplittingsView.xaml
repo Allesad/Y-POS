@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="404">
 
     <UserControl.Resources>
-        <Style x:Key="SplitSingleAction" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Style x:Key="SplitToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
             <Setter Property="Margin" Value="0,0,0,5" />
             <Setter Property="FontSize" Value="18" />
             <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
@@ -24,31 +24,57 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        <!--<Style x:Key="SplitExpandableAction" TargetType="ToggleButton" BasedOn="{StaticResource SplitSingleAction}">
-            <Setter Property="Template">
-                
+
+        <Style x:Key="SplitExpander" TargetType="Expander" BasedOn="{x:Null}">
+            <Setter Property="IsExpanded">
+                <Setter.Value>
+                    <Binding RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Path="IsSelected" Mode="TwoWay"/>
+                </Setter.Value>
             </Setter>
-        </Style>-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Expander">
+                        <DockPanel>
+                            <ToggleButton DockPanel.Dock="Top"
+                                          Style="{StaticResource SplitToggleButton}"
+                                          Content="{TemplateBinding Header}"
+                                          IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsExpanded, Mode=TwoWay}"
+                                          />
+                            <ContentPresenter x:Name="Content"
+                                              Visibility="Collapsed"
+                                              />
+                        </DockPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="True">
+                                <Setter TargetName="Content" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="SplitEvenlySelectionButton" TargetType="ToggleButton" BasedOn="{StaticResource SquareToggleButton}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        </Style>
 
         <Style x:Key="SplitListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
             <Setter Property="ex:StyleExtensions.BgOnPressed" Value="Transparent"/>
-            <!--<Setter Property="Margin" Value="0,0,0,5" />
-            <Setter Property="FontSize" Value="18" />
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        </Style>
+        
+        <Style x:Key="SplitEvenlyListItem" TargetType="ListBoxItem" BasedOn="{StaticResource SplitListItem}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
-                        <ToggleButton Margin="{TemplateBinding Margin}"
-                                      Foreground="{TemplateBinding Foreground}"
-                                      IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, 
-                                        Path=IsSelected, Mode=TwoWay}"
-                                      Padding="15"
-                                      Height="65"
-                                      Content="{Binding}" />
+                        <ToggleButton Style="{StaticResource SplitEvenlySelectionButton}"
+                                      IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Mode=TwoWay}"
+                                      Content="{TemplateBinding Content}" 
+                                      />
                     </ControlTemplate>
                 </Setter.Value>
-            </Setter>-->
+            </Setter>
         </Style>
     </UserControl.Resources>
 
@@ -73,16 +99,44 @@
                  ItemContainerStyle="{StaticResource SplitListItem}"
                  SelectionMode="Single"
                  Margin="10">
+            
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            
             <ListBox.Items>
-                <ToggleButton Style="{StaticResource SplitSingleAction}"
-                              Content="All on One"/>
-                <ToggleButton Style="{StaticResource SplitSingleAction}"
-                              Content="Evenly"/>
-                <ToggleButton Style="{StaticResource SplitSingleAction}"
-                              Content="By Seats"/>
-                <!--<system:String>All on One</system:String>
-                <system:String>Evenly</system:String>
-                <system:String>By Seats</system:String>-->
+                <ToggleButton Style="{StaticResource SplitToggleButton}"
+                              Content="{x:Static p:Resources.Split_AllOnOne}"/>
+
+                <Expander Style="{StaticResource SplitExpander}"
+                          Header="{x:Static p:Resources.Split_Evenly}">
+                    <ListBox SelectionMode="Single"
+                             ItemContainerStyle="{StaticResource SplitEvenlyListItem}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid HorizontalAlignment="Stretch"
+                                 Columns="5" Rows="2"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                        <ListBox.Items>
+                            <system:String>1</system:String>
+                            <system:String>2</system:String>
+                            <system:String>3</system:String>
+                            <system:String>4</system:String>
+                            <system:String>5</system:String>
+                            <system:String>6</system:String>
+                            <system:String>7</system:String>
+                            <system:String>8</system:String>
+                            <system:String>9</system:String>
+                            <system:String>N</system:String>
+                        </ListBox.Items>
+                    </ListBox>
+                </Expander>
+                <ToggleButton Style="{StaticResource SplitToggleButton}"
+                              Content="{x:Static p:Resources.Split_BySeats}"/>
             </ListBox.Items>
         </ListBox>
 
