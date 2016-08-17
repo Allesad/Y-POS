@@ -142,6 +142,9 @@
   <data name="ActiveOrders" xml:space="preserve">
     <value>Active Orders</value>
   </data>
+  <data name="Activity" xml:space="preserve">
+    <value>Activity</value>
+  </data>
   <data name="AddCustomer" xml:space="preserve">
     <value>Add Customer</value>
   </data>
@@ -154,6 +157,12 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CashdrawerCheck_ByAmount" xml:space="preserve">
+    <value>by amount</value>
+  </data>
+  <data name="CashdrawerCheck_ByBillType" xml:space="preserve">
+    <value>by bill type</value>
+  </data>
   <data name="Change" xml:space="preserve">
     <value>Change</value>
     <comment>Received - Total = Change</comment>
@@ -163,6 +172,9 @@
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Clear</value>
+  </data>
+  <data name="Coins" xml:space="preserve">
+    <value>Coins</value>
   </data>
   <data name="CustomDiscount" xml:space="preserve">
     <value>Custom Discount</value>
@@ -178,6 +190,9 @@
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>First Name</value>
@@ -216,6 +231,9 @@
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="OpenCashdrawer" xml:space="preserve">
+    <value>Open Cashdrawer</value>
+  </data>
   <data name="Order" xml:space="preserve">
     <value>Order</value>
   </data>
@@ -233,6 +251,9 @@
   </data>
   <data name="Promo" xml:space="preserve">
     <value>Promo</value>
+  </data>
+  <data name="Qty" xml:space="preserve">
+    <value>Qty</value>
   </data>
   <data name="Receipt" xml:space="preserve">
     <value>Receipt</value>
@@ -272,6 +293,9 @@
   </data>
   <data name="Subtotal" xml:space="preserve">
     <value>Subtotal</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
   </data>
   <data name="Tips" xml:space="preserve">
     <value>Tips</value>

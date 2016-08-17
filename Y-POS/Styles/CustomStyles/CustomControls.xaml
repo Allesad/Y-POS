@@ -10,6 +10,7 @@
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/TextBox.xaml" />
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/Button.xaml" />
         <ui:SharedResourceDictionary Source="/Y-POS;component/Converters/Converters.xaml" />
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Icons/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!-- SEARCH BOX -->
@@ -183,8 +184,14 @@
                         <Button Style="{StaticResource NumpadButton}"
                                 Name="PART_Delete"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom"
-                                Content="&lt;" />
+                                VerticalAlignment="Bottom">
+                            <Button.Content>
+                                <Path Data="{StaticResource BackIcon}"
+                                      Fill="{StaticResource ButtonText}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                            </Button.Content>
+                        </Button>
                         <Button Style="{StaticResource NumpadButton}"
                                 Name="PART_0"
                                 VerticalAlignment="Bottom"

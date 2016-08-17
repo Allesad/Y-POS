@@ -91,11 +91,25 @@
     <Compile Include="Controls\MenuSelectorControl.cs" />
     <Compile Include="Controls\NumericKeypadControl.cs" />
     <Compile Include="Converters\ActionBarIconVisibilityConterter.cs" />
+    <Compile Include="Selectors\BillTypeDataTemplateSelector.cs" />
     <Compile Include="Views\ActionBar.xaml.cs">
       <DependentUpon>ActionBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ActiveOrdersView.xaml.cs">
       <DependentUpon>ActiveOrdersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CashDrawerParts\CashDrawerAmountUpdateView.xaml.cs">
+      <DependentUpon>CashDrawerAmountUpdateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CashDrawerParts\CashDrawerInitView.xaml.cs">
+      <DependentUpon>CashDrawerInitView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CashDrawerParts\CashDrawerPerformanceView.xaml.cs">
+      <DependentUpon>CashDrawerPerformanceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CashDrawerParts\CashdrawerVm.cs" />
+    <Compile Include="Views\CashDrawerView.xaml.cs">
+      <DependentUpon>CashDrawerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CheckoutParts\CheckoutCustomerView.xaml.cs">
       <DependentUpon>CheckoutCustomerView.xaml</DependentUpon>
@@ -206,6 +220,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ActiveOrdersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CashDrawerParts\CashDrawerAmountUpdateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CashDrawerParts\CashDrawerInitView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CashDrawerParts\CashDrawerPerformanceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CashDrawerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

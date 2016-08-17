@@ -1,0 +1,119 @@
+﻿<UserControl x:Class="Y_POS.Views.CashDrawerParts.CashDrawerPerformanceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+
+        <Style x:Key="PerformanceListItemText" TargetType="TextBlock" BasedOn="{StaticResource DefaultText}">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Margin" Value="10,0" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <!-- PERFORMANCE ITEM DATA TEMPLATE -->
+        <DataTemplate x:Key="PerformanceItemDt">
+
+            <Grid Height="65">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Time" />
+                    <ColumnDefinition SharedSizeGroup="Activity" />
+                    <ColumnDefinition SharedSizeGroup="Amount" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- TIME -->
+                <TextBlock Grid.Column="0"
+                           Style="{StaticResource PerformanceListItemText}"
+                           Text="{Binding Time, Mode=OneWay, StringFormat=t}" />
+
+                <!-- ACTIVITY -->
+                <TextBlock Grid.Column="1"
+                           Style="{StaticResource PerformanceListItemText}"
+                           HorizontalAlignment="Left"
+                           Text="{Binding Activity, Mode=OneWay}" />
+
+                <!-- AMOUNT -->
+                <TextBlock Grid.Column="2"
+                           Style="{StaticResource PerformanceListItemText}"
+                           Text="{Binding Amount, Mode=OneWay, StringFormat=c}" />
+
+                <!-- STAFF MEMBER -->
+                <StackPanel Grid.Column="3"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+
+                    <!-- AVATAR -->
+                    <Image Stretch="Uniform"
+                           Margin="5"
+                           Source="../../Images/63.jpg"/>
+                    
+                    <!-- NAME -->
+                    <TextBlock Style="{StaticResource PerformanceListItemText}"
+                               Text="{Binding StaffName, Mode=OneWay}"/>
+
+                </StackPanel>
+            </Grid>
+
+
+        </DataTemplate>
+
+        <Style x:Key="PerformanceListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}" />
+            <Setter Property="ContentTemplate" Value="{StaticResource PerformanceItemDt}" />
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel Grid.IsSharedSizeScope="True">
+
+        <!-- HEADER -->
+        <Grid DockPanel.Dock="Top" 
+              Height="30"
+              Background="{StaticResource ActionBarBg}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" SharedSizeGroup="Time" />
+                <ColumnDefinition Width="200" SharedSizeGroup="Activity" />
+                <ColumnDefinition Width="120" SharedSizeGroup="Amount" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- TIME -->
+            <TextBlock Grid.Column="0"
+                       Style="{StaticResource ListHeaderTb}"
+                       HorizontalAlignment="Center"
+                       Text="{Binding Source={x:Static p:Resources.Time}, Converter={StaticResource UpperCaseCoverter}}" />
+
+            <!-- ACTIVITY -->
+            <TextBlock Grid.Column="1"
+                       Style="{StaticResource ListHeaderTb}"
+                       Text="{Binding Source={x:Static p:Resources.Activity}, Converter={StaticResource UpperCaseCoverter}}" />
+
+            <!-- AMOUNT -->
+            <TextBlock Grid.Column="2"
+                       Style="{StaticResource ListHeaderTb}"
+                       HorizontalAlignment="Center"
+                       Text="{Binding Source={x:Static p:Resources.Amount}, Converter={StaticResource UpperCaseCoverter}}" />
+
+            <!-- STAFF MEMBER -->
+            <TextBlock Grid.Column="3"
+                       Style="{StaticResource ListHeaderTb}"
+                       Text="{Binding Source={x:Static p:Resources.StaffMember}, Converter={StaticResource UpperCaseCoverter}}" />
+        </Grid>
+
+        <ListBox Name="PerformanceList"
+                 Background="{StaticResource PrimaryBrush}" 
+                 ItemContainerStyle="{StaticResource PerformanceListItem}"/>
+
+    </DockPanel>
+
+</UserControl>
