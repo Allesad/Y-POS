@@ -1,5 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using Y_POS.Views.CashDrawerParts;
 
 namespace Y_POS.Views
 {
@@ -11,8 +14,8 @@ namespace Y_POS.Views
         public CashDrawerView()
         {
             InitializeComponent();
-            
-            OperationsList.SetValue(ItemsControl.ItemsSourceProperty, new[]
+
+            OperationsList.ItemsSource = new[]
             {
                 new OperationItem((Geometry) FindResource("PerformanceIcon"), "PERFORMANCE"),
                 new OperationItem((Geometry) FindResource("CashierInIcon"), "CASHIER IN"),
@@ -20,7 +23,9 @@ namespace Y_POS.Views
                 new OperationItem((Geometry) FindResource("BankIcon"), "BANK WITHDRAW"),
                 new OperationItem((Geometry) FindResource("BackIcon"), "CASH IN"),
                 new OperationItem((Geometry) FindResource("BackIcon"), "CASH OUT")
-            });
+            };
+
+            OperationsList.SelectedIndex = 1;
         }
 
         private class OperationItem
@@ -32,6 +37,39 @@ namespace Y_POS.Views
             {
                 Icon = icon;
                 Title = title;
+            }
+        }
+
+        private void OperationsList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var list = (Selector) sender;
+
+            switch (list.SelectedIndex)
+            {
+                case 0:
+                    ContentContainer.Content = new CashDrawerPerformanceView();
+                    break;
+                case 1:
+                    ContentContainer.Content = new CashDrawerInitView();
+                    break;
+            }
+            UpdateActionBar(list.SelectedIndex);
+        }
+
+        private void UpdateActionBar(int selectedIndex)
+        {
+            switch (selectedIndex)
+            {
+                case 0:
+                    MainActionButton.Visibility = Visibility.Collapsed;
+                    SendActionButton.Visibility =
+                        PrintActionButton.Visibility = FilterActionButton.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    MainActionButton.Visibility = Visibility.Visible;
+                    SendActionButton.Visibility =
+                        PrintActionButton.Visibility = FilterActionButton.Visibility = Visibility.Collapsed;
+                    break;
             }
         }
     }

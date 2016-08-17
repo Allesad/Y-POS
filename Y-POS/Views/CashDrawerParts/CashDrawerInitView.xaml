@@ -3,12 +3,55 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Y_POS.Views.CashDrawerParts"
              xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              xmlns:controls="clr-namespace:Y_POS.Controls"
+             xmlns:selectors="clr-namespace:Y_POS.Selectors"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+
+        <DataTemplate x:Key="BillTypeDt">
+            <StackPanel Orientation="Horizontal"
+                        Margin="10,0,0,5">
+                <TextBlock Width="100"
+                           FontSize="22"
+                           FontWeight="SemiBold"
+                           TextAlignment="Left"
+                           VerticalAlignment="Center"
+                           Text="{Binding Value, StringFormat={}{0:C0}}" />
+
+                <TextBox VerticalAlignment="Stretch"
+                         Width="160"
+                         IsTabStop="True"
+                         helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.Qty}"
+                         Text="{Binding Qty, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CoinsTypeDt">
+            <StackPanel Orientation="Horizontal"
+                        Margin="10,0,0,5">
+                <TextBlock Width="100"
+                           FontSize="22"
+                           FontWeight="SemiBold"
+                           TextAlignment="Left"
+                           VerticalAlignment="Center"
+                           Text="{x:Static p:Resources.Coins}" />
+
+                <TextBox VerticalAlignment="Stretch"
+                         Width="160"
+                         IsTabStop="True"
+                         helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.Amount}"
+                         Text="{Binding Amount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <selectors:BillTypeDataTemplateSelector x:Key="BillTypeDataTemplateSelector"
+                                                DefaultTemplate="{StaticResource BillTypeDt}"
+                                                CoinsTemplate="{StaticResource CoinsTypeDt}" />
+    </UserControl.Resources>
 
     <DockPanel>
 
@@ -24,13 +67,15 @@
                        VerticalAlignment="Center"
                        Text="Cashier In Cashdrawer Check:" />
 
-            <RadioButton Content="by amount" GroupName="CheckType"
+            <RadioButton GroupName="CheckType"
                          FontSize="18"
                          Margin="20,0"
-                         IsChecked="True" />
-            <RadioButton Content="by bill type" GroupName="CheckType"
+                         IsChecked="True"
+                         Content="{x:Static p:Resources.CashdrawerCheck_ByAmount}" />
+            <RadioButton GroupName="CheckType"
                          FontSize="18"
-                         Margin="20,0" />
+                         Margin="20,0"
+                         Content="{x:Static p:Resources.CashdrawerCheck_ByBillType}" />
 
         </StackPanel>
 
@@ -47,16 +92,20 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}" />
-                <ColumnDefinition Width="{StaticResource CenterColumnWidthGrid}"/>
+                <ColumnDefinition Width="{StaticResource CenterColumnWidthGrid}" />
             </Grid.ColumnDefinitions>
 
-            <ListBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
-                     Margin="10"
-                     HorizontalAlignment="Center"
-                     VerticalAlignment="Center" />
+            <ItemsControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                          Name="BillsList"
+                          ItemTemplateSelector="{StaticResource BillTypeDataTemplateSelector}"
+                          KeyboardNavigation.TabNavigation="Continue"
+                          Margin="10"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center" />
 
             <TextBox Grid.Row="0" Grid.Column="1"
                      Width="{Binding ElementName=Keypad, Path=ActualWidth}"
+                     IsEnabled="False"
                      VerticalAlignment="Center"
                      HorizontalAlignment="Stretch"
                      helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.Total}"
@@ -65,8 +114,8 @@
             <controls:NumericKeypadControl Grid.Row="1" Grid.Column="1"
                                            x:Name="Keypad"
                                            VerticalAlignment="Center"
-                                           HorizontalAlignment="Center" 
-                                           Margin="0,0,0,60"/>
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,60" />
 
         </Grid>
 

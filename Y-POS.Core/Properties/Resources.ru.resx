@@ -142,6 +142,9 @@
   <data name="ActiveOrders" xml:space="preserve">
     <value>Активные заказы</value>
   </data>
+  <data name="Activity" xml:space="preserve">
+    <value>Активность</value>
+  </data>
   <data name="AddCustomer" xml:space="preserve">
     <value>Добавить Клиента</value>
   </data>
@@ -154,6 +157,12 @@
   <data name="Cancel" xml:space="preserve">
     <value>Отмена</value>
   </data>
+  <data name="CashdrawerCheck_ByAmount" xml:space="preserve">
+    <value>по сумме</value>
+  </data>
+  <data name="CashdrawerCheck_ByBillType" xml:space="preserve">
+    <value>по банкнотам</value>
+  </data>
   <data name="Change" xml:space="preserve">
     <value>Сдача</value>
   </data>
@@ -162,6 +171,9 @@
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Очистить</value>
+  </data>
+  <data name="Coins" xml:space="preserve">
+    <value>Монеты</value>
   </data>
   <data name="CustomDiscount" xml:space="preserve">
     <value>Особая скидка</value>
@@ -177,6 +189,9 @@
   </data>
   <data name="Email" xml:space="preserve">
     <value>Почта</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Фильтр</value>
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>Имя</value>
@@ -215,6 +230,9 @@
   <data name="Ok" xml:space="preserve">
     <value>Ок</value>
   </data>
+  <data name="OpenCashdrawer" xml:space="preserve">
+    <value>Открыть кассу</value>
+  </data>
   <data name="Order" xml:space="preserve">
     <value>Заказ</value>
   </data>
@@ -232,6 +250,9 @@
   </data>
   <data name="Promo" xml:space="preserve">
     <value>Промо</value>
+  </data>
+  <data name="Qty" xml:space="preserve">
+    <value>Кол-во</value>
   </data>
   <data name="Receipt" xml:space="preserve">
     <value>Чек</value>
@@ -271,6 +292,9 @@
   </data>
   <data name="Subtotal" xml:space="preserve">
     <value>Промежуточный итог</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Время</value>
   </data>
   <data name="Tips" xml:space="preserve">
     <value>Чаевые</value>

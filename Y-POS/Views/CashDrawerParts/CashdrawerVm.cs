@@ -1,21 +1,16 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Controls;
-
-namespace Y_POS.Views.CashDrawerParts
+﻿namespace Y_POS.Views.CashDrawerParts
 {
-    /// <summary>
-    /// Interaction logic for CashDrawerInitView.xaml
-    /// </summary>
-    public partial class CashDrawerInitView : UserControl
+    internal class CashdrawerVm
     {
-        private ObservableCollection<object> _items; 
+        #region Properties
 
-        public CashDrawerInitView()
+        public object[] Items { get; private set; }
+
+        #endregion
+
+        public CashdrawerVm()
         {
-            InitializeComponent();
-
-            _items = new ObservableCollection<object>(new[]
+            Items = new[]
             {
                 new {Value = 1, Qty = 5, IsCoins = false, Amount = 0m},
                 new {Value = 5, Qty = 2, IsCoins = false, Amount = 0m},
@@ -24,9 +19,7 @@ namespace Y_POS.Views.CashDrawerParts
                 new {Value = 50, Qty = 1, IsCoins = false, Amount = 0m},
                 new {Value = 100, Qty = 2, IsCoins = false, Amount = 0m},
                 new {Value = 0, Qty = 0, IsCoins = true, Amount = 3.50m}
-            }.ToList());
-
-            BillsList.ItemsSource = _items;
+            };
         }
     }
 }

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Y_POS.Views"
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:cashDrawerParts="clr-namespace:Y_POS.Views.CashDrawerParts"
+             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              mc:Ignorable="d"
              d:DesignHeight="768" d:DesignWidth="1024">
 
@@ -44,16 +45,21 @@
             <!-- ACTION BAR -->
             <controls:ActionBarButton DockPanel.Dock="Bottom"
                                       Style="{StaticResource ActionBarNegativeActionButton}"
-                                      Title="OPEN CASHDRAWER" />
+                                      Title="{Binding Source={x:Static p:Resources.OpenCashdrawer}, 
+                Converter={StaticResource UpperCaseCoverter}}" />
 
-            <ListBox Name="OperationsList"
-                     ItemContainerStyle="{StaticResource RightOperationListItem}" 
-                     ItemTemplate="{StaticResource CashDrawerOperationDt}"/>
+            <Grid>
+
+                <Separator Style="{StaticResource VSeparator}"
+                           HorizontalAlignment="Left" />
+                <ListBox Name="OperationsList"
+                         ItemContainerStyle="{StaticResource RightOperationListItem}"
+                         ItemTemplate="{StaticResource CashDrawerOperationDt}" 
+                         SelectionChanged="OperationsList_OnSelectionChanged"/>
+            </Grid>
 
         </DockPanel>
 
-        <Separator DockPanel.Dock="Right"
-                   Style="{StaticResource VSeparator}" />
 
         <!-- ACTION BAR -->
         <DockPanel DockPanel.Dock="Bottom"
@@ -66,22 +72,33 @@
                                       CommandParameter="ActiveOrders" />
 
             <controls:ActionBarButton DockPanel.Dock="Right"
+                                      x:Name="MainActionButton"
                                       Style="{StaticResource ActionBarMainActionButton}"
                                       Width="{StaticResource CenterColumnWidth}"
                                       Title="CASHIER IN" />
 
+            <!-- SEND -->
+            <controls:ActionBarButton Style="{StaticResource ActionBarSend}"
+                                      DockPanel.Dock="Right" 
+                                      x:Name="SendActionButton"
+                                      Visibility="Collapsed"/>
+
+            <!-- PRINT -->
+            <controls:ActionBarButton Style="{StaticResource ActionBarPrint}"
+                                      DockPanel.Dock="Right"
+                                      x:Name="PrintActionButton"
+                                      Visibility="Collapsed"/>
+            
+            <!-- FILTER -->
+            <controls:ActionBarButton Style="{StaticResource ActionBarFilter}"
+                                      DockPanel.Dock="Right"
+                                      x:Name="FilterActionButton"
+                                      Visibility="Collapsed"/>
+
         </DockPanel>
 
         <!-- LEFT SIDE -->
-        <Border>
-            <cashDrawerParts:CashDrawerInitView HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"/>
-            <!--<TextBlock FontSize="40"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       Text="CONTENT" />-->
-        </Border>
-
+        <ContentPresenter Name="ContentContainer"/>
 
     </DockPanel>
 
