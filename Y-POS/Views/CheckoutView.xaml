@@ -80,16 +80,16 @@
 
             <!-- OPERATIONS LIST -->
             <ListBox Name="OperationsList"
-                     ItemContainerStyle="{StaticResource RightOperationListItem}"
+                     ItemContainerStyle="{StaticResource RightMarkedIconVerticalListItem}"
                      SelectionChanged="OperationsList_OnSelectionChanged" />
 
         </StackPanel>
 
         <!-- ACTION BAR (LEFT) -->
         <DockPanel Grid.Row="1" Grid.Column="0"
-                   Name="ActionBarLeftContainer"
-                   LastChildFill="False"
-                   Background="{StaticResource ActionBarBg}">
+                   Style="{StaticResource ActionBarContainer}"
+                   Name="ActionBarLeftContainer">
+            
             <!-- BACK -->
             <controls:ActionBarButton Style="{StaticResource ActionBarBackButton}"
                                       DockPanel.Dock="Left"

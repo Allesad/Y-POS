@@ -3,37 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Y_POS.Views"
              xmlns:controls="clr-namespace:Y_POS.Controls"
-             xmlns:cashDrawerParts="clr-namespace:Y_POS.Views.CashDrawerParts"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              mc:Ignorable="d"
              d:DesignHeight="768" d:DesignWidth="1024">
-
-    <UserControl.Resources>
-        <DataTemplate x:Key="CashDrawerOperationDt">
-            <StackPanel Orientation="Horizontal"
-                        UseLayoutRounding="True"
-                        Margin="0, 10">
-
-                <!-- ICON -->
-                <Path VerticalAlignment="Center"
-                      Data="{Binding Icon}"
-                      Height="24"
-                      Width="24"
-                      Margin="0,0,35,0"
-                      Stretch="Uniform"
-                      Fill="{StaticResource TextBrush}" />
-
-                <!-- TITLE -->
-                <TextBlock Text="{Binding Title}"
-                           VerticalAlignment="Center"
-                           FontSize="18"
-                           Foreground="{StaticResource TextBrush}" />
-
-            </StackPanel>
-        </DataTemplate>
-    </UserControl.Resources>
 
     <DockPanel>
 
@@ -52,9 +25,10 @@
 
                 <Separator Style="{StaticResource VSeparator}"
                            HorizontalAlignment="Left" />
+                
+                <!-- OPERATIONS LIST -->
                 <ListBox Name="OperationsList"
-                         ItemContainerStyle="{StaticResource RightOperationListItem}"
-                         ItemTemplate="{StaticResource CashDrawerOperationDt}" 
+                         ItemContainerStyle="{StaticResource RightMarkedIconHorizontalListItem}"
                          SelectionChanged="OperationsList_OnSelectionChanged"/>
             </Grid>
 
@@ -66,11 +40,13 @@
                    Background="{StaticResource ActionBarBg}"
                    LastChildFill="False">
 
+            <!-- BACK -->
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarBackButton}"
                                       Command="GoToPage"
                                       CommandParameter="ActiveOrders" />
 
+            <!-- CASHIER IN -->
             <controls:ActionBarButton DockPanel.Dock="Right"
                                       x:Name="MainActionButton"
                                       Style="{StaticResource ActionBarMainActionButton}"

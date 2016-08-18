@@ -4,6 +4,7 @@
         Title="MainWindow" 
         Loaded="MainWindow_OnLoaded"
         >
+
     <Window.Style>
         <Style TargetType="Window">
             <Setter Property="WindowStyle" Value="None" />
@@ -30,43 +31,4 @@
         </Style>
     </Window.Style>
     
-    <!--<StackPanel Orientation="Vertical">
-        ~1~<Image Source="/Y-POS.UI;component/Images/bg.png"/>@1@
-        
-        <TextBlock Text="Y-POS" FontSize="42"
-                   Margin="5"/>
-        <TextBox Margin="5" 
-                 helpers:PlaceholderTextHelper.PlaceholderText="LOGIN"
-                 />
-        <TextBox Margin="5"
-                 Width="300"
-                 IsEnabled="False"
-                 helpers:PlaceholderTextHelper.PlaceholderText="DISABLED TEXT"
-                 Text="Disabled textbox"
-                 />
-        <Button Margin="5"
-                 Width="100"
-                Height="100"
-                FontSize="30"
-                Content="7"/>
-        <Button Margin="5"
-                Style="{StaticResource AccentButton}"
-                 Width="100"
-                Height="100"
-                FontSize="30"
-                Content="7"/>
-        <Button Margin="5"
-                 Width="100"
-                Height="100"
-                FontSize="30"
-                Content="7"
-                IsEnabled="False"/>
-        <StackPanel Orientation="Horizontal">
-            <RadioButton GroupName="Rb" Content="Radio 1" Margin="5"/>
-            <RadioButton GroupName="Rb" Content="Radio 2" Margin="5"/>
-            <RadioButton GroupName="Rb" Content="Disabled Radio" IsEnabled="False" Margin="5"/>
-        </StackPanel>
-        
-        <controls:SearchTextBox Margin="5"/>
-    </StackPanel>-->
 </Window>

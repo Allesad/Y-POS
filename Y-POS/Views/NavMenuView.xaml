@@ -17,6 +17,7 @@
             <SolidColorBrush x:Key="MenuItemBgHover" Color="{StaticResource PrimaryColor}" Opacity="0.15" />
 
             <Style x:Key="NavMenuItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
                 <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource MenuItemBgHover}" />
                 <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource AccentSecondaryBrush}" />
                 <Setter Property="ex:StyleExtensions.ForegroundOnHover" Value="{StaticResource PrimaryBrush}" />

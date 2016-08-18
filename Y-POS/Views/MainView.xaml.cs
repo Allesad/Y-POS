@@ -50,6 +50,9 @@ namespace Y_POS.Views
                 case "Cashdrawer":
                     Page.Content = new CashDrawerView();
                     break;
+                case "Reports":
+                    Page.Content = new ReportsView();
+                    break;
             }
             NavMenuContainer.Visibility = Visibility.Collapsed;
         }

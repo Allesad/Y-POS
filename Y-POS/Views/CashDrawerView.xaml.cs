@@ -21,8 +21,8 @@ namespace Y_POS.Views
                 new OperationItem((Geometry) FindResource("CashierInIcon"), "CASHIER IN"),
                 new OperationItem((Geometry) FindResource("CashdrawerCheckIcon"), "CASHIER CHECK"),
                 new OperationItem((Geometry) FindResource("BankIcon"), "BANK WITHDRAW"),
-                new OperationItem((Geometry) FindResource("BackIcon"), "CASH IN"),
-                new OperationItem((Geometry) FindResource("BackIcon"), "CASH OUT")
+                new OperationItem((Geometry) FindResource("ArrowDownIcon"), "CASH IN"),
+                new OperationItem((Geometry) FindResource("ArrowUpIcon"), "CASH OUT")
             };
 
             OperationsList.SelectedIndex = 1;

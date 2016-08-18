@@ -12,7 +12,7 @@
     <Style TargetType="ListBoxItem">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="{StaticResource ListItemBg}" />
-        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Margin" Value="0" />
@@ -91,102 +91,205 @@
         </Setter>
     </Style>
 
-    <!-- CUSTOM LIST ITEM FOR OPERATION LIKE LISTS -->
-    <DataTemplate x:Key="OperationListItemDt">
+    <!-- CUSTOM DATA TEMPLATES FOR OPERATION LIKE LISTS -->
+
+    <!-- MARKED WITH HORIZONTAL ICON LIST ITEM DATA TEMPLATE -->
+    <DataTemplate x:Key="MarkedWithIconHorizontalListItemDt">
+        <StackPanel Orientation="Horizontal"
+                    UseLayoutRounding="True"
+                    Margin="0,10">
+
+            <!-- ICON -->
+            <Path VerticalAlignment="Center"
+                  Data="{Binding Icon}"
+                  Height="24"
+                  Width="24"
+                  Margin="0,0,35,0"
+                  Stretch="Uniform"
+                  Fill="{StaticResource TextBrush}" />
+
+            <!-- TITLE -->
+            <TextBlock Text="{Binding Title}"
+                       VerticalAlignment="Center"
+                       FontSize="18"
+                       Foreground="{StaticResource TextBrush}" />
+
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- MARKED WITH VERTICAL ICON LIST ITEM DATA TEMPLATE -->
+    <DataTemplate x:Key="MarkedWithIconVerticalListItemDt">
 
         <DockPanel>
 
             <!-- ICON -->
             <Path DockPanel.Dock="Left"
-                      VerticalAlignment="Center"
-                      Data="{Binding Icon}"
-                      Height="20"
-                      Width="20"
-                      Margin="0,0,35,0"
-                      Stretch="Uniform"
-                      Fill="{StaticResource TextBrush}" />
+                  VerticalAlignment="Center"
+                  Data="{Binding Icon}"
+                  Height="20"
+                  Width="20"
+                  Margin="0,0,35,0"
+                  Stretch="Uniform"
+                  Fill="{StaticResource TextBrush}" />
 
             <!-- CONTENT -->
             <StackPanel VerticalAlignment="Center">
                 <TextBlock
-                        Text="{Binding Title, Converter={StaticResource UpperCaseCoverter}}"
-                        Foreground="{StaticResource ButtonText}"
-                        FontSize="12"
-                        Margin="0,0,0,10" />
+                    Text="{Binding Title, Converter={StaticResource UpperCaseCoverter}}"
+                    Foreground="{StaticResource ButtonText}"
+                    FontSize="12"
+                    Margin="0,0,0,10" />
 
                 <TextBlock Text="{Binding Content}"
-                               FontSize="18"
-                               Foreground="{StaticResource TextBrush}" />
+                           FontSize="18"
+                           Foreground="{StaticResource TextBrush}" />
             </StackPanel>
 
         </DockPanel>
     </DataTemplate>
-    
+
     <SolidColorBrush x:Key="OperationListSelectionBrush" Color="{StaticResource TextColor}" Opacity="0.8" />
 
-    <Style x:Key="RightOperationListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-        <Setter Property="Padding" Value="35,15,25,15" />
+    <!-- TEMPLATE FOR LEFT LIST ITEM WITH ARROW -->
+    <ControlTemplate x:Key="LeftMarkedListItemCt" TargetType="{x:Type ListBoxItem}">
+        <Grid>
+            <Border Background="{TemplateBinding Background}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    BorderBrush="{TemplateBinding BorderBrush}">
+                <!-- This is used for ListView that does not use GridView -->
+                <ContentPresenter x:Name="ContentPresenter"
+                                  Margin="{TemplateBinding Padding}"
+                                  Content="{TemplateBinding ContentControl.Content}"
+                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                  ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                                  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+            </Border>
+
+            <Border Name="SelectionMark"
+                    Background="{StaticResource OperationListSelectionBrush}"
+                    Width="20"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Right"
+                    Visibility="Collapsed">
+
+                <Path VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Data="{StaticResource GreaterThanIcon}"
+                      Fill="{StaticResource PrimaryBrush}" />
+
+            </Border>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background"
+                        Value="{Binding RelativeSource={RelativeSource Self}, 
+                                Path=(ex:StyleExtensions.BgOnHover)}" />
+                <Setter Property="Foreground"
+                        Value="{Binding RelativeSource={RelativeSource Self},
+                                Path=(ex:StyleExtensions.ForegroundOnHover)}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Foreground"
+                        Value="{Binding RelativeSource={RelativeSource Self},
+                                Path=(ex:StyleExtensions.ForegroundOnPressed)}" />
+                <Setter TargetName="SelectionMark" Property="Visibility" Value="Visible" />
+                <Setter Property="BorderBrush" Value="{StaticResource OperationListSelectionBrush}" />
+                <Setter Property="BorderThickness" Value="0,1" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+
+    </ControlTemplate>
+
+    <!-- TEMPLATE FOR RIGHT LIST ITEM WITH ARROW -->
+    <ControlTemplate x:Key="RightMarkedListItemCt" TargetType="{x:Type ListBoxItem}">
+        <Grid>
+            <Border Background="{TemplateBinding Background}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    BorderBrush="{TemplateBinding BorderBrush}">
+                <!-- This is used for ListView that does not use GridView -->
+                <ContentPresenter x:Name="ContentPresenter"
+                                  Margin="{TemplateBinding Padding}"
+                                  Content="{TemplateBinding ContentControl.Content}"
+                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                  ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                                  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+            </Border>
+
+            <Border Name="SelectionMark"
+                    Background="{StaticResource OperationListSelectionBrush}"
+                    Width="20"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Left"
+                    Visibility="Collapsed">
+
+                <Path VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Data="{StaticResource GreaterThanIcon}"
+                      Fill="{StaticResource PrimaryBrush}"
+                      RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <RotateTransform Angle="180" />
+                    </Path.RenderTransform>
+                </Path>
+
+            </Border>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background"
+                        Value="{Binding RelativeSource={RelativeSource Self}, 
+                                Path=(ex:StyleExtensions.BgOnHover)}" />
+                <Setter Property="Foreground"
+                        Value="{Binding RelativeSource={RelativeSource Self},
+                                Path=(ex:StyleExtensions.ForegroundOnHover)}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Foreground"
+                        Value="{Binding RelativeSource={RelativeSource Self},
+                                Path=(ex:StyleExtensions.ForegroundOnPressed)}" />
+                <Setter TargetName="SelectionMark" Property="Visibility" Value="Visible" />
+                <Setter Property="BorderBrush" Value="{StaticResource OperationListSelectionBrush}" />
+                <Setter Property="BorderThickness" Value="0,1" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- LEFT MARKED LIST ITEM -->
+    <Style x:Key="LeftMarkedListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+        <Setter Property="Padding" Value="25,15,35,15" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}" />
-        <Setter Property="ContentTemplate" Value="{StaticResource OperationListItemDt}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Grid>
-                        <Border Background="{TemplateBinding Background}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                BorderBrush="{TemplateBinding BorderBrush}">
-                            <!-- This is used for ListView that does not use GridView -->
-                            <ContentPresenter x:Name="ContentPresenter"
-                                              Margin="{TemplateBinding Padding}"
-                                              Content="{TemplateBinding ContentControl.Content}"
-                                              ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
-                                              ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
-                                              HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
-                                              SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-                        </Border>
+        <Setter Property="Template" Value="{StaticResource LeftMarkedListItemCt}" />
+    </Style>
+    
+    <!-- LEFT MARKED ICON HORIZONTAL LIST ITEM -->
+    <Style x:Key="LeftMarkedIconHorizontalListItem" TargetType="ListBoxItem" BasedOn="{StaticResource LeftMarkedListItem}">
+        <Setter Property="ContentTemplate" Value="{StaticResource MarkedWithIconHorizontalListItemDt}"/>
+    </Style>
+    
+    <!-- LEFT MARKED ICON VERTICAL LIST ITEM -->
+    <Style x:Key="LeftMarkedIconVerticalListItem" TargetType="ListBoxItem" BasedOn="{StaticResource LeftMarkedListItem}">
+        <Setter Property="ContentTemplate" Value="{StaticResource MarkedWithIconVerticalListItemDt}"/>
+    </Style>
 
-                        <Border Name="SelectionMark"
-                                Background="{StaticResource OperationListSelectionBrush}"
-                                Width="20"
-                                VerticalAlignment="Stretch"
-                                HorizontalAlignment="Left"
-                                Visibility="Collapsed">
+    <!-- RIGHT MARKED LIST ITEM -->
+    <Style x:Key="RightMarkedListItem" TargetType="ListBoxItem" BasedOn="{StaticResource LeftMarkedListItem}">
+        <Setter Property="Padding" Value="35,15,25,15" />
+        <Setter Property="Template" Value="{StaticResource RightMarkedListItemCt}" />
+    </Style>
 
-                            <Path VerticalAlignment="Center"
-                                  HorizontalAlignment="Center"
-                                  Data="{StaticResource GreaterThanIcon}"
-                                  Fill="{StaticResource PrimaryBrush}"
-                                  RenderTransformOrigin="0.5,0.5">
-                                <Path.RenderTransform>
-                                    <RotateTransform Angle="180" />
-                                </Path.RenderTransform>
-                            </Path>
+    <!-- RIGHT MARKED ICON HORIZONTAL LIST ITEM -->
+    <Style x:Key="RightMarkedIconHorizontalListItem" TargetType="ListBoxItem" BasedOn="{StaticResource RightMarkedListItem}">
+        <Setter Property="ContentTemplate" Value="{StaticResource MarkedWithIconHorizontalListItemDt}"/>
+    </Style>
 
-                        </Border>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background"
-                                    Value="{Binding RelativeSource={RelativeSource Self}, 
-                                Path=(ex:StyleExtensions.BgOnHover)}" />
-                            <Setter Property="Foreground"
-                                    Value="{Binding RelativeSource={RelativeSource Self},
-                                Path=(ex:StyleExtensions.ForegroundOnHover)}" />
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Foreground"
-                                    Value="{Binding RelativeSource={RelativeSource Self},
-                                Path=(ex:StyleExtensions.ForegroundOnPressed)}" />
-                            <Setter TargetName="SelectionMark" Property="Visibility" Value="Visible" />
-                            <Setter Property="BorderBrush" Value="{StaticResource OperationListSelectionBrush}" />
-                            <Setter Property="BorderThickness" Value="0,1" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <!-- RIGHT MARKED ICON VERTICAL LIST ITEM -->
+    <Style x:Key="RightMarkedIconVerticalListItem" TargetType="ListBoxItem" BasedOn="{StaticResource RightMarkedListItem}">
+        <Setter Property="ContentTemplate" Value="{StaticResource MarkedWithIconVerticalListItemDt}"/>
     </Style>
 
 </ResourceDictionary>
