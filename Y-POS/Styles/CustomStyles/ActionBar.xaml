@@ -15,6 +15,12 @@
     </ResourceDictionary.MergedDictionaries>
 
     <converters:ActionBarIconVisibilityConterter x:Key="ActionBarIconVisibilityConverter" />
+    
+    <Style x:Key="ActionBarContainer" TargetType="DockPanel">
+        <Setter Property="LastChildFill" Value="False"/>
+        <Setter Property="Background" Value="{StaticResource ActionBarBg}"/>
+        <Setter Property="Dock" Value="Bottom"/>
+    </Style>
 
     <Style x:Key="IconActionBar" TargetType="{x:Type Path}">
         <Setter Property="Width" Value="26" />
@@ -46,6 +52,12 @@
         <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource ActionBarButtonBgPressed}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FontSize" Value="14" />
+        <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
+        <Setter Property="ToolTip">
+            <Setter.Value>
+                <Binding RelativeSource="{RelativeSource Self}" Path="Title"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>

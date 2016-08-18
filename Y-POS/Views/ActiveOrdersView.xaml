@@ -163,10 +163,8 @@
                  ItemContainerStyle="{StaticResource OrdersListItem}" />
 
         <!-- ACTION BAR -->
-        <DockPanel LastChildFill="False"
-                   Grid.Row="2"
-                   Background="{StaticResource ActionBarBg}"
-                   Height="75">
+        <DockPanel Grid.Row="2"
+                   Style="{StaticResource ActionBarContainer}">
 
             <!-- MENU -->
             <controls:ActionBarButton DockPanel.Dock="Left"

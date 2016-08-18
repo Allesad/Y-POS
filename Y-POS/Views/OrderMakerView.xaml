@@ -107,9 +107,7 @@
     <DockPanel>
 
         <!-- ACTION BAR -->
-        <DockPanel LastChildFill="False"
-                   Background="{StaticResource ActionBarBg}"
-                   Dock="Bottom">
+        <DockPanel Style="{StaticResource ActionBarContainer}" >
 
             <!-- BACK -->
             <controls:ActionBarButton DockPanel.Dock="Left"

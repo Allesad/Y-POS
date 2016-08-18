@@ -7,7 +7,7 @@
     <FontFamily x:Key="DefaultFontFamily">Segoe UI</FontFamily>
 
     <system:Double x:Key="DefaultFontSize">16</system:Double>
-    <system:Double x:Key="LargeFontSize">26</system:Double>
+    <system:Double x:Key="LargeFontSize">22</system:Double>
     <system:Double x:Key="SmallFontSize">12</system:Double>
 
     <Style x:Key="DefaultText" TargetType="{x:Type TextBlock}">
