@@ -53,6 +53,9 @@ namespace Y_POS.Views
                 case "Reports":
                     Page.Content = new ReportsView();
                     break;
+                case "Settings":
+                    Page.Content = new SettingsView();
+                    break;
             }
             NavMenuContainer.Visibility = Visibility.Collapsed;
         }

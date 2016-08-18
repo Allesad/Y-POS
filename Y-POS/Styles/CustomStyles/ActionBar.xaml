@@ -44,6 +44,7 @@
     <!-- BASE ACTION BAR BUTTON -->
     <Style x:Key="ActionBarButton" TargetType="controls:ActionBarButton" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Height" Value="75" />
+        <Setter Property="MinWidth" Value="80"/>
         <Setter Property="MaxWidth" Value="140"/>
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
