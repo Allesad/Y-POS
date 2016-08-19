@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
+using Y_POS.Views.SettingsParts;
 
 namespace Y_POS.Views
 {
@@ -15,11 +16,12 @@ namespace Y_POS.Views
             SettingsList.ItemsSource = new[]
             {
                 new { Icon = (Geometry) FindResource("SettingsIcon"), Title = "GENERAL SETTINGS" },
-                new { Icon = (Geometry) FindResource("CurrencyIcon"), Title = "PAYMENT PROCESS" },
-                new { Icon = (Geometry) FindResource("PrintIcon"), Title = "PRINTERS" }
+                new { Icon = (Geometry) FindResource("PrintIcon"), Title = "HARDWARE" }
             };
 
-            SettingsList.SelectedIndex = 0;
+            SettingsList.SelectedIndex = 1;
+
+            DetailsContainer.Content = new SettingsHardwareView();
         }
     }
 }

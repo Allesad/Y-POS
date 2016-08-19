@@ -150,6 +150,12 @@
     <Compile Include="Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SettingsParts\SettingGeneralView.xaml.cs">
+      <DependentUpon>SettingGeneralView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsParts\SettingsHardwareView.xaml.cs">
+      <DependentUpon>SettingsHardwareView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -180,6 +186,10 @@
     <Page Include="Styles\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\CustomStyles\ActionBar.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -294,6 +304,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ReportsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsParts\SettingGeneralView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsParts\SettingsHardwareView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
