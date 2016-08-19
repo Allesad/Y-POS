@@ -12,6 +12,7 @@
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/Button.xaml"/>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/RadioButton.xaml"/>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/ListBox.xaml"/>
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/ComboBox.xaml"/>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/Separator.xaml"/>
         
         <!-- Custom Styles -->
@@ -25,6 +26,8 @@
     
     <GridLength x:Key="SideColumnWidthGrid">310</GridLength>
     <GridLength x:Key="CenterColumnWidthGrid">404</GridLength>
+    
+    <Thickness x:Key="DefaultDetailsMargin">15,10</Thickness>
     
     <ImageBrush x:Key="DefaultImageBg" ImageSource="/Y-POS;component/Images/bg.png"/>
     <SolidColorBrush x:Key="DefaultBg" Color="{StaticResource SecondaryColor}"/>

@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="Y_POS.Views.SettingsParts.SettingsHardwareView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Y_POS.Views.SettingsParts"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    <UserControl.Resources>
+        <Style x:Key="HardwareSelectorCb" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="15,10"/>
+        </Style>
+        
+        <Style x:Key="HardwareTestButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="15,10"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Margin="{StaticResource DefaultDetailsMargin}">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- RECEIPT PRINTER -->
+        <ComboBox Grid.Row="0" Grid.Column="0"
+                  Name="ReceiptPrinters"
+                  Style="{StaticResource HardwareSelectorCb}"
+                  />
+        
+        <Button Grid.Row="0" Grid.Column="1"
+                Style="{StaticResource HardwareTestButton}"
+                Content="TEST PRINTER"
+                />
+
+        <!-- KITCHEN PRINTER -->
+        <ComboBox Grid.Row="1" Grid.Column="0"
+                  Name="KitchenPrinters"
+                  Style="{StaticResource HardwareSelectorCb}"
+                  />
+
+        <Button Grid.Row="1" Grid.Column="1"
+                Style="{StaticResource HardwareTestButton}"
+                Content="TEST PRINTER"
+                />
+
+        <!-- CASHDRAWER -->
+        <ComboBox Grid.Row="2" Grid.Column="0"
+                  Name="Cashdrawers"
+                  Style="{StaticResource HardwareSelectorCb}"
+                  />
+
+        <Button Grid.Row="2" Grid.Column="1"
+                Style="{StaticResource HardwareTestButton}"
+                Content="TEST CASHDRAWER"
+                />
+
+        <!-- MSR -->
+        <ComboBox Grid.Row="3" Grid.Column="0"
+                  Name="Msrs"
+                  Style="{StaticResource HardwareSelectorCb}"
+                  />
+
+        <Button Grid.Row="3" Grid.Column="1"
+                Style="{StaticResource HardwareTestButton}"
+                Content="TEST MSR"
+                />
+
+        <!-- SCANNER -->
+        <ComboBox Grid.Row="4" Grid.Column="0"
+                  Name="Scanners"
+                  Style="{StaticResource HardwareSelectorCb}"
+                  />
+
+        <Button Grid.Row="4" Grid.Column="1"
+                Style="{StaticResource HardwareTestButton}"
+                Content="TEST SCANNER"
+                />
+
+    </Grid>
+    
+</UserControl>
