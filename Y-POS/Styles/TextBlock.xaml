@@ -31,7 +31,17 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="10,0" />
         <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         <Setter Property="helpers:TextCaseHelper.TextCase" Value="Upper" />
+    </Style>
+
+    <Style x:Key="DefaultListItemText" TargetType="TextBlock" BasedOn="{StaticResource DefaultText}">
+        <Setter Property="Margin" Value="10,0" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
 </ResourceDictionary>

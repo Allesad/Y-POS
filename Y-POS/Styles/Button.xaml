@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ui="clr-namespace:YumaPos.WPF.UI;assembly=YumaPos.WPF.UI"
-                    xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI">
+                    xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
+                    xmlns:controls="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI">
 
     <ResourceDictionary.MergedDictionaries>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Themes/ColorScheme.xaml" />
@@ -104,7 +105,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="SquareButton" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
+    <Style x:Key="SquareBtn" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Height">
             <Setter.Value>
                 <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
@@ -112,7 +113,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="SquareToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Style x:Key="SquareToggleBtn" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Setter Property="Height">
             <Setter.Value>
                 <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
@@ -120,13 +121,14 @@
         </Setter>
     </Style>
 
-    <Style x:Key="AccentButton" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
+    <Style x:Key="AccentBtn" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Background" Value="{StaticResource AccentBrush}" />
         <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource AccentSecondaryBrush}" />
         <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource AccentBrush}" />
     </Style>
 
-    <Style x:Key="NavigationNextButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+    <!-- NEXT PAGE NAVIGATION ARROW -->
+    <Style x:Key="NavigationNextBtn" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
         <Setter Property="ContentTemplate">
@@ -142,7 +144,8 @@
         </Setter>
     </Style>
 
-    <Style x:Key="NavigationPrevButton" TargetType="Button" BasedOn="{StaticResource NavigationNextButton}">
+    <!-- PREVIOUS PAGE NAVIGATION ARROW -->
+    <Style x:Key="NavigationPrevBtn" TargetType="Button" BasedOn="{StaticResource NavigationNextBtn}">
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -161,6 +164,69 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!-- NEXT PAGE NAVIGATION ARROW (SMALL SIZE ICON) -->
+    <Style x:Key="NavigationNextSmallBtn" TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type ButtonBase}}">
+        <Setter Property="MinWidth" Value="50"/>
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        <Setter Property="IconHeight" Value="14"/>
+        <Setter Property="IconWidth" Value="14"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Path Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=Foreground}"
+                          Height="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconHeight}"
+                          Width="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconWidth}"
+                          StrokeThickness="2"
+                          Stretch="Uniform"
+                          Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- END NAVIGATION ARROW (SMALL SIZE ICON) -->
+    <Style x:Key="NavigationEndSmallBtn" TargetType="controls:IconButton" BasedOn="{StaticResource NavigationNextSmallBtn}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Path Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=Foreground}"
+                          Height="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconHeight}"
+                          Width="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconWidth}"
+                          StrokeThickness="2"
+                          Stretch="Uniform"
+                          Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- PREVIOUS PAGE NAVIGATION ARROW (SMALL SIZE ICON) -->
+    <Style x:Key="NavigationPrevSmallBtn" TargetType="controls:IconButton" BasedOn="{StaticResource NavigationNextSmallBtn}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Path Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=Foreground}"
+                          Height="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconHeight}"
+                          Width="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconWidth}"
+                          StrokeThickness="2"
+                          RenderTransformOrigin="0.5,0.5"
+                          Stretch="Uniform"
+                          Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="180"/>
+                        </Path.RenderTransform>
+                    </Path>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- BEGIN NAVIGATION ARROW (SMALL SIZE ICON) -->
+    <Style x:Key="NavigationBeginSmallBtn" TargetType="controls:IconButton" BasedOn="{StaticResource NavigationPrevSmallBtn}">
+        
     </Style>
 
 </ResourceDictionary>

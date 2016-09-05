@@ -24,7 +24,7 @@ namespace Y_POS.Views
                     NavigationCommands.GoToPage.Execute("ActiveOrders", (IInputElement) e.Source);
                     break;
                 case 1:
-                    NavigationCommands.GoToPage.Execute("ActiveOrders", (IInputElement) e.Source);
+                    NavigationCommands.GoToPage.Execute("ClosedOrders", (IInputElement) e.Source);
                     break;
                 case 2:
                     NavigationCommands.GoToPage.Execute("Cashdrawer", (IInputElement) e.Source);
