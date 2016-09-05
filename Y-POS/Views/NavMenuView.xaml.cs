@@ -29,6 +29,15 @@ namespace Y_POS.Views
                 case 2:
                     NavigationCommands.GoToPage.Execute("Cashdrawer", (IInputElement) e.Source);
                     break;
+                case 3:
+                    NavigationCommands.GoToPage.Execute("Reports", (IInputElement) e.Source);
+                    break;
+                case 4:
+                    NavigationCommands.GoToPage.Execute("Settings", (IInputElement) e.Source);
+                    break;
+                case 5:
+                    NavigationCommands.GoToPage.Execute("PinLogin", (IInputElement) e.Source);
+                    break;
             }
         }
     }
