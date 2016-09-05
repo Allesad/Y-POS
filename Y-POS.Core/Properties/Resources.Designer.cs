@@ -179,6 +179,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reason.
+        /// </summary>
+        public static string CashDrawer_AmountUpdateReason {
+            get {
+                return ResourceManager.GetString("CashDrawer_AmountUpdateReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to by amount.
         /// </summary>
         public static string CashdrawerCheck_ByAmount {

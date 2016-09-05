@@ -187,6 +187,9 @@
   <data name="CashDrawerSummary_Sales" xml:space="preserve">
     <value>Sales</value>
   </data>
+  <data name="CashDrawer_AmountUpdateReason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
   <data name="Change" xml:space="preserve">
     <value>Change</value>
     <comment>Received - Total = Change</comment>

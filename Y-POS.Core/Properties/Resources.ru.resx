@@ -170,7 +170,7 @@
     <value>Инкассация</value>
   </data>
   <data name="CashDrawerSummary_CashIn" xml:space="preserve">
-    <value>Положено</value>
+    <value>Добавлено</value>
   </data>
   <data name="CashDrawerSummary_CashOut" xml:space="preserve">
     <value>Изъято</value>
@@ -186,6 +186,9 @@
   </data>
   <data name="CashDrawerSummary_Sales" xml:space="preserve">
     <value>Продажи</value>
+  </data>
+  <data name="CashDrawer_AmountUpdateReason" xml:space="preserve">
+    <value>Причина</value>
   </data>
   <data name="Change" xml:space="preserve">
     <value>Сдача</value>

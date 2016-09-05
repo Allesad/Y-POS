@@ -53,16 +53,26 @@
                                                 CoinsTemplate="{StaticResource CoinsTypeDt}" />
     </UserControl.Resources>
 
-    <DockPanel>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}" />
+            <ColumnDefinition Width="{StaticResource CenterColumnWidthGrid}" />
+        </Grid.ColumnDefinitions>
 
         <!-- HEADER -->
-        <StackPanel DockPanel.Dock="Top"
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                     HorizontalAlignment="Left"
-                    Orientation="Horizontal"
-                    Margin="10,25">
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
 
             <TextBlock FontSize="18"
-                       Margin="30,0,20,0"
+                       Margin="40,0,20,0"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
                        Text="Cashier In Cashdrawer Check:" />
@@ -79,46 +89,36 @@
 
         </StackPanel>
 
-        <Separator DockPanel.Dock="Top"
+        <Separator Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                    Style="{StaticResource HSeparator}"
+                   VerticalAlignment="Bottom"
                    Margin="10,0,10,0" />
 
-        <Grid>
+        <ItemsControl Grid.Row="1" Grid.Column="0"
+                      Name="BillsList"
+                      ItemTemplateSelector="{StaticResource BillTypeDataTemplateSelector}"
+                      KeyboardNavigation.TabNavigation="Continue"
+                      Margin="40,0,0,0"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center" />
 
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <!-- KEYPAD CONTROL -->
+        <StackPanel Grid.Row="1" Grid.Column="1"
+                    Name="KeypadContainer"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}" />
-                <ColumnDefinition Width="{StaticResource CenterColumnWidthGrid}" />
-            </Grid.ColumnDefinitions>
-
-            <ItemsControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
-                          Name="BillsList"
-                          ItemTemplateSelector="{StaticResource BillTypeDataTemplateSelector}"
-                          KeyboardNavigation.TabNavigation="Continue"
-                          Margin="10"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center" />
-
-            <TextBox Grid.Row="0" Grid.Column="1"
-                     Width="{Binding ElementName=Keypad, Path=ActualWidth}"
+            <TextBox Width="{Binding ElementName=Keypad, Path=ActualWidth}"
+                     Margin="0,0,0,50"
                      IsEnabled="False"
-                     VerticalAlignment="Center"
                      HorizontalAlignment="Stretch"
-                     helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.Total}"
-                     Text="$456.85" />
+                     helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.Amount}"
+                     Text="$458.85" />
 
-            <controls:NumericKeypadControl Grid.Row="1" Grid.Column="1"
-                                           x:Name="Keypad"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,0,0,60" />
+            <controls:NumericKeypadControl x:Name="Keypad"
+                                           HorizontalAlignment="Center" />
+        </StackPanel>
 
-        </Grid>
-
-    </DockPanel>
+    </Grid>
 
 </UserControl>
