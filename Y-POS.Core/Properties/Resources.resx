@@ -163,6 +163,33 @@
   <data name="CashdrawerCheck_ByBillType" xml:space="preserve">
     <value>by bill type</value>
   </data>
+  <data name="CashDrawerSummary_Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="CashDrawerSummary_BankWidthdraw" xml:space="preserve">
+    <value>Bank Withdraw</value>
+  </data>
+  <data name="CashDrawerSummary_CashIn" xml:space="preserve">
+    <value>Cash In</value>
+  </data>
+  <data name="CashDrawerSummary_CashOut" xml:space="preserve">
+    <value>Cash Out</value>
+  </data>
+  <data name="CashDrawerSummary_LastCashierIn" xml:space="preserve">
+    <value>Last Cashier In</value>
+  </data>
+  <data name="CashDrawerSummary_LastCashierOut" xml:space="preserve">
+    <value>Last Cashier Out</value>
+  </data>
+  <data name="CashDrawerSummary_LastCheck" xml:space="preserve">
+    <value>Last Check</value>
+  </data>
+  <data name="CashDrawerSummary_Sales" xml:space="preserve">
+    <value>Sales</value>
+  </data>
+  <data name="CashDrawer_AmountUpdateReason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
   <data name="Change" xml:space="preserve">
     <value>Change</value>
     <comment>Received - Total = Change</comment>
@@ -175,6 +202,9 @@
   </data>
   <data name="Coins" xml:space="preserve">
     <value>Coins</value>
+  </data>
+  <data name="CurrentDate" xml:space="preserve">
+    <value>Current date</value>
   </data>
   <data name="CustomDiscount" xml:space="preserve">
     <value>Custom Discount</value>
