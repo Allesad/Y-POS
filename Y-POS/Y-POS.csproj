@@ -107,6 +107,9 @@
     <Compile Include="Views\CashDrawerParts\CashDrawerPerformanceView.xaml.cs">
       <DependentUpon>CashDrawerPerformanceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CashDrawerParts\CashDrawerSummaryView.xaml.cs">
+      <DependentUpon>CashDrawerSummaryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CashDrawerParts\CashdrawerVm.cs" />
     <Compile Include="Views\CashDrawerView.xaml.cs">
       <DependentUpon>CashDrawerView.xaml</DependentUpon>
@@ -248,6 +251,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CashDrawerParts\CashDrawerPerformanceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CashDrawerParts\CashDrawerSummaryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

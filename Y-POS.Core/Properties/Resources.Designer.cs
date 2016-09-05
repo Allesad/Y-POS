@@ -197,6 +197,78 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Balance.
+        /// </summary>
+        public static string CashDrawerSummary_Balance {
+            get {
+                return ResourceManager.GetString("CashDrawerSummary_Balance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bank Withdraw.
+        /// </summary>
+        public static string CashDrawerSummary_BankWidthdraw {
+            get {
+                return ResourceManager.GetString("CashDrawerSummary_BankWidthdraw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash In.
+        /// </summary>
+        public static string CashDrawerSummary_CashIn {
+            get {
+                return ResourceManager.GetString("CashDrawerSummary_CashIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash Out.
+        /// </summary>
+        public static string CashDrawerSummary_CashOut {
+            get {
+                return ResourceManager.GetString("CashDrawerSummary_CashOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Cashier In.
+        /// </summary>
+        public static string CashDrawerSummary_LastCashierIn {
+            get {
+                return ResourceManager.GetString("CashDrawerSummary_LastCashierIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Cashier Out.
+        /// </summary>
+        public static string CashDrawerSummary_LastCashierOut {
+            get {
+                return ResourceManager.GetString("CashDrawerSummary_LastCashierOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Check.
+        /// </summary>
+        public static string CashDrawerSummary_LastCheck {
+            get {
+                return ResourceManager.GetString("CashDrawerSummary_LastCheck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sales.
+        /// </summary>
+        public static string CashDrawerSummary_Sales {
+            get {
+                return ResourceManager.GetString("CashDrawerSummary_Sales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change.
         /// </summary>
         public static string Change {
@@ -229,6 +301,15 @@ namespace Y_POS.Core.Properties {
         public static string Coins {
             get {
                 return ResourceManager.GetString("Coins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current date.
+        /// </summary>
+        public static string CurrentDate {
+            get {
+                return ResourceManager.GetString("CurrentDate", resourceCulture);
             }
         }
         
