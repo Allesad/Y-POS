@@ -25,7 +25,7 @@ namespace Y_POS.Views
                 new OperationItem((Geometry) FindResource("PerformanceIcon"), "PERFORMANCE")
             };
 
-            OperationsList.SelectedIndex = 1;
+            OperationsList.SelectedIndex = 0;
         }
 
         private class OperationItem

@@ -10,7 +10,7 @@
              d:DesignHeight="768" d:DesignWidth="1024">
 
     <UserControl.Resources>
-        <Style x:Key="PaymentTypeButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Style x:Key="PaymentTypeButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
             <Setter Property="FontSize" Value="18" />
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="BorderThickness" Value="0,0,1,1" />
@@ -57,24 +57,28 @@
                 Margin="1,0,0,0"
                 VerticalAlignment="Top">
 
-                <Button Content="CASH"
-                        Style="{StaticResource PaymentTypeButton}"
-                        BorderBrush="{StaticResource SeparatorBrush}"
-                        Click="SwitchToPayment" />
-                <Button Content="CARD"
-                        Style="{StaticResource PaymentTypeButton}"
-                        BorderThickness="0,0,0,1"
-                        BorderBrush="{StaticResource SeparatorBrush}"
-                        Click="SwitchToPayment" />
-                <Button Content="MOBILE"
-                        Style="{StaticResource PaymentTypeButton}"
-                        BorderBrush="{StaticResource SeparatorBrush}"
-                        Click="SwitchToPayment" />
-                <Button Content="GIFT CARD"
-                        Style="{StaticResource PaymentTypeButton}"
-                        BorderBrush="{StaticResource SeparatorBrush}"
-                        BorderThickness="0,0,0,1"
-                        Click="SwitchToPayment" />
+                <RadioButton Content="CASH"
+                             GroupName="PaymentType"
+                             Style="{StaticResource PaymentTypeButton}"
+                             BorderBrush="{StaticResource SeparatorBrush}"
+                             Click="SwitchToPayment" />
+                <RadioButton Content="CARD"
+                             GroupName="PaymentType"
+                             Style="{StaticResource PaymentTypeButton}"
+                             BorderThickness="0,0,0,1"
+                             BorderBrush="{StaticResource SeparatorBrush}"
+                             Click="SwitchToPayment" />
+                <RadioButton Content="MOBILE"
+                             GroupName="PaymentType"
+                             Style="{StaticResource PaymentTypeButton}"
+                             BorderBrush="{StaticResource SeparatorBrush}"
+                             Click="SwitchToPayment" />
+                <RadioButton Content="GIFT CARD"
+                             GroupName="PaymentType"
+                             Style="{StaticResource PaymentTypeButton}"
+                             BorderBrush="{StaticResource SeparatorBrush}"
+                             BorderThickness="0,0,0,1"
+                             Click="SwitchToPayment" />
 
             </UniformGrid>
 
@@ -89,7 +93,7 @@
         <DockPanel Grid.Row="1" Grid.Column="0"
                    Style="{StaticResource ActionBarContainer}"
                    Name="ActionBarLeftContainer">
-            
+
             <!-- BACK -->
             <controls:ActionBarButton Style="{StaticResource ActionBarBackButton}"
                                       DockPanel.Dock="Left"
