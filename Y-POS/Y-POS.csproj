@@ -135,6 +135,9 @@
     <Compile Include="Views\CheckoutView.xaml.cs">
       <DependentUpon>CheckoutView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ClosedOrdersView.xaml.cs">
+      <DependentUpon>ClosedOrdersView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -287,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CheckoutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClosedOrdersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

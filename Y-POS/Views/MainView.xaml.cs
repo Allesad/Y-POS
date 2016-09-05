@@ -39,7 +39,7 @@ namespace Y_POS.Views
                     Page.Content = new ActiveOrdersView();
                     break;
                 case "ClosedOrders":
-
+                    Page.Content = new ClosedOrdersView();
                     break;
                 case "OrderMaker":
                     Page.Content = new OrderMakerView();

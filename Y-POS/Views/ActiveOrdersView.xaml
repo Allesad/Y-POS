@@ -89,7 +89,7 @@
 
                 <!-- NAVIGATION -->
                 <Button Grid.Column="5"
-                        Style="{StaticResource NavigationNextButton}"
+                        Style="{StaticResource NavigationNextBtn}"
                         Margin="10,0"
                         HorizontalAlignment="Right"
                         Background="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Background}"

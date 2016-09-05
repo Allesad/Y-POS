@@ -54,7 +54,7 @@
             <!-- SUBMIT -->
             <Button Grid.Row="2"
                     Name="LoginBtn"
-                    Style="{StaticResource AccentButton}"
+                    Style="{StaticResource AccentBtn}"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     FontSize="24"
