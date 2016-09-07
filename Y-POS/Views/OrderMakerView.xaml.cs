@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using ReactiveUI;
 
 namespace Y_POS.Views
@@ -9,7 +8,7 @@ namespace Y_POS.Views
     /// <summary>
     /// Interaction logic for OrderMakerView.xaml
     /// </summary>
-    public partial class OrderMakerView : UserControl
+    public partial class OrderMakerView : BaseView
     {
         private readonly Random _rnd = new Random();
 

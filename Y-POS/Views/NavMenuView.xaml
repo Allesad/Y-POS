@@ -61,7 +61,7 @@
                      Style="{StaticResource NavMenu}"
                      SelectedItem="{Binding SelectedItem, Mode=OneWay}"
                      SelectionMode="Single"
-                     MouseLeftButtonUp="NavMenuListView_OnMouseLeftButtonUp">
+                     SelectionChanged="NavMenuListView_OnSelectionChanged">
                 <ListBox.Items>
                     <ListBoxItem>
                         <StackPanel Orientation="Horizontal">
@@ -130,7 +130,7 @@
 
         <Border Background="Black" Opacity="0.3" Visibility="Visible">
             <Border.InputBindings>
-                <MouseBinding MouseAction="LeftClick" Command="{Binding CommandOutsideClick}" />
+                <MouseBinding MouseAction="LeftClick" Command="NavigateJournal" />
             </Border.InputBindings>
         </Border>
 

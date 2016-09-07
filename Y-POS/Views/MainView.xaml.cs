@@ -1,80 +1,58 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
+using DialogManagement.Contracts;
+using DialogManagement.Core;
+using YumaPos.Client.Helpers;
+using YumaPos.Client.Navigation.Contracts;
 
 namespace Y_POS.Views
 {
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class MainView : UserControl
+    public partial class MainView : BaseView, IDialogHost
     {
-        private static ContentPresenter _container;
-        private static Grid _navMenuContainer;
-
         public MainView()
         {
             InitializeComponent();
 
-            _container = Page;
-            _navMenuContainer = NavMenuContainer;
-            NavMenuContainer.Visibility = Visibility.Collapsed;
-            Page.Content = new LoginView();
+            var dlgManager = ServiceLocator.Resolve<IDialogManager>();
+            dlgManager.SetHost(this);
         }
 
-        private void CommandBinding_OnNavigateToPage(object sender, ExecutedRoutedEventArgs e)
+        public void ShowDialog(IBaseDialog dialog)
         {
-            var target = e.Parameter as string;
-            if (string.IsNullOrEmpty(target)) return;
+            MessageBox.Show(((TextDialogContent) dialog.Content).Message);
+        }
 
-            switch (target)
+        public void HideDialog()
+        {
+            
+        }
+
+        private void OnBrowseBack(object sender, ExecutedRoutedEventArgs e)
+        {
+            try
             {
-                case "Login":
-                    Page.Content = new LoginView();
-                    break;
-                case "PinLogin":
-                    Page.Content = new PinLoginView();
-                    break;
-                case "ActiveOrders":
-                    Page.Content = new ActiveOrdersView();
-                    break;
-                case "ClosedOrders":
-                    Page.Content = new ClosedOrdersView();
-                    break;
-                case "OrderMaker":
-                    Page.Content = new OrderMakerView();
-                    break;
-                case "Checkout":
-                    Page.Content = new CheckoutView();
-                    break;
-                case "Cashdrawer":
-                    Page.Content = new CashDrawerView();
-                    break;
-                case "Reports":
-                    Page.Content = new ReportsView();
-                    break;
-                case "Settings":
-                    Page.Content = new SettingsView();
-                    break;
+                ServiceLocator.Resolve<INavigator>().Back();
             }
-            NavMenuContainer.Visibility = Visibility.Collapsed;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        public static ContentPresenter GetContainer()
+        private void OnSwitchMenuState(object sender, ExecutedRoutedEventArgs e)
         {
-            return _container;
-        }
-
-        public static void SwitchMenuState()
-        {
-            _navMenuContainer.Visibility = _navMenuContainer.Visibility == Visibility.Collapsed 
+            NavMenuContainer.Visibility = NavMenuContainer.Visibility == Visibility.Collapsed
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         }
 
-        public static void HideMenu()
+        private void Page_OnContentChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            _navMenuContainer.Visibility = Visibility.Collapsed;
+            NavMenuContainer.Visibility = Visibility.Collapsed;
         }
     }
 }

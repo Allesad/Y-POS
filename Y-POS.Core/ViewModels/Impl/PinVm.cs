@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Reactive;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using ReactiveUI;
 using Splat;
 using YumaPos.Client.Common;
+using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
 
 namespace Y_POS.Core.ViewModels
@@ -13,14 +12,16 @@ namespace Y_POS.Core.ViewModels
     {
         #region Fields
 
-        private ReactiveCommand<Unit> _commandLogin;
+        private ReactiveCommand<object> _commandLogin;
+        private readonly ICommand _commandClockIn;
+        private readonly ICommand _commandClockOut;
+        private ReactiveCommand<object> _commandBreak;
 
         #endregion
 
         #region Properties
 
         public string UrlPathSegment { get { return "pin"; }}
-        public IScreen HostScreen { get; private set; }
 
         #endregion
 
@@ -28,13 +29,27 @@ namespace Y_POS.Core.ViewModels
 
         public ICommand CommandLogin { get { return _commandLogin; }}
 
+        public ICommand CommandClockIn
+        {
+            get { return _commandClockIn; }
+        }
+
+        public ICommand CommandClockOut
+        {
+            get { return _commandClockOut; }
+        }
+
+        public ICommand CommandBreak
+        {
+            get { return _commandBreak; }
+        }
+
         #endregion
 
         #region Constructor
 
-        public PinVm(IScreen hostScreen)
+        public PinVm()
         {
-            HostScreen = hostScreen;
         }
 
         #endregion
@@ -43,13 +58,15 @@ namespace Y_POS.Core.ViewModels
 
         protected override void InitCommands()
         {
-            _commandLogin = ReactiveCommand.CreateAsyncTask((o, token) => Task.Delay(1000, token));
+            _commandLogin = ReactiveCommand.Create();
+            _commandBreak = ReactiveCommand.Create();
         }
 
         protected override void InitLifetimeSubscriptions()
         {
             _commandLogin.ThrownExceptions.Subscribe(ex => this.Log().ErrorException(ex.Message, ex));
-            _commandLogin.Subscribe(_ => HostScreen.Router.NavigateBack.Execute(null));
+            _commandLogin.Subscribe(_ => NavigationService.StartIntent(new Intent(AppNavigation.ActiveOrders)));
+            _commandBreak.Subscribe(_ => NavigationService.Back());
         }
 
         protected override void OnCreate(IArgsBundle args)

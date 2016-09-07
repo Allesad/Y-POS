@@ -1,12 +1,15 @@
-﻿<UserControl x:Class="Y_POS.Views.PinLoginView"
+﻿<views:BaseView x:Class="Y_POS.Views.PinLoginView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Y_POS.Controls"
+             xmlns:viewModels="clr-namespace:Y_POS.Core.ViewModels;assembly=Y-POS.Core"
+             xmlns:views="clr-namespace:Y_POS.Views"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             Background="{StaticResource DefaultImageBg}">
+             Background="{StaticResource DefaultImageBg}"
+             d:DataContext="{d:DesignInstance viewModels:IPinVm, d:IsDesignTimeCreatable=False}">
 
     <DockPanel HorizontalAlignment="Center"
                Background="{StaticResource SemiTransparentBg}"
@@ -28,7 +31,7 @@
             <controls:ActionBarButton Grid.Column="0"
                                       Style="{StaticResource ActionBarLogin}"
                                       Padding="10,5"
-                                      Command="NavigationCommands.GoToPage"
+                                      Command="{Binding CommandLogin}"
                                       CommandParameter="ActiveOrders" />
             <controls:ActionBarButton Grid.Column="1"
                                       Style="{StaticResource ActionBarClockIn}"
@@ -43,7 +46,7 @@
             <controls:ActionBarButton Grid.Column="3"
                                       Style="{StaticResource ActionBarBreak}"
                                       Padding="10,5"
-                                      Command="NavigationCommands.GoToPage"
+                                      Command="{Binding CommandBreak}"
                                       CommandParameter="Login" />
         </Grid>
 
@@ -60,7 +63,6 @@
                  Height="65"
                  HorizontalAlignment="Center"
                  HorizontalContentAlignment="Center"
-                 VerticalContentAlignment="Center"
                  IsReadOnly="True"
                  Cursor="Arrow"
                  FontSize="40"
@@ -78,4 +80,4 @@
 
     </DockPanel>
 
-</UserControl>
+</views:BaseView>

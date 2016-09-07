@@ -1,51 +1,31 @@
-﻿<UserControl x:Class="Y_POS.Views.MainView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:Y_POS.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="768" 
-             d:DesignWidth="1024">
-    
-    <UserControl.Resources>
-    </UserControl.Resources>
+﻿<views:BaseView x:Class="Y_POS.Views.MainView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:views="clr-namespace:Y_POS.Views"
+                xmlns:viewModels="clr-namespace:Y_POS.Core.ViewModels;assembly=Y-POS.Core"
+                xmlns:controls="clr-namespace:Y_POS.Controls"
+                mc:Ignorable="d"
+                d:DesignHeight="768"
+                d:DesignWidth="1024"
+                d:DataContext="{d:DesignInstance viewModels:IAppMainVm, d:IsDesignTimeCreatable=False}">
     
     <UserControl.CommandBindings>
-        <CommandBinding Command="NavigationCommands.GoToPage" Executed="CommandBinding_OnNavigateToPage"/>
+        <CommandBinding Command="NavigationCommands.BrowseBack" Executed="OnBrowseBack"/>
+        <CommandBinding Command="NavigationCommands.NavigateJournal" Executed="OnSwitchMenuState"/>
     </UserControl.CommandBindings>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <ContentPresenter Name="Page" Content="{Binding CurrentPage}" />
-        </Grid>
+        <controls:ContentPresenterEx Content="{Binding CurrentPage}" ContentChanged="Page_OnContentChanged"/>
 
         <Grid Grid.Row="0"
               Name="NavMenuContainer"
-              Margin="0,0,0,75"
-              Visibility="{Binding Path=IsExpandedNavMenu, 
-                Converter={StaticResource BoolToVisibilityConverter}}">
-            <views:NavMenuView DataContext="{Binding NavMenuVm, Mode=OneWay}" />
+              Visibility="Collapsed"
+              Margin="0,0,0,75">
+            <views:NavMenuView DataContext="{Binding NavMenuVm, Mode=OneTime}"/>
         </Grid>
-
-        <Grid Grid.Row="1" Visibility="Collapsed">
-            <views:ActionBar DataContext="{Binding ActionBarVm, Mode=OneWay}" />
-        </Grid>
-
-        <!--<Border Grid.Row="0" Grid.RowSpan="2"
-                Background="{StaticResource DialogOverlay}"
-                Visibility="{Binding IsDialogVisible, Mode=OneWay, 
-                    Converter={StaticResource BoolToVisibilityConverter}}">
-            <dialogs:BaseDialogView
-                MaxWidth="960"
-                MaxHeight="700"
-                DataContext="{Binding Dialog, Mode=OneWay}" />
-        </Border>-->
     </Grid>
 
-</UserControl>
+</views:BaseView>

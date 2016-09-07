@@ -9,7 +9,7 @@ namespace Y_POS.Views
     /// <summary>
     /// Interaction logic for CheckoutView.xaml
     /// </summary>
-    public partial class CheckoutView : UserControl
+    public partial class CheckoutView : BaseView
     {
         private bool _isPaid;
 

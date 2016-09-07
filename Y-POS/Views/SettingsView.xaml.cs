@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using Y_POS.Views.SettingsParts;
 
 namespace Y_POS.Views
@@ -7,7 +6,7 @@ namespace Y_POS.Views
     /// <summary>
     /// Interaction logic for SettingsView.xaml
     /// </summary>
-    public partial class SettingsView : UserControl
+    public partial class SettingsView : BaseView
     {
         public SettingsView()
         {
