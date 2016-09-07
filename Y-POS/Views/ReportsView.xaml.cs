@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace Y_POS.Views
+﻿namespace Y_POS.Views
 {
     /// <summary>
     /// Interaction logic for ReportsView.xaml
     /// </summary>
-    public partial class ReportsView : UserControl
+    public partial class ReportsView : BaseView
     {
         public ReportsView()
         {

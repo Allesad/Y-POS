@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Y_POS.Views.ClosedOrdersView"
+﻿<views:BaseView x:Class="Y_POS.Views.ClosedOrdersView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,6 +7,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:customControls="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+             xmlns:views="clr-namespace:Y_POS.Views"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -90,8 +91,7 @@
 
             <!-- MENU -->
             <controls:ActionBarButton DockPanel.Dock="Left"
-                                      Style="{StaticResource ActionBarMenuButton}"
-                                      Click="OnMenuClick" />
+                                      Style="{StaticResource ActionBarMenuButton}" />
 
             <!-- TRANSACTIONS -->
             <controls:ActionBarButton DockPanel.Dock="Right"
@@ -268,4 +268,4 @@
 
     </DockPanel>
 
-</UserControl>
+</views:BaseView>

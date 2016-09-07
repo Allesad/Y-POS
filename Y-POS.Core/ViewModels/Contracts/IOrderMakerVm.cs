@@ -1,18 +1,13 @@
 ﻿using System.Windows.Input;
-using ReactiveUI;
 using YumaPos.Client.UI.ViewModels.Contracts;
 
 namespace Y_POS.Core.ViewModels
 {
-    public interface IPinVm : IPageVm, IRoutableViewModel
+    public interface IOrderMakerVm : IPageVm
     {
-        #region Properties
-
-        #endregion
-
         #region Commands
 
-        ICommand CommandLogin { get; }
+        ICommand CommandCheckout { get; }
 
         #endregion
     }

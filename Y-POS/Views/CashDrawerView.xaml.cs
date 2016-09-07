@@ -9,7 +9,7 @@ namespace Y_POS.Views
     /// <summary>
     /// Interaction logic for CashDrawerView.xaml
     /// </summary>
-    public partial class CashDrawerView : UserControl
+    public partial class CashDrawerView : BaseView
     {
         public CashDrawerView()
         {

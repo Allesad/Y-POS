@@ -1,10 +1,9 @@
 ﻿using System.Windows.Input;
-using ReactiveUI;
 using YumaPos.Client.UI.ViewModels.Contracts;
 
 namespace Y_POS.Core.ViewModels
 {
-    public interface ILoginVm : IPageVm, IRoutableViewModel
+    public interface INavMenuVm : IBaseVm
     {
         #region Properties
 
@@ -12,7 +11,7 @@ namespace Y_POS.Core.ViewModels
 
         #region Commands
 
-        ICommand CommandLogin { get; }
+        ICommand CommandNavigate { get; }
 
         #endregion
     }

@@ -17,6 +17,8 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +50,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppNavigation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -59,12 +62,28 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\AppMainVm.cs" />
-    <Compile Include="ViewModels\IAppMainVm.cs" />
-    <Compile Include="ViewModels\ILoginVm.cs" />
-    <Compile Include="ViewModels\IPinVm.cs" />
-    <Compile Include="ViewModels\LoginVm.cs" />
-    <Compile Include="ViewModels\PinVm.cs" />
+    <Compile Include="ViewModels\Contracts\ICashDrawerVm.cs" />
+    <Compile Include="ViewModels\Contracts\ICheckoutVm.cs" />
+    <Compile Include="ViewModels\Contracts\INavMenuVm.cs" />
+    <Compile Include="ViewModels\Contracts\IOrderMakerVm.cs" />
+    <Compile Include="ViewModels\Contracts\IReportsVm.cs" />
+    <Compile Include="ViewModels\Contracts\ISettingsVm.cs" />
+    <Compile Include="ViewModels\Impl\ActiveOrdersVm.cs" />
+    <Compile Include="ViewModels\Impl\AppMainVm.cs" />
+    <Compile Include="ViewModels\Contracts\IActiveOrdersVm.cs" />
+    <Compile Include="ViewModels\Contracts\IAppMainVm.cs" />
+    <Compile Include="ViewModels\Contracts\IClosedOrdersVm.cs" />
+    <Compile Include="ViewModels\Contracts\ILoginVm.cs" />
+    <Compile Include="ViewModels\Contracts\IPinVm.cs" />
+    <Compile Include="ViewModels\Impl\CashdrawerVm.cs" />
+    <Compile Include="ViewModels\Impl\CheckoutVm.cs" />
+    <Compile Include="ViewModels\Impl\ClosedOrdersVm.cs" />
+    <Compile Include="ViewModels\Impl\LoginVm.cs" />
+    <Compile Include="ViewModels\Impl\NavMenuVm.cs" />
+    <Compile Include="ViewModels\Impl\OrderMakerVm.cs" />
+    <Compile Include="ViewModels\Impl\PinVm.cs" />
+    <Compile Include="ViewModels\Impl\ReportsVm.cs" />
+    <Compile Include="ViewModels\Impl\SettingsVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -78,7 +97,11 @@
       <HintPath>..\Libs\DialogManagement.Core.dll</HintPath>
     </Reference>
     <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\reactiveui-core.6.5.0\lib\Portable-Net45+Win8+WP8+WPA81\ReactiveUI.dll</HintPath>
+      <HintPath>..\packages\reactiveui-core.6.5.2\lib\Portable-Net45+Win8+WP8+WPA81\ReactiveUI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ReactiveUI.Fody.Helpers, Version=1.1.53.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReactiveUI.Fody.1.1.53\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\ReactiveUI.Fody.Helpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -123,6 +146,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="FodyWeavers.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -130,7 +156,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
   </Target>
+  <Import Project="..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,12 +1,11 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 
 namespace Y_POS.Views
 {
     /// <summary>
     /// Interaction logic for PinLoginView.xaml
     /// </summary>
-    public partial class PinLoginView : UserControl
+    public partial class PinLoginView : BaseView
     {
         public PinLoginView()
         {
