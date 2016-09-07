@@ -46,7 +46,7 @@ namespace Y_POS.Core.ViewModels
         {
             try
             {
-                NavigationService.StartIntent(new Intent(target));
+                NavigationService.StartIntent(new Intent(target).AddFlag(IntentFlags.ClearTop));
             }
             catch (Exception ex)
             {

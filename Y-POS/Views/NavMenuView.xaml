@@ -130,7 +130,7 @@
 
         <Border Background="Black" Opacity="0.3" Visibility="Visible">
             <Border.InputBindings>
-                <MouseBinding MouseAction="LeftClick" Command="{Binding CommandOutsideClick}" />
+                <MouseBinding MouseAction="LeftClick" Command="NavigateJournal" />
             </Border.InputBindings>
         </Border>
 
