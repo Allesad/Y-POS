@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Y_POS.Views
 {
     /// <summary>
     /// Interaction logic for ActiveOrdersView.xaml
     /// </summary>
-    public partial class ActiveOrdersView : UserControl
+    public partial class ActiveOrdersView : BaseView
     {
         static readonly Random rnd = new Random();
 
@@ -24,12 +23,6 @@ namespace Y_POS.Views
             }
 
             OrdersList.ItemsSource = arr;
-        }
-
-        private void OnMenuClick(object sender, RoutedEventArgs e)
-        {
-            //NewOrderBtn.IsEnabled = !NewOrderBtn.IsEnabled;
-            MainView.SwitchMenuState();
         }
 
         private static DateTime GetRandomDate(DateTime from, DateTime to)

@@ -163,6 +163,7 @@
 
     <!-- MENU BUTTON STYLE -->
     <Style x:Key="ActionBarMenuButton" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Command" Value="NavigateJournal"/>
         <Setter Property="Padding" Value="25,5" />
         <Setter Property="Background">
             <Setter.Value>
@@ -183,6 +184,7 @@
     <!-- BACK BUTTON STYLE -->
     <Style x:Key="ActionBarBackButton" TargetType="controls:ActionBarButton"
            BasedOn="{StaticResource ActionBarMenuButton}">
+        <Setter Property="Command" Value="BrowseBack"/>
         <Setter Property="Title"
                 Value="{Binding Source={x:Static p:Resources.Back}, 
             Converter={StaticResource UpperCaseCoverter}}" />
@@ -258,6 +260,12 @@
     <Style x:Key="ActionBarSend" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
         <Setter Property="Title" Value="{Binding Source={x:Static p:Resources.Send}, Converter={StaticResource UpperCaseCoverter}}"/>
         <Setter Property="IconPath" Value="{StaticResource SendIcon}"/>
+    </Style>
+    
+    <!-- TRANSACTIONS BUTTON STYLE -->
+    <Style x:Key="ActionBarTransactions" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title" Value="{Binding Source={x:Static p:Resources.Transactions}, Converter={StaticResource UpperCaseCoverter}}"/>
+        <Setter Property="IconPath" Value="{StaticResource CurrencyIcon}"/>
     </Style>
 
 </ResourceDictionary>

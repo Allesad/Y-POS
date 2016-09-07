@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Y_POS.Views.CheckoutParts;
@@ -8,7 +9,7 @@ namespace Y_POS.Views
     /// <summary>
     /// Interaction logic for CheckoutView.xaml
     /// </summary>
-    public partial class CheckoutView : UserControl
+    public partial class CheckoutView : BaseView
     {
         private bool _isPaid;
 
@@ -29,6 +30,8 @@ namespace Y_POS.Views
 
         private void SwitchToPayment(object sender, RoutedEventArgs e)
         {
+            OperationsList.UnselectAll();
+            ((RadioButton) sender).IsChecked = true;
             Content.Content = new CheckoutPaymentView();
         }
 
@@ -56,6 +59,10 @@ namespace Y_POS.Views
             if (content != null)
             {
                 Content.Content = content;
+                foreach (var rb in PaymentTypesContainer.Children.OfType<RadioButton>())
+                {
+                    rb.IsChecked = false;
+                }
             }
         }
 

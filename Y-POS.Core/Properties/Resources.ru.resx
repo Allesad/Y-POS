@@ -163,6 +163,33 @@
   <data name="CashdrawerCheck_ByBillType" xml:space="preserve">
     <value>по банкнотам</value>
   </data>
+  <data name="CashDrawerSummary_Balance" xml:space="preserve">
+    <value>Баланс</value>
+  </data>
+  <data name="CashDrawerSummary_BankWidthdraw" xml:space="preserve">
+    <value>Инкассация</value>
+  </data>
+  <data name="CashDrawerSummary_CashIn" xml:space="preserve">
+    <value>Добавлено</value>
+  </data>
+  <data name="CashDrawerSummary_CashOut" xml:space="preserve">
+    <value>Изъято</value>
+  </data>
+  <data name="CashDrawerSummary_LastCashierIn" xml:space="preserve">
+    <value>Last Cashier In</value>
+  </data>
+  <data name="CashDrawerSummary_LastCashierOut" xml:space="preserve">
+    <value>Last Cashier Out</value>
+  </data>
+  <data name="CashDrawerSummary_LastCheck" xml:space="preserve">
+    <value>Последняя проверка</value>
+  </data>
+  <data name="CashDrawerSummary_Sales" xml:space="preserve">
+    <value>Продажи</value>
+  </data>
+  <data name="CashDrawer_AmountUpdateReason" xml:space="preserve">
+    <value>Причина</value>
+  </data>
   <data name="Change" xml:space="preserve">
     <value>Сдача</value>
   </data>
@@ -174,6 +201,9 @@
   </data>
   <data name="Coins" xml:space="preserve">
     <value>Монеты</value>
+  </data>
+  <data name="CurrentDate" xml:space="preserve">
+    <value>Текущая дата</value>
   </data>
   <data name="CustomDiscount" xml:space="preserve">
     <value>Особая скидка</value>
@@ -189,6 +219,9 @@
   </data>
   <data name="Email" xml:space="preserve">
     <value>Почта</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Работник</value>
   </data>
   <data name="Filter" xml:space="preserve">
     <value>Фильтр</value>
@@ -241,6 +274,9 @@
   </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Оплата</value>
   </data>
   <data name="Phone" xml:space="preserve">
     <value>Телефон</value>
@@ -304,6 +340,12 @@
   </data>
   <data name="Transaction" xml:space="preserve">
     <value>Транзакция</value>
+  </data>
+  <data name="Transactions" xml:space="preserve">
+    <value>Транзакции</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
   </data>
   <data name="Void" xml:space="preserve">
     <value>Аннулировать</value>

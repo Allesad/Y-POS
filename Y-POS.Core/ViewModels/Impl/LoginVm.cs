@@ -21,7 +21,6 @@ namespace Y_POS.Core.ViewModels
         #region Properties
 
         public string UrlPathSegment { get { return "login"; } }
-        public IScreen HostScreen { get; private set; }
 
         #endregion
 
@@ -33,16 +32,16 @@ namespace Y_POS.Core.ViewModels
 
         #region Constructor
 
-        public LoginVm(IScreen hostScreen)
+        public LoginVm()
         {
-            HostScreen = hostScreen;
+            
         }
 
         #endregion
 
         protected override void InitCommands()
         {
-            _commandLogin = ReactiveCommand.CreateAsyncTask((o, token) => Task.Delay(2000, token));
+            _commandLogin = ReactiveCommand.CreateAsyncTask((o, token) => Task.Delay(0, token));
         }
 
         protected override void InitLifetimeSubscriptions()
@@ -50,8 +49,7 @@ namespace Y_POS.Core.ViewModels
             _commandLogin.ThrownExceptions.Subscribe(ex => Debug.WriteLine(ex.Message));
             _commandLogin.Subscribe(_ =>
             {
-                //NavigationService.StartIntent(new Intent(new NavUri("auth", "pin")));
-                HostScreen.Router.NavigateAndReset.Execute(new PinVm(HostScreen));
+                NavigationService.StartIntent(new Intent(AppNavigation.ActiveOrders));
             });
         }
 

@@ -13,7 +13,7 @@ namespace Y_POS
         {
             InitializeComponent();
 
-            Content = new MainView();
+            //Content = new MainView();
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

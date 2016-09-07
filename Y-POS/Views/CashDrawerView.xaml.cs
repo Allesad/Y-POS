@@ -9,7 +9,7 @@ namespace Y_POS.Views
     /// <summary>
     /// Interaction logic for CashDrawerView.xaml
     /// </summary>
-    public partial class CashDrawerView : UserControl
+    public partial class CashDrawerView : BaseView
     {
         public CashDrawerView()
         {
@@ -17,15 +17,15 @@ namespace Y_POS.Views
 
             OperationsList.ItemsSource = new[]
             {
-                new OperationItem((Geometry) FindResource("PerformanceIcon"), "PERFORMANCE"),
                 new OperationItem((Geometry) FindResource("CashierInIcon"), "CASHIER IN"),
-                new OperationItem((Geometry) FindResource("CashdrawerCheckIcon"), "CASHIER CHECK"),
+                new OperationItem((Geometry) FindResource("CashdrawerCheckIcon"), "CASHDRAWER CHECK"),
                 new OperationItem((Geometry) FindResource("BankIcon"), "BANK WITHDRAW"),
                 new OperationItem((Geometry) FindResource("ArrowDownIcon"), "CASH IN"),
-                new OperationItem((Geometry) FindResource("ArrowUpIcon"), "CASH OUT")
+                new OperationItem((Geometry) FindResource("ArrowUpIcon"), "CASH OUT"),
+                new OperationItem((Geometry) FindResource("PerformanceIcon"), "PERFORMANCE")
             };
 
-            OperationsList.SelectedIndex = 1;
+            OperationsList.SelectedIndex = 0;
         }
 
         private class OperationItem
@@ -47,10 +47,29 @@ namespace Y_POS.Views
             switch (list.SelectedIndex)
             {
                 case 0:
-                    ContentContainer.Content = new CashDrawerPerformanceView();
-                    break;
                 case 1:
                     ContentContainer.Content = new CashDrawerInitView();
+                    break;
+                case 2:
+                    ContentContainer.Content = new CashDrawerAmountUpdateView
+                    {
+                        Title = "Bank Withdraw:"
+                    };
+                    break;
+                case 3:
+                    ContentContainer.Content = new CashDrawerAmountUpdateView
+                    {
+                        Title = "Cash In:"
+                    };
+                    break;
+                case 4:
+                    ContentContainer.Content = new CashDrawerAmountUpdateView
+                    {
+                        Title = "Cash Out:"
+                    };
+                    break;
+                case 5:
+                    ContentContainer.Content = new CashDrawerPerformanceView();
                     break;
             }
             UpdateActionBar(list.SelectedIndex);
@@ -60,7 +79,7 @@ namespace Y_POS.Views
         {
             switch (selectedIndex)
             {
-                case 0:
+                case 5:
                     MainActionButton.Visibility = Visibility.Collapsed;
                     SendActionButton.Visibility =
                         PrintActionButton.Visibility = FilterActionButton.Visibility = Visibility.Visible;

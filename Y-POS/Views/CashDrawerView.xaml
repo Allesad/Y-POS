@@ -1,50 +1,54 @@
-﻿<UserControl x:Class="Y_POS.Views.CashDrawerView"
+﻿<views:BaseView x:Class="Y_POS.Views.CashDrawerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+             xmlns:cashDrawerParts="clr-namespace:Y_POS.Views.CashDrawerParts"
+             xmlns:views="clr-namespace:Y_POS.Views"
              mc:Ignorable="d"
              d:DesignHeight="768" d:DesignWidth="1024">
 
     <DockPanel>
 
         <!-- RIGHT SIDE -->
-        <DockPanel DockPanel.Dock="Right"
-                   Width="{StaticResource SideColumnWidth}"
-                   Background="{StaticResource PrimaryBrush}">
+        <Border DockPanel.Dock="Right"
+                BorderThickness="1,0,0,0"
+                BorderBrush="{StaticResource SeparatorBrush}">
 
-            <!-- ACTION BAR -->
-            <controls:ActionBarButton DockPanel.Dock="Bottom"
-                                      Style="{StaticResource ActionBarNegativeActionButton}"
-                                      Title="{Binding Source={x:Static p:Resources.OpenCashdrawer}, 
+            <DockPanel DockPanel.Dock="Right"
+                       Width="{StaticResource SideColumnWidth}"
+                       Background="{StaticResource PrimaryBrush}">
+
+                <!-- ACTION BAR -->
+                <controls:ActionBarButton DockPanel.Dock="Bottom"
+                                          Margin="-1,0,0,0"
+                                          Style="{StaticResource ActionBarNegativeActionButton}"
+                                          Title="{Binding Source={x:Static p:Resources.OpenCashdrawer}, 
                 Converter={StaticResource UpperCaseCoverter}}" />
 
-            <Grid>
-
-                <Separator Style="{StaticResource VSeparator}"
-                           HorizontalAlignment="Left" />
-                
                 <!-- OPERATIONS LIST -->
                 <ListBox Name="OperationsList"
+                         DockPanel.Dock="Top"
                          ItemContainerStyle="{StaticResource RightMarkedIconHorizontalListItem}"
-                         SelectionChanged="OperationsList_OnSelectionChanged"/>
-            </Grid>
+                         SelectionChanged="OperationsList_OnSelectionChanged" />
 
-        </DockPanel>
+                <!-- SUMAMRY INFO -->
+                <cashDrawerParts:CashDrawerSummaryView Margin="25,10"/>
 
+            </DockPanel>
+
+        </Border>
 
         <!-- ACTION BAR -->
         <DockPanel DockPanel.Dock="Bottom"
                    Background="{StaticResource ActionBarBg}"
                    LastChildFill="False">
 
-            <!-- BACK -->
+            <!-- MENU -->
             <controls:ActionBarButton DockPanel.Dock="Left"
-                                      Style="{StaticResource ActionBarBackButton}"
-                                      Command="GoToPage"
-                                      CommandParameter="ActiveOrders" />
+                                      Style="{StaticResource ActionBarMenuButton}"/>
 
             <!-- CASHIER IN -->
             <controls:ActionBarButton DockPanel.Dock="Right"
@@ -55,27 +59,27 @@
 
             <!-- SEND -->
             <controls:ActionBarButton Style="{StaticResource ActionBarSend}"
-                                      DockPanel.Dock="Right" 
+                                      DockPanel.Dock="Right"
                                       x:Name="SendActionButton"
-                                      Visibility="Collapsed"/>
+                                      Visibility="Collapsed" />
 
             <!-- PRINT -->
             <controls:ActionBarButton Style="{StaticResource ActionBarPrint}"
                                       DockPanel.Dock="Right"
                                       x:Name="PrintActionButton"
-                                      Visibility="Collapsed"/>
-            
+                                      Visibility="Collapsed" />
+
             <!-- FILTER -->
             <controls:ActionBarButton Style="{StaticResource ActionBarFilter}"
                                       DockPanel.Dock="Right"
                                       x:Name="FilterActionButton"
-                                      Visibility="Collapsed"/>
+                                      Visibility="Collapsed" />
 
         </DockPanel>
 
         <!-- LEFT SIDE -->
-        <ContentPresenter Name="ContentContainer"/>
+        <ContentPresenter Name="ContentContainer" />
 
     </DockPanel>
 
-</UserControl>
+</views:BaseView>

@@ -1,13 +1,16 @@
-﻿<UserControl x:Class="Y_POS.Views.ActiveOrdersView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-             xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
-             xmlns:controls="clr-namespace:Y_POS.Controls"
-             mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+﻿<views:BaseView x:Class="Y_POS.Views.ActiveOrdersView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+                xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
+                xmlns:controls="clr-namespace:Y_POS.Controls"
+                xmlns:views="clr-namespace:Y_POS.Views"
+                xmlns:viewModels="clr-namespace:Y_POS.Core.ViewModels;assembly=Y-POS.Core"
+                mc:Ignorable="d"
+                d:DesignHeight="300" d:DesignWidth="300"
+                d:DataContext="{d:DesignInstance viewModels:IActiveOrdersVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
         <Style x:Key="HeaderTb" TargetType="TextBlock" BasedOn="{StaticResource DefaultSmallText}">
@@ -89,7 +92,7 @@
 
                 <!-- NAVIGATION -->
                 <Button Grid.Column="5"
-                        Style="{StaticResource NavigationNextButton}"
+                        Style="{StaticResource NavigationNextBtn}"
                         Margin="10,0"
                         HorizontalAlignment="Right"
                         Background="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Background}"
@@ -169,7 +172,7 @@
             <!-- MENU -->
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarMenuButton}"
-                                      Click="OnMenuClick" />
+                                      Command="NavigateJournal" />
 
             <controls:ActionBarButton DockPanel.Dock="Right"
                                       x:Name="NewOrderBtn"
@@ -177,11 +180,10 @@
                                       IconPath="{StaticResource AddIcon}"
                                       Title="{Binding Source={x:Static p:Resources.Action_NewOrder}, 
                                         Converter={StaticResource UpperCaseCoverter}}"
-                                      Command="NavigationCommands.GoToPage"
-                                      CommandParameter="OrderMaker" />
+                                      Command="{Binding CommandCreateOrder}"/>
 
         </DockPanel>
 
     </Grid>
 
-</UserControl>
+</views:BaseView>
