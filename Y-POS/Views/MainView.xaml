@@ -10,12 +10,8 @@
                 d:DesignHeight="768"
                 d:DesignWidth="1024"
                 d:DataContext="{d:DesignInstance viewModels:IAppMainVm, d:IsDesignTimeCreatable=False}">
-
-    <UserControl.Resources>
-    </UserControl.Resources>
-
+    
     <UserControl.CommandBindings>
-        <CommandBinding Command="NavigationCommands.GoToPage" Executed="CommandBinding_OnNavigateToPage" />
         <CommandBinding Command="NavigationCommands.BrowseBack" Executed="OnBrowseBack"/>
         <CommandBinding Command="NavigationCommands.NavigateJournal" Executed="OnSwitchMenuState"/>
     </UserControl.CommandBindings>

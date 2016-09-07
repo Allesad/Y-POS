@@ -63,7 +63,6 @@
                  Height="65"
                  HorizontalAlignment="Center"
                  HorizontalContentAlignment="Center"
-                 VerticalContentAlignment="Center"
                  IsReadOnly="True"
                  Cursor="Arrow"
                  FontSize="40"

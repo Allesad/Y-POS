@@ -60,8 +60,7 @@
                     VerticalAlignment="Stretch"
                     FontSize="24"
                     Content="{Binding Source={x:Static p:Resources.Action_Login}, Converter={StaticResource UpperCaseCoverter}}"
-                    Command="{Binding CommandLogin}"
-                    CommandParameter="PinLogin" />
+                    Command="{Binding CommandLogin}" />
         </Grid>
 
     </StackPanel>
