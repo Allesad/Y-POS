@@ -11,12 +11,14 @@ using YumaPos.Common.Infrastructure.IoC.Registration;
 using YumaPos.Common.Tools.IoC;
 using Y_POS.Core;
 using Y_POS.Core.ViewModels;
+using Y_POS.Core.ViewModels.Pages;
 
 namespace Y_POS.Bootstrap
 {
     internal static class Bootstrapper
     {
         private const string MAIN_SCOPE = "MainScope";
+
         #region Properties
 
         #endregion

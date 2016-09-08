@@ -13,7 +13,7 @@ namespace Y_POS.Views
         {
             InitializeComponent();
 
-            int lastOrderNumber = 125;
+            /*int lastOrderNumber = 125;
             int ordersCount = 10;
             var arr = new Order[ordersCount];
             for (int i = 0; i < ordersCount; i++)
@@ -21,7 +21,7 @@ namespace Y_POS.Views
                 arr[i] = new Order(lastOrderNumber--, GetRandomDate(System.DateTime.Today, System.DateTime.UtcNow), "New", "Unknown Customer", (decimal)GetRandomAmount(10, 50));
             }
 
-            OrdersList.ItemsSource = arr;
+            OrdersList.ItemsSource = arr;*/
         }
 
         private static DateTime GetRandomDate(DateTime from, DateTime to)

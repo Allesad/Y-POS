@@ -6,7 +6,7 @@ using YumaPos.Client.Common;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
 
-namespace Y_POS.Core.ViewModels
+namespace Y_POS.Core.ViewModels.Pages
 {
     public sealed class PinVm : PageVm, IPinVm
     {
@@ -65,8 +65,9 @@ namespace Y_POS.Core.ViewModels
         protected override void InitLifetimeSubscriptions()
         {
             _commandLogin.ThrownExceptions.Subscribe(ex => this.Log().ErrorException(ex.Message, ex));
-            _commandLogin.Subscribe(_ => NavigationService.StartIntent(new Intent(AppNavigation.ActiveOrders)));
-            _commandBreak.Subscribe(_ => NavigationService.Back());
+            _commandLogin.Subscribe(_ => NavigationService.StartIntent(new Intent(AppNavigation.ActiveOrders).SetFlags(IntentFlags.NewHistory)));
+            _commandBreak.Subscribe(_ => NavigationService.StartIntent(new Intent(AppNavigation.Login)
+                .SetFlags(IntentFlags.NewHistory | IntentFlags.NoHistory)));
         }
 
         protected override void OnCreate(IArgsBundle args)

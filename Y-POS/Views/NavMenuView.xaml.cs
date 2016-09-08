@@ -2,6 +2,7 @@
 using YumaPos.Client.Navigation;
 using Y_POS.Core;
 using Y_POS.Core.ViewModels;
+using Y_POS.Core.ViewModels.Pages;
 
 namespace Y_POS.Views
 {

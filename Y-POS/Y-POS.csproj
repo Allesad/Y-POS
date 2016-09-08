@@ -106,6 +106,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\YumaPos.FrontEnd.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="YumaPos.Shared.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\YumaPos.Shared.Infrastructure.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -118,6 +122,7 @@
     <Compile Include="Controls\MenuSelectorControl.cs" />
     <Compile Include="Controls\NumericKeypadControl.cs" />
     <Compile Include="Converters\ActionBarIconVisibilityConterter.cs" />
+    <Compile Include="Converters\OrderStatusToTextConverter.cs" />
     <Compile Include="Selectors\BillTypeDataTemplateSelector.cs" />
     <Compile Include="Views\ActionBar.xaml.cs">
       <DependentUpon>ActionBar.xaml</DependentUpon>

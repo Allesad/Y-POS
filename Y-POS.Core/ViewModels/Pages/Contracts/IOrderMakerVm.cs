@@ -1,17 +1,19 @@
 ﻿using System.Windows.Input;
 using YumaPos.Client.UI.ViewModels.Contracts;
 
-namespace Y_POS.Core.ViewModels
+namespace Y_POS.Core.ViewModels.Pages
 {
-    public interface INavMenuVm : IBaseVm
+    public interface IOrderMakerVm : IPageVm
     {
         #region Properties
+
+        int OrderNumber { get; }
 
         #endregion
 
         #region Commands
 
-        ICommand CommandNavigate { get; }
+        ICommand CommandCheckout { get; }
 
         #endregion
     }

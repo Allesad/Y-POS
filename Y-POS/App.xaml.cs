@@ -8,7 +8,7 @@ using ReactiveUI;
 using YumaPos.Client.Helpers;
 using YumaPos.Common.Infrastructure.IoC;
 using Y_POS.Bootstrap;
-using Y_POS.Core.ViewModels;
+using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views;
 
 namespace Y_POS

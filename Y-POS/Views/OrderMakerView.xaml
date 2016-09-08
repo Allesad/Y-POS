@@ -9,10 +9,10 @@
                 xmlns:controls="clr-namespace:Y_POS.Controls"
                 xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
                 xmlns:views="clr-namespace:Y_POS.Views"
-                xmlns:viewModels="clr-namespace:Y_POS.Core.ViewModels;assembly=Y-POS.Core"
+                xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
-                d:DataContext="{d:DesignInstance viewModels:IOrderMakerVm, d:IsDesignTimeCreatable=False}">
+                d:DataContext="{d:DesignInstance pages:IOrderMakerVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
         <!-- ADD CUSTOMER BUTTON DATA TEMPLATE -->
@@ -160,7 +160,8 @@
                        VerticalAlignment="Center"
                        Margin="15,5">
                 <Run Text="{Binding Source={x:Static p:Resources.Order}, Mode=OneWay}" />
-                <Run Text=" #123" />
+                <Run Text=" #" />
+                <Run Text="{Binding OrderNumber}"/>
             </TextBlock>
 
             <!-- SEARCH CUSTOMER -->

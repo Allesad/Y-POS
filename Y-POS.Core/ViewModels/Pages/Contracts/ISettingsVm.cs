@@ -1,6 +1,6 @@
 ﻿using YumaPos.Client.UI.ViewModels.Contracts;
 
-namespace Y_POS.Core.ViewModels
+namespace Y_POS.Core.ViewModels.Pages
 {
     public interface ISettingsVm : IPageVm
     {

@@ -7,10 +7,11 @@
                 xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
                 xmlns:controls="clr-namespace:Y_POS.Controls"
                 xmlns:views="clr-namespace:Y_POS.Views"
-                xmlns:viewModels="clr-namespace:Y_POS.Core.ViewModels;assembly=Y-POS.Core"
+                xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
+                xmlns:items="clr-namespace:Y_POS.Core.ViewModels.Items.Contracts;assembly=Y-POS.Core"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
-                d:DataContext="{d:DesignInstance viewModels:IActiveOrdersVm, d:IsDesignTimeCreatable=False}">
+                d:DataContext="{d:DesignInstance pages:IActiveOrdersVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
         <Style x:Key="HeaderTb" TargetType="TextBlock" BasedOn="{StaticResource DefaultSmallText}">
@@ -30,14 +31,14 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
-        <DataTemplate x:Key="OrdersListItemDt">
+        <DataTemplate x:Key="OrdersListItemDt" DataType="{x:Type items:IActiveOrderItemVm}">
             <Grid Height="65"
                   HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70" SharedSizeGroup="Column1" />
                     <ColumnDefinition Width="220" SharedSizeGroup="Column2" />
                     <ColumnDefinition Width="200" SharedSizeGroup="Column3" />
-                    <ColumnDefinition Width="320" SharedSizeGroup="Column4" />
+                    <ColumnDefinition Width="310" SharedSizeGroup="Column4" />
                     <ColumnDefinition Width="140" SharedSizeGroup="Column5" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
@@ -50,7 +51,7 @@
                 <!-- DATE/TIME -->
                 <TextBlock Grid.Column="1"
                            Style="{StaticResource OrdersListItemText}"
-                           Text="{Binding DateCreated, StringFormat=g}" />
+                           Text="{Binding CreationTime, StringFormat=g}" />
 
                 <!-- STATUS -->
                 <Path Grid.Column="2"
@@ -64,7 +65,7 @@
                            Style="{StaticResource OrdersListItemText}"
                            HorizontalAlignment="Left"
                            Margin="50,0,10,0"
-                           Text="{Binding Status}" />
+                           Text="{Binding Status, Converter={StaticResource OrderStatusToTextConverter}}" />
 
                 <!-- CUSTOMER -->
                 <Border Grid.Column="3"
@@ -96,8 +97,8 @@
                         Margin="10,0"
                         HorizontalAlignment="Right"
                         Background="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Background}"
-                        Command="NavigationCommands.GoToPage"
-                        CommandParameter="OrderMaker" />
+                        Command="{Binding CommandOpen, Mode=OneTime}"
+                        CommandParameter="{Binding OrderNumber}" />
 
             </Grid>
         </DataTemplate>
@@ -162,6 +163,8 @@
         <!-- ORDERS LIST -->
         <ListBox Grid.Row="1"
                  Name="OrdersList"
+                 ItemsSource="{Binding Items}"
+                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                  Background="{StaticResource PrimaryBrush}"
                  ItemContainerStyle="{StaticResource OrdersListItem}" />
 
@@ -171,8 +174,24 @@
 
             <!-- MENU -->
             <controls:ActionBarButton DockPanel.Dock="Left"
-                                      Style="{StaticResource ActionBarMenuButton}"
-                                      Command="NavigateJournal" />
+                                      Style="{StaticResource ActionBarMenuButton}" />
+            
+            <!-- CHECKOUT -->
+            <controls:ActionBarButton DockPanel.Dock="Left"
+                                      Style="{StaticResource ActionBarButton}"
+                                      Title="{Binding Source={x:Static p:Resources.Checkout}, Converter={StaticResource UpperCaseCoverter}}"
+                                      IconPath="{StaticResource CurrencyIcon}"
+                                      Command="{Binding CommandCheckout}"/>
+            
+            <!-- PRINT -->
+            <controls:ActionBarButton DockPanel.Dock="Left"
+                                      Style="{StaticResource ActionBarPrint}"
+                                      Command="{Binding CommandPrintOrder}"/>
+            
+            <!-- VOID -->
+            <controls:ActionBarButton DockPanel.Dock="Left"
+                                      Style="{StaticResource ActionBarVoid}"
+                                      Command="{Binding CommandVoid}"/>
 
             <controls:ActionBarButton DockPanel.Dock="Right"
                                       x:Name="NewOrderBtn"

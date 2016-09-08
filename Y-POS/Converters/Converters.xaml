@@ -1,9 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:YumaPos.WPF.UI.Converters;assembly=YumaPos.WPF.UI">
+                    xmlns:commonConverters="clr-namespace:YumaPos.WPF.UI.Converters;assembly=YumaPos.WPF.UI"
+                    xmlns:converters="clr-namespace:Y_POS.Converters">
 
-    <converters:InvertThicknessConverter x:Key="InvertThicknessConverter"/>
-    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-    <converters:TextCaseCoverter x:Key="UpperCaseCoverter"/>
+    <commonConverters:InvertThicknessConverter x:Key="InvertThicknessConverter"/>
+    <commonConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <commonConverters:TextCaseCoverter x:Key="UpperCaseCoverter"/>
+    <converters:OrderStatusToTextConverter x:Key="OrderStatusToTextConverter"/>
 
 </ResourceDictionary>

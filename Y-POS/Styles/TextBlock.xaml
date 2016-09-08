@@ -14,6 +14,7 @@
         <!--<Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>-->
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
     </Style>
 
     <Style x:Key="DefaultSmallText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource DefaultText}">

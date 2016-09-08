@@ -7,11 +7,12 @@
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              xmlns:viewModels="clr-namespace:Y_POS.Core.ViewModels;assembly=Y-POS.Core"
              xmlns:views="clr-namespace:Y_POS.Views"
+             xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
              Background="{StaticResource DefaultImageBg}"
-             d:DataContext="{d:DesignInstance viewModels:ILoginVm, d:IsDesignTimeCreatable=False}">
+             d:DataContext="{d:DesignInstance pages:ILoginVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
     </UserControl.Resources>

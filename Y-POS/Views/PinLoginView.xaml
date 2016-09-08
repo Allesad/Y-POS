@@ -6,10 +6,11 @@
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:viewModels="clr-namespace:Y_POS.Core.ViewModels;assembly=Y-POS.Core"
              xmlns:views="clr-namespace:Y_POS.Views"
+             xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{StaticResource DefaultImageBg}"
-             d:DataContext="{d:DesignInstance viewModels:IPinVm, d:IsDesignTimeCreatable=False}">
+             d:DataContext="{d:DesignInstance pages:IPinVm, d:IsDesignTimeCreatable=False}">
 
     <DockPanel HorizontalAlignment="Center"
                Background="{StaticResource SemiTransparentBg}"
@@ -31,8 +32,7 @@
             <controls:ActionBarButton Grid.Column="0"
                                       Style="{StaticResource ActionBarLogin}"
                                       Padding="10,5"
-                                      Command="{Binding CommandLogin}"
-                                      CommandParameter="ActiveOrders" />
+                                      Command="{Binding CommandLogin}"/>
             <controls:ActionBarButton Grid.Column="1"
                                       Style="{StaticResource ActionBarClockIn}"
                                       Padding="10,5"
@@ -46,8 +46,7 @@
             <controls:ActionBarButton Grid.Column="3"
                                       Style="{StaticResource ActionBarBreak}"
                                       Padding="10,5"
-                                      Command="{Binding CommandBreak}"
-                                      CommandParameter="Login" />
+                                      Command="{Binding CommandBreak}"/>
         </Grid>
 
         <!-- NUMPAD -->

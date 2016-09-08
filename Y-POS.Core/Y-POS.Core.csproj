@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppNavigation.cs" />
+    <Compile Include="MockDataGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -62,28 +63,30 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Contracts\ICashDrawerVm.cs" />
-    <Compile Include="ViewModels\Contracts\ICheckoutVm.cs" />
-    <Compile Include="ViewModels\Contracts\INavMenuVm.cs" />
-    <Compile Include="ViewModels\Contracts\IOrderMakerVm.cs" />
-    <Compile Include="ViewModels\Contracts\IReportsVm.cs" />
-    <Compile Include="ViewModels\Contracts\ISettingsVm.cs" />
-    <Compile Include="ViewModels\Impl\ActiveOrdersVm.cs" />
-    <Compile Include="ViewModels\Impl\AppMainVm.cs" />
-    <Compile Include="ViewModels\Contracts\IActiveOrdersVm.cs" />
-    <Compile Include="ViewModels\Contracts\IAppMainVm.cs" />
-    <Compile Include="ViewModels\Contracts\IClosedOrdersVm.cs" />
-    <Compile Include="ViewModels\Contracts\ILoginVm.cs" />
-    <Compile Include="ViewModels\Contracts\IPinVm.cs" />
-    <Compile Include="ViewModels\Impl\CashdrawerVm.cs" />
-    <Compile Include="ViewModels\Impl\CheckoutVm.cs" />
-    <Compile Include="ViewModels\Impl\ClosedOrdersVm.cs" />
-    <Compile Include="ViewModels\Impl\LoginVm.cs" />
-    <Compile Include="ViewModels\Impl\NavMenuVm.cs" />
-    <Compile Include="ViewModels\Impl\OrderMakerVm.cs" />
-    <Compile Include="ViewModels\Impl\PinVm.cs" />
-    <Compile Include="ViewModels\Impl\ReportsVm.cs" />
-    <Compile Include="ViewModels\Impl\SettingsVm.cs" />
+    <Compile Include="ViewModels\Items\Contracts\IActiveOrderItemVm.cs" />
+    <Compile Include="ViewModels\Items\Impl\ActiveOrderItemVm.cs" />
+    <Compile Include="ViewModels\Pages\Contracts\ICashDrawerVm.cs" />
+    <Compile Include="ViewModels\Pages\Contracts\ICheckoutVm.cs" />
+    <Compile Include="ViewModels\Pages\Contracts\INavMenuVm.cs" />
+    <Compile Include="ViewModels\Pages\Contracts\IOrderMakerVm.cs" />
+    <Compile Include="ViewModels\Pages\Contracts\IReportsVm.cs" />
+    <Compile Include="ViewModels\Pages\Contracts\ISettingsVm.cs" />
+    <Compile Include="ViewModels\Pages\Impl\ActiveOrdersVm.cs" />
+    <Compile Include="ViewModels\Pages\Impl\AppMainVm.cs" />
+    <Compile Include="ViewModels\Pages\Contracts\IActiveOrdersVm.cs" />
+    <Compile Include="ViewModels\Pages\Contracts\IAppMainVm.cs" />
+    <Compile Include="ViewModels\Pages\Contracts\IClosedOrdersVm.cs" />
+    <Compile Include="ViewModels\Pages\Contracts\ILoginVm.cs" />
+    <Compile Include="ViewModels\Pages\Contracts\IPinVm.cs" />
+    <Compile Include="ViewModels\Pages\Impl\CashdrawerVm.cs" />
+    <Compile Include="ViewModels\Pages\Impl\CheckoutVm.cs" />
+    <Compile Include="ViewModels\Pages\Impl\ClosedOrdersVm.cs" />
+    <Compile Include="ViewModels\Pages\Impl\LoginVm.cs" />
+    <Compile Include="ViewModels\Pages\Impl\NavMenuVm.cs" />
+    <Compile Include="ViewModels\Pages\Impl\OrderMakerVm.cs" />
+    <Compile Include="ViewModels\Pages\Impl\PinVm.cs" />
+    <Compile Include="ViewModels\Pages\Impl\ReportsVm.cs" />
+    <Compile Include="ViewModels\Pages\Impl\SettingsVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
 using ReactiveUI;
+using YumaPos.Client.Common;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
 
-namespace Y_POS.Core.ViewModels
+namespace Y_POS.Core.ViewModels.Pages
 {
     public sealed class OrderMakerVm : PageVm, IOrderMakerVm
     {
@@ -16,6 +17,7 @@ namespace Y_POS.Core.ViewModels
 
         #region Commands
 
+        public int OrderNumber { get; private set; }
         public ICommand CommandCheckout { get { return _commandCheckout; } }
 
         #endregion
@@ -29,6 +31,14 @@ namespace Y_POS.Core.ViewModels
         #endregion
 
         #region Lifecycle
+
+        protected override void OnCreate(IArgsBundle args)
+        {
+            if (args != null)
+            {
+                OrderNumber = args.GetInt("id");
+            }
+        }
 
         protected override void InitCommands()
         {
