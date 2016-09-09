@@ -1,50 +1,50 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Y_POS.Views"
-                    xmlns:viewModels="clr-namespace:Y_POS.Core.ViewModels;assembly=Y-POS.Core">
+                    xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core">
     
     <!-- LOGIN -->
-    <DataTemplate DataType="{x:Type viewModels:LoginVm}">
+    <DataTemplate DataType="{x:Type pages:LoginVm}">
         <local:LoginView DataContext="{Binding}"/>
     </DataTemplate>
     
     <!-- PIN LOGIN -->
-    <DataTemplate DataType="{x:Type viewModels:PinVm}">
+    <DataTemplate DataType="{x:Type pages:PinVm}">
         <local:PinLoginView DataContext="{Binding}"/>
     </DataTemplate>
     
     <!-- ACTIVE ORDERS -->
-    <DataTemplate DataType="{x:Type viewModels:ActiveOrdersVm}">
+    <DataTemplate DataType="{x:Type pages:ActiveOrdersVm}">
         <local:ActiveOrdersView DataContext="{Binding}"/>
     </DataTemplate>
     
     <!-- CLOSED ORDERS -->
-    <DataTemplate DataType="{x:Type viewModels:ClosedOrdersVm}">
+    <DataTemplate DataType="{x:Type pages:ClosedOrdersVm}">
         <local:ClosedOrdersView DataContext="{Binding}"/>
     </DataTemplate>
     
     <!-- CASHDRAWER -->
-    <DataTemplate DataType="{x:Type viewModels:CashdrawerVm}">
+    <DataTemplate DataType="{x:Type pages:CashdrawerVm}">
         <local:CashDrawerView DataContext="{Binding}"/>
     </DataTemplate>
     
     <!-- REPORTS -->
-    <DataTemplate DataType="{x:Type viewModels:ReportsVm}">
+    <DataTemplate DataType="{x:Type pages:ReportsVm}">
         <local:ReportsView DataContext="{Binding}"/>
     </DataTemplate>
     
     <!-- SETTINGS -->
-    <DataTemplate DataType="{x:Type viewModels:SettingsVm}">
+    <DataTemplate DataType="{x:Type pages:SettingsVm}">
         <local:SettingsView DataContext="{Binding}"/>
     </DataTemplate>
     
     <!-- ORDER MAKER -->
-    <DataTemplate DataType="{x:Type viewModels:OrderMakerVm}">
+    <DataTemplate DataType="{x:Type pages:OrderMakerVm}">
         <local:OrderMakerView DataContext="{Binding}"/>
     </DataTemplate>
     
     <!-- CHECKOUT -->
-    <DataTemplate DataType="{x:Type viewModels:CheckoutVm}">
+    <DataTemplate DataType="{x:Type pages:CheckoutVm}">
         <local:CheckoutView DataContext="{Binding}"/>
     </DataTemplate>
     

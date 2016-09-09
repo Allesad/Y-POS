@@ -8,7 +8,7 @@ using YumaPos.Client.Common;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
 
-namespace Y_POS.Core.ViewModels
+namespace Y_POS.Core.ViewModels.Pages
 {
     public sealed class LoginVm : PageVm, ILoginVm
     {

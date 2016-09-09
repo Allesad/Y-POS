@@ -521,6 +521,114 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assigned to driver.
+        /// </summary>
+        public static string OrderStatus_AssignedToDrivder {
+            get {
+                return ResourceManager.GetString("OrderStatus_AssignedToDrivder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changed.
+        /// </summary>
+        public static string OrderStatus_Changed {
+            get {
+                return ResourceManager.GetString("OrderStatus_Changed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closed.
+        /// </summary>
+        public static string OrderStatus_Closed {
+            get {
+                return ResourceManager.GetString("OrderStatus_Closed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmed.
+        /// </summary>
+        public static string OrderStatus_Confirmed {
+            get {
+                return ResourceManager.GetString("OrderStatus_Confirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delivered.
+        /// </summary>
+        public static string OrderStatus_Delivered {
+            get {
+                return ResourceManager.GetString("OrderStatus_Delivered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Draft.
+        /// </summary>
+        public static string OrderStatus_Draft {
+            get {
+                return ResourceManager.GetString("OrderStatus_Draft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In Progress.
+        /// </summary>
+        public static string OrderStatus_InProgress {
+            get {
+                return ResourceManager.GetString("OrderStatus_InProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string OrderStatus_New {
+            get {
+                return ResourceManager.GetString("OrderStatus_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On delivery.
+        /// </summary>
+        public static string OrderStatus_OnDelivery {
+            get {
+                return ResourceManager.GetString("OrderStatus_OnDelivery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On Hold.
+        /// </summary>
+        public static string OrderStatus_OnHold {
+            get {
+                return ResourceManager.GetString("OrderStatus_OnHold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prepared.
+        /// </summary>
+        public static string OrderStatus_Prepared {
+            get {
+                return ResourceManager.GetString("OrderStatus_Prepared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Void.
+        /// </summary>
+        public static string OrderStatus_Void {
+            get {
+                return ResourceManager.GetString("OrderStatus_Void", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {

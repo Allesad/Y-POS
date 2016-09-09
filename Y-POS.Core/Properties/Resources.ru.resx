@@ -350,4 +350,40 @@
   <data name="Void" xml:space="preserve">
     <value>Аннулировать</value>
   </data>
+  <data name="OrderStatus_AssignedToDrivder" xml:space="preserve">
+    <value>Передан водителю</value>
+  </data>
+  <data name="OrderStatus_Changed" xml:space="preserve">
+    <value>Изменен</value>
+  </data>
+  <data name="OrderStatus_Closed" xml:space="preserve">
+    <value>Закрыт</value>
+  </data>
+  <data name="OrderStatus_Confirmed" xml:space="preserve">
+    <value>Подтвержден</value>
+  </data>
+  <data name="OrderStatus_Delivered" xml:space="preserve">
+    <value>Доставлен</value>
+  </data>
+  <data name="OrderStatus_Draft" xml:space="preserve">
+    <value>Драфт</value>
+  </data>
+  <data name="OrderStatus_InProgress" xml:space="preserve">
+    <value>В процессе</value>
+  </data>
+  <data name="OrderStatus_New" xml:space="preserve">
+    <value>Новый</value>
+  </data>
+  <data name="OrderStatus_OnDelivery" xml:space="preserve">
+    <value>Доставляется</value>
+  </data>
+  <data name="OrderStatus_OnHold" xml:space="preserve">
+    <value>Приостановлен</value>
+  </data>
+  <data name="OrderStatus_Prepared" xml:space="preserve">
+    <value>Приготовлен</value>
+  </data>
+  <data name="OrderStatus_Void" xml:space="preserve">
+    <value>Аннулирован</value>
+  </data>
 </root>
