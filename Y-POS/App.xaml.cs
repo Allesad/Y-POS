@@ -1,12 +1,17 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Reactive.Concurrency;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using System.Windows.Threading;
+using NLog;
 using ReactiveUI;
 using YumaPos.Client.Helpers;
 using YumaPos.Common.Infrastructure.IoC;
+using YumaPos.Common.Infrastructure.Logging;
 using Y_POS.Bootstrap;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views;
@@ -18,6 +23,8 @@ namespace Y_POS
     /// </summary>
     public partial class App : Application
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         protected override void OnStartup(StartupEventArgs e)
         {
             Thread.CurrentThread.Name = "Y-POS.Win";
@@ -42,13 +49,31 @@ namespace Y_POS
             RxApp.MainThreadScheduler = DispatcherScheduler.Current;
             RxApp.TaskpoolScheduler = TaskPoolScheduler.Default;
 
+            InitExceptionHandlers();
             Bootstrap();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            AppDomain.CurrentDomain.UnhandledException -= CurrentDomainOnUnhandledException;
+            Current.DispatcherUnhandledException -= DispatcherOnUnhandledException;
+            TaskScheduler.UnobservedTaskException -= TaskSchedulerOnUnobservedTaskException;
+
+            base.OnExit(e);
+        }
+
+        private void InitExceptionHandlers()
+        {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            Current.DispatcherUnhandledException += DispatcherOnUnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
         }
 
         private void Bootstrap()
         {
             var resolver = Bootstrapper.Run();
 
+            LoggerHelper.LoggingService = resolver.Resolve<ILoggingService>();
             ServiceLocator.Init(resolver);
 
             ShowUi(resolver);
@@ -71,6 +96,37 @@ namespace Y_POS
             MainWindow.Left = screenWidth / 2f - MainWindow.Width / 2f;
             MainWindow.Top = screenHeight / 2f - MainWindow.Height / 2f;
             MainWindow.Show();
+        }
+
+        private static void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            e.SetObserved();
+            var ex = e.Exception;
+            Current.Dispatcher.Invoke(() => LastStandExceptionHandler(ex));
+        }
+
+        private static void DispatcherOnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            LastStandExceptionHandler(e.Exception);
+        }
+
+        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var ex = e.ExceptionObject as Exception;
+            if (ex != null)
+            {
+                LastStandExceptionHandler(ex);
+            }
+        }
+
+        private static void LastStandExceptionHandler(Exception ex)
+        {
+            Logger.Fatal(ex, "Unhandled exception!");
+
+            MessageBox.Show(Current.MainWindow, ex.Message, "Fatal exception");
+
+            Current.Shutdown();
         }
     }
 }

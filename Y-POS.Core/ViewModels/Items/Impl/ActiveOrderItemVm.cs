@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Windows.Input;
 using ReactiveUI;
 using YumaPos.Client.Common;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
+using YumaPos.Shared.API.Models;
+using Y_POS.Core.MockData;
 using Y_POS.Core.ViewModels.Items.Contracts;
 
 namespace Y_POS.Core.ViewModels.Items.Impl
@@ -30,17 +33,19 @@ namespace Y_POS.Core.ViewModels.Items.Impl
 
         #region Constructor
 
-        public ActiveOrderItemVm(int number) : base(number.ToString())
+        public ActiveOrderItemVm(RestaurantOrderDto dto) : base(dto.OrderId.ToString())
         {
-            OrderNumber = number;
-            CreationTime = MockDataGenerator.GetRandomDate(DateTime.Today, DateTime.UtcNow);
-            Status = MockDataGenerator.GetOrderStatus();
-            CustomerName = MockDataGenerator.GetRandomCustomerName();
-            Amount = MockDataGenerator.GetRandomAmount(10, 50);
+            OrderNumber = dto.Number;
+            CreationTime = dto.Created;
+            Status = dto.Status;
+            CustomerName = dto.CustomerName;
+            Amount = dto.Amount;
 
             var cmd = ReactiveCommand.Create();
-            cmd.Select(o => (int) o).Subscribe(id => NavigationService.StartIntent(new Intent(AppNavigation.OrderMaker)
-                .SetArgs(new ArgsBundle().Put("id", id))));
+            cmd.Select(o => Guid.Parse((string) o))
+                .ObserveOn(SchedulerService.UiScheduler)
+                .Subscribe(id => NavigationService.StartIntent(new Intent(AppNavigation.OrderMaker)
+                    .SetArgs(new ArgsBundle().Put("id", id))));
             CommandOpen = cmd;
         }
 

@@ -3,7 +3,9 @@ using System.Windows.Input;
 using ReactiveUI;
 using YumaPos.Client.Common;
 using YumaPos.Client.Navigation;
+using YumaPos.Client.Services;
 using YumaPos.Client.UI.ViewModels.Impl;
+using YumaPos.Shared.API.Enums;
 
 namespace Y_POS.Core.ViewModels.Pages
 {
@@ -11,7 +13,10 @@ namespace Y_POS.Core.ViewModels.Pages
     {
         #region Fields
 
-        private ReactiveCommand<object> _commandCheckout; 
+        private readonly IOrderService _orderService;
+
+        private ReactiveCommand<object> _commandCheckout;
+        private Guid _orderId;
 
         #endregion
 
@@ -24,8 +29,11 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Constructor
 
-        public OrderMakerVm()
+        public OrderMakerVm(IOrderService orderService)
         {
+            if (orderService == null) throw new ArgumentNullException(nameof(orderService));
+
+            _orderService = orderService;
         }
 
         #endregion
@@ -36,7 +44,13 @@ namespace Y_POS.Core.ViewModels.Pages
         {
             if (args != null)
             {
-                OrderNumber = args.GetInt("id");
+                _orderId = args.GetGuid("id");
+
+                _orderService.GetOrderById(_orderId).Subscribe(dto => OrderNumber = dto.Number);
+            }
+            else
+            {
+                _orderService.CreateNewOrder(OrderType.Quick).Subscribe(dto => OrderNumber = dto.Number);
             }
         }
 
@@ -49,6 +63,8 @@ namespace Y_POS.Core.ViewModels.Pages
         {
             AddLifetimeSubscription(_commandCheckout.Subscribe(_ => NavigationService.StartIntent(new Intent(AppNavigation.Checkout))));
         }
+
+
 
         #endregion
     }
