@@ -6,11 +6,14 @@ using YumaPos.Client.Common;
 using YumaPos.Client.Navigation.Contracts;
 using YumaPos.Client.Navigation.Impl;
 using YumaPos.Client.Navigation.PageRegistration;
+using YumaPos.Client.Services;
 using YumaPos.Common.Infrastructure.IoC;
 using YumaPos.Common.Infrastructure.IoC.Registration;
+using YumaPos.Common.Infrastructure.Logging;
 using YumaPos.Common.Tools.IoC;
+using YumaPos.Common.Tools.Logging;
 using Y_POS.Core;
-using Y_POS.Core.ViewModels;
+using Y_POS.Core.MockData;
 using Y_POS.Core.ViewModels.Pages;
 
 namespace Y_POS.Bootstrap
@@ -43,7 +46,7 @@ namespace Y_POS.Bootstrap
             builder.RegisterType<Resolver>().As<IResolver>().InstancePerLifetimeScope();
             builder.RegisterType<ScopeManager>().As<IScopeManager>().InstancePerMatchingLifetimeScope(MAIN_SCOPE);
             builder.RegisterType<WpfSchedulerService>().As<ISchedulerService>();
-             
+            
             // Navigation
             builder.RegisterType<Navigator>().As<INavigator>().InstancePerMatchingLifetimeScope(MAIN_SCOPE);
             builder.RegisterType<DefaultNavIntentProcessor>()
@@ -52,6 +55,12 @@ namespace Y_POS.Bootstrap
             builder.RegisterType<DefaultNavigationHistory>()
                 .As<INavigationHistory>()
                 .InstancePerMatchingLifetimeScope(MAIN_SCOPE);
+
+            // Logging
+            builder.Register<LoggingService>().As<ILoggingService>();
+
+            // Services
+            builder.Register<MockOrderService>().As<IOrderService>();
 
             // Dialogs
             builder.Register<DialogManager>().As<IDialogManager>();

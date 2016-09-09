@@ -6,7 +6,9 @@ using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Common;
+using YumaPos.Client.Extensions;
 using YumaPos.Client.Navigation;
+using YumaPos.Client.Services;
 using YumaPos.Client.UI.ViewModels.Impl;
 using Y_POS.Core.ViewModels.Items.Contracts;
 using Y_POS.Core.ViewModels.Items.Impl;
@@ -15,6 +17,8 @@ namespace Y_POS.Core.ViewModels.Pages
 {
     public class ActiveOrdersVm : PageVm, IActiveOrdersVm
     {
+        private readonly IOrderService _orderService;
+
         #region Fields
 
         private ReactiveCommand<object> _commandCreateOrder;
@@ -44,13 +48,20 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Constructor
 
-        public ActiveOrdersVm()
+        public ActiveOrdersVm(IOrderService orderService)
         {
+            if (orderService == null) throw new ArgumentNullException(nameof(orderService));
+
+            _orderService = orderService;
         }
 
         #endregion
 
         #region Lifecycle
+
+        protected override void OnCreate(IArgsBundle args)
+        {
+        }
 
         protected override void InitCommands()
         {
@@ -64,12 +75,14 @@ namespace Y_POS.Core.ViewModels.Pages
         {
             AddLifetimeSubscription(_commandCreateOrder.Subscribe(_ => NavigationService.StartIntent(new Intent(AppNavigation.OrderMaker))));
             AddLifetimeSubscription(_commandCheckout.Where(_ => SelectedItem != null).Subscribe(_ => NavigateTo(new Intent(AppNavigation.Checkout)
-                .SetArgs(new ArgsBundle().Put("id", SelectedItem.OrderNumber)))));
+                .SetArgs(new ArgsBundle().Put("id", SelectedItem.ToGuid())))));
         }
 
-        protected override async void OnStart()
+        protected override void OnStart()
         {
-            Items = await Task.Run(() => Enumerable.Range(120, 15).Select(i => new ActiveOrderItemVm(i)).OrderByDescending(vm => vm.OrderNumber).ToArray());
+            _orderService.GetActiveOrdersResponse()
+                .Select(dto => dto.Results.Select(orderDto => new ActiveOrderItemVm(orderDto)).ToArray())
+                .Subscribe(dtos => Items = dtos);
         }
 
         #endregion

@@ -98,7 +98,7 @@
                         HorizontalAlignment="Right"
                         Background="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Background}"
                         Command="{Binding CommandOpen, Mode=OneTime}"
-                        CommandParameter="{Binding OrderNumber}" />
+                        CommandParameter="{Binding Uuid}" />
 
             </Grid>
         </DataTemplate>

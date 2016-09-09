@@ -1,8 +1,7 @@
 ﻿using System;
 using YumaPos.Shared.API.Enums;
-using YumaPos.Shared.API.ResponseDtos;
 
-namespace Y_POS.Core
+namespace Y_POS.Core.MockData
 {
     internal static class MockDataGenerator
     {
