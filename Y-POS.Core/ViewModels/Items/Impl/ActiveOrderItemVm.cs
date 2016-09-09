@@ -3,6 +3,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Windows.Input;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Common;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
@@ -19,7 +20,8 @@ namespace Y_POS.Core.ViewModels.Items.Impl
 
         public int OrderNumber { get; }
         public DateTime CreationTime { get; }
-        public OrderStatus Status { get; }
+        [Reactive]
+        public OrderStatus Status { get; private set; }
         public string CustomerName { get; }
         public decimal Amount { get; }
 
@@ -50,5 +52,10 @@ namespace Y_POS.Core.ViewModels.Items.Impl
         }
 
         #endregion
+
+        internal void UpdateStatus(OrderStatus status)
+        {
+            Status = status;
+        }
     }
 }

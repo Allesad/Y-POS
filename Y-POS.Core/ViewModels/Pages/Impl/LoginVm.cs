@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Reactive;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using ReactiveUI;
+using YumaPos.Client.Account;
 using YumaPos.Client.Common;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
@@ -14,13 +12,13 @@ namespace Y_POS.Core.ViewModels.Pages
     {
         #region Fields
 
-        private ReactiveCommand<Unit> _commandLogin; 
+        private readonly IAccountServiceManager _accountServiceManager;
+
+        private ReactiveCommand<bool> _commandLogin; 
 
         #endregion
 
         #region Properties
-
-        public string UrlPathSegment { get { return "login"; } }
 
         #endregion
 
@@ -32,21 +30,29 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Constructor
 
-        public LoginVm()
+        public LoginVm(IAccountServiceManager accountServiceManager)
         {
-            
+            if (accountServiceManager == null) throw new ArgumentNullException(nameof(accountServiceManager));
+
+            _accountServiceManager = accountServiceManager;
         }
 
         #endregion
 
         protected override void InitCommands()
         {
-            _commandLogin = ReactiveCommand.CreateAsyncTask((o, token) => Task.Delay(0, token));
+            _commandLogin = ReactiveCommand.CreateAsyncTask(o =>
+            {
+                object[] par = (object[]) o;
+                string username = (string) par[0];
+                string pass = (string) par[1];
+                return _accountServiceManager.LoginAsync(username, pass);
+            });
         }
 
         protected override void InitLifetimeSubscriptions()
         {
-            _commandLogin.ThrownExceptions.Subscribe(ex => Debug.WriteLine(ex.Message));
+            _commandLogin.ThrownExceptions.Subscribe(HandleError);
             _commandLogin.Subscribe(_ =>
             {
                 NavigationService.StartIntent(new Intent(AppNavigation.ActiveOrders));

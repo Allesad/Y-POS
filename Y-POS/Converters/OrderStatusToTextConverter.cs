@@ -16,7 +16,7 @@ namespace Y_POS.Converters
                 case OrderStatus.Draft:
                     return Core.Properties.Resources.OrderStatus_Draft;
                 case OrderStatus.New:
-                    return Core.Properties.Resources.OrderStatus_Draft;
+                    return Core.Properties.Resources.OrderStatus_New;
                 case OrderStatus.OnHold:
                     return Core.Properties.Resources.OrderStatus_OnHold;
                 case OrderStatus.Changed:

@@ -2,7 +2,11 @@
 using Autofac.Builder;
 using DialogManagement.Contracts;
 using DialogManagement.Core;
+using YumaPos.Client.Account;
+using YumaPos.Client.App;
 using YumaPos.Client.Common;
+using YumaPos.Client.Configuration;
+using YumaPos.Client.Hardware;
 using YumaPos.Client.Navigation.Contracts;
 using YumaPos.Client.Navigation.Impl;
 using YumaPos.Client.Navigation.PageRegistration;
@@ -12,6 +16,8 @@ using YumaPos.Common.Infrastructure.IoC.Registration;
 using YumaPos.Common.Infrastructure.Logging;
 using YumaPos.Common.Tools.IoC;
 using YumaPos.Common.Tools.Logging;
+using YumaPos.Shared.API;
+using Y_POS.Configuration;
 using Y_POS.Core;
 using Y_POS.Core.MockData;
 using Y_POS.Core.ViewModels.Pages;
@@ -46,6 +52,10 @@ namespace Y_POS.Bootstrap
             builder.RegisterType<Resolver>().As<IResolver>().InstancePerLifetimeScope();
             builder.RegisterType<ScopeManager>().As<IScopeManager>().InstancePerMatchingLifetimeScope(MAIN_SCOPE);
             builder.RegisterType<WpfSchedulerService>().As<ISchedulerService>();
+            builder.Register<ConfigurationProvider>().As<IConfigurationProvider>();
+            builder.Register<MockAuthApi>().As<IAuthorizationApi>();
+            builder.Register<MockAccountServiceManager>().As<IAccountService>().As<IAccountServiceManager>();
+            builder.Register<MockAppServiceManager>().As<IAppService>().As<IAppServiceManager>();
             
             // Navigation
             builder.RegisterType<Navigator>().As<INavigator>().InstancePerMatchingLifetimeScope(MAIN_SCOPE);
@@ -61,6 +71,9 @@ namespace Y_POS.Bootstrap
 
             // Services
             builder.Register<MockOrderService>().As<IOrderService>();
+
+            // Hardware
+            builder.Register<MockPrinter>().As<IPrintService>();
 
             // Dialogs
             builder.Register<DialogManager>().As<IDialogManager>();

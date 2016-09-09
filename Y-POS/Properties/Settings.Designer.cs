@@ -12,7 +12,7 @@ namespace Y_POS.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -29,6 +29,18 @@ namespace Y_POS.Properties {
         public string AppName {
             get {
                 return ((string)(this["AppName"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://backoffice.demo.yumapos.com:8703/BackOfficeService.svc")]
+        public string ServiceAddress {
+            get {
+                return ((string)(this["ServiceAddress"]));
+            }
+            set {
+                this["ServiceAddress"] = value;
             }
         }
     }

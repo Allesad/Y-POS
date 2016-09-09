@@ -10,6 +10,7 @@ using YumaPos.Client.Extensions;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.Services;
 using YumaPos.Client.UI.ViewModels.Impl;
+using YumaPos.Shared.API.Enums;
 using Y_POS.Core.ViewModels.Items.Contracts;
 using Y_POS.Core.ViewModels.Items.Impl;
 
@@ -76,6 +77,16 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(_commandCreateOrder.Subscribe(_ => NavigationService.StartIntent(new Intent(AppNavigation.OrderMaker))));
             AddLifetimeSubscription(_commandCheckout.Where(_ => SelectedItem != null).Subscribe(_ => NavigateTo(new Intent(AppNavigation.Checkout)
                 .SetArgs(new ArgsBundle().Put("id", SelectedItem.ToGuid())))));
+            AddLifetimeSubscription(_commandPrintOrder
+                .Where(o => o != null)
+                .Select(o => (IActiveOrderItemVm) o)
+                .Subscribe(async order => await Printer.PrintOrderAsync(order.ToGuid())));
+
+            // Void order
+            AddLifetimeSubscription(_commandVoid
+                .Where(o => o != null)
+                .Select(o => (IActiveOrderItemVm) o)
+                .Subscribe(order => VoidOrder(order.ToGuid())));
         }
 
         protected override void OnStart()
@@ -98,6 +109,17 @@ namespace Y_POS.Core.ViewModels.Pages
             catch (Exception ex)
             {
                 DialogService.CreateMessageDialog(ex.Message, "Error").Show();
+            }
+        }
+
+        private async void VoidOrder(Guid orderId)
+        {
+            var dlg = DialogService.CreateConfirmationDialog("Void order?", "Confirmation");
+            var res = await dlg.ShowAsync();
+            if (res)
+            {
+                _orderService.UpdateOrderStatus(orderId, (int) OrderStatus.Void)
+                    .Subscribe(_ => {}, () => ((ActiveOrderItemVm) Items.First(vm => vm.ToGuid() == orderId)).UpdateStatus(OrderStatus.Void));
             }
         }
 

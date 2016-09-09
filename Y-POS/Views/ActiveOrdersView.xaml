@@ -57,6 +57,7 @@
                 <Path Grid.Column="2"
                       Data="{StaticResource StarFilledIcon}"
                       Fill="{StaticResource AccentBrush}"
+                      Visibility="{Binding Status, Converter={StaticResource OrderStatusNewVisibilityConverter}}"
                       HorizontalAlignment="Left"
                       Margin="10,0,0,0"
                       Width="30"
@@ -181,17 +182,20 @@
                                       Style="{StaticResource ActionBarButton}"
                                       Title="{Binding Source={x:Static p:Resources.Checkout}, Converter={StaticResource UpperCaseCoverter}}"
                                       IconPath="{StaticResource CurrencyIcon}"
-                                      Command="{Binding CommandCheckout}"/>
+                                      Command="{Binding CommandCheckout}"
+                                      CommandParameter="{Binding ElementName=OrdersList, Path=SelectedItem}"/>
             
             <!-- PRINT -->
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarPrint}"
-                                      Command="{Binding CommandPrintOrder}"/>
+                                      Command="{Binding CommandPrintOrder}"
+                                      CommandParameter="{Binding ElementName=OrdersList, Path=SelectedItem}"/>
             
             <!-- VOID -->
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarVoid}"
-                                      Command="{Binding CommandVoid}"/>
+                                      Command="{Binding CommandVoid}"
+                                      CommandParameter="{Binding ElementName=OrdersList, Path=SelectedItem}"/>
 
             <controls:ActionBarButton DockPanel.Dock="Right"
                                       x:Name="NewOrderBtn"

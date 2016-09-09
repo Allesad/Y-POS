@@ -386,4 +386,7 @@
   <data name="OrderStatus_Void" xml:space="preserve">
     <value>Аннулирован</value>
   </data>
+  <data name="Dialog_Confirmation_VoidOrder" xml:space="preserve">
+    <value>Аннулировать заказ?</value>
+  </data>
 </root>

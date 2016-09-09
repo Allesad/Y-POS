@@ -9,6 +9,7 @@ using System.Windows.Markup;
 using System.Windows.Threading;
 using NLog;
 using ReactiveUI;
+using YumaPos.Client.App;
 using YumaPos.Client.Helpers;
 using YumaPos.Common.Infrastructure.IoC;
 using YumaPos.Common.Infrastructure.Logging;
@@ -69,12 +70,13 @@ namespace Y_POS
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
         }
 
-        private void Bootstrap()
+        private async void Bootstrap()
         {
             var resolver = Bootstrapper.Run();
 
             LoggerHelper.LoggingService = resolver.Resolve<ILoggingService>();
             ServiceLocator.Init(resolver);
+            await resolver.Resolve<IAppServiceManager>().InitAsync();
 
             ShowUi(resolver);
         }

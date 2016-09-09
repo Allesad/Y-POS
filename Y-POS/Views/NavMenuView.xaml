@@ -6,9 +6,11 @@
              xmlns:properties="clr-namespace:Y_POS.Properties"
              xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+             xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
              mc:Ignorable="d"
              d:DesignHeight="768"
-             d:DesignWidth="1024">
+             d:DesignWidth="1024"
+             d:DataContext="{d:DesignInstance pages:INavMenuVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -50,11 +52,11 @@
 
             <!-- STORE NAME -->
             <TextBlock Margin="20,0,20,5"
-                       Text="Store Name" />
+                       Text="{Binding StoreName}" />
 
             <!-- TERMINAL NAME -->
             <TextBlock Margin="20,0,20,50"
-                       Text="Terminal Name" />
+                       Text="{Binding TerminalName}" />
 
             <!-- MAIN MENU -->
             <ListBox Name="NavMenuListView"
