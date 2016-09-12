@@ -387,4 +387,7 @@
   <data name="OrderStatus_Void" xml:space="preserve">
     <value>Void</value>
   </data>
+  <data name="Dialog_Confirmation_VoidOrder" xml:space="preserve">
+    <value>Void order?</value>
+  </data>
 </root>

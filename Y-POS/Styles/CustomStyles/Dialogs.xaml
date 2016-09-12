@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
+                    xmlns:ui="clr-namespace:YumaPos.WPF.UI;assembly=YumaPos.WPF.UI">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!--<controls:SharedResourceDictionary Source="../../Themes/ColorScheme.xaml"/>-->
+        <ui:SharedResourceDictionary Source="../Button.xaml"/>
+        <ui:SharedResourceDictionary Source="../TextBlock.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="DialogActionButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="BorderThickness" Value="0 1 1 0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="ex:StyleExtensions.CornerRadius" Value="0"/>
+        <Setter Property="ex:StyleExtensions.BgOnHover">
+            <Setter.Value>
+                <SolidColorBrush Color="{StaticResource AccentColor}" Opacity="0.6"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource AccentBrush}"/>
+        <Setter Property="ex:StyleExtensions.BorderBrushOnHover">
+            <Setter.Value>
+                <Binding RelativeSource="{RelativeSource Self}" Path="BorderBrush"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

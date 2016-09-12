@@ -7,6 +7,9 @@ namespace Y_POS.Core.ViewModels.Pages
     {
         #region Properties
 
+        string StoreName { get; }
+        string TerminalName { get; }
+
         #endregion
 
         #region Commands

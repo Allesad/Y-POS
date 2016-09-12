@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using DialogManagement.Contracts;
-using DialogManagement.Core;
 using YumaPos.Client.Helpers;
 using YumaPos.Client.Navigation.Contracts;
 
@@ -13,6 +13,12 @@ namespace Y_POS.Views
     /// </summary>
     public partial class MainView : BaseView, IDialogHost
     {
+        #region Fields
+
+        private readonly Stack<DialogWindow> _dialogs = new Stack<DialogWindow>(3);
+
+        #endregion
+
         public MainView()
         {
             InitializeComponent();
@@ -23,12 +29,39 @@ namespace Y_POS.Views
 
         public void ShowDialog(IBaseDialog dialog)
         {
-            MessageBox.Show(((TextDialogContent) dialog.Content).Message);
+            // Hack to avoid blocking current method until dialog window is closed.
+            // Problem is that when we call dialog as modal window through ShowDialog() it blocks the current method execution
+            // until the dialog is closed. But if it is closed it means that TaskCompletionSource for current dialog (in case when we call it 
+            // via ShowAsync()) is set to null but we're still need to extract Task from it to return to original caller.
+            // All this shit leads to NullReferenceException while ShowAsync() method call. Dialog infrastructure neeeds to be revisited.
+            Dispatcher.InvokeAsync(() =>
+            {
+                var dlgWindow = new DialogWindow(dialog)
+                {
+                    Owner = _dialogs.Count > 0 ? _dialogs.Peek() : Application.Current.MainWindow
+                };
+
+                PositionDialog(dlgWindow);
+
+                _dialogs.Push(dlgWindow);
+
+                dlgWindow.ShowDialog();
+            });
         }
 
         public void HideDialog()
         {
-            
+            var dlg = _dialogs.Pop();
+            dlg.Close();
+        }
+
+        private static void PositionDialog(DialogWindow dlg)
+        {
+            var screenWidth = SystemParameters.PrimaryScreenWidth;
+            var screenHeight = SystemParameters.PrimaryScreenHeight;
+
+            dlg.Left = screenWidth / 2f - dlg.Width / 2f;
+            dlg.Top = screenHeight / 2f - dlg.Height / 2f;
         }
 
         private void OnBrowseBack(object sender, ExecutedRoutedEventArgs e)

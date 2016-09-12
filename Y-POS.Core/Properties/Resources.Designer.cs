@@ -350,6 +350,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Void order?.
+        /// </summary>
+        public static string Dialog_Confirmation_VoidOrder {
+            get {
+                return ResourceManager.GetString("Dialog_Confirmation_VoidOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discount.
         /// </summary>
         public static string Discount {

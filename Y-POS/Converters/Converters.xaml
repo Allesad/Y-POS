@@ -7,5 +7,6 @@
     <commonConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <commonConverters:TextCaseCoverter x:Key="UpperCaseCoverter"/>
     <converters:OrderStatusToTextConverter x:Key="OrderStatusToTextConverter"/>
+    <converters:OrderStatusNewVisibilityConverter x:Key="OrderStatusNewVisibilityConverter"/>
 
 </ResourceDictionary>

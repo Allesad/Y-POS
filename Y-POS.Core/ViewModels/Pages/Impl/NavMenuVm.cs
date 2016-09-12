@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using System.Windows.Input;
 using ReactiveUI;
+using YumaPos.Client.App;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
 
@@ -11,11 +12,16 @@ namespace Y_POS.Core.ViewModels.Pages
     {
         #region Fields
 
+        private readonly IAppService _appService;
+
         private readonly ReactiveCommand<object> _commandNavigate = ReactiveCommand.Create();
 
         #endregion
 
         #region Properties
+        
+        public string StoreName { get; private set; }
+        public string TerminalName { get; private set; }
 
         #endregion
 
@@ -27,15 +33,24 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Constructor
 
-        public NavMenuVm()
+        public NavMenuVm(IAppService appService)
         {
+            if (appService == null) throw new ArgumentNullException(nameof(appService));
+
+            _appService = appService;
+
             _commandNavigate
                 .Select(o => (NavUri) o)
                 .Where(uri => !uri.Equals(NavigationService.CurrenUri))
                 .Subscribe(NavigateTo);
 
             this.WhenAnyValue(vm => vm.NavigationService.CurrenUri)
-                .Subscribe();
+                .Subscribe(_ =>
+                {
+                });
+
+            StoreName = appService.Store.Title;
+            TerminalName = appService.Terminal.Name;
         }
 
         #endregion

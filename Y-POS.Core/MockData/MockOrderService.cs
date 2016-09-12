@@ -110,6 +110,7 @@ namespace Y_POS.Core.MockData
                 OrderId = Guid.NewGuid(),
                 Number = _orders.Count + 1,
                 Type = type,
+                Status = OrderStatus.New,
                 Created = DateTime.Now
             };
             _orders.Add(newOrder);
@@ -133,7 +134,8 @@ namespace Y_POS.Core.MockData
 
         public IObservable<ResponseDto> UpdateOrderStatus(Guid orderId, int statusId)
         {
-            throw new NotImplementedException();
+            _orders.First(dto => dto.OrderId == orderId).Status = (OrderStatus) statusId;
+            return Observable.Return<ResponseDto>(null);
         }
 
         public IObservable<ResponseDto> UpdateOrderItemQuantity(Guid orderId, Guid orderItemId, int quantity)

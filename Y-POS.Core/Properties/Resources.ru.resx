@@ -350,7 +350,7 @@
   <data name="Void" xml:space="preserve">
     <value>Аннулировать</value>
   </data>
-  <data name="OrderStatus_AssignedToDrivder" xml:space="preserve">
+  <data name="OrderStatus_AssignedToDriver" xml:space="preserve">
     <value>Передан водителю</value>
   </data>
   <data name="OrderStatus_Changed" xml:space="preserve">
@@ -385,5 +385,8 @@
   </data>
   <data name="OrderStatus_Void" xml:space="preserve">
     <value>Аннулирован</value>
+  </data>
+  <data name="Dialog_Confirmation_VoidOrder" xml:space="preserve">
+    <value>Аннулировать заказ?</value>
   </data>
 </root>

@@ -4,7 +4,6 @@
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:views="clr-namespace:Y_POS.Views"
-                xmlns:viewModels="clr-namespace:Y_POS.Core.ViewModels;assembly=Y-POS.Core"
                 xmlns:controls="clr-namespace:Y_POS.Controls"
                 xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
                 mc:Ignorable="d"
@@ -17,7 +16,7 @@
         <CommandBinding Command="NavigationCommands.NavigateJournal" Executed="OnSwitchMenuState"/>
     </UserControl.CommandBindings>
 
-    <Grid>
+    <Grid Name="MainContainer">
 
         <controls:ContentPresenterEx Content="{Binding CurrentPage}" ContentChanged="Page_OnContentChanged"/>
 

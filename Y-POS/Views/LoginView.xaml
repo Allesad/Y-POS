@@ -7,11 +7,16 @@
                 xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
                 xmlns:views="clr-namespace:Y_POS.Views"
                 xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
+                xmlns:converters="clr-namespace:Y_POS.Converters"
                 mc:Ignorable="d"
                 d:DesignHeight="300"
                 d:DesignWidth="300"
                 Background="{StaticResource DefaultImageBg}"
                 d:DataContext="{d:DesignInstance pages:ILoginVm, d:IsDesignTimeCreatable=False}">
+
+    <UserControl.Resources>
+        <converters:MockLoginDataConverter x:Key="DataConverter"/>
+    </UserControl.Resources>
 
     <StackPanel Orientation="Vertical">
 
@@ -35,19 +40,23 @@
 
             <!-- LOGIN -->
             <TextBox Grid.Row="0"
+                     Name="LoginTb"
                      Height="65"
                      VerticalAlignment="Bottom"
                      HorizontalAlignment="Stretch"
                      Margin="20,0,20,9"
-                     helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.Login}" />
+                     helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.Login}" 
+                     Text="Login"/>
 
             <!-- PASSWORD -->
             <TextBox Grid.Row="1"
+                     Name="PasswordTb"
                      Height="65"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Stretch"
                      Margin="20,9,20,0"
-                     helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.Password}" />
+                     helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.Password}" 
+                     Text="Password"/>
 
             <!-- SUBMIT -->
             <Button Grid.Row="2"
@@ -57,7 +66,14 @@
                     VerticalAlignment="Stretch"
                     FontSize="24"
                     Content="{Binding Source={x:Static p:Resources.Action_Login}, Converter={StaticResource UpperCaseCoverter}}"
-                    Command="{Binding CommandLogin}" />
+                    Command="{Binding CommandLogin}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource DataConverter}">
+                        <Binding Path="Text" ElementName="LoginTb"/>
+                        <Binding Path="Text" ElementName="PasswordTb"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
         </Grid>
 
     </StackPanel>
