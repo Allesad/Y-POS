@@ -21,6 +21,7 @@ using Y_POS.Configuration;
 using Y_POS.Core;
 using Y_POS.Core.MockData;
 using Y_POS.Core.ViewModels.Pages;
+using Y_POS.Resources;
 
 namespace Y_POS.Bootstrap
 {
@@ -49,22 +50,19 @@ namespace Y_POS.Bootstrap
         private static void RegisterTypes(ContainerBuilder builder)
         {
             // Common
-            builder.RegisterType<Resolver>().As<IResolver>().InstancePerLifetimeScope();
-            builder.RegisterType<ScopeManager>().As<IScopeManager>().InstancePerMatchingLifetimeScope(MAIN_SCOPE);
-            builder.RegisterType<WpfSchedulerService>().As<ISchedulerService>();
+            builder.Register<Resolver>(Lifecycles.PerScope).As<IResolver>();
+            builder.Register<ScopeManager>().As<IScopeManager>();
+            builder.Register<WpfSchedulerService>().As<ISchedulerService>();
             builder.Register<ConfigurationProvider>().As<IConfigurationProvider>();
             builder.Register<MockAuthApi>().As<IAuthorizationApi>();
             builder.Register<MockAccountServiceManager>().As<IAccountService>().As<IAccountServiceManager>();
             builder.Register<MockAppServiceManager>().As<IAppService>().As<IAppServiceManager>();
+            builder.Register<ResourceService>().As<IResourcesService>();
             
             // Navigation
-            builder.RegisterType<Navigator>().As<INavigator>().InstancePerMatchingLifetimeScope(MAIN_SCOPE);
-            builder.RegisterType<DefaultNavIntentProcessor>()
-                .As<INavIntentProcessor>()
-                .InstancePerMatchingLifetimeScope(MAIN_SCOPE);
-            builder.RegisterType<DefaultNavigationHistory>()
-                .As<INavigationHistory>()
-                .InstancePerMatchingLifetimeScope(MAIN_SCOPE);
+            builder.Register<Navigator>().As<INavigator>();
+            builder.Register<DefaultNavIntentProcessor>().As<INavIntentProcessor>();
+            builder.Register<DefaultNavigationHistory>().As<INavigationHistory>();
 
             // Logging
             builder.Register<LoggingService>().As<ILoggingService>();

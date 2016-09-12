@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -93,6 +92,7 @@ namespace Y_POS.Core.ViewModels.Pages
         {
             _orderService.GetActiveOrdersResponse()
                 .Select(dto => dto.Results.Select(orderDto => new ActiveOrderItemVm(orderDto)).ToArray())
+                .ObserveOn(SchedulerService.UiScheduler)
                 .Subscribe(dtos => Items = dtos);
         }
 
@@ -114,7 +114,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private async void VoidOrder(Guid orderId)
         {
-            var dlg = DialogService.CreateConfirmationDialog("Void order?", "Confirmation");
+            var dlg = DialogService.CreateConfirmationDialog(Properties.Resources.Dialog_Confirmation_VoidOrder, "Confirmation");
             var res = await dlg.ShowAsync();
             if (res)
             {
