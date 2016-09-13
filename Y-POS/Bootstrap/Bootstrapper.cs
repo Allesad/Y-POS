@@ -8,16 +8,22 @@ using YumaPos.Client.Builders;
 using YumaPos.Client.Common;
 using YumaPos.Client.Configuration;
 using YumaPos.Client.Hardware;
+using YumaPos.Client.LocalData.Repositories;
 using YumaPos.Client.Navigation.Contracts;
 using YumaPos.Client.Navigation.Impl;
 using YumaPos.Client.Navigation.PageRegistration;
 using YumaPos.Client.Services;
+using YumaPos.Client.Services.Contracts;
+using YumaPos.Client.WCF;
 using YumaPos.Common.Infrastructure.IoC;
 using YumaPos.Common.Infrastructure.IoC.Registration;
 using YumaPos.Common.Infrastructure.Logging;
 using YumaPos.Common.Tools.IoC;
 using YumaPos.Common.Tools.Logging;
+using YumaPos.FrontEnd.Infrastructure.Common.Serialization;
 using YumaPos.Shared.API;
+using YumaPos.Shared.Core.Reciept.Contracts;
+using YumaPos.Shared.Infrastructure;
 using Y_POS.Configuration;
 using Y_POS.Core;
 using Y_POS.Core.MockData;
@@ -55,11 +61,22 @@ namespace Y_POS.Bootstrap
             builder.Register<ScopeManager>().As<IScopeManager>();
             builder.Register<WpfSchedulerService>().As<ISchedulerService>();
             builder.Register<ConfigurationProvider>().As<IConfigurationProvider>();
-            builder.Register<MockAuthApi>().As<IAuthorizationApi>();
-            builder.Register<MockAccountServiceManager>().As<IAccountService>().As<IAccountServiceManager>();
-            builder.Register<MockAppServiceManager>().As<IAppService>().As<IAppServiceManager>();
+            //builder.Register<MockAccountServiceManager>().As<IAccountService>().As<IAccountServiceManager>();
+            //builder.Register<MockAppServiceManager>().As<IAppService>().As<IAppServiceManager>();
             builder.Register<ResourceService>().As<IResourcesService>();
-            
+
+            // API
+            //builder.Register<MockAuthApi>().As<IAuthorizationApi>();
+            builder.Register<ApiConfig>().As<IAPIConfig>();
+            builder.Register<SerializationService>().As<ISerializationService>();
+            builder.Register<AuthorizationApi>(Lifecycles.PerDependency).As<IAuthorizationApi>();
+            builder.Register<TerminalApi>().As<ITerminalApi>();
+            builder.Register<BackOfficeApi>().As<IBackOfficeApi>();
+
+            // Data access
+            builder.Register<MockCommonClientSettingsRepository>().As<ICommonClientSettingsRepository>();
+            builder.Register<MockStoreSettingsRepository>().As<IStoreSettingsRepository>();
+
             // Navigation
             builder.Register<Navigator>().As<INavigator>();
             builder.Register<DefaultNavIntentProcessor>().As<INavIntentProcessor>();
@@ -68,8 +85,16 @@ namespace Y_POS.Bootstrap
             // Logging
             builder.Register<LoggingService>().As<ILoggingService>();
 
+            // Terminal and account management
+            builder.Register<AppServiceManager>().As<IAppServiceManager>().As<IAppService>();
+            builder.Register<AccountServiceManager>().As<IAccountServiceManager>().As<IAccountService>();
+
             // Services
-            builder.Register<MockOrderService>().As<IOrderService>();
+            //builder.Register<MockOrderService>().As<IOrderService>();
+            builder.Register<OrderService>().As<IOrderService>();
+            builder.Register<MenuService>().As<IMenuService>();
+            builder.Register<InMemoryMenuService>().As<IInMemoryMenuService>();
+            builder.Register<ImageService>().As<IImageService>();
 
             // Hardware
             builder.Register<MockPrinter>().As<IPrintService>();

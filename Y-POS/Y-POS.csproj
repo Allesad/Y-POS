@@ -46,6 +46,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\DialogManagement.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.3.8\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -99,6 +103,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\YumaPos.Client.Core.dll</HintPath>
     </Reference>
+    <Reference Include="YumaPos.Client.LocalData, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\YumaPos.Client.LocalData.dll</HintPath>
+    </Reference>
+    <Reference Include="YumaPos.Client.WCF">
+      <HintPath>..\Libs\YumaPos.Client.WCF.dll</HintPath>
+    </Reference>
     <Reference Include="YumaPos.Common.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\YumaPos.Common.Infrastructure.dll</HintPath>
@@ -109,6 +120,9 @@
     <Reference Include="YumaPos.FrontEnd.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\YumaPos.FrontEnd.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="YumaPos.Shared.Core2">
+      <HintPath>..\Libs\YumaPos.Shared.Core2.dll</HintPath>
     </Reference>
     <Reference Include="YumaPos.Shared.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -121,12 +135,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrap\Bootstrapper.cs" />
+    <Compile Include="Configuration\ApiConfig.cs" />
     <Compile Include="Configuration\ConfigurationProvider.cs" />
     <Compile Include="Controls\ActionBarButton.cs" />
     <Compile Include="Controls\ContentPresenterEx.cs" />
     <Compile Include="Controls\MenuSelectorControl.cs" />
     <Compile Include="Controls\NumericKeypadControl.cs" />
     <Compile Include="Converters\ActionBarIconVisibilityConterter.cs" />
+    <Compile Include="Converters\ImageModelToSourceConverter.cs" />
     <Compile Include="Converters\MockLoginDataConverter.cs" />
     <Compile Include="Converters\OrderStatusNewVisibilityConverter.cs" />
     <Compile Include="Converters\OrderStatusToTextConverter.cs" />

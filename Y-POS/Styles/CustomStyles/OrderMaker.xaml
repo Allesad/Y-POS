@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ui="clr-namespace:YumaPos.WPF.UI;assembly=YumaPos.WPF.UI"
                     xmlns:controls="clr-namespace:Y_POS.Controls"
-                    xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI">
+                    xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
+                    xmlns:contracts="clr-namespace:Y_POS.Core.ViewModels.Items.Contracts;assembly=Y-POS.Core">
 
     <ResourceDictionary.MergedDictionaries>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Themes/ColorScheme.xaml" />
@@ -12,7 +13,7 @@
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/ListBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <DataTemplate x:Key="CategoryDt">
+    <DataTemplate x:Key="CategoryDt" DataType="{x:Type contracts:IMenuCategoryItemVm}">
         <Grid Name="ContainerGrid">
 
             <Grid.RowDefinitions>
@@ -20,10 +21,12 @@
                 <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
 
-            <Image Grid.Row="0" Grid.RowSpan="2" 
-                Height="{Binding ElementName=ContainerGrid, Path=ActualHeight}"
-                Stretch="Uniform"
-                Source="../../Images/Peri-Peri-new-3001.png" />
+            <Image Grid.Row="0" Grid.RowSpan="2"
+                   Height="{Binding ElementName=ContainerGrid, Path=ActualHeight}"
+                   Stretch="Uniform"
+                   CacheMode="BitmapCache"
+                   Source="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}}" />
+            <!--Source="../../Images/Peri-Peri-new-3001.png" -->
 
             <Border Grid.Row="1"
                     Background="{StaticResource DimmedTextBackground}"
@@ -34,7 +37,7 @@
                            TextAlignment="Center"
                            TextWrapping="Wrap"
                            TextTrimming="WordEllipsis"
-                           Text="{Binding}" />
+                           Text="{Binding Title}" />
             </Border>
         </Grid>
     </DataTemplate>
@@ -61,44 +64,46 @@
         <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource SecondaryBrush}" />
     </Style>
 
-    <DataTemplate x:Key="CategoryItemDt">
+    <DataTemplate x:Key="CategoryItemDt" DataType="{x:Type contracts:IMenuItemItemVm}">
         <Button Style="{StaticResource CategoryItemListItem}"
                 Tag="{Binding}">
             <Button.Content>
-                <Grid >
+                <Grid>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="2*" />
                     </Grid.RowDefinitions>
 
                     <Image Stretch="Uniform" Grid.Row="0" Grid.RowSpan="2"
-                   Source="../../Images/img.png" />
+                           CacheMode="BitmapCache"
+                           Source="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}}"/>
+                    <!--Source="../../Images/img.png" -->
 
                     <!-- PRICE -->
                     <Border Background="{StaticResource DimmedTextBackground}"
-                    Grid.Row="0"
-                    Padding="3"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Right">
+                            Grid.Row="0"
+                            Padding="3"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right">
                         <TextBlock Style="{StaticResource DefaultText}"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Right"
-                           Focusable="False"
-                           Text="12.99" />
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Focusable="False"
+                                   Text="{Binding Price, StringFormat=c}" />
                     </Border>
 
                     <!-- TITLE -->
                     <Border Background="{StaticResource DimmedTextBackground}"
-                    Grid.Row="1"
-                    Padding="3"
-                    VerticalAlignment="Stretch">
+                            Grid.Row="1"
+                            Padding="3"
+                            VerticalAlignment="Stretch">
                         <TextBlock Style="{StaticResource DefaultSmallText}"
-                           VerticalAlignment="Center"
-                           TextAlignment="Center"
-                           TextWrapping="Wrap"
-                           TextTrimming="WordEllipsis"
-                           Text="{Binding}" />
+                                   VerticalAlignment="Center"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   TextTrimming="WordEllipsis"
+                                   Text="{Binding Title}" />
                     </Border>
                 </Grid>
             </Button.Content>
@@ -123,7 +128,7 @@
 
     <Style TargetType="{x:Type controls:MenuSelectorControl}">
         <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:MenuSelectorControl}">
@@ -132,7 +137,7 @@
                           SnapsToDevicePixels="True"
                           ClipToBounds="True">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" MinHeight="130"/>
+                            <RowDefinition Height="Auto" MinHeight="130" MaxHeight="220"/>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
@@ -147,15 +152,16 @@
                                  Margin="0,0,-1,-1"
                                  Background="{StaticResource SeparatorBrush}"
                                  UseLayoutRounding="False"
-                                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                 ItemContainerStyle="{StaticResource CategoryListItem}"/>
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                 ItemContainerStyle="{StaticResource CategoryListItem}" />
 
                         <!-- ITEMS -->
                         <ItemsControl Grid.Row="1" Grid.Column="0"
                                       Name="PART_CategoryItems"
                                       Margin="0,0,-1,-1"
                                       Background="{StaticResource SeparatorBrush}"
-                                      ItemTemplate="{StaticResource CategoryItemDt}"/>
+                                      ItemTemplate="{StaticResource CategoryItemDt}" />
 
                         <!-- CATEGORIES NAVIGATION -->
                         <UniformGrid Grid.Row="0" Grid.Column="1"
@@ -165,7 +171,7 @@
                                     BorderThickness="0,0,0,1"
                                     BorderBrush="{StaticResource SeparatorBrush}" />
                             <Button Style="{StaticResource NavPrevBtn}"
-                                    Name="PART_CategoriesBack"/>
+                                    Name="PART_CategoriesBack" />
                         </UniformGrid>
 
                         <!-- ITEMS NAVIGATION -->
@@ -174,9 +180,9 @@
                             <Button Style="{StaticResource NavNextBtn}"
                                     Name="PART_ItemsNext"
                                     BorderThickness="0,0,0,1"
-                                    BorderBrush="{StaticResource SeparatorBrush}"/>
+                                    BorderBrush="{StaticResource SeparatorBrush}" />
                             <Button Style="{StaticResource NavPrevBtn}"
-                                    Name="PART_ItemsBack"/>
+                                    Name="PART_ItemsBack" />
                         </UniformGrid>
 
                         <Separator Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"

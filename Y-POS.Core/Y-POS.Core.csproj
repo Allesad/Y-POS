@@ -55,10 +55,13 @@
     <Compile Include="MockData\MockAccountServiceManager.cs" />
     <Compile Include="MockData\MockAppServiceManager.cs" />
     <Compile Include="MockData\MockAuthApi.cs" />
+    <Compile Include="MockData\MockCommonClientSettingsRepository.cs" />
     <Compile Include="MockData\MockDataGenerator.cs" />
     <Compile Include="MockData\MockExtensions.cs" />
+    <Compile Include="MockData\MockMenuService.cs" />
     <Compile Include="MockData\MockOrderService.cs" />
     <Compile Include="MockData\MockPrinter.cs" />
+    <Compile Include="MockData\MockStoreSettingsRepository.cs" />
     <Compile Include="Models\OrderedItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -72,7 +75,11 @@
       <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Items\Contracts\IActiveOrderItemVm.cs" />
+    <Compile Include="ViewModels\Items\Contracts\IMenuItemItemVm.cs" />
+    <Compile Include="ViewModels\Items\Contracts\IMenuCategoryItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\ActiveOrderItemVm.cs" />
+    <Compile Include="ViewModels\Items\Impl\MenuCategoryItemVm.cs" />
+    <Compile Include="ViewModels\Items\Impl\MenuItemItemVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\ICashDrawerVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\ICheckoutVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\INavMenuVm.cs" />
@@ -150,6 +157,9 @@
     </Reference>
     <Reference Include="YumaPos.Hardware.PinpadHardware.Core.Contracts">
       <HintPath>..\Libs\YumaPos.Hardware.PinpadHardware.Core.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="YumaPos.Shared.Core2">
+      <HintPath>..\Libs\YumaPos.Shared.Core2.dll</HintPath>
     </Reference>
     <Reference Include="YumaPos.Shared.Infrastructure">
       <HintPath>..\Libs\YumaPos.Shared.Infrastructure.dll</HintPath>
