@@ -4,6 +4,7 @@ using DialogManagement.Contracts;
 using DialogManagement.Core;
 using YumaPos.Client.Account;
 using YumaPos.Client.App;
+using YumaPos.Client.Builders;
 using YumaPos.Client.Common;
 using YumaPos.Client.Configuration;
 using YumaPos.Client.Hardware;
@@ -75,6 +76,9 @@ namespace Y_POS.Bootstrap
 
             // Dialogs
             builder.Register<DialogManager>().As<IDialogManager>();
+            
+            // Business logic
+            builder.Register<OrderCreator>(Lifecycles.PerScope).As<IOrderCreator>();
 
             // Main ViewModels
             builder.Register<AppMainVm>().As<IAppMainVm>();

@@ -3,13 +3,13 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                xmlns:system="clr-namespace:System;assembly=mscorlib"
                 xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
                 xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
                 xmlns:controls="clr-namespace:Y_POS.Controls"
                 xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
                 xmlns:views="clr-namespace:Y_POS.Views"
                 xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
+                xmlns:builders="clr-namespace:YumaPos.Client.Builders;assembly=YumaPos.Client.Core"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
                 d:DataContext="{d:DesignInstance pages:IOrderMakerVm, d:IsDesignTimeCreatable=False}">
@@ -56,25 +56,27 @@
         </DataTemplate>
 
         <!-- ORDERED ITEM DATA TEMPLATE -->
-        <DataTemplate x:Key="OrderedItemDt">
+        <DataTemplate x:Key="OrderedItemDt" DataType="{x:Type builders:IOrderedItem}">
             <DockPanel>
 
                 <!-- PRICE -->
                 <TextBlock DockPanel.Dock="Right"
                            VerticalAlignment="Center"
-                           Text="14.50" />
+                           Text="{Binding TotalPrice, StringFormat=c}" />
 
                 <!-- QTY -->
                 <TextBlock DockPanel.Dock="Right"
                            VerticalAlignment="Center"
                            Margin="10,0"
-                           FontSize="12"
-                           Text="x1" />
+                           FontSize="12">
+                    <Run Text="x"/>
+                    <Run Text="{Binding Qty}"/>
+                </TextBlock>
 
                 <StackPanel VerticalAlignment="Center">
                     <!-- TITLE -->
                     <TextBlock FontSize="12"
-                               Text="Cappuchino"
+                               Text="{Binding Title}"
                                FontWeight="SemiBold" />
                     <!-- DESCRIPTION -->
                     <TextBlock FontSize="12"
@@ -126,7 +128,8 @@
 
             <!-- PRINT -->
             <controls:ActionBarButton DockPanel.Dock="Right"
-                                      Style="{StaticResource ActionBarPrint}" />
+                                      Style="{StaticResource ActionBarPrint}" 
+                                      Command="{Binding CommandPrint}"/>
 
             <!-- GIFT CARD -->
             <controls:ActionBarButton DockPanel.Dock="Right"
@@ -134,7 +137,8 @@
 
             <!-- VOID -->
             <controls:ActionBarButton DockPanel.Dock="Right"
-                                      Style="{StaticResource ActionBarVoid}" />
+                                      Style="{StaticResource ActionBarVoid}" 
+                                      Command="{Binding CommandVoid}"/>
 
             <!-- CLEAR -->
             <controls:ActionBarButton DockPanel.Dock="Right"
@@ -161,7 +165,7 @@
                        Margin="15,5">
                 <Run Text="{Binding Source={x:Static p:Resources.Order}, Mode=OneWay}" />
                 <Run Text=" #" />
-                <Run Text="{Binding OrderNumber}"/>
+                <Run Text="{Binding OrderNumber, Mode=OneWay}"/>
             </TextBlock>
 
             <!-- SEARCH CUSTOMER -->
@@ -174,14 +178,15 @@
                     Click="SwitchGridSize" />
 
             <ListBox Grid.Row="2"
-                     ItemContainerStyle="{StaticResource OrderedItemsListItem}">
-                <ListBox.Items>
+                     ItemContainerStyle="{StaticResource OrderedItemsListItem}"
+                     ItemsSource="{Binding OrderedItems}">
+                <!--<ListBox.Items>
                     <system:String>1</system:String>
                     <system:String>2</system:String>
                     <system:String>3</system:String>
                     <system:String>3</system:String>
                     <system:String>3</system:String>
-                </ListBox.Items>
+                </ListBox.Items>-->
             </ListBox>
 
             <Separator Grid.Row="2"
@@ -201,7 +206,7 @@
 
                 <!-- TOTAL AMOUNT -->
                 <TextBlock DockPanel.Dock="Right"
-                           Text="$34.98" />
+                           Text="{Binding Total, StringFormat=c}" />
 
             </DockPanel>
 
