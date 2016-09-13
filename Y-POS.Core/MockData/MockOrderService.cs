@@ -85,7 +85,7 @@ namespace Y_POS.Core.MockData
 
         public IObservable<OrderMakerDto> GetOrderMakerById(Guid orderId)
         {
-            throw new NotImplementedException();
+            return Observable.Return(_orders.First(dto => dto.OrderId == orderId).ToOrderMakerDto());
         }
 
         public IObservable<Dictionary<Guid, decimal>> GetUpdatedOrderItemsPrices(Guid orderId)
