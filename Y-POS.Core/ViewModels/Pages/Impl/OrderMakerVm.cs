@@ -23,11 +23,10 @@ namespace Y_POS.Core.ViewModels.Pages
         private readonly IOrderCreator _orderCreator;
 
         private ReactiveCommand<object> _commandAddCustomer;
-        private ReactiveCommand<object> _commandClear;
+        private ReactiveCommand<Unit> _commandClear;
         private ReactiveCommand<bool> _commandVoid;
         private ReactiveCommand<Unit> _commandPrint;
         private ReactiveCommand<object> _commandCheckout;
-        private Guid _orderId;
 
         #endregion
 
@@ -106,16 +105,20 @@ namespace Y_POS.Core.ViewModels.Pages
         protected override void InitCommands()
         {
             _commandAddCustomer = ReactiveCommand.Create();
-            _commandClear = ReactiveCommand.Create();
-            _commandVoid = ReactiveCommand.CreateAsyncTask(_ => VoidOrder(_orderId));
-            _commandPrint = ReactiveCommand.CreateAsyncTask(_ => PrintOrder(_orderId));
+            _commandClear = ReactiveCommand.CreateAsyncObservable(_ => _orderCreator.ClearOrderItems());
+            _commandVoid = ReactiveCommand.CreateAsyncTask(_ => VoidOrder(_orderCreator.OrderId));
+            _commandPrint = ReactiveCommand.CreateAsyncTask(_ => PrintOrder(_orderCreator.OrderId));
             _commandCheckout = ReactiveCommand.Create();
         }
 
         protected override void InitLifetimeSubscriptions()
         {
+            // Clear items
+            AddLifetimeSubscription(_commandClear.Subscribe(_ => DialogService.CreateMessageDialog("Order cleared").Show()));
+
             // Void
             AddLifetimeSubscription(_commandVoid.Where(b => b)
+                .SelectMany(_ => _orderCreator.ChangeOrderStatus(OrderStatus.Void))
                 .SubscribeToObserveOnUi(_ => NavigateTo(AppNavigation.ActiveOrders, IntentFlags.ClearTop)));
             
             // Print

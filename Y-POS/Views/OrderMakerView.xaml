@@ -142,7 +142,8 @@
 
             <!-- CLEAR -->
             <controls:ActionBarButton DockPanel.Dock="Right"
-                                      Style="{StaticResource ActionBarClear}" />
+                                      Style="{StaticResource ActionBarClear}"
+                                      Command="{Binding CommandClear}"/>
 
         </DockPanel>
 
@@ -179,15 +180,7 @@
 
             <ListBox Grid.Row="2"
                      ItemContainerStyle="{StaticResource OrderedItemsListItem}"
-                     ItemsSource="{Binding OrderedItems}">
-                <!--<ListBox.Items>
-                    <system:String>1</system:String>
-                    <system:String>2</system:String>
-                    <system:String>3</system:String>
-                    <system:String>3</system:String>
-                    <system:String>3</system:String>
-                </ListBox.Items>-->
-            </ListBox>
+                     ItemsSource="{Binding OrderedItems}"/>
 
             <Separator Grid.Row="2"
                        Style="{StaticResource HSeparator}"
