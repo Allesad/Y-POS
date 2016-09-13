@@ -21,7 +21,7 @@ namespace Y_POS
 
             _dialog = dialog;
 
-            Title = dialog.Title;
+            Title = !string.IsNullOrWhiteSpace(dialog.Title) ? dialog.Title : string.Empty;
 
             var dlgType = dialog.GetType();
             

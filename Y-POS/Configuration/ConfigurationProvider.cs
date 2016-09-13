@@ -17,7 +17,7 @@ namespace Y_POS.Configuration
         public string AppName { get; }
         public Uri DefaultImageUri { get; }
         public string ReportsAddress { get; }
-        public string ImageServiceAddress { get; }
+        public string ImageServiceAddress { get { return Settings.Default.ImageServiceAddress; } }
         public string LocalDirectoryPath { get; }
     }
 }

@@ -135,7 +135,7 @@ namespace Y_POS.Core.MockData
         public IObservable<ResponseDto> UpdateOrderStatus(Guid orderId, int statusId)
         {
             _orders.First(dto => dto.OrderId == orderId).Status = (OrderStatus) statusId;
-            return Observable.Return<ResponseDto>(null);
+            return Observable.Return(new ResponseDto());
         }
 
         public IObservable<ResponseDto> UpdateOrderItemQuantity(Guid orderId, Guid orderItemId, int quantity)
@@ -160,12 +160,7 @@ namespace Y_POS.Core.MockData
 
         public IObservable<Unit> RemoveOrderItemsFromOrder(Guid orderId)
         {
-            throw new NotImplementedException();
-        }
-
-        IObservable<Unit> IOrderService.RemoveOrderItemsFromOrder(Guid orderId)
-        {
-            throw new NotImplementedException();
+            return Observable.Return(Unit.Default);
         }
     }
 }

@@ -8,11 +8,14 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Builders;
 using YumaPos.Client.Common;
+using YumaPos.Client.Extensions;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.Services;
 using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using Y_POS.Core.Extensions;
+using Y_POS.Core.ViewModels.Items.Contracts;
+using Y_POS.Core.ViewModels.Items.Impl;
 
 namespace Y_POS.Core.ViewModels.Pages
 {
@@ -21,13 +24,13 @@ namespace Y_POS.Core.ViewModels.Pages
         #region Fields
 
         private readonly IOrderCreator _orderCreator;
+        private readonly IMenuService _menuService;
 
         private ReactiveCommand<object> _commandAddCustomer;
-        private ReactiveCommand<object> _commandClear;
+        private ReactiveCommand<Unit> _commandClear;
         private ReactiveCommand<bool> _commandVoid;
         private ReactiveCommand<Unit> _commandPrint;
         private ReactiveCommand<object> _commandCheckout;
-        private Guid _orderId;
 
         #endregion
 
@@ -40,7 +43,15 @@ namespace Y_POS.Core.ViewModels.Pages
         [Reactive]
         public decimal Total { get; private set; }
 
+        [Reactive]
+        public IMenuCategoryItemVm[] Categories { get; private set; }
+        [Reactive]
+        public IMenuItemItemVm[] CategoryItems { get; private set; }
+
         public IReactiveDerivedList<IOrderedItem> OrderedItems { get; private set; }
+
+        [Reactive]
+        public IMenuCategoryItemVm SelectedCategory { get; set; }
 
         [Reactive]
         public IOrderedItem SelectedItem { get; set; }
@@ -59,11 +70,13 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Constructor
 
-        public OrderMakerVm(IOrderCreator orderCreator)
+        public OrderMakerVm(IOrderCreator orderCreator, IMenuService menuService)
         {
             if (orderCreator == null) throw new ArgumentNullException(nameof(orderCreator));
+            if (menuService == null) throw new ArgumentNullException(nameof(menuService));
 
             _orderCreator = orderCreator;
+            _menuService = menuService;
         }
 
         #endregion
@@ -106,16 +119,20 @@ namespace Y_POS.Core.ViewModels.Pages
         protected override void InitCommands()
         {
             _commandAddCustomer = ReactiveCommand.Create();
-            _commandClear = ReactiveCommand.Create();
-            _commandVoid = ReactiveCommand.CreateAsyncTask(_ => VoidOrder(_orderId));
-            _commandPrint = ReactiveCommand.CreateAsyncTask(_ => PrintOrder(_orderId));
+            _commandClear = ReactiveCommand.CreateAsyncObservable(_ => _orderCreator.ClearOrderItems());
+            _commandVoid = ReactiveCommand.CreateAsyncTask(_ => VoidOrder(_orderCreator.OrderId));
+            _commandPrint = ReactiveCommand.CreateAsyncTask(_ => PrintOrder(_orderCreator.OrderId));
             _commandCheckout = ReactiveCommand.Create();
         }
 
         protected override void InitLifetimeSubscriptions()
         {
+            // Clear items
+            AddLifetimeSubscription(_commandClear.Subscribe(_ => DialogService.CreateMessageDialog("Order cleared").Show()));
+
             // Void
             AddLifetimeSubscription(_commandVoid.Where(b => b)
+                .SelectMany(_ => _orderCreator.ChangeOrderStatus(OrderStatus.Void))
                 .SubscribeToObserveOnUi(_ => NavigateTo(AppNavigation.ActiveOrders, IntentFlags.ClearTop)));
             
             // Print
@@ -123,6 +140,13 @@ namespace Y_POS.Core.ViewModels.Pages
 
             // Navigate to checkout
             AddLifetimeSubscription(_commandCheckout.SubscribeToObserveOnUi(_ => NavigateTo(AppNavigation.Checkout, IntentFlags.NoHistory)));
+
+            // Category selection
+            AddLifetimeSubscription(this.WhenAnyValue(vm => vm.SelectedCategory)
+                .Where(vm => vm != null)
+                .SelectMany(vm => _menuService.GetMenuItemsCollectionForCategory(vm.ToGuid()))
+                .Select(items => items.Select(item => new MenuItemItemVm(item)).ToArray())
+                .SubscribeToObserveOnUi(vms => CategoryItems = vms));
         }
 
         protected override void OnStart()
@@ -130,6 +154,10 @@ namespace Y_POS.Core.ViewModels.Pages
             this.WhenAnyValue(vm => vm._orderCreator.Title)
                 .Select(s => Convert.ToInt32(s))
                 .ToPropertyEx(this, vm => vm.OrderNumber);
+
+            _menuService.GetMenuCategoriesCollection()
+                .Select(categories => categories.Select(category => new MenuCategoryItemVm(category)).ToArray())
+                .SubscribeToObserveOnUi(vms => Categories = vms);
         }
 
         #endregion
