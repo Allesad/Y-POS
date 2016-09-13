@@ -16,7 +16,7 @@ namespace Y_POS.Views
         {
             InitializeComponent();
 
-            MSC.Categories = new ReactiveList<object>
+            /*MSC.Categories = new ReactiveList<object>
                 {
                     new Category("Coffee", _rnd.Next(10,30)), 
                     new Category("Tea", _rnd.Next(10,30)), 
@@ -24,12 +24,12 @@ namespace Y_POS.Views
                     new Category("Meat", _rnd.Next(10,30)), 
                     new Category("Fish", _rnd.Next(10,30)), 
                     new Category("Drinks", _rnd.Next(10,30)), 
-                };
+                };*/
         }
 
         private void AddCategory(object sender, RoutedEventArgs e)
         {
-            ((ReactiveList<object>) MSC.Categories)?.Add(new Category("Some cat", _rnd.Next(20)));
+            //((ReactiveList<object>) MSC.Categories)?.Add(new Category("Some cat", _rnd.Next(20)));
         }
 
         private class Category
@@ -77,16 +77,16 @@ namespace Y_POS.Views
 
         private void MSC_OnCategoryChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            var category = e.NewValue as Category;
+            /*var category = e.NewValue as Category;
 
             if (category == null) return;
 
-            MSC.CategoryItems = category.Items;
+            MSC.CategoryItems = category.Items;*/
         }
 
         private void MSC_OnCategoryItemSelected(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            MessageBox.Show(string.Format("Selected '{0}'", e.NewValue));
+            //MessageBox.Show(string.Format("Selected '{0}'", e.NewValue));
         }
     }
 }

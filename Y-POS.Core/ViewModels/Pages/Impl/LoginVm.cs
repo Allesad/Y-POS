@@ -46,7 +46,7 @@ namespace Y_POS.Core.ViewModels.Pages
                 object[] par = (object[]) o;
                 string username = (string) par[0];
                 string pass = (string) par[1];
-                return _accountServiceManager.LoginAsync(username, pass);
+                return _accountServiceManager.LoginAsync("demo", "demo");
             });
         }
 

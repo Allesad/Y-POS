@@ -34,13 +34,61 @@ namespace Y_POS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://backoffice.demo.yumapos.com:8703/BackOfficeService.svc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://backoffice.demo.yumapos.com:8703/Service.svc")]
         public string ServiceAddress {
             get {
                 return ((string)(this["ServiceAddress"]));
             }
             set {
                 this["ServiceAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://demo.yumapos.com:8708")]
+        public string AuthorizationAddress {
+            get {
+                return ((string)(this["AuthorizationAddress"]));
+            }
+            set {
+                this["AuthorizationAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("backoffice.demo.yumapos.com")]
+        public string Tenant {
+            get {
+                return ((string)(this["Tenant"]));
+            }
+            set {
+                this["Tenant"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://backoffice.demo.yumapos.com:8703/BackOfficeService.svc")]
+        public string BackofficeAddress {
+            get {
+                return ((string)(this["BackofficeAddress"]));
+            }
+            set {
+                this["BackofficeAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://demo.yumapos.com:8709")]
+        public string ImageServiceAddress {
+            get {
+                return ((string)(this["ImageServiceAddress"]));
+            }
+            set {
+                this["ImageServiceAddress"] = value;
             }
         }
     }

@@ -8,5 +8,6 @@
     <commonConverters:TextCaseCoverter x:Key="UpperCaseCoverter"/>
     <converters:OrderStatusToTextConverter x:Key="OrderStatusToTextConverter"/>
     <converters:OrderStatusNewVisibilityConverter x:Key="OrderStatusNewVisibilityConverter"/>
+    <converters:ImageModelToSourceConverter x:Key="ImageModelToSourceConverter"/>
 
 </ResourceDictionary>

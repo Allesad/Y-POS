@@ -42,7 +42,9 @@ namespace Y_POS.Controls
         {
             var control = (MenuSelectorControl) obj;
 
-            control.InnerCategories = ((IEnumerable<object>) e.NewValue).Take(control.CategoriesColumns);
+            control.InnerCategories = ((IEnumerable<object>) e.NewValue)
+                .Skip((control.CurrentCategoriesPage - 1) * control.CategoriesColumns * control.CategoriesRows)
+                .Take(control.CategoriesColumns * control.CategoriesRows);
 
             var oldCollection = e.OldValue as INotifyCollectionChanged;
             if (oldCollection != null)
@@ -85,8 +87,8 @@ namespace Y_POS.Controls
             if (control.Categories == null) return;
 
             control.InnerCategories = control.Categories
-                .Skip((control.CurrentCategoriesPage - 1) * control.CategoriesColumns)
-                .Take(control.CategoriesColumns);
+                .Skip((control.CurrentCategoriesPage - 1) * control.CategoriesColumns * control.CategoriesRows)
+                .Take(control.CategoriesColumns * control.CategoriesRows);
         }
 
         #endregion
@@ -404,11 +406,18 @@ namespace Y_POS.Controls
                 Source = this,
                 Mode = BindingMode.OneWay
             };
+            
+            var heightBinding = new Binding("ActualHeight")
+            {
+                Source = categoriesList,
+                Mode = BindingMode.OneWay
+            };
 
             var elementFactory = new FrameworkElementFactory(typeof (UniformGrid));
             elementFactory.SetValue(Panel.IsItemsHostProperty, true);
             elementFactory.SetBinding(UniformGrid.ColumnsProperty, columnsBinding);
             elementFactory.SetBinding(UniformGrid.RowsProperty, rowsBinding);
+            elementFactory.SetBinding(HeightProperty, heightBinding);
 
             categoriesList.ItemsPanel = new ItemsPanelTemplate(elementFactory);
 
@@ -481,7 +490,7 @@ namespace Y_POS.Controls
         private int GetCategoriesPagesCount()
         {
             return Categories != null && Categories.Any()
-                ? (int) Math.Ceiling(Categories.Count() / (double) CategoriesColumns)
+                ? (int) Math.Ceiling(Categories.Count() / (double) (CategoriesColumns * CategoriesRows))
                 : 0;
         }
 
