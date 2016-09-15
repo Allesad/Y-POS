@@ -105,6 +105,7 @@ namespace Y_POS.Bootstrap
             
             // Business logic
             builder.Register<OrderCreator>(Lifecycles.PerScope).As<IOrderCreator>();
+            builder.Register<OrderItemConstructor>(Lifecycles.PerScope).As<IOrderItemConstructor>();
 
             // Main ViewModels
             builder.Register<AppMainVm>().As<IAppMainVm>();
@@ -124,6 +125,7 @@ namespace Y_POS.Bootstrap
 
             // Page parts ViewModels
             builder.Register<OrderMakerMenuVm>(Lifecycles.PerScope).As<IOrderMakerMenuVm>();
+            builder.Register<OrderItemConstructorVm>(Lifecycles.PerScope).As<IOrderItemConstructorVm>();
         }
 
         private static IRegistrationBuilder<TImpl, ConcreteReflectionActivatorData, SingleRegistrationStyle> Register<TImpl>(this ContainerBuilder builder, Lifecycles lifecycle = Lifecycles.PerDefaultScope)

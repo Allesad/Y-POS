@@ -59,4 +59,9 @@
         <orderMakerParts:OrderMakerMenuView DataContext="{Binding}"/>
     </DataTemplate>
     
+    <!-- ORDER ITEM CONSTRUCTOR -->
+    <DataTemplate DataType="{x:Type pageParts:OrderItemConstructorVm}">
+        <orderMakerParts:OrderMakerItemConstructorView DataContext="{Binding}"/>
+    </DataTemplate>
+    
 </ResourceDictionary>

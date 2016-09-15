@@ -28,12 +28,17 @@ namespace Y_POS.Core.ViewModels.Pages
         private readonly IOrderCreator _orderCreator;
 
         private readonly IOrderMakerMenuVm _menuVm;
+        private readonly IOrderItemConstructorVm _itemConstructorVm;
 
         private ReactiveCommand<object> _commandAddCustomer;
+        private ReactiveCommand<object> _commandDeleteItem; 
         private ReactiveCommand<Unit> _commandClear;
         private ReactiveCommand<bool> _commandVoid;
         private ReactiveCommand<Unit> _commandPrint;
         private ReactiveCommand<object> _commandCheckout;
+
+        private ReactiveCommand<object> _commandCancel;
+        private ReactiveCommand<object> _commandDone;
 
         #endregion
 
@@ -57,22 +62,27 @@ namespace Y_POS.Core.ViewModels.Pages
         #region Commands
 
         public ICommand CommandAddCustomer => _commandAddCustomer;
+        public ICommand CommandDeleteItem => _commandDeleteItem;
         public ICommand CommandClear => _commandClear;
         public ICommand CommandVoid => _commandVoid;
         public ICommand CommandPrint => _commandPrint;
         public ICommand CommandCheckout => _commandCheckout;
+        public ICommand CommandCancelItemConstructor => _commandCancel;
+        public ICommand CommandSubmitItemConstructor => _commandDone;
 
         #endregion
 
         #region Constructor
 
-        public OrderMakerVm(IOrderCreator orderCreator, IOrderMakerMenuVm menuVm)
+        public OrderMakerVm(IOrderCreator orderCreator, IOrderMakerMenuVm menuVm, IOrderItemConstructorVm itemConstructorVm)
         {
             if (orderCreator == null) throw new ArgumentNullException(nameof(orderCreator));
             if (menuVm == null) throw new ArgumentNullException(nameof(menuVm));
+            if (itemConstructorVm == null) throw new ArgumentNullException(nameof(itemConstructorVm));
 
             _orderCreator = orderCreator;
             _menuVm = menuVm;
+            _itemConstructorVm = itemConstructorVm;
         }
 
         #endregion
@@ -81,7 +91,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override IEnumerable<ILifecycleVm> GetChildren()
         {
-            return new []{ _menuVm };
+            return new ILifecycleVm[]{ _menuVm, _itemConstructorVm };
         }
 
         protected override void OnCreate(IArgsBundle args)
@@ -107,15 +117,27 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override void InitCommands()
         {
+            var canDeleteItem = this.WhenAnyValue(vm => vm.SelectedItem).Skip(1).Select(item => item != null);
+            var canClear = this.WhenAnyValue(vm => vm.OrderedItems.Count).Select(count => count > 0);
+
             _commandAddCustomer = ReactiveCommand.Create();
-            _commandClear = ReactiveCommand.CreateAsyncObservable(_ => _orderCreator.ClearOrderItems());
+            _commandDeleteItem = ReactiveCommand.Create(canDeleteItem);
+            _commandClear = ReactiveCommand.CreateAsyncObservable(canClear, _ => _orderCreator.ClearOrderItems());
             _commandVoid = ReactiveCommand.CreateAsyncTask(_ => VoidOrder(_orderCreator.OrderId));
             _commandPrint = ReactiveCommand.CreateAsyncTask(_ => PrintOrder(_orderCreator.OrderId));
             _commandCheckout = ReactiveCommand.Create();
+
+            _commandCancel = ReactiveCommand.Create();
+            _commandDone = ReactiveCommand.Create();
         }
 
         protected override void InitLifetimeSubscriptions()
         {
+            // Delete item
+            AddLifetimeSubscription(_commandDeleteItem.Select(param => (IOrderedItemVm) param)
+                .SelectMany(item => _orderCreator.RemoveOrderItem(item.ToGuid()))
+                .SubscribeToObserveOnUi());
+
             // Clear items
             AddLifetimeSubscription(_commandClear.Subscribe(_ => DialogService.CreateMessageDialog("Order cleared").Show()));
 
@@ -136,6 +158,20 @@ namespace Y_POS.Core.ViewModels.Pages
                     h => _menuVm.MenuItemSelected -= h)
                 .Select(pattern => pattern.EventArgs)
                 .SubscribeToObserveOnUi(OnMenuItemSelected));
+
+            // Cancel order item constructor
+            AddLifetimeSubscription(_commandCancel.SubscribeToObserveOnUi(_ =>
+            {
+                _itemConstructorVm.Cancel();
+                DetailsVm = _menuVm;
+            }));
+
+            // Done orer item constructor
+            AddLifetimeSubscription(_commandDone.SubscribeToObserveOnUi(_ =>
+            {
+                _itemConstructorVm.Cancel();
+                DetailsVm = _menuVm;
+            }));
         }
 
         protected override void OnStart()
@@ -169,12 +205,22 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private void OnMenuItemSelected(MenuItemSelectedEventArgs args)
         {
-            _orderCreator.AddOrderItem(args.MenuItem.ToGuid())
-                .SubscribeToObserveOnUi(
-                    item =>
-                        SelectedItem =
-                            OrderedItems.First(
-                                orderedItem => orderedItem.Uuid.Equals(item.Uuid, StringComparison.OrdinalIgnoreCase)), HandleError);
+            DetailsVm = _itemConstructorVm;
+            _itemConstructorVm.ProcessMenuItem(args.MenuItem);
+            //if (args.HasModifiers)
+            //{
+            //    DetailsVm = _itemConstructorVm;
+            //    _itemConstructorVm.ProcessMenuItem(args.MenuItem);
+            //}
+            //else
+            //{
+            //    _orderCreator.AddOrderItem(args.MenuItem.ToGuid())
+            //        .SubscribeToObserveOnUi(
+            //            item =>
+            //                SelectedItem =
+            //                    OrderedItems.First(
+            //                        orderedItem => orderedItem.Uuid.Equals(item.Uuid, StringComparison.OrdinalIgnoreCase)), HandleError);
+            //}
         }
 
         #endregion

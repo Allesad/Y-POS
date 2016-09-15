@@ -4,12 +4,10 @@
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
-                xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
                 xmlns:controls="clr-namespace:Y_POS.Controls"
                 xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
                 xmlns:views="clr-namespace:Y_POS.Views"
                 xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
-                xmlns:builders="clr-namespace:YumaPos.Client.Builders;assembly=YumaPos.Client.Core"
                 xmlns:contracts="clr-namespace:Y_POS.Core.ViewModels.Items.Contracts;assembly=Y-POS.Core"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
@@ -70,15 +68,15 @@
                            VerticalAlignment="Center"
                            Margin="10,0"
                            FontSize="12">
-                    <Run Text="x"/>
-                    <Run Text="{Binding Qty, Mode=OneWay}"/>
+                    <Run Text="x" />
+                    <Run Text="{Binding Qty, Mode=OneWay}" />
                 </TextBlock>
 
                 <StackPanel VerticalAlignment="Center">
                     <!-- TITLE -->
                     <TextBlock FontSize="12"
                                Text="{Binding Title}"
-                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="Wrap"
                                FontWeight="SemiBold" />
                     <!-- DESCRIPTION -->
                     <TextBlock FontSize="12"
@@ -88,8 +86,8 @@
             </DockPanel>
         </DataTemplate>
 
-        <Style x:Key="OrderedItemsListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-            <Setter Property="Padding" Value="10,15" />
+        <Style x:Key="OrderedItemsListItem" TargetType="ListBoxItem" BasedOn="{StaticResource LeftMarkedListItem}">
+            <Setter Property="Padding" Value="10,15,25,15" />
             <Setter Property="BorderThickness" Value="0,0,0,1" />
             <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}" />
             <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource BackgroundBrush}" />
@@ -108,33 +106,65 @@
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarBackButton}" />
 
-            <!-- CHECKOUT -->
-            <controls:ActionBarButton DockPanel.Dock="Right"
-                                      Style="{StaticResource ActionBarMainActionButton}"
-                                      IconPath="{StaticResource AddIcon}"
-                                      Title="{Binding Source={x:Static p:Resources.Checkout}, 
+            <!-- DELETE ITEM -->
+            <controls:ActionBarButton DockPanel.Dock="Left"
+                                      Style="{StaticResource ActionBarButton}"
+                                      Title="DELETE ITEM"
+                                      IconPath="{StaticResource DeleteIcon}"
+                                      Command="{Binding CommandDeleteItem}"
+                                      CommandParameter="{Binding ElementName=OrderedItemsList, Path=SelectedItem}" />
+
+            <StackPanel DockPanel.Dock="Right"
+                        Name="MenuActions"
+                        Orientation="Horizontal">
+
+                <!-- CLEAR -->
+                <controls:ActionBarButton DockPanel.Dock="Right"
+                                          Style="{StaticResource ActionBarClear}"
+                                          Command="{Binding CommandClear}" />
+
+                <!-- VOID -->
+                <controls:ActionBarButton DockPanel.Dock="Right"
+                                          Style="{StaticResource ActionBarVoid}"
+                                          Command="{Binding CommandVoid}" />
+
+                <!-- GIFT CARD -->
+                <controls:ActionBarButton DockPanel.Dock="Right"
+                                          Style="{StaticResource ActionBarGiftCard}" />
+
+                <!-- PRINT -->
+                <controls:ActionBarButton DockPanel.Dock="Right"
+                                          Style="{StaticResource ActionBarPrint}"
+                                          Command="{Binding CommandPrint}" />
+                <!-- CHECKOUT -->
+                <controls:ActionBarButton DockPanel.Dock="Right"
+                                          Style="{StaticResource ActionBarMainActionButton}"
+                                          IconPath="{StaticResource AddIcon}"
+                                          Title="{Binding Source={x:Static p:Resources.Checkout}, 
                                         Converter={StaticResource UpperCaseCoverter}}"
-                                      Command="{Binding CommandCheckout}" />
+                                          Command="{Binding CommandCheckout}" />
+            </StackPanel>
 
-            <!-- PRINT -->
-            <controls:ActionBarButton DockPanel.Dock="Right"
-                                      Style="{StaticResource ActionBarPrint}" 
-                                      Command="{Binding CommandPrint}"/>
+            <UniformGrid DockPanel.Dock="Right"
+                         Name="ItemConstructorActions"
+                         Width="{StaticResource CenterColumnWidth}"
+                         Columns="2" Rows="1"
+                         Visibility="Collapsed">
 
-            <!-- GIFT CARD -->
-            <controls:ActionBarButton DockPanel.Dock="Right"
-                                      Style="{StaticResource ActionBarGiftCard}" />
+                <!-- CANCEL ITEM CONSTRUCTOR -->
+                <controls:ActionBarButton DockPanel.Dock="Right"
+                                          Style="{StaticResource ActionBarMainActionButton}"
+                                          BorderThickness="0,0,1,0"
+                                          Title="CANCEL"
+                                          Command="{Binding CommandCancelItemConstructor}" />
 
-            <!-- VOID -->
-            <controls:ActionBarButton DockPanel.Dock="Right"
-                                      Style="{StaticResource ActionBarVoid}" 
-                                      Command="{Binding CommandVoid}"/>
+                <!-- SUBMIT ITEM CONSTRUCTOR -->
+                <controls:ActionBarButton DockPanel.Dock="Right"
+                                          Style="{StaticResource ActionBarMainActionButton}"
+                                          Title="DONE"
+                                          Command="{Binding CommandSubmitItemConstructor}" />
 
-            <!-- CLEAR -->
-            <controls:ActionBarButton DockPanel.Dock="Right"
-                                      Style="{StaticResource ActionBarClear}"
-                                      Command="{Binding CommandClear}"/>
-
+            </UniformGrid>
         </DockPanel>
 
         <!-- LEFT PANEL -->
@@ -156,7 +186,7 @@
                        Margin="15,5">
                 <Run Text="{Binding Source={x:Static p:Resources.Order}, Mode=OneWay}" />
                 <Run Text=" #" />
-                <Run Text="{Binding OrderNumber, Mode=OneWay}"/>
+                <Run Text="{Binding OrderNumber, Mode=OneWay}" />
             </TextBlock>
 
             <!-- SEARCH CUSTOMER -->
@@ -165,13 +195,15 @@
                     BorderBrush="{StaticResource SeparatorBrush}"
                     HorizontalContentAlignment="Stretch"
                     Padding="15,15"
-                    ContentTemplate="{StaticResource AddCustomerDt}"/>
+                    ContentTemplate="{StaticResource AddCustomerDt}" />
 
             <!-- ORDERED ITEMS -->
             <ListBox Grid.Row="2"
+                     Name="OrderedItemsList"
                      ItemContainerStyle="{StaticResource OrderedItemsListItem}"
                      ItemsSource="{Binding OrderedItems}"
-                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+                     SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
 
             <Separator Grid.Row="2"
                        Style="{StaticResource HSeparator}"
@@ -200,7 +232,7 @@
                    Style="{StaticResource VSeparator}" />
 
         <!-- RIGHT PANEL -->
-        <ContentPresenter Content="{Binding DetailsVm}"/>
+        <ContentPresenter Content="{Binding DetailsVm}" />
 
     </DockPanel>
 

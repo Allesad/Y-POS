@@ -8,8 +8,6 @@ namespace Y_POS.Core.MockData
 {
     public class MockCommonClientSettingsRepository : ICommonClientSettingsRepository
     {
-
-
         public Task<List<CommonSettings>> GetAllSettingsAsync()
         {
             return Task.FromResult(new List<CommonSettings>

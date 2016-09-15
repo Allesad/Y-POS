@@ -20,12 +20,17 @@ namespace Y_POS.Core.ViewModels.Pages
         #endregion
 
         #region Commands
-
+        
         ICommand CommandAddCustomer { get; }
+        ICommand CommandDeleteItem { get; }
         ICommand CommandClear { get; }
         ICommand CommandVoid { get; }
         ICommand CommandPrint { get; }
         ICommand CommandCheckout { get; }
+
+        // Item constructor commands
+        ICommand CommandCancelItemConstructor { get; }
+        ICommand CommandSubmitItemConstructor { get; }
 
         #endregion
     }

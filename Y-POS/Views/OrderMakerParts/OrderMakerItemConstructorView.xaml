@@ -1,0 +1,116 @@
+﻿<views:BaseView x:Class="Y_POS.Views.OrderMakerParts.OrderMakerItemConstructorView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:views="clr-namespace:Y_POS.Views"
+                xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
+                mc:Ignorable="d"
+                d:DesignHeight="300" d:DesignWidth="300"
+                d:DataContext="{d:DesignInstance pageParts:IOrderItemConstructorVm, d:IsDesignTimeCreatable=False}">
+
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- LEFT SIDE -->
+        
+        <!-- HEADER -->
+        <DockPanel Grid.Row="0" Grid.Column="0"
+                   Margin="10,0">
+            
+            <!-- PRICE -->
+            <TextBlock DockPanel.Dock="Right" 
+                       VerticalAlignment="Center"
+                       Text="{Binding MenuItemPrice, StringFormat=c}"/>
+            
+            <!-- TITLE -->
+            <TextBlock VerticalAlignment="Center"
+                       TextTrimming="CharacterEllipsis"
+                       Text="{Binding MenuItemTitle}"/>
+            
+        </DockPanel>
+        
+        <Separator Grid.Row="0" Grid.Column="0"
+                   Style="{StaticResource HSeparator}"
+                   VerticalAlignment="Bottom"/>
+        
+        <!-- SELECTED ITEMS LIST -->
+        <ListBox Grid.Row="1" Grid.Column="0"
+                 ItemsSource="{Binding SelectedGroups}"
+                 SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+        
+        <Separator Grid.Row="1" Grid.Column="0"
+                   Style="{StaticResource HSeparator}"
+                   VerticalAlignment="Bottom"/>
+        
+        <!-- TOTAL -->
+        <TextBlock Grid.Row="2" Grid.Column="0"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   FontSize="18"
+                   Text="{Binding Total, StringFormat=c}"
+                   />
+        
+        <!-- RIGHT SIDE -->
+        
+        <!-- MODIFIERS HEADER -->
+        <DockPanel Grid.Row="0" Grid.Column="1"
+                   Background="{StaticResource ActionBarBg}">
+
+            <!-- REQUIREMENT -->
+            <TextBlock DockPanel.Dock="Right"
+                       VerticalAlignment="Center"
+                       Margin="10,0"
+                       Foreground="{StaticResource PrimaryBrush}"
+                       Text="{Binding RequiredStatus, Mode=OneWay}" />
+
+            <!-- MAX QTY -->
+            <TextBlock DockPanel.Dock="Right"
+                       VerticalAlignment="Center"
+                       Foreground="{StaticResource PrimaryBrush}">
+                <Run Text="Max: " />
+                <Run Text="{Binding MaxGroupQty}" />
+            </TextBlock>
+
+            <!-- GROUP TITLE -->
+            <TextBlock VerticalAlignment="Center"
+                       Margin="10,0"
+                       Foreground="{StaticResource PrimaryBrush}"
+                       FontWeight="SemiBold"
+                       Text="{Binding GroupTitle, Mode=OneWay}" />
+
+        </DockPanel>
+        
+        <!-- MODIFIERS GRID -->
+        <ItemsControl Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+                      ItemsSource="{Binding RelatedModifiers}">
+            
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid IsItemsHost="True" Columns="4"
+                                 VerticalAlignment="Top"
+                                 HorizontalAlignment="Left"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            
+        </ItemsControl>
+        
+        <Separator Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"
+                   Style="{StaticResource VSeparator}"
+                   HorizontalAlignment="Left"/>
+        
+    </Grid>
+    
+</views:BaseView>

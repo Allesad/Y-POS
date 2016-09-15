@@ -20,9 +20,11 @@ namespace Y_POS.Core.ViewModels.PageParts
         #region Fields
 
         private readonly IOrderItemConstructor _itemConstructor;
-        private readonly IOrderCreator _orderCreator;
 
         private readonly ReactiveList<ModifiersGroupItemVm> _selectedModifiersGroups = new ReactiveList<ModifiersGroupItemVm>();
+
+        private Guid? _menuItemId;
+        private Guid? _orderItemId;
 
         #endregion
 
@@ -51,13 +53,11 @@ namespace Y_POS.Core.ViewModels.PageParts
 
         #region Constructor
 
-        public OrderItemConstructorVm(IOrderItemConstructor itemConstructor, IOrderCreator orderCreator)
+        public OrderItemConstructorVm(IOrderItemConstructor itemConstructor)
         {
             if (itemConstructor == null) throw new ArgumentNullException(nameof(itemConstructor));
-            if (orderCreator == null) throw new ArgumentNullException(nameof(orderCreator));
 
             _itemConstructor = itemConstructor;
-            _orderCreator = orderCreator;
         }
 
         #endregion
@@ -130,17 +130,28 @@ namespace Y_POS.Core.ViewModels.PageParts
 
         public void ProcessMenuItem(IMenuItemItemVm menuItem)
         {
-            throw new NotImplementedException();
+            _menuItemId = menuItem.ToGuid();
+            MenuItemTitle = menuItem.Title;
+            MenuItemPrice = menuItem.Price;
+
+            _itemConstructor.ProcessMenuItem(_menuItemId.Value, MenuItemPrice);
         }
 
         public void EditOrderItem(Guid orderId, IOrderedItemVm orderedItem)
         {
-            throw new NotImplementedException();
+            _orderItemId = orderedItem.ToGuid();
+            MenuItemTitle = orderedItem.Title;
+            MenuItemPrice = orderedItem.Price;
+
+            _itemConstructor.EditOrderItem(orderId, _orderItemId.Value, orderedItem.Price);
         }
 
         public void Cancel()
         {
-            throw new NotImplementedException();
+            _menuItemId = null;
+            _orderItemId = null;
+            _itemConstructor.Clean();
+            SelectedGroup = null;
         }
 
         #endregion
