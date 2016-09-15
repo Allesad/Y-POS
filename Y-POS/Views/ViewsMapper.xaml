@@ -1,7 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Y_POS.Views"
-                    xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core">
+                    xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
+                    xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
+                    xmlns:orderMakerParts="clr-namespace:Y_POS.Views.OrderMakerParts">
     
     <!-- LOGIN -->
     <DataTemplate DataType="{x:Type pages:LoginVm}">
@@ -46,6 +48,15 @@
     <!-- CHECKOUT -->
     <DataTemplate DataType="{x:Type pages:CheckoutVm}">
         <local:CheckoutView DataContext="{Binding}"/>
+    </DataTemplate>
+    
+    <!--==================================================-->
+    <!-- PARTS -->
+    <!--==================================================-->
+    
+    <!-- ORDER MAKER MENU -->
+    <DataTemplate DataType="{x:Type pageParts:OrderMakerMenuVm}">
+        <orderMakerParts:OrderMakerMenuView DataContext="{Binding}"/>
     </DataTemplate>
     
 </ResourceDictionary>

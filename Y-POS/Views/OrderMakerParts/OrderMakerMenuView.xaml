@@ -1,0 +1,65 @@
+﻿<views:BaseView x:Class="Y_POS.Views.OrderMakerParts.OrderMakerMenuView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:views="clr-namespace:Y_POS.Views"
+                xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
+                xmlns:controls="clr-namespace:Y_POS.Controls"
+                xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
+                mc:Ignorable="d"
+                d:DesignHeight="300" d:DesignWidth="300"
+                d:DataContext="{d:DesignInstance pageParts:IOrderMakerMenuVm, d:IsDesignTimeCreatable=False}">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="SearchDt">
+                <Path Fill="White"
+                  Stretch="Uniform"
+                  Data="{StaticResource SearchIcon}" />
+            </DataTemplate>
+
+            <Style x:Key="SearchButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Background" Value="{StaticResource ActionBarBg}" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="ContentTemplate" Value="{StaticResource SearchDt}" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="50" />
+        </Grid.ColumnDefinitions>
+
+        <TextBox Grid.Row="0" Grid.Column="0"
+                 Style="{StaticResource UnlabeledTextBox}"
+                 FontSize="18"
+                 BorderThickness="0"
+                 helpers:PlaceholderTextHelper.PlaceholderText="Search Item"
+                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Button Grid.Row="0" Grid.Column="1"
+                Style="{StaticResource SearchButton}"
+                Padding="10,3,10,5"/>
+
+        <controls:MenuSelectorControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                      x:Name="MSC"
+                                      Categories="{Binding Categories}"
+                                      CategoryItems="{Binding CategoryItems}"
+                                      SelectedCategory="{Binding SelectedCategory, Mode=TwoWay}"
+                                      CategoryItemSelected="MSC_OnCategoryItemSelected" />
+
+        <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                   Style="{StaticResource HSeparator}"
+                   VerticalAlignment="Top" />
+
+    </Grid>
+
+</views:BaseView>

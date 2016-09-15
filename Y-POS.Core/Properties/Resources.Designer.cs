@@ -440,6 +440,24 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optional.
+        /// </summary>
+        public static string Modifier_RequiredStatus_Optional {
+            get {
+                return ResourceManager.GetString("Modifier_RequiredStatus_Optional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required.
+        /// </summary>
+        public static string Modifier_RequiredStatus_Required {
+            get {
+                return ResourceManager.GetString("Modifier_RequiredStatus_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Active Orders.
         /// </summary>
         public static string Navigation_ActiveOrders {
@@ -490,6 +508,15 @@ namespace Y_POS.Core.Properties {
         public static string Navigation_Settings {
             get {
                 return ResourceManager.GetString("Navigation_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
             }
         }
         

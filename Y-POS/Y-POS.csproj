@@ -207,6 +207,9 @@
     <Compile Include="Views\NavMenuView.xaml.cs">
       <DependentUpon>NavMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OrderMakerParts\OrderMakerMenuView.xaml.cs">
+      <DependentUpon>OrderMakerMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OrderMakerView.xaml.cs">
       <DependentUpon>OrderMakerView.xaml</DependentUpon>
     </Compile>
@@ -375,6 +378,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NavMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OrderMakerParts\OrderMakerMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

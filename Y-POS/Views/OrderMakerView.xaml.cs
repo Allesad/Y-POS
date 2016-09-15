@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using ReactiveUI;
 
 namespace Y_POS.Views
 {
@@ -10,7 +9,7 @@ namespace Y_POS.Views
     /// </summary>
     public partial class OrderMakerView : BaseView
     {
-        private readonly Random _rnd = new Random();
+        //private readonly Random _rnd = new Random();
 
         public OrderMakerView()
         {
@@ -68,11 +67,6 @@ namespace Y_POS.Views
             {
                 return _title;
             }
-        }
-
-        private void SwitchGridSize(object sender, RoutedEventArgs e)
-        {
-            MSC.CategoriesColumns = MSC.CategoriesColumns == 3 ? 5 : 3;
         }
 
         private void MSC_OnCategoryChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

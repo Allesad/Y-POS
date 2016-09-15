@@ -10,6 +10,7 @@
                 xmlns:views="clr-namespace:Y_POS.Views"
                 xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
                 xmlns:builders="clr-namespace:YumaPos.Client.Builders;assembly=YumaPos.Client.Core"
+                xmlns:contracts="clr-namespace:Y_POS.Core.ViewModels.Items.Contracts;assembly=Y-POS.Core"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
                 d:DataContext="{d:DesignInstance pages:IOrderMakerVm, d:IsDesignTimeCreatable=False}">
@@ -56,13 +57,13 @@
         </DataTemplate>
 
         <!-- ORDERED ITEM DATA TEMPLATE -->
-        <DataTemplate x:Key="OrderedItemDt" DataType="{x:Type builders:IOrderedItem}">
+        <DataTemplate x:Key="OrderedItemDt" DataType="{x:Type contracts:IOrderedItemVm}">
             <DockPanel>
 
                 <!-- PRICE -->
                 <TextBlock DockPanel.Dock="Right"
                            VerticalAlignment="Center"
-                           Text="{Binding TotalPrice, StringFormat=c}" />
+                           Text="{Binding Price, StringFormat=c}" />
 
                 <!-- QTY -->
                 <TextBlock DockPanel.Dock="Right"
@@ -70,7 +71,7 @@
                            Margin="10,0"
                            FontSize="12">
                     <Run Text="x"/>
-                    <Run Text="{Binding Qty}"/>
+                    <Run Text="{Binding Qty, Mode=OneWay}"/>
                 </TextBlock>
 
                 <StackPanel VerticalAlignment="Center">
@@ -81,7 +82,7 @@
                                FontWeight="SemiBold" />
                     <!-- DESCRIPTION -->
                     <TextBlock FontSize="12"
-                               Text="no sugar / double milk / vanilla" />
+                               Text="{Binding Description}" />
                 </StackPanel>
 
             </DockPanel>
@@ -95,18 +96,6 @@
             <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource AccentSecondaryBrush}" />
             <Setter Property="ex:StyleExtensions.ForegroundOnPressed" Value="{StaticResource TextBrush}" />
             <Setter Property="ContentTemplate" Value="{StaticResource OrderedItemDt}" />
-        </Style>
-
-        <DataTemplate x:Key="SearchDt">
-            <Path Fill="White"
-                  Stretch="Uniform"
-                  Data="{StaticResource SearchIcon}" />
-        </DataTemplate>
-
-        <Style x:Key="SearchButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Background" Value="{StaticResource ActionBarBg}" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="ContentTemplate" Value="{StaticResource SearchDt}" />
         </Style>
     </UserControl.Resources>
 
@@ -176,8 +165,7 @@
                     BorderBrush="{StaticResource SeparatorBrush}"
                     HorizontalContentAlignment="Stretch"
                     Padding="15,15"
-                    ContentTemplate="{StaticResource AddCustomerDt}"
-                    Click="SwitchGridSize" />
+                    ContentTemplate="{StaticResource AddCustomerDt}"/>
 
             <!-- ORDERED ITEMS -->
             <ListBox Grid.Row="2"
@@ -212,41 +200,7 @@
                    Style="{StaticResource VSeparator}" />
 
         <!-- RIGHT PANEL -->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="45" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="50" />
-            </Grid.ColumnDefinitions>
-
-            <TextBox Grid.Row="0" Grid.Column="0"
-                     Style="{StaticResource UnlabeledTextBox}"
-                     FontSize="18"
-                     BorderThickness="0"
-                     helpers:PlaceholderTextHelper.PlaceholderText="Search Item" />
-
-            <Button Grid.Row="0" Grid.Column="1"
-                    Style="{StaticResource SearchButton}"
-                    Padding="10,3,10,5"
-                    Click="AddCategory" />
-
-            <controls:MenuSelectorControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                          x:Name="MSC"
-                                          Categories="{Binding Categories}"
-                                          CategoryItems="{Binding CategoryItems}"
-                                          SelectedCategory="{Binding SelectedCategory, Mode=TwoWay}"
-                                          CategoryChanged="MSC_OnCategoryChanged"
-                                          CategoryItemSelected="MSC_OnCategoryItemSelected" />
-
-            <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                       Style="{StaticResource HSeparator}"
-                       VerticalAlignment="Top" />
-
-        </Grid>
+        <ContentPresenter Content="{Binding DetailsVm}"/>
 
     </DockPanel>
 
