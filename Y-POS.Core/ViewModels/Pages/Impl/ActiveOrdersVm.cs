@@ -39,10 +39,10 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Commands
 
-        public ICommand CommandCreateOrder { get { return _commandCreateOrder; } }
-        public ICommand CommandCheckout { get { return _commandCheckout; } }
-        public ICommand CommandPrintOrder { get { return _commandPrintOrder; } }
-        public ICommand CommandVoid { get { return _commandVoid; } }
+        public ICommand CommandCreateOrder => _commandCreateOrder;
+        public ICommand CommandCheckout => _commandCheckout;
+        public ICommand CommandPrintOrder => _commandPrintOrder;
+        public ICommand CommandVoid => _commandVoid;
 
         #endregion
 
@@ -65,10 +65,12 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override void InitCommands()
         {
+            var canExecute = this.WhenAnyValue(vm => vm.SelectedItem).Select(vm => vm != null);
+
             _commandCreateOrder = ReactiveCommand.Create();
-            _commandCheckout = ReactiveCommand.Create();
-            _commandPrintOrder = ReactiveCommand.Create();
-            _commandVoid = ReactiveCommand.Create();
+            _commandCheckout = ReactiveCommand.Create(canExecute);
+            _commandPrintOrder = ReactiveCommand.Create(canExecute);
+            _commandVoid = ReactiveCommand.Create(canExecute);
         }
 
         protected override void InitLifetimeSubscriptions()

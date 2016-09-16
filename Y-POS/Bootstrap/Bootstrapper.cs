@@ -27,6 +27,7 @@ using YumaPos.Shared.Infrastructure;
 using Y_POS.Configuration;
 using Y_POS.Core;
 using Y_POS.Core.MockData;
+using Y_POS.Core.ViewModels.PageParts;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Resources;
 
@@ -104,6 +105,7 @@ namespace Y_POS.Bootstrap
             
             // Business logic
             builder.Register<OrderCreator>(Lifecycles.PerScope).As<IOrderCreator>();
+            builder.Register<OrderItemConstructor>(Lifecycles.PerScope).As<IOrderItemConstructor>();
 
             // Main ViewModels
             builder.Register<AppMainVm>().As<IAppMainVm>();
@@ -120,6 +122,10 @@ namespace Y_POS.Bootstrap
             builder.RegisterType<SettingsVm>().As<ISettingsVm>().InstancePerLifetimeScope();
             builder.RegisterType<OrderMakerVm>().As<IOrderMakerVm>().InstancePerLifetimeScope();
             builder.RegisterType<CheckoutVm>().As<ICheckoutVm>().InstancePerLifetimeScope();
+
+            // Page parts ViewModels
+            builder.Register<OrderMakerMenuVm>(Lifecycles.PerScope).As<IOrderMakerMenuVm>();
+            builder.Register<OrderItemConstructorVm>(Lifecycles.PerScope).As<IOrderItemConstructorVm>();
         }
 
         private static IRegistrationBuilder<TImpl, ConcreteReflectionActivatorData, SingleRegistrationStyle> Register<TImpl>(this ContainerBuilder builder, Lifecycles lifecycle = Lifecycles.PerDefaultScope)

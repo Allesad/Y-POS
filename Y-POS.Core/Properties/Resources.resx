@@ -390,4 +390,13 @@
   <data name="Dialog_Confirmation_VoidOrder" xml:space="preserve">
     <value>Void order?</value>
   </data>
+  <data name="Modifier_RequiredStatus_Optional" xml:space="preserve">
+    <value>Optional</value>
+  </data>
+  <data name="Modifier_RequiredStatus_Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
 </root>

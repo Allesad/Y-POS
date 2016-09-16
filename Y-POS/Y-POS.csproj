@@ -144,6 +144,7 @@
     <Compile Include="Converters\ActionBarIconVisibilityConterter.cs" />
     <Compile Include="Converters\ImageModelToSourceConverter.cs" />
     <Compile Include="Converters\MockLoginDataConverter.cs" />
+    <Compile Include="Converters\ModifiersGroupMaxQtyToTextConverter.cs" />
     <Compile Include="Converters\OrderStatusNewVisibilityConverter.cs" />
     <Compile Include="Converters\OrderStatusToTextConverter.cs" />
     <Compile Include="DialogWindow.xaml.cs">
@@ -151,6 +152,8 @@
     </Compile>
     <Compile Include="Resources\ResourceService.cs" />
     <Compile Include="Selectors\BillTypeDataTemplateSelector.cs" />
+    <Compile Include="Selectors\ModifiersGridItemTemplateSelector.cs" />
+    <Compile Include="Selectors\SelectedModifiersListTemplateSelector.cs" />
     <Compile Include="Views\ActionBar.xaml.cs">
       <DependentUpon>ActionBar.xaml</DependentUpon>
     </Compile>
@@ -206,6 +209,12 @@
     </Compile>
     <Compile Include="Views\NavMenuView.xaml.cs">
       <DependentUpon>NavMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrderMakerParts\OrderMakerItemConstructorView.xaml.cs">
+      <DependentUpon>OrderMakerItemConstructorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrderMakerParts\OrderMakerMenuView.xaml.cs">
+      <DependentUpon>OrderMakerMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OrderMakerView.xaml.cs">
       <DependentUpon>OrderMakerView.xaml</DependentUpon>
@@ -375,6 +384,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NavMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OrderMakerParts\OrderMakerItemConstructorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OrderMakerParts\OrderMakerMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -7,6 +7,8 @@ namespace Y_POS.Core.ViewModels.Pages
     {
         #region Properties
 
+        string Username { get; set; }
+
         #endregion
 
         #region Commands

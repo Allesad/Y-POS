@@ -389,4 +389,13 @@
   <data name="Dialog_Confirmation_VoidOrder" xml:space="preserve">
     <value>Аннулировать заказ?</value>
   </data>
+  <data name="Modifier_RequiredStatus_Optional" xml:space="preserve">
+    <value>Не обязателен</value>
+  </data>
+  <data name="Modifier_RequiredStatus_Required" xml:space="preserve">
+    <value>Обязателен</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Далее</value>
+  </data>
 </root>

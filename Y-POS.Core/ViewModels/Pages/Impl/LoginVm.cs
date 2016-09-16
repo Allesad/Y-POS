@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Account;
 using YumaPos.Client.Common;
 using YumaPos.Client.Navigation;
@@ -24,7 +26,9 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Commands
 
-        public ICommand CommandLogin { get { return _commandLogin; }}
+        [Reactive]
+        public string Username { get; set; }
+        public ICommand CommandLogin => _commandLogin;
 
         #endregion
 
@@ -41,7 +45,8 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override void InitCommands()
         {
-            _commandLogin = ReactiveCommand.CreateAsyncTask(o =>
+            _commandLogin = ReactiveCommand.CreateAsyncTask(this.WhenAnyValue(vm => vm.Username)
+                .Select(s => !string.IsNullOrEmpty(s)), o =>
             {
                 object[] par = (object[]) o;
                 string username = (string) par[0];
@@ -61,7 +66,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override void OnCreate(IArgsBundle args)
         {
-            base.OnCreate(args);
+            Username = "Lalala";
         }
 
         protected override void OnStart()

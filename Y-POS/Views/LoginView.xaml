@@ -46,7 +46,7 @@
                      HorizontalAlignment="Stretch"
                      Margin="20,0,20,9"
                      helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.Login}" 
-                     Text="Login"/>
+                     Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- PASSWORD -->
             <TextBox Grid.Row="1"

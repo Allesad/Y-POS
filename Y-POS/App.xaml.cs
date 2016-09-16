@@ -29,8 +29,8 @@ namespace Y_POS
         protected override void OnStartup(StartupEventArgs e)
         {
             Thread.CurrentThread.Name = "Y-POS.Win";
-            const string lang = "ru-RU";
-            //const string lang = "en-US";
+            //const string lang = "ru-RU";
+            const string lang = "en-US";
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
             Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
 
@@ -49,6 +49,8 @@ namespace Y_POS
 
             RxApp.MainThreadScheduler = DispatcherScheduler.Current;
             RxApp.TaskpoolScheduler = TaskPoolScheduler.Default;
+            // Disable range notification to avoid "Range actions are not supported" in ListCollectionView from call from ReactiveList
+            RxApp.SupportsRangeNotifications = false;
 
             InitExceptionHandlers();
             Bootstrap();

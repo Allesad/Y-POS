@@ -47,6 +47,7 @@ namespace Y_POS.Core.ViewModels.Pages
             this.WhenAnyValue(vm => vm.NavigationService.CurrenUri)
                 .Subscribe(_ =>
                 {
+
                 });
 
             StoreName = appService.Store.Title;
