@@ -5,9 +5,21 @@
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:views="clr-namespace:Y_POS.Views"
                 xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
+                xmlns:converters="clr-namespace:Y_POS.Converters"
+                xmlns:selectors="clr-namespace:Y_POS.Selectors"
+                xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
                 d:DataContext="{d:DesignInstance pageParts:IOrderItemConstructorVm, d:IsDesignTimeCreatable=False}">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            
+            <converters:ModifiersGroupMaxQtyToTextConverter x:Key="QtyToTextConverter"/>
+            <selectors:ModifiersGridItemTemplateSelector x:Key="ModifiersGridItemTemplateSelector"/>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <Grid>
         
@@ -23,6 +35,10 @@
         </Grid.ColumnDefinitions>
         
         <!-- LEFT SIDE -->
+        
+        <!-- BACKGROUND-->
+        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
+                Background="{StaticResource PrimaryBrush}"/>
         
         <!-- HEADER -->
         <DockPanel Grid.Row="0" Grid.Column="0"
@@ -48,6 +64,9 @@
         <ListBox Grid.Row="1" Grid.Column="0"
                  ItemsSource="{Binding SelectedGroups}"
                  SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"
+                 ItemContainerStyle="{StaticResource ModifiersListItem}"
+                 ItemTemplate="{StaticResource ModifiersGroupDt}"
+                 Foreground="{StaticResource TextBrush}"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
         
@@ -56,13 +75,23 @@
                    VerticalAlignment="Bottom"/>
         
         <!-- TOTAL -->
-        <TextBlock Grid.Row="2" Grid.Column="0"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   FontSize="18"
-                   Text="{Binding Total, StringFormat=c}"
-                   />
-        
+        <DockPanel Grid.Row="2" Grid.Column="0"
+                   Margin="10,0">
+
+            <TextBlock DockPanel.Dock="Left"
+                       VerticalAlignment="Center"
+                       Text="{Binding Source={x:Static p:Resources.Total}, Converter={StaticResource UpperCaseCoverter}}"
+                       />
+
+            <TextBlock DockPanel.Dock="Right" 
+                       TextAlignment="Right"
+                       FontSize="18"
+                       VerticalAlignment="Center"
+                       Text="{Binding Total, StringFormat=c}"
+                       />
+
+        </DockPanel>
+
         <!-- RIGHT SIDE -->
         
         <!-- MODIFIERS HEADER -->
@@ -81,7 +110,7 @@
                        VerticalAlignment="Center"
                        Foreground="{StaticResource PrimaryBrush}">
                 <Run Text="Max: " />
-                <Run Text="{Binding MaxGroupQty}" />
+                <Run Text="{Binding MaxGroupQty, Converter={StaticResource QtyToTextConverter}}" />
             </TextBlock>
 
             <!-- GROUP TITLE -->
@@ -95,7 +124,8 @@
         
         <!-- MODIFIERS GRID -->
         <ItemsControl Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
-                      ItemsSource="{Binding RelatedModifiers}">
+                      ItemsSource="{Binding RelatedModifiers}"
+                      ItemTemplateSelector="{StaticResource ModifiersGridItemTemplateSelector}">
             
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

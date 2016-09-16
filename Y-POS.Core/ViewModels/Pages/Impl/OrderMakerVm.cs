@@ -38,7 +38,7 @@ namespace Y_POS.Core.ViewModels.Pages
         private ReactiveCommand<object> _commandCheckout;
 
         private ReactiveCommand<object> _commandCancel;
-        private ReactiveCommand<object> _commandDone;
+        private ReactiveCommand<IOrderedItem> _commandDone;
 
         #endregion
 
@@ -128,7 +128,8 @@ namespace Y_POS.Core.ViewModels.Pages
             _commandCheckout = ReactiveCommand.Create();
 
             _commandCancel = ReactiveCommand.Create();
-            _commandDone = ReactiveCommand.Create();
+            _commandDone = ReactiveCommand.CreateAsyncObservable(this.WhenAnyValue(vm => vm._itemConstructorVm.CanCompleteItem)
+                .ObserveOn(SchedulerService.UiScheduler), _ => AddOrderItem());
         }
 
         protected override void InitLifetimeSubscriptions()
@@ -139,7 +140,7 @@ namespace Y_POS.Core.ViewModels.Pages
                 .SubscribeToObserveOnUi());
 
             // Clear items
-            AddLifetimeSubscription(_commandClear.Subscribe(_ => DialogService.CreateMessageDialog("Order cleared").Show()));
+            AddLifetimeSubscription(_commandClear.Subscribe());
 
             // Void
             AddLifetimeSubscription(_commandVoid.Where(b => b)
@@ -167,10 +168,12 @@ namespace Y_POS.Core.ViewModels.Pages
             }));
 
             // Done orer item constructor
-            AddLifetimeSubscription(_commandDone.SubscribeToObserveOnUi(_ =>
+            AddLifetimeSubscription(_commandDone.SubscribeToObserveOnUi(addedItem =>
             {
                 _itemConstructorVm.Cancel();
                 DetailsVm = _menuVm;
+
+                SelectedItem = OrderedItems.FirstOrDefault(vm => vm.ToGuid() == addedItem.ToGuid());
             }));
         }
 
@@ -222,6 +225,14 @@ namespace Y_POS.Core.ViewModels.Pages
             //                        orderedItem => orderedItem.Uuid.Equals(item.Uuid, StringComparison.OrdinalIgnoreCase)), HandleError);
             //}
         }
+
+        private IObservable<IOrderedItem> AddOrderItem()
+        {
+            var itemId = _itemConstructorVm.MenuItemId;
+            var relatedModifiers = _itemConstructorVm.GetRelatedModifiers().ToArray();
+            var commonModifiers = _itemConstructorVm.GetCommonModifiers().ToArray();
+            return _orderCreator.AddOrderItem(itemId.Value, relatedModifiers, commonModifiers);
+        } 
 
         #endregion
     }

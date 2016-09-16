@@ -23,12 +23,13 @@ namespace Y_POS.Core.ViewModels.PageParts
 
         private readonly ReactiveList<ModifiersGroupItemVm> _selectedModifiersGroups = new ReactiveList<ModifiersGroupItemVm>();
 
-        private Guid? _menuItemId;
         private Guid? _orderItemId;
 
         #endregion
 
         #region Properties
+
+        public Guid? MenuItemId { get; private set; }
 
         [Reactive]
         public IModifierItemVm[] RelatedModifiers { get; private set; }
@@ -48,6 +49,8 @@ namespace Y_POS.Core.ViewModels.PageParts
         public string RequiredStatus { get; private set; }
         [Reactive]
         public decimal Total { get; private set; }
+        
+        public extern bool CanCompleteItem { [ObservableAsProperty] get; }
 
         #endregion
 
@@ -116,7 +119,7 @@ namespace Y_POS.Core.ViewModels.PageParts
 
         protected override void OnCreate(IArgsBundle args)
         {
-            base.OnCreate(args);
+            this.WhenAnyValue(vm => vm._itemConstructor.CanComplete).ToPropertyEx(this, vm => vm.CanCompleteItem);
         }
 
         protected override void OnStart()
@@ -130,11 +133,11 @@ namespace Y_POS.Core.ViewModels.PageParts
 
         public void ProcessMenuItem(IMenuItemItemVm menuItem)
         {
-            _menuItemId = menuItem.ToGuid();
+            MenuItemId = menuItem.ToGuid();
             MenuItemTitle = menuItem.Title;
             MenuItemPrice = menuItem.Price;
 
-            _itemConstructor.ProcessMenuItem(_menuItemId.Value, MenuItemPrice);
+            _itemConstructor.ProcessMenuItem(MenuItemId.Value, MenuItemPrice);
         }
 
         public void EditOrderItem(Guid orderId, IOrderedItemVm orderedItem)
@@ -148,10 +151,23 @@ namespace Y_POS.Core.ViewModels.PageParts
 
         public void Cancel()
         {
-            _menuItemId = null;
+            MenuItemId = null;
             _orderItemId = null;
             _itemConstructor.Clean();
             SelectedGroup = null;
+        }
+
+        public IEnumerable<ModifierToAdd> GetRelatedModifiers()
+        {
+            return
+                _selectedModifiersGroups.Where(vm => vm.Type == ModifierType.Related)
+                    .SelectMany(vm => vm.Modifiers.Select(itemVm => new ModifierToAdd(itemVm.ToGuid(), itemVm.Qty)));
+        }
+
+        public IEnumerable<ModifierToAdd> GetCommonModifiers()
+        {
+            return _selectedModifiersGroups.Where(vm => vm.Type == ModifierType.Common)
+                .SelectMany(vm => vm.Modifiers.Select(itemVm => new ModifierToAdd(itemVm.ToGuid(), itemVm.Qty)));
         }
 
         #endregion

@@ -3,7 +3,8 @@
                     xmlns:ui="clr-namespace:YumaPos.WPF.UI;assembly=YumaPos.WPF.UI"
                     xmlns:controls="clr-namespace:Y_POS.Controls"
                     xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
-                    xmlns:contracts="clr-namespace:Y_POS.Core.ViewModels.Items.Contracts;assembly=Y-POS.Core">
+                    xmlns:contracts="clr-namespace:Y_POS.Core.ViewModels.Items.Contracts;assembly=Y-POS.Core"
+                    xmlns:selectors="clr-namespace:Y_POS.Selectors">
 
     <ResourceDictionary.MergedDictionaries>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Themes/ColorScheme.xaml" />
@@ -12,6 +13,12 @@
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/Separator.xaml" />
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/ListBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <selectors:SelectedModifiersListTemplateSelector x:Key="SelectedModifiersListTemplateSelector"/>
+
+    <!--=====================================================================-->
+    <!-- MENU SELECTOR CONTROL STYLES -->
+    <!--=====================================================================-->
 
     <DataTemplate x:Key="CategoryDt" DataType="{x:Type contracts:IMenuCategoryItemVm}">
         <Grid Name="ContainerGrid">
@@ -77,7 +84,7 @@
 
                     <Image Stretch="Uniform" Grid.Row="0" Grid.RowSpan="2"
                            CacheMode="BitmapCache"
-                           Source="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}}"/>
+                           Source="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}}" />
                     <!--Source="../../Images/img.png" -->
 
                     <!-- PRICE -->
@@ -137,7 +144,7 @@
                           SnapsToDevicePixels="True"
                           ClipToBounds="True">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" MinHeight="130" MaxHeight="220"/>
+                            <RowDefinition Height="Auto" MinHeight="130" MaxHeight="220" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
@@ -196,6 +203,249 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!--=====================================================================-->
+    <!-- ORDER ITEM CONSTRUCTOR STYLES -->
+    <!--=====================================================================-->
+
+    <!-- MODIFIER ITEM DATA TEMPLATE -->
+    <DataTemplate x:Key="ModifierButtonDt" DataType="{x:Type contracts:IModifierItemVm}">
+        <Button Foreground="{StaticResource PrimaryBrush}"
+                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
+                Margin="0,0,1,1"
+                Padding="5"
+                BorderThickness="0"
+                Command="{Binding CommandSelectModifier}"
+                CommandParameter="{Binding}"
+                Content="{Binding}">
+            <Button.ContentTemplate>
+                <DataTemplate DataType="{x:Type contracts:IModifierItemVm}">
+                    <Grid Width="90"
+                          Height="90">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+
+                        <Image Grid.Row="0" Grid.RowSpan="2"
+                               Stretch="UniformToFill"
+                               CacheMode="BitmapCache"
+                               Source="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}}" />
+
+                        <!-- PRICE -->
+                        <Border Background="{StaticResource DimmedTextBackground}"
+                                Grid.Row="0"
+                                Padding="3"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Right">
+                            <TextBlock Style="{StaticResource DefaultSmallText}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Right"
+                                       Focusable="False"
+                                       Text="{Binding Price, StringFormat=c}" />
+                        </Border>
+
+                        <!-- TITLE -->
+                        <Border Background="{StaticResource DimmedTextBackground}"
+                                Grid.Row="1"
+                                Padding="3"
+                                VerticalAlignment="Stretch">
+                            <TextBlock Style="{StaticResource DefaultSmallText}"
+                                       VerticalAlignment="Center"
+                                       TextAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextTrimming="WordEllipsis"
+                                       Text="{Binding Title}" />
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </Button.ContentTemplate>
+        </Button>
+    </DataTemplate>
+
+    <!-- SKIP BUTTON DATA TEMPLATE -->
+    <DataTemplate x:Key="SkipModifierDt" DataType="{x:Type contracts:IModifierItemVm}">
+        <Button Foreground="{StaticResource PrimaryBrush}"
+                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
+                Margin="0,0,1,1"
+                Padding="5"
+                BorderThickness="0"
+                Command="{Binding CommandSelectModifier}"
+                CommandParameter="{Binding}"
+                Content="{Binding Title}">
+            <Button.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <!-- ICON -->
+                        <Path Data="{StaticResource BackIcon}"
+                              RenderTransformOrigin="0.5,0.5"
+                              HorizontalAlignment="Center"
+                              Margin="0,5">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="180" />
+                            </Path.RenderTransform>
+                        </Path>
+
+                        <!-- TITLE -->
+                        <TextBlock HorizontalAlignment="Center"
+                                   Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Button.ContentTemplate>
+        </Button>
+    </DataTemplate>
+
+    <!-- SINGE CHOICE MODIFIER ITEM DATA TEMPLATE -->
+    <DataTemplate x:Key="SingleChoiceModifierDt" DataType="{x:Type contracts:IModifierItemVm}">
+        <DockPanel>
+
+            <!-- PRICE -->
+            <TextBlock DockPanel.Dock="Right"
+                       Style="{StaticResource DefaultSmallText}"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       Text="{Binding Price, StringFormat=c}" />
+
+            <!-- TITLE -->
+            <TextBlock DockPanel.Dock="Left"
+                       Style="{StaticResource DefaultSmallText}"
+                       FontSize="11"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Center"
+                       Margin="10,0"
+                       TextTrimming="CharacterEllipsis"
+                       Text="{Binding Title}" />
+
+        </DockPanel>
+    </DataTemplate>
+
+    <!-- MULTI-QTY MODIFIER ITEM DATA TEMPLATE -->
+    <DataTemplate x:Key="MultiQtyModifierDt" DataType="{x:Type contracts:IModifierItemVm}">
+        <DockPanel Height="44">
+            <!-- PRICE -->
+            <TextBlock DockPanel.Dock="Right"
+                       Style="{StaticResource DefaultSmallText}"
+                       VerticalAlignment="Center"
+                       Width="45"
+                       TextAlignment="Right"
+                       FontWeight="SemiBold"
+                       Margin="5,0,0,0"
+                       Text="{Binding Price, StringFormat=c}" />
+
+            <!-- QTY & INTERACTION -->
+            <Button DockPanel.Dock="Right"
+                    Style="{StaticResource CirclePlusButton}"
+                    Width="30"
+                    Height="30"
+                    VerticalAlignment="Center"
+                    Command="{Binding CommandIncreaseQty}"
+                    CommandParameter="{Binding}" />
+
+            <TextBlock DockPanel.Dock="Right"
+                       Style="{StaticResource DefaultSmallText}"
+                       VerticalAlignment="Center"
+                       Margin="10,0">
+                <Run Text="x" />
+                <Run Text="{Binding Qty, Mode=OneWay}" />
+            </TextBlock>
+
+            <Button DockPanel.Dock="Right"
+                    Style="{StaticResource CircleMinusButton}"
+                    Width="30"
+                    Height="30"
+                    VerticalAlignment="Center"
+                    Command="{Binding CommandDecreaseQty}"
+                    CommandParameter="{Binding}" />
+
+            <!-- TITLE -->
+            <TextBlock DockPanel.Dock="Left"
+                       Style="{StaticResource DefaultSmallText}"
+                       FontSize="11"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0"
+                       TextTrimming="CharacterEllipsis"
+                       Text="{Binding Title, Mode=OneWay}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <!-- EMPTY TEMPLATE FOR MODIFIERS GROUP -->
+    <ControlTemplate x:Key="ModifiersGroupEmptyTemplate">
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Stretch"
+                    Height="44">
+            <Grid Width="30"
+                  Height="30"
+                  VerticalAlignment="Center">
+                <Path
+                    Data="F1M64,32C64,49.673 49.673,64 32,64 14.327,64 0,49.673 0,32 0,14.327 14.327,0 32,0 49.673,0 64,14.327 64,32"
+                    Fill="{StaticResource PrimaryBrush}"
+                    Height="30"
+                    Width="30"
+                    Stretch="Uniform" />
+
+                <Path
+                    Data="F1M35.933,35.933L35.933,64 28.068,64 28.068,35.933 0,35.933 0,28.068 28.068,28.068 28.068,0 35.933,0 35.933,28.068 64,28.068 64,35.933z"
+                    Fill="{StaticResource DisabledText}"
+                    Height="12"
+                    Width="12"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Stretch="Uniform" />
+            </Grid>
+            <TextBlock Style="{StaticResource DefaultSmallText}"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Center"
+                       Margin="10,0"
+                       Foreground="{StaticResource DisabledText}"
+                       Text="No items" />
+
+        </StackPanel>
+    </ControlTemplate>
+
+    <!-- MULTIPLE CHOICE MODIFIER TEMPLATE -->
+    <DataTemplate x:Key="ModifiersGroupDt" DataType="{x:Type contracts:IModifiersGroupItemVm}">
+        <StackPanel Orientation="Vertical"
+                    HorizontalAlignment="Stretch">
+
+            <Border Height="38"
+                    BorderBrush="{StaticResource SeparatorBrush}"
+                    BorderThickness="0 0 0 1"
+                    HorizontalAlignment="Stretch"
+                    Visibility="{Binding IsTitleVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+
+                <TextBlock Style="{StaticResource DefaultText}"
+                           VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Text="{Binding Title}" />
+
+            </Border>
+
+            <ItemsControl Name="ItemHost"
+                          ItemsSource="{Binding Modifiers, Mode=OneTime}"
+                          ItemTemplateSelector="{StaticResource SelectedModifiersListTemplateSelector}"
+                          SnapsToDevicePixels="True">
+                <ItemsControl.Style>
+                    <Style TargetType="ItemsControl">
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}"
+                                Value="0">
+                                <Setter Property="Template" Value="{StaticResource ModifiersGroupEmptyTemplate}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ItemsControl.Style>
+            </ItemsControl>
+        </StackPanel>
+    </DataTemplate>
+    
+    <!-- MODIFIERS LIST ITEM STYLE -->
+    <Style x:Key="ModifiersListItem" TargetType="ListBoxItem" BasedOn="{StaticResource LeftMarkedListItem}">
+        <Setter Property="Padding" Value="10,0,30,0"/>
+        <Setter Property="ex:StyleExtensions.ForegroundOnPressed" Value="{StaticResource TextBrush}" />
     </Style>
 
 </ResourceDictionary>

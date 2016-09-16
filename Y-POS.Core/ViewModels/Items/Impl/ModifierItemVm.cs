@@ -68,7 +68,7 @@ namespace Y_POS.Core.ViewModels.Items.Impl
 
             // Track quantity and calculate total item amount
             this.WhenAnyValue(vm => vm._item.Qty).Skip(1)
-                .Subscribe(i => Qty = i);
+                .SubscribeToObserveOnUi(i => Qty = i);
 
             // Commands increase/decrease
             var cmdIncrease = ReactiveCommand.Create(this.WhenAnyValue(vm => vm.Qty).Select(qty => qty < MaxQty));
@@ -83,6 +83,7 @@ namespace Y_POS.Core.ViewModels.Items.Impl
             CommandDecreaseQty = cmdDecrease;
 
             // Command select
+            //var canExecuteSelect = this.WhenAny(vm => vm.Qty, vm => vm.MaxQty, (qty, maxQty) => qty.Value < maxQty.Value);
             var cmdSelect = ReactiveCommand.Create();
             cmdSelect.Select(param => (IModifierItemVm) param)
                 .Subscribe(vm =>

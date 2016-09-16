@@ -80,6 +80,7 @@
                                FontWeight="SemiBold" />
                     <!-- DESCRIPTION -->
                     <TextBlock FontSize="12"
+                               TextWrapping="Wrap"
                                Text="{Binding Description}" />
                 </StackPanel>
 
