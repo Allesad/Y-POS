@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:properties="clr-namespace:Y_POS.Properties"
              xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
-             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
+             xmlns:contracts="clr-namespace:Y_POS.Core.ViewModels.Items.Contracts;assembly=Y-POS.Core"
+             xmlns:converters="clr-namespace:Y_POS.Converters"
              mc:Ignorable="d"
              d:DesignHeight="768"
              d:DesignWidth="1024"
@@ -18,14 +19,39 @@
             <SolidColorBrush x:Key="DrawerBg" Color="{StaticResource TextColor}" Opacity="0.85" />
             <SolidColorBrush x:Key="MenuItemBgHover" Color="{StaticResource PrimaryColor}" Opacity="0.15" />
 
+            <converters:NavUriToIconConverter x:Key="NavUriToIconConverter"/>
+
+            <DataTemplate x:Key="NavMenuItemDt" DataType="{x:Type contracts:INavMenuItemVm}">
+                <Button Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
+                        HorizontalContentAlignment="Left"
+                        Command="{Binding CommandNavigate}"
+                        Content="{Binding}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Path
+                                    Data="{Binding TargetUri, Converter={StaticResource NavUriToIconConverter}}"
+                                    Stretch="Uniform"
+                                    Fill="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
+                                <TextBlock Text="{Binding Title}"
+                                           Margin="20,7" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+            </DataTemplate>
+
             <Style x:Key="NavMenuItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
                 <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource MenuItemBgHover}" />
                 <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource AccentSecondaryBrush}" />
                 <Setter Property="ex:StyleExtensions.ForegroundOnHover" Value="{StaticResource PrimaryBrush}" />
                 <Setter Property="ex:StyleExtensions.ForegroundOnPressed" Value="{StaticResource TextBrush}" />
                 <Setter Property="Padding" Value="20,10" />
                 <Setter Property="FontSize" Value="18" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NavMenuItemDt}"/>
             </Style>
 
             <Style x:Key="NavMenu" TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
@@ -61,72 +87,9 @@
             <!-- MAIN MENU -->
             <ListBox Name="NavMenuListView"
                      Style="{StaticResource NavMenu}"
-                     SelectedItem="{Binding SelectedItem, Mode=OneWay}"
-                     SelectionMode="Single"
-                     SelectionChanged="NavMenuListView_OnSelectionChanged">
-                <ListBox.Items>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Path
-                                Data="{StaticResource ActiveListIcon}"
-                                Stretch="Uniform"
-                                Fill="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
-                            <TextBlock Text="{x:Static p:Resources.Navigation_ActiveOrders}"
-                                       Margin="20,7" />
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Path
-                                Data="{StaticResource ClosedListIcon}"
-                                Stretch="Uniform"
-                                Fill="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
-                            <TextBlock Text="{x:Static p:Resources.Navigation_ClosedOrders}"
-                                       Margin="20,7" />
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Path
-                                Data="{StaticResource CurrencyIcon}"
-                                Stretch="Uniform"
-                                Fill="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
-                            <TextBlock Text="{x:Static p:Resources.Navigation_Cashdrawer}"
-                                       Margin="20,7" />
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Path
-                                Data="{StaticResource PerformanceIcon}"
-                                Stretch="Uniform"
-                                Fill="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
-                            <TextBlock Text="{x:Static p:Resources.Navigation_Reports}"
-                                       Margin="20,7" />
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Path
-                                Data="{StaticResource SettingsIcon}"
-                                Stretch="Uniform"
-                                Fill="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
-                            <TextBlock Text="{x:Static p:Resources.Navigation_Settings}"
-                                       Margin="20,7" />
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Path
-                                Data="{StaticResource QuitIcon}"
-                                Stretch="Uniform"
-                                Fill="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
-                            <TextBlock Text="{x:Static p:Resources.Navigation_Quit}"
-                                       Margin="20,7" />
-                        </StackPanel>
-                    </ListBoxItem>
-                </ListBox.Items>
-            </ListBox>
+                     ItemsSource="{Binding Items, Mode=OneTime}"
+                     SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                     SelectionMode="Single"/>
 
         </StackPanel>
 

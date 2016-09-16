@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive.Linq;
-using System.Windows.Input;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.App;
-using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
+using Y_POS.Core.Extensions;
+using Y_POS.Core.ViewModels.Items.Contracts;
+using Y_POS.Core.ViewModels.Items.Impl;
 
 namespace Y_POS.Core.ViewModels.Pages
 {
@@ -14,20 +17,15 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private readonly IAppService _appService;
 
-        private readonly ReactiveCommand<object> _commandNavigate = ReactiveCommand.Create();
-
         #endregion
 
         #region Properties
         
-        public string StoreName { get; private set; }
-        public string TerminalName { get; private set; }
-
-        #endregion
-
-        #region Commands
-
-        public ICommand CommandNavigate { get { return _commandNavigate; } }
+        public string StoreName { get; }
+        public string TerminalName { get; }
+        public INavMenuItemVm[] Items { get; }
+        [Reactive]
+        public INavMenuItemVm SelectedItem { get; set; }
 
         #endregion
 
@@ -39,15 +37,12 @@ namespace Y_POS.Core.ViewModels.Pages
 
             _appService = appService;
 
-            _commandNavigate
-                .Select(o => (NavUri) o)
-                .Where(uri => !uri.Equals(NavigationService.CurrenUri))
-                .Subscribe(NavigateTo);
+            Items = GetNavigationItems();
 
             this.WhenAnyValue(vm => vm.NavigationService.CurrenUri)
-                .Subscribe(_ =>
+                .SubscribeToObserveOnUi(uri =>
                 {
-
+                    SelectedItem = Items.FirstOrDefault(vm => vm.TargetUri.Equals(uri));
                 });
 
             StoreName = appService.Store.Title;
@@ -58,16 +53,17 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Private methods
 
-        private void NavigateTo(NavUri target)
+        private static INavMenuItemVm[] GetNavigationItems()
         {
-            try
+            return new[]
             {
-                NavigationService.StartIntent(new Intent(target).AddFlag(IntentFlags.ClearTop));
-            }
-            catch (Exception ex)
-            {
-                DialogService.CreateMessageDialog(ex.Message).Show();
-            }
+                new NavMenuItemVm(AppNavigation.ActiveOrders),
+                new NavMenuItemVm(AppNavigation.ClosedOrders),
+                new NavMenuItemVm(AppNavigation.Cashdrawer),
+                new NavMenuItemVm(AppNavigation.Reports),
+                new NavMenuItemVm(AppNavigation.Settings),
+                new NavMenuItemVm(AppNavigation.PinLogin)
+            };
         }
 
         #endregion

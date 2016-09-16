@@ -145,6 +145,7 @@
     <Compile Include="Converters\ImageModelToSourceConverter.cs" />
     <Compile Include="Converters\MockLoginDataConverter.cs" />
     <Compile Include="Converters\ModifiersGroupMaxQtyToTextConverter.cs" />
+    <Compile Include="Converters\NavUriToIconConverter.cs" />
     <Compile Include="Converters\OrderStatusNewVisibilityConverter.cs" />
     <Compile Include="Converters\OrderStatusToTextConverter.cs" />
     <Compile Include="DialogWindow.xaml.cs">

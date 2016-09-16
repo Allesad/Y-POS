@@ -47,7 +47,7 @@ namespace Y_POS.Views
                     targetUri = AppNavigation.PinLogin;
                     break;
             }
-            ViewModel.CommandNavigate.Execute(targetUri);
+            //ViewModel.CommandNavigate.Execute(targetUri);
         }
     }
 }

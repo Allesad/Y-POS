@@ -1,5 +1,5 @@
-﻿using System.Windows.Input;
-using YumaPos.Client.UI.ViewModels.Contracts;
+﻿using YumaPos.Client.UI.ViewModels.Contracts;
+using Y_POS.Core.ViewModels.Items.Contracts;
 
 namespace Y_POS.Core.ViewModels.Pages
 {
@@ -10,13 +10,8 @@ namespace Y_POS.Core.ViewModels.Pages
         string StoreName { get; }
         string TerminalName { get; }
 
-
-
-        #endregion
-
-        #region Commands
-
-        ICommand CommandNavigate { get; }
+        INavMenuItemVm[] Items { get; }
+        INavMenuItemVm SelectedItem { get; set; }
 
         #endregion
     }
