@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="Y_POS.Controls.CardNumberInput"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
+             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+             xmlns:behaviours="clr-namespace:YumaPos.WPF.UI.Behaviours;assembly=YumaPos.WPF.UI"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d"
+             x:Name="CardInput"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <StackPanel Orientation="Vertical"
+                HorizontalAlignment="Stretch">
+
+        <!-- HEADER -->
+        <TextBlock Margin="0,10"
+                   FontSize="18"
+                   HorizontalAlignment="Center"
+                   Text="{Binding Source={x:Static p:Resources.SwipeOrEnterCardNumber}, Converter={StaticResource UpperCaseCoverter}}" />
+
+        <!-- CARD NUMBER INPUT -->
+        <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Placeholder_CardNumber}, 
+                    Converter={StaticResource UpperCaseCoverter}}"
+                 Text="{Binding CardNumber, ElementName=CardInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+            <i:Interaction.Behaviors>
+                <behaviours:TextBoxInputRegExBehaviour RegularExpression="^\d+$" MaxLength="10"/>
+            </i:Interaction.Behaviors>
+        </TextBox>
+
+    </StackPanel>
+
+</UserControl>

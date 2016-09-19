@@ -5,6 +5,13 @@ using Y_POS.Core.ViewModels.Items.Contracts;
 
 namespace Y_POS.Core.ViewModels.Pages
 {
+    public enum OrderMakerDetailsType
+    {
+        Menu,
+        ItemConstructor,
+        GiftCards
+    }
+
     public interface IOrderMakerVm : IPageVm
     {
         #region Properties
@@ -15,6 +22,7 @@ namespace Y_POS.Core.ViewModels.Pages
         IReactiveDerivedList<IOrderedItemVm> OrderedItems { get; }
         IOrderedItemVm SelectedItem { get; set; }
 
+        OrderMakerDetailsType DetailsType { get; }
         ILifecycleVm DetailsVm { get; }
 
         #endregion
@@ -25,12 +33,9 @@ namespace Y_POS.Core.ViewModels.Pages
         ICommand CommandDeleteItem { get; }
         ICommand CommandClear { get; }
         ICommand CommandVoid { get; }
+        ICommand CommandGiftCards { get; }
         ICommand CommandPrint { get; }
         ICommand CommandCheckout { get; }
-
-        // Item constructor commands
-        ICommand CommandCancelItemConstructor { get; }
-        ICommand CommandSubmitItemConstructor { get; }
 
         #endregion
     }

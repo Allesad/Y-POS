@@ -29,8 +29,8 @@ namespace Y_POS
         protected override void OnStartup(StartupEventArgs e)
         {
             Thread.CurrentThread.Name = "Y-POS.Win";
-            //const string lang = "ru-RU";
-            const string lang = "en-US";
+            const string lang = "ru-RU";
+            //const string lang = "en-US";
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
             Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
 

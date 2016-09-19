@@ -8,58 +8,60 @@
                 xmlns:converters="clr-namespace:Y_POS.Converters"
                 xmlns:selectors="clr-namespace:Y_POS.Selectors"
                 xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+                xmlns:controls="clr-namespace:Y_POS.Controls"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
                 d:DataContext="{d:DesignInstance pageParts:IOrderItemConstructorVm, d:IsDesignTimeCreatable=False}">
-    
+
     <UserControl.Resources>
         <ResourceDictionary>
-            
-            <converters:ModifiersGroupMaxQtyToTextConverter x:Key="QtyToTextConverter"/>
-            <selectors:ModifiersGridItemTemplateSelector x:Key="ModifiersGridItemTemplateSelector"/>
-            
+
+            <converters:ModifiersGroupMaxQtyToTextConverter x:Key="QtyToTextConverter" />
+            <selectors:ModifiersGridItemTemplateSelector x:Key="ModifiersGridItemTemplateSelector" />
+
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="45"/>
+            <RowDefinition Height="45" />
             <RowDefinition />
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        
+
         <!-- LEFT SIDE -->
-        
+
         <!-- BACKGROUND-->
         <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
-                Background="{StaticResource PrimaryBrush}"/>
-        
+                Background="{StaticResource PrimaryBrush}" />
+
         <!-- HEADER -->
         <DockPanel Grid.Row="0" Grid.Column="0"
                    Margin="10,0">
-            
+
             <!-- PRICE -->
-            <TextBlock DockPanel.Dock="Right" 
+            <TextBlock DockPanel.Dock="Right"
                        VerticalAlignment="Center"
-                       Text="{Binding MenuItemPrice, StringFormat=c}"/>
-            
+                       Text="{Binding MenuItemPrice, StringFormat=c}" />
+
             <!-- TITLE -->
             <TextBlock VerticalAlignment="Center"
                        TextTrimming="CharacterEllipsis"
-                       Text="{Binding MenuItemTitle}"/>
-            
+                       Text="{Binding MenuItemTitle}" />
+
         </DockPanel>
-        
+
         <Separator Grid.Row="0" Grid.Column="0"
                    Style="{StaticResource HSeparator}"
-                   VerticalAlignment="Bottom"/>
-        
+                   VerticalAlignment="Bottom" />
+
         <!-- SELECTED ITEMS LIST -->
         <ListBox Grid.Row="1" Grid.Column="0"
                  ItemsSource="{Binding SelectedGroups}"
@@ -68,32 +70,30 @@
                  ItemTemplate="{StaticResource ModifiersGroupDt}"
                  Foreground="{StaticResource TextBrush}"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
-        
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+
         <Separator Grid.Row="1" Grid.Column="0"
                    Style="{StaticResource HSeparator}"
-                   VerticalAlignment="Bottom"/>
-        
+                   VerticalAlignment="Bottom" />
+
         <!-- TOTAL -->
         <DockPanel Grid.Row="2" Grid.Column="0"
                    Margin="10,0">
 
             <TextBlock DockPanel.Dock="Left"
                        VerticalAlignment="Center"
-                       Text="{Binding Source={x:Static p:Resources.Total}, Converter={StaticResource UpperCaseCoverter}}"
-                       />
+                       Text="{Binding Source={x:Static p:Resources.Total}, Converter={StaticResource UpperCaseCoverter}}" />
 
-            <TextBlock DockPanel.Dock="Right" 
+            <TextBlock DockPanel.Dock="Right"
                        TextAlignment="Right"
                        FontSize="18"
                        VerticalAlignment="Center"
-                       Text="{Binding Total, StringFormat=c}"
-                       />
+                       Text="{Binding Total, StringFormat=c}" />
 
         </DockPanel>
 
         <!-- RIGHT SIDE -->
-        
+
         <!-- MODIFIERS HEADER -->
         <DockPanel Grid.Row="0" Grid.Column="1"
                    Background="{StaticResource ActionBarBg}">
@@ -121,26 +121,49 @@
                        Text="{Binding GroupTitle, Mode=OneWay}" />
 
         </DockPanel>
-        
+
         <!-- MODIFIERS GRID -->
         <ItemsControl Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
                       ItemsSource="{Binding RelatedModifiers}"
                       ItemTemplateSelector="{StaticResource ModifiersGridItemTemplateSelector}">
-            
+
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid IsItemsHost="True" Columns="4"
                                  VerticalAlignment="Top"
-                                 HorizontalAlignment="Left"/>
+                                 HorizontalAlignment="Left" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-            
+
         </ItemsControl>
-        
+
         <Separator Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"
                    Style="{StaticResource VSeparator}"
-                   HorizontalAlignment="Left"/>
-        
+                   HorizontalAlignment="Left" />
+
+        <!-- ACTION BAR -->
+        <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                Background="{StaticResource ActionBarBg}">
+
+            <UniformGrid HorizontalAlignment="Right"
+                         Width="{StaticResource CenterColumnWidth}"
+                         Columns="2" Rows="1">
+
+                <!-- CANCEL ITEM CONSTRUCTOR -->
+                <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
+                                          BorderThickness="0,0,1,0"
+                                          Title="{Binding Source={x:Static p:Resources.Cancel}, Converter={StaticResource UpperCaseCoverter}}"
+                                          Command="{Binding CommandCancel}" />
+
+                <!-- SUBMIT ITEM CONSTRUCTOR -->
+                <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
+                                          Title="{Binding Source={x:Static p:Resources.Done}, Converter={StaticResource UpperCaseCoverter}}"
+                                          Command="{Binding CommandDone}" />
+
+            </UniformGrid>
+
+        </Border>
+
     </Grid>
-    
+
 </views:BaseView>

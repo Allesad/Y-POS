@@ -398,4 +398,28 @@
   <data name="Next" xml:space="preserve">
     <value>Далее</value>
   </data>
+  <data name="CheckBalance" xml:space="preserve">
+    <value>Проверить баланс</value>
+  </data>
+  <data name="DeleteItem" xml:space="preserve">
+    <value>Удалить пункт</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Закончить</value>
+  </data>
+  <data name="IssueCard" xml:space="preserve">
+    <value>Новая карта</value>
+  </data>
+  <data name="RefillCard" xml:space="preserve">
+    <value>Пополнить карту</value>
+  </data>
+  <data name="SwipeOrEnterCardNumber" xml:space="preserve">
+    <value>Проведите картой или введите номер</value>
+  </data>
+  <data name="YourBalance" xml:space="preserve">
+    <value>Ваш баланс</value>
+  </data>
+  <data name="Placeholder_CardNumber" xml:space="preserve">
+    <value>Карта #</value>
+  </data>
 </root>

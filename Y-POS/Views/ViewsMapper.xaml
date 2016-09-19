@@ -64,4 +64,9 @@
         <orderMakerParts:OrderMakerItemConstructorView DataContext="{Binding}"/>
     </DataTemplate>
     
+    <!-- GIFT CARDS -->
+    <DataTemplate DataType="{x:Type pageParts:GiftCardsVm}">
+        <orderMakerParts:OrderMakerGiftCardsView DataContext="{Binding}"/>
+    </DataTemplate>
+    
 </ResourceDictionary>

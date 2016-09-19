@@ -109,7 +109,7 @@
                   Fill="{StaticResource TextBrush}" />
 
             <!-- TITLE -->
-            <TextBlock Text="{Binding Title}"
+            <TextBlock Text="{Binding Title, Converter={StaticResource UpperCaseCoverter}}"
                        VerticalAlignment="Center"
                        FontSize="18"
                        Foreground="{StaticResource TextBrush}" />

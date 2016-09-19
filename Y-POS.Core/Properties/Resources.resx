@@ -399,4 +399,28 @@
   <data name="Next" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="CheckBalance" xml:space="preserve">
+    <value>Check balance</value>
+  </data>
+  <data name="DeleteItem" xml:space="preserve">
+    <value>Delete item</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="IssueCard" xml:space="preserve">
+    <value>Issue card</value>
+  </data>
+  <data name="RefillCard" xml:space="preserve">
+    <value>Refill card</value>
+  </data>
+  <data name="SwipeOrEnterCardNumber" xml:space="preserve">
+    <value>Swipe or enter card number</value>
+  </data>
+  <data name="YourBalance" xml:space="preserve">
+    <value>Your balance</value>
+  </data>
+  <data name="Placeholder_CardNumber" xml:space="preserve">
+    <value>Card #</value>
+  </data>
 </root>

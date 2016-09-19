@@ -88,6 +88,7 @@
       <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -138,6 +139,9 @@
     <Compile Include="Configuration\ApiConfig.cs" />
     <Compile Include="Configuration\ConfigurationProvider.cs" />
     <Compile Include="Controls\ActionBarButton.cs" />
+    <Compile Include="Controls\CardNumberInput.xaml.cs">
+      <DependentUpon>CardNumberInput.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ContentPresenterEx.cs" />
     <Compile Include="Controls\MenuSelectorControl.cs" />
     <Compile Include="Controls\NumericKeypadControl.cs" />
@@ -211,6 +215,9 @@
     <Compile Include="Views\NavMenuView.xaml.cs">
       <DependentUpon>NavMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OrderMakerParts\OrderMakerGiftCardsView.xaml.cs">
+      <DependentUpon>OrderMakerGiftCardsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OrderMakerParts\OrderMakerItemConstructorView.xaml.cs">
       <DependentUpon>OrderMakerItemConstructorView.xaml</DependentUpon>
     </Compile>
@@ -236,6 +243,10 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfScheduler.cs" />
+    <Page Include="Controls\CardNumberInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Converters\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -385,6 +396,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NavMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OrderMakerParts\OrderMakerGiftCardsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

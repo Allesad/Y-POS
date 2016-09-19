@@ -96,6 +96,7 @@ namespace Y_POS.Bootstrap
             builder.Register<MenuService>().As<IMenuService>();
             builder.Register<InMemoryMenuService>().As<IInMemoryMenuService>();
             builder.Register<ImageService>().As<IImageService>();
+            builder.Register<GiftCardService>().As<IGiftCardService>();
 
             // Hardware
             builder.Register<MockPrinter>().As<IPrintService>();
@@ -126,6 +127,7 @@ namespace Y_POS.Bootstrap
             // Page parts ViewModels
             builder.Register<OrderMakerMenuVm>(Lifecycles.PerScope).As<IOrderMakerMenuVm>();
             builder.Register<OrderItemConstructorVm>(Lifecycles.PerScope).As<IOrderItemConstructorVm>();
+            builder.Register<GiftCardsVm>(Lifecycles.PerScope).As<IGiftCardsVm>();
         }
 
         private static IRegistrationBuilder<TImpl, ConcreteReflectionActivatorData, SingleRegistrationStyle> Register<TImpl>(this ContainerBuilder builder, Lifecycles lifecycle = Lifecycles.PerDefaultScope)

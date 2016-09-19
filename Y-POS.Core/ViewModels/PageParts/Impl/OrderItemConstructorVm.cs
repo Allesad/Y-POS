@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading;
+using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Builders;
@@ -20,8 +22,12 @@ namespace Y_POS.Core.ViewModels.PageParts
         #region Fields
 
         private readonly IOrderItemConstructor _itemConstructor;
+        private readonly IOrderCreator _orderCreator;
 
         private readonly ReactiveList<ModifiersGroupItemVm> _selectedModifiersGroups = new ReactiveList<ModifiersGroupItemVm>();
+
+        private ReactiveCommand<object> _commandCancel;
+        private ReactiveCommand<IOrderedItem> _commandDone; 
 
         private Guid? _orderItemId;
 
@@ -50,17 +56,26 @@ namespace Y_POS.Core.ViewModels.PageParts
         [Reactive]
         public decimal Total { get; private set; }
         
-        public extern bool CanCompleteItem { [ObservableAsProperty] get; }
+        public ICommand CommandCancel => _commandCancel;
+        public ICommand CommandDone => _commandDone;
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler CloseEvent;
 
         #endregion
 
         #region Constructor
 
-        public OrderItemConstructorVm(IOrderItemConstructor itemConstructor)
+        public OrderItemConstructorVm(IOrderItemConstructor itemConstructor, IOrderCreator orderCreator)
         {
             if (itemConstructor == null) throw new ArgumentNullException(nameof(itemConstructor));
+            if (orderCreator == null) throw new ArgumentNullException(nameof(orderCreator));
 
             _itemConstructor = itemConstructor;
+            _orderCreator = orderCreator;
         }
 
         #endregion
@@ -115,16 +130,45 @@ namespace Y_POS.Core.ViewModels.PageParts
             // Track total order item amount
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm._itemConstructor.TotalAmount)
                 .SubscribeToObserveOnUi(amount => Total = amount));
+            
+            // Command Cancel
+            AddLifetimeSubscription(_commandCancel.Subscribe(_ => RaiseCloseEvent()));
+
+            // Command Done
+            AddLifetimeSubscription(_commandDone.Subscribe(_ => RaiseCloseEvent()));
         }
 
         protected override void OnCreate(IArgsBundle args)
         {
-            this.WhenAnyValue(vm => vm._itemConstructor.CanComplete).ToPropertyEx(this, vm => vm.CanCompleteItem);
+        }
+
+        protected override void InitCommands()
+        {
+            var canComplete =
+                this.WhenAnyValue(vm => vm._itemConstructor.CanComplete).ObserveOn(SchedulerService.UiScheduler);
+
+            _commandCancel = ReactiveCommand.Create();
+            _commandDone = ReactiveCommand.CreateAsyncObservable(canComplete, _ =>
+            {
+                if (_orderItemId.HasValue)
+                    return Observable.Return<IOrderedItem>(null);
+
+                return _orderCreator.AddOrderItem(MenuItemId.Value,
+                    _selectedModifiersGroups.Where(group => group.Type == ModifierType.Related).SelectMany(vm => vm.Modifiers)
+                        .Select(vm => new ModifierToAdd(vm.ToGuid(), vm.Qty)).ToArray(),
+                        _selectedModifiersGroups.Where(group => group.Type == ModifierType.Common).SelectMany(vm => vm.Modifiers)
+                        .Select(vm => new ModifierToAdd(vm.ToGuid(), vm.Qty)).ToArray());
+            });
         }
 
         protected override void OnStart()
         {
             base.OnStart();
+        }
+
+        protected override void OnStop()
+        {
+            Clean();
         }
 
         #endregion
@@ -149,25 +193,12 @@ namespace Y_POS.Core.ViewModels.PageParts
             _itemConstructor.EditOrderItem(orderId, _orderItemId.Value, orderedItem.Price);
         }
 
-        public void Cancel()
+        public void Clean()
         {
             MenuItemId = null;
             _orderItemId = null;
             _itemConstructor.Clean();
             SelectedGroup = null;
-        }
-
-        public IEnumerable<ModifierToAdd> GetRelatedModifiers()
-        {
-            return
-                _selectedModifiersGroups.Where(vm => vm.Type == ModifierType.Related)
-                    .SelectMany(vm => vm.Modifiers.Select(itemVm => new ModifierToAdd(itemVm.ToGuid(), itemVm.Qty)));
-        }
-
-        public IEnumerable<ModifierToAdd> GetCommonModifiers()
-        {
-            return _selectedModifiersGroups.Where(vm => vm.Type == ModifierType.Common)
-                .SelectMany(vm => vm.Modifiers.Select(itemVm => new ModifierToAdd(itemVm.ToGuid(), itemVm.Qty)));
         }
 
         #endregion
@@ -323,6 +354,12 @@ namespace Y_POS.Core.ViewModels.PageParts
             RequiredStatus = isRequired
                 ? Properties.Resources.Modifier_RequiredStatus_Required
                 : Properties.Resources.Modifier_RequiredStatus_Optional;
+        }
+
+        private void RaiseCloseEvent()
+        {
+            var handler = Volatile.Read(ref CloseEvent);
+            handler?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion
