@@ -287,6 +287,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check balance.
+        /// </summary>
+        public static string CheckBalance {
+            get {
+                return ResourceManager.GetString("CheckBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Checkout.
         /// </summary>
         public static string Checkout {
@@ -350,6 +359,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete item.
+        /// </summary>
+        public static string DeleteItem {
+            get {
+                return ResourceManager.GetString("DeleteItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Void order?.
         /// </summary>
         public static string Dialog_Confirmation_VoidOrder {
@@ -364,6 +382,15 @@ namespace Y_POS.Core.Properties {
         public static string Discount {
             get {
                 return ResourceManager.GetString("Discount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string Done {
+            get {
+                return ResourceManager.GetString("Done", resourceCulture);
             }
         }
         
@@ -409,6 +436,15 @@ namespace Y_POS.Core.Properties {
         public static string GiftCard {
             get {
                 return ResourceManager.GetString("GiftCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Issue card.
+        /// </summary>
+        public static string IssueCard {
+            get {
+                return ResourceManager.GetString("IssueCard", resourceCulture);
             }
         }
         
@@ -692,6 +728,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Card #.
+        /// </summary>
+        public static string Placeholder_CardNumber {
+            get {
+                return ResourceManager.GetString("Placeholder_CardNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Print.
         /// </summary>
         public static string Print {
@@ -733,6 +778,15 @@ namespace Y_POS.Core.Properties {
         public static string Received {
             get {
                 return ResourceManager.GetString("Received", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refill card.
+        /// </summary>
+        public static string RefillCard {
+            get {
+                return ResourceManager.GetString("RefillCard", resourceCulture);
             }
         }
         
@@ -836,6 +890,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Swipe or enter card number.
+        /// </summary>
+        public static string SwipeOrEnterCardNumber {
+            get {
+                return ResourceManager.GetString("SwipeOrEnterCardNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time.
         /// </summary>
         public static string Time {
@@ -895,6 +958,15 @@ namespace Y_POS.Core.Properties {
         public static string Void {
             get {
                 return ResourceManager.GetString("Void", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your balance.
+        /// </summary>
+        public static string YourBalance {
+            get {
+                return ResourceManager.GetString("YourBalance", resourceCulture);
             }
         }
     }

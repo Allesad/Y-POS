@@ -98,10 +98,21 @@
         </Style>
     </UserControl.Resources>
 
-    <DockPanel>
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
         <!-- ACTION BAR -->
-        <DockPanel Style="{StaticResource ActionBarContainer}">
+        <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                   Style="{StaticResource ActionBarContainer}">
 
             <!-- BACK -->
             <controls:ActionBarButton DockPanel.Dock="Left"
@@ -110,68 +121,43 @@
             <!-- DELETE ITEM -->
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarButton}"
-                                      Title="DELETE ITEM"
+                                      Title="{Binding Source={x:Static p:Resources.DeleteItem}, Converter={StaticResource UpperCaseCoverter}}"
                                       IconPath="{StaticResource DeleteIcon}"
                                       Command="{Binding CommandDeleteItem}"
                                       CommandParameter="{Binding ElementName=OrderedItemsList, Path=SelectedItem}" />
 
-            <StackPanel DockPanel.Dock="Right"
-                        Name="MenuActions"
-                        Orientation="Horizontal">
 
-                <!-- CLEAR -->
-                <controls:ActionBarButton DockPanel.Dock="Right"
-                                          Style="{StaticResource ActionBarClear}"
-                                          Command="{Binding CommandClear}" />
-
-                <!-- VOID -->
-                <controls:ActionBarButton DockPanel.Dock="Right"
-                                          Style="{StaticResource ActionBarVoid}"
-                                          Command="{Binding CommandVoid}" />
-
-                <!-- GIFT CARD -->
-                <controls:ActionBarButton DockPanel.Dock="Right"
-                                          Style="{StaticResource ActionBarGiftCard}" />
-
-                <!-- PRINT -->
-                <controls:ActionBarButton DockPanel.Dock="Right"
-                                          Style="{StaticResource ActionBarPrint}"
-                                          Command="{Binding CommandPrint}" />
-                <!-- CHECKOUT -->
-                <controls:ActionBarButton DockPanel.Dock="Right"
+            <!-- CHECKOUT -->
+            <controls:ActionBarButton DockPanel.Dock="Right"
                                           Style="{StaticResource ActionBarMainActionButton}"
                                           IconPath="{StaticResource AddIcon}"
                                           Title="{Binding Source={x:Static p:Resources.Checkout}, 
                                         Converter={StaticResource UpperCaseCoverter}}"
                                           Command="{Binding CommandCheckout}" />
-            </StackPanel>
 
-            <UniformGrid DockPanel.Dock="Right"
-                         Name="ItemConstructorActions"
-                         Width="{StaticResource CenterColumnWidth}"
-                         Columns="2" Rows="1"
-                         Visibility="Collapsed">
+            <!-- PRINT -->
+            <controls:ActionBarButton DockPanel.Dock="Right"
+                                          Style="{StaticResource ActionBarPrint}"
+                                          Command="{Binding CommandPrint}" />
 
-                <!-- CANCEL ITEM CONSTRUCTOR -->
-                <controls:ActionBarButton DockPanel.Dock="Right"
-                                          Style="{StaticResource ActionBarMainActionButton}"
-                                          BorderThickness="0,0,1,0"
-                                          Title="CANCEL"
-                                          Command="{Binding CommandCancelItemConstructor}" />
+            <!-- GIFT CARD -->
+            <controls:ActionBarButton DockPanel.Dock="Right"
+                                          Style="{StaticResource ActionBarGiftCard}" 
+                                          Command="{Binding CommandGiftCards}"/>
 
-                <!-- SUBMIT ITEM CONSTRUCTOR -->
-                <controls:ActionBarButton DockPanel.Dock="Right"
-                                          Style="{StaticResource ActionBarMainActionButton}"
-                                          Title="DONE"
-                                          Command="{Binding CommandSubmitItemConstructor}" />
-
-            </UniformGrid>
+            <!-- VOID -->
+            <controls:ActionBarButton DockPanel.Dock="Right"
+                                          Style="{StaticResource ActionBarVoid}"
+                                          Command="{Binding CommandVoid}" />
+            <!-- CLEAR -->
+            <controls:ActionBarButton DockPanel.Dock="Right"
+                                          Style="{StaticResource ActionBarClear}"
+                                          Command="{Binding CommandClear}" />
         </DockPanel>
 
         <!-- LEFT PANEL -->
-        <Grid DockPanel.Dock="Left"
-              Background="{StaticResource PrimaryBrush}"
-              Width="{StaticResource SideColumnWidth}">
+        <Grid Grid.Row="0" Grid.Column="0"
+              Background="{StaticResource PrimaryBrush}">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="45" />
@@ -229,12 +215,15 @@
 
         </Grid>
 
-        <Separator DockPanel.Dock="Left"
-                   Style="{StaticResource VSeparator}" />
-
         <!-- RIGHT PANEL -->
-        <ContentPresenter Content="{Binding DetailsVm}" />
+        <ContentPresenter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" 
+                          Name="DetailsContainer" 
+                          Content="{Binding DetailsVm}" />
 
-    </DockPanel>
+        <Separator Grid.Row="0" Grid.Column="1"
+                   Style="{StaticResource VSeparator}"
+                   HorizontalAlignment="Left"/>
+
+    </Grid>
 
 </views:BaseView>

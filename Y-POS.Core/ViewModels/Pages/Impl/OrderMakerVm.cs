@@ -29,16 +29,15 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private readonly IOrderMakerMenuVm _menuVm;
         private readonly IOrderItemConstructorVm _itemConstructorVm;
+        private readonly IGiftCardsVm _giftCardsVm;
 
         private ReactiveCommand<object> _commandAddCustomer;
         private ReactiveCommand<object> _commandDeleteItem; 
         private ReactiveCommand<Unit> _commandClear;
         private ReactiveCommand<bool> _commandVoid;
+        private ReactiveCommand<object> _commandGiftCards;
         private ReactiveCommand<Unit> _commandPrint;
         private ReactiveCommand<object> _commandCheckout;
-
-        private ReactiveCommand<object> _commandCancel;
-        private ReactiveCommand<IOrderedItem> _commandDone;
 
         #endregion
 
@@ -54,6 +53,10 @@ namespace Y_POS.Core.ViewModels.Pages
         public IReactiveDerivedList<IOrderedItemVm> OrderedItems { get; private set; }
         [Reactive]
         public IOrderedItemVm SelectedItem { get; set; }
+
+        [Reactive]
+        public OrderMakerDetailsType DetailsType { get; private set; }
+
         [Reactive]
         public ILifecycleVm DetailsVm { get; private set; }
 
@@ -65,24 +68,25 @@ namespace Y_POS.Core.ViewModels.Pages
         public ICommand CommandDeleteItem => _commandDeleteItem;
         public ICommand CommandClear => _commandClear;
         public ICommand CommandVoid => _commandVoid;
+        public ICommand CommandGiftCards => _commandGiftCards;
         public ICommand CommandPrint => _commandPrint;
         public ICommand CommandCheckout => _commandCheckout;
-        public ICommand CommandCancelItemConstructor => _commandCancel;
-        public ICommand CommandSubmitItemConstructor => _commandDone;
 
         #endregion
 
         #region Constructor
 
-        public OrderMakerVm(IOrderCreator orderCreator, IOrderMakerMenuVm menuVm, IOrderItemConstructorVm itemConstructorVm)
+        public OrderMakerVm(IOrderCreator orderCreator, IOrderMakerMenuVm menuVm, IOrderItemConstructorVm itemConstructorVm, IGiftCardsVm giftCardsVm)
         {
             if (orderCreator == null) throw new ArgumentNullException(nameof(orderCreator));
             if (menuVm == null) throw new ArgumentNullException(nameof(menuVm));
             if (itemConstructorVm == null) throw new ArgumentNullException(nameof(itemConstructorVm));
+            if (giftCardsVm == null) throw new ArgumentNullException(nameof(giftCardsVm));
 
             _orderCreator = orderCreator;
             _menuVm = menuVm;
             _itemConstructorVm = itemConstructorVm;
+            _giftCardsVm = giftCardsVm;
         }
 
         #endregion
@@ -91,7 +95,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override IEnumerable<ILifecycleVm> GetChildren()
         {
-            return new ILifecycleVm[]{ _menuVm, _itemConstructorVm };
+            return new ILifecycleVm[]{ _menuVm, _itemConstructorVm, _giftCardsVm };
         }
 
         protected override void OnCreate(IArgsBundle args)
@@ -124,16 +128,18 @@ namespace Y_POS.Core.ViewModels.Pages
             _commandDeleteItem = ReactiveCommand.Create(canDeleteItem);
             _commandClear = ReactiveCommand.CreateAsyncObservable(canClear, _ => _orderCreator.ClearOrderItems());
             _commandVoid = ReactiveCommand.CreateAsyncTask(_ => VoidOrder(_orderCreator.OrderId));
+            _commandGiftCards = ReactiveCommand.Create();
             _commandPrint = ReactiveCommand.CreateAsyncTask(_ => PrintOrder(_orderCreator.OrderId));
             _commandCheckout = ReactiveCommand.Create();
-
-            _commandCancel = ReactiveCommand.Create();
-            _commandDone = ReactiveCommand.CreateAsyncObservable(this.WhenAnyValue(vm => vm._itemConstructorVm.CanCompleteItem)
-                .ObserveOn(SchedulerService.UiScheduler), _ => AddOrderItem());
         }
 
         protected override void InitLifetimeSubscriptions()
         {
+            // Details type
+            AddLifetimeSubscription(this.WhenAnyValue(vm => vm.DetailsType)
+                .Select(GetDetailsVmForType)
+                .SubscribeToObserveOnUi(vm => DetailsVm = vm));
+
             // Delete item
             AddLifetimeSubscription(_commandDeleteItem.Select(param => (IOrderedItemVm) param)
                 .SelectMany(item => _orderCreator.RemoveOrderItem(item.ToGuid()))
@@ -146,6 +152,9 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(_commandVoid.Where(b => b)
                 .SelectMany(_ => _orderCreator.ChangeOrderStatus(OrderStatus.Void))
                 .SubscribeToObserveOnUi(_ => NavigateTo(AppNavigation.ActiveOrders, IntentFlags.ClearTop)));
+
+            // Gift cards page
+            AddLifetimeSubscription(_commandGiftCards.Subscribe(_ => DetailsType = OrderMakerDetailsType.GiftCards));
             
             // Print
             AddLifetimeSubscription(_commandPrint.SubscribeToObserveOnUi());
@@ -159,22 +168,15 @@ namespace Y_POS.Core.ViewModels.Pages
                     h => _menuVm.MenuItemSelected -= h)
                 .Select(pattern => pattern.EventArgs)
                 .SubscribeToObserveOnUi(OnMenuItemSelected));
-
-            // Cancel order item constructor
-            AddLifetimeSubscription(_commandCancel.SubscribeToObserveOnUi(_ =>
-            {
-                _itemConstructorVm.Cancel();
-                DetailsVm = _menuVm;
-            }));
-
-            // Done orer item constructor
-            AddLifetimeSubscription(_commandDone.SubscribeToObserveOnUi(addedItem =>
-            {
-                _itemConstructorVm.Cancel();
-                DetailsVm = _menuVm;
-
-                SelectedItem = OrderedItems.FirstOrDefault(vm => vm.ToGuid() == addedItem.ToGuid());
-            }));
+            
+            // Handle close details view
+            AddLifetimeSubscription(Observable.FromEventPattern(
+                    h => _itemConstructorVm.CloseEvent += h,
+                    h => _itemConstructorVm.CloseEvent -= h)
+                .Merge(Observable.FromEventPattern(
+                    h => _giftCardsVm.CloseEvent += h,
+                    h => _giftCardsVm.CloseEvent -= h))
+                .Subscribe(_ => DetailsType = OrderMakerDetailsType.Menu));
         }
 
         protected override void OnStart()
@@ -194,6 +196,19 @@ namespace Y_POS.Core.ViewModels.Pages
             NavigationService.StartIntent(new Intent(targetUri).SetFlags(flags));
         }
 
+        private ILifecycleVm GetDetailsVmForType(OrderMakerDetailsType type)
+        {
+            switch (type)
+            {
+                case OrderMakerDetailsType.ItemConstructor:
+                    return _itemConstructorVm;
+                case OrderMakerDetailsType.GiftCards:
+                    return _giftCardsVm;
+                default:
+                    return _menuVm;
+            }
+        }
+
         private Task<bool> VoidOrder(Guid orderId)
         {
             return
@@ -208,7 +223,8 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private void OnMenuItemSelected(MenuItemSelectedEventArgs args)
         {
-            DetailsVm = _itemConstructorVm;
+            //DetailsVm = _itemConstructorVm;
+            DetailsType = OrderMakerDetailsType.ItemConstructor;
             _itemConstructorVm.ProcessMenuItem(args.MenuItem);
             //if (args.HasModifiers)
             //{
@@ -225,14 +241,6 @@ namespace Y_POS.Core.ViewModels.Pages
             //                        orderedItem => orderedItem.Uuid.Equals(item.Uuid, StringComparison.OrdinalIgnoreCase)), HandleError);
             //}
         }
-
-        private IObservable<IOrderedItem> AddOrderItem()
-        {
-            var itemId = _itemConstructorVm.MenuItemId;
-            var relatedModifiers = _itemConstructorVm.GetRelatedModifiers().ToArray();
-            var commonModifiers = _itemConstructorVm.GetCommonModifiers().ToArray();
-            return _orderCreator.AddOrderItem(itemId.Value, relatedModifiers, commonModifiers);
-        } 
 
         #endregion
     }

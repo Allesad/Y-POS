@@ -74,6 +74,7 @@
       <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Items\Contracts\IActiveOrderItemVm.cs" />
+    <Compile Include="ViewModels\Items\Contracts\IGiftCardItemVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\IMenuItemItemVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\IMenuCategoryItemVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\IModifierItemVm.cs" />
@@ -81,14 +82,17 @@
     <Compile Include="ViewModels\Items\Contracts\INavMenuItemVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\IOrderedItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\ActiveOrderItemVm.cs" />
+    <Compile Include="ViewModels\Items\Impl\GiftCardItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\MenuCategoryItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\MenuItemItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\ModifierItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\ModifiersGroupItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\NavMenuItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\OrderedItemVm.cs" />
+    <Compile Include="ViewModels\PageParts\Contracts\IGiftCardsVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\IOrderItemConstructorVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\IOrderMakerMenuVm.cs" />
+    <Compile Include="ViewModels\PageParts\Impl\GiftCardsVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\OrderItemConstructorVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\OrderMakerMenuVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\ICashDrawerVm.cs" />
