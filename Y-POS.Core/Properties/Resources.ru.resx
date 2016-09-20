@@ -422,4 +422,19 @@
   <data name="Placeholder_CardNumber" xml:space="preserve">
     <value>Карта #</value>
   </data>
+  <data name="Dialog_Error_EmptyGiftCardNumber" xml:space="preserve">
+    <value>Номер карты не может быть пустым</value>
+  </data>
+  <data name="Dialog_Error_InvalidRefillAmount" xml:space="preserve">
+    <value>Неверная сумма пополнения</value>
+  </data>
+  <data name="Dialog_Title_Confirmation" xml:space="preserve">
+    <value>Подтверждение</value>
+  </data>
+  <data name="Dialog_Title_Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="Dialog_Title_Notification" xml:space="preserve">
+    <value>Уведомление</value>
+  </data>
 </root>

@@ -11,6 +11,7 @@ using YumaPos.Client.Extensions;
 using YumaPos.Client.Services;
 using YumaPos.Client.UI.ViewModels.Impl;
 using Y_POS.Core.Extensions;
+using Y_POS.Core.Properties;
 using Y_POS.Core.ViewModels.Items.Contracts;
 using Y_POS.Core.ViewModels.Items.Impl;
 
@@ -49,6 +50,10 @@ namespace Y_POS.Core.ViewModels.PageParts
 
         [Reactive]
         public string CardNumber { get; set; }
+
+        [Reactive]
+        public decimal RefillAmount { get; set; }
+
         [Reactive]
         public decimal Balance { get; private set; }
 
@@ -111,10 +116,11 @@ namespace Y_POS.Core.ViewModels.PageParts
             _commandGoToBalance = ReactiveCommand.Create();
             _commandCancel = ReactiveCommand.Create();
 
-            var canExecuteDone = this.WhenAny(vm => vm.Type, vm => vm.CardNumber, vm => vm.SelectedCardType,
-                (type, number, cardType) =>
-                    string.IsNullOrEmpty(number.Value) ||
-                    (type.Value == SectionType.IssueCards && cardType.Value == null))
+            var canExecuteDone = this.WhenAny(vm => vm.Type, vm => vm.CardNumber, vm => vm.SelectedCardType, vm => vm.RefillAmount,
+                (type, number, cardType, refillAmount) =>
+                    string.IsNullOrEmpty(number.Value) 
+                    || (type.Value == SectionType.IssueCards && cardType.Value == null)
+                    || (type.Value == SectionType.Refill && refillAmount.Value <= 0))
                 .Select(b => !b);
             _commandDone = ReactiveCommand.Create(canExecuteDone);
         }
@@ -140,7 +146,7 @@ namespace Y_POS.Core.ViewModels.PageParts
             AddLifetimeSubscription(_commandCancel.Subscribe(_ => RaiseCloseEvent()));
             
             // Ok command
-            AddLifetimeSubscription(_commandDone.Subscribe(_ => PerformOperation(Type, CardNumber, 0)));
+            AddLifetimeSubscription(_commandDone.Subscribe(_ => PerformOperation(Type, CardNumber, RefillAmount)));
         }
 
         protected override void OnStop()
@@ -148,6 +154,7 @@ namespace Y_POS.Core.ViewModels.PageParts
             SelectedCardType = null;
             CardNumber = string.Empty;
             Balance = 0;
+            RefillAmount = 0;
         }
 
         #endregion
@@ -158,13 +165,13 @@ namespace Y_POS.Core.ViewModels.PageParts
         {
             if (string.IsNullOrEmpty(cardNumber))
             {
-                DialogService.CreateMessageDialog("Card number is empty!", "Error").Show();
+                DialogService.ShowErrorMessage(Resources.Dialog_Error_EmptyGiftCardNumber);
                 return;
             }
 
             if (type == SectionType.Refill && refillAmount <= 0)
             {
-                DialogService.CreateMessageDialog("Invalid refill amount!", "Error").Show();
+                DialogService.ShowErrorMessage(Resources.Dialog_Error_InvalidRefillAmount);
                 return;
             }
 
@@ -183,7 +190,7 @@ namespace Y_POS.Core.ViewModels.PageParts
                         .SubscribeToObserveOnUi(balance => Balance = balance);
                     break;
             }
-        } 
+        }
 
         private void RaiseCloseEvent()
         {

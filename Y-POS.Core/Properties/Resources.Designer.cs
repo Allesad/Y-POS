@@ -377,6 +377,51 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Card number is empty.
+        /// </summary>
+        public static string Dialog_Error_EmptyGiftCardNumber {
+            get {
+                return ResourceManager.GetString("Dialog_Error_EmptyGiftCardNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid refill amount.
+        /// </summary>
+        public static string Dialog_Error_InvalidRefillAmount {
+            get {
+                return ResourceManager.GetString("Dialog_Error_InvalidRefillAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmation.
+        /// </summary>
+        public static string Dialog_Title_Confirmation {
+            get {
+                return ResourceManager.GetString("Dialog_Title_Confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Dialog_Title_Error {
+            get {
+                return ResourceManager.GetString("Dialog_Title_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification.
+        /// </summary>
+        public static string Dialog_Title_Notification {
+            get {
+                return ResourceManager.GetString("Dialog_Title_Notification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discount.
         /// </summary>
         public static string Discount {

@@ -10,6 +10,8 @@
                 xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
                 xmlns:controls="clr-namespace:Y_POS.Controls"
                 xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+                xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                xmlns:behaviours="clr-namespace:YumaPos.WPF.UI.Behaviours;assembly=YumaPos.WPF.UI"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
                 d:DataContext="{d:DesignInstance pageParts:IGiftCardsVm, d:IsDesignTimeCreatable=False}">
@@ -100,7 +102,10 @@
                  VerticalAlignment="Center"
                  Visibility="{Binding IsRefillVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                  helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Amount}, 
-                            Converter={StaticResource UpperCaseCoverter}}" />
+                            Converter={StaticResource UpperCaseCoverter}}" 
+                 Text="{Binding RefillAmount, Mode=TwoWay, StringFormat=c, UpdateSourceTrigger=PropertyChanged}"
+                 behaviours:TextBoxFocusBehavior.SelectAllTextOnFocus="True"
+                 />
 
         <!-- BALANCE -->
         <StackPanel Grid.Row="0" Grid.Column="0"
