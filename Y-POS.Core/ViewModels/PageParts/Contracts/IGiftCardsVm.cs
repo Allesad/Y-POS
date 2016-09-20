@@ -13,6 +13,7 @@ namespace Y_POS.Core.ViewModels.PageParts
         IGiftCardItemVm SelectedCardType { get; set; }
 
         string CardNumber { get; set; }
+        decimal RefillAmount { get; set; }
         decimal Balance { get; }
 
         bool IsIssueCardsVisible { get; }

@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppNavigation.cs" />
+    <Compile Include="Extensions\DialogEx.cs" />
     <Compile Include="Extensions\ObservableExtensions.cs" />
     <Compile Include="MockData\MockAccountServiceManager.cs" />
     <Compile Include="MockData\MockAppServiceManager.cs" />
