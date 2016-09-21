@@ -46,9 +46,10 @@
                         FontSize="12"
                         Margin="0,0,0,10" />
 
-                    <TextBlock Text="{Binding Source={x:Static p:Resources.AddCustomer}}"
-                               FontSize="18"
-                               Foreground="{StaticResource TextBrush}" />
+                    <TextBlock FontSize="18"
+                               Foreground="{StaticResource TextBrush}" 
+                               Text="{Binding CustomerName, Mode=OneWay}"
+                               />
                 </StackPanel>
 
             </DockPanel>
@@ -99,19 +100,19 @@
     </UserControl.Resources>
 
     <Grid>
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="{StaticResource SideColumnWidthGrid}" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <!-- ACTION BAR -->
-        <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+        <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                    Style="{StaticResource ActionBarContainer}">
 
             <!-- BACK -->
@@ -129,30 +130,30 @@
 
             <!-- CHECKOUT -->
             <controls:ActionBarButton DockPanel.Dock="Right"
-                                          Style="{StaticResource ActionBarMainActionButton}"
-                                          IconPath="{StaticResource AddIcon}"
-                                          Title="{Binding Source={x:Static p:Resources.Checkout}, 
+                                      Style="{StaticResource ActionBarMainActionButton}"
+                                      IconPath="{StaticResource AddIcon}"
+                                      Title="{Binding Source={x:Static p:Resources.Checkout}, 
                                         Converter={StaticResource UpperCaseCoverter}}"
-                                          Command="{Binding CommandCheckout}" />
+                                      Command="{Binding CommandCheckout}" />
 
             <!-- PRINT -->
             <controls:ActionBarButton DockPanel.Dock="Right"
-                                          Style="{StaticResource ActionBarPrint}"
-                                          Command="{Binding CommandPrint}" />
+                                      Style="{StaticResource ActionBarPrint}"
+                                      Command="{Binding CommandPrint}" />
 
             <!-- GIFT CARD -->
             <controls:ActionBarButton DockPanel.Dock="Right"
-                                          Style="{StaticResource ActionBarGiftCard}" 
-                                          Command="{Binding CommandGiftCards}"/>
+                                      Style="{StaticResource ActionBarGiftCard}"
+                                      Command="{Binding CommandGiftCards}" />
 
             <!-- VOID -->
             <controls:ActionBarButton DockPanel.Dock="Right"
-                                          Style="{StaticResource ActionBarVoid}"
-                                          Command="{Binding CommandVoid}" />
+                                      Style="{StaticResource ActionBarVoid}"
+                                      Command="{Binding CommandVoid}" />
             <!-- CLEAR -->
             <controls:ActionBarButton DockPanel.Dock="Right"
-                                          Style="{StaticResource ActionBarClear}"
-                                          Command="{Binding CommandClear}" />
+                                      Style="{StaticResource ActionBarClear}"
+                                      Command="{Binding CommandClear}" />
         </DockPanel>
 
         <!-- LEFT PANEL -->
@@ -182,7 +183,9 @@
                     BorderBrush="{StaticResource SeparatorBrush}"
                     HorizontalContentAlignment="Stretch"
                     Padding="15,15"
-                    ContentTemplate="{StaticResource AddCustomerDt}" />
+                    ContentTemplate="{StaticResource AddCustomerDt}"
+                    Command="{Binding CommandAddCustomer}"
+                    Content="{Binding}"/>
 
             <!-- ORDERED ITEMS -->
             <ListBox Grid.Row="2"
@@ -216,13 +219,13 @@
         </Grid>
 
         <!-- RIGHT PANEL -->
-        <ContentPresenter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" 
-                          Name="DetailsContainer" 
+        <ContentPresenter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                          Name="DetailsContainer"
                           Content="{Binding DetailsVm}" />
 
         <Separator Grid.Row="0" Grid.Column="1"
                    Style="{StaticResource VSeparator}"
-                   HorizontalAlignment="Left"/>
+                   HorizontalAlignment="Left" />
 
     </Grid>
 

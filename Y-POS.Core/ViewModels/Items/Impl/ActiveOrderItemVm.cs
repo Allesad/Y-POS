@@ -20,6 +20,8 @@ namespace Y_POS.Core.ViewModels.Items.Impl
         public DateTime CreationTime { get; }
         [Reactive]
         public OrderStatus Status { get; private set; }
+
+        public IImageModel CustomerPhoto { get; }
         public string CustomerName { get; }
         public decimal Amount { get; }
 
@@ -38,6 +40,7 @@ namespace Y_POS.Core.ViewModels.Items.Impl
             OrderNumber = dto.Number;
             CreationTime = dto.Created;
             Status = dto.Status;
+            CustomerPhoto = ImageService.GetImage(dto.CustomerImage);
             CustomerName = dto.CustomerName;
             Amount = dto.Amount;
 

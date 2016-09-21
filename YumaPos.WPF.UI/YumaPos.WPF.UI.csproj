@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Behaviours\TextBoxFocusBehavior.cs" />
     <Compile Include="Behaviours\TextBoxInputRegExBehaviour.cs" />
+    <Compile Include="Controls\CachedImage.cs" />
     <Compile Include="Controls\IconButton.cs" />
     <Compile Include="Controls\SearchTextBox.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />

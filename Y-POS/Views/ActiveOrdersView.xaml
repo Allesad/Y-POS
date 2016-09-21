@@ -9,6 +9,7 @@
                 xmlns:views="clr-namespace:Y_POS.Views"
                 xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
                 xmlns:items="clr-namespace:Y_POS.Core.ViewModels.Items.Contracts;assembly=Y-POS.Core"
+                xmlns:controls1="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
                 d:DataContext="{d:DesignInstance pages:IActiveOrdersVm, d:IsDesignTimeCreatable=False}">
@@ -75,9 +76,9 @@
                         HorizontalAlignment="Left">
 
                     <!-- AVATAR -->
-                    <Image Width="54"
-                           Height="54"
-                           Source="../Images/63.jpg" />
+                    <controls1:CachedImage Width="54"
+                                           Height="54"
+                                           ImageUrl="{Binding CustomerPhoto, Converter={StaticResource ImageModelToSourceConverter}}" />
 
                 </Border>
                 <TextBlock Grid.Column="3"
@@ -176,26 +177,26 @@
             <!-- MENU -->
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarMenuButton}" />
-            
+
             <!-- CHECKOUT -->
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarButton}"
                                       Title="{Binding Source={x:Static p:Resources.Checkout}, Converter={StaticResource UpperCaseCoverter}}"
                                       IconPath="{StaticResource CurrencyIcon}"
                                       Command="{Binding CommandCheckout}"
-                                      CommandParameter="{Binding ElementName=OrdersList, Path=SelectedItem}"/>
-            
+                                      CommandParameter="{Binding ElementName=OrdersList, Path=SelectedItem}" />
+
             <!-- PRINT -->
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarPrint}"
                                       Command="{Binding CommandPrintOrder}"
-                                      CommandParameter="{Binding ElementName=OrdersList, Path=SelectedItem}"/>
-            
+                                      CommandParameter="{Binding ElementName=OrdersList, Path=SelectedItem}" />
+
             <!-- VOID -->
             <controls:ActionBarButton DockPanel.Dock="Left"
                                       Style="{StaticResource ActionBarVoid}"
                                       Command="{Binding CommandVoid}"
-                                      CommandParameter="{Binding ElementName=OrdersList, Path=SelectedItem}"/>
+                                      CommandParameter="{Binding ElementName=OrdersList, Path=SelectedItem}" />
 
             <controls:ActionBarButton DockPanel.Dock="Right"
                                       x:Name="NewOrderBtn"
@@ -203,7 +204,7 @@
                                       IconPath="{StaticResource AddIcon}"
                                       Title="{Binding Source={x:Static p:Resources.Action_NewOrder}, 
                                         Converter={StaticResource UpperCaseCoverter}}"
-                                      Command="{Binding CommandCreateOrder}"/>
+                                      Command="{Binding CommandCreateOrder}" />
 
         </DockPanel>
 

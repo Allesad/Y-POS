@@ -9,7 +9,8 @@ namespace Y_POS.Core.ViewModels.Pages
     {
         Menu,
         ItemConstructor,
-        GiftCards
+        GiftCards,
+        AddCustomer
     }
 
     public interface IOrderMakerVm : IPageVm
@@ -19,6 +20,7 @@ namespace Y_POS.Core.ViewModels.Pages
         string SearchItemText { get; set; }
         decimal Total { get; }
         
+        string CustomerName { get; }
         IReactiveDerivedList<IOrderedItemVm> OrderedItems { get; }
         IOrderedItemVm SelectedItem { get; set; }
 

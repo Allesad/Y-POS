@@ -15,6 +15,7 @@ using YumaPos.Client.UI.ViewModels.Contracts;
 using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using Y_POS.Core.Extensions;
+using Y_POS.Core.Properties;
 using Y_POS.Core.ViewModels.Items.Contracts;
 using Y_POS.Core.ViewModels.Items.Impl;
 using Y_POS.Core.ViewModels.PageParts;
@@ -30,6 +31,7 @@ namespace Y_POS.Core.ViewModels.Pages
         private readonly IOrderMakerMenuVm _menuVm;
         private readonly IOrderItemConstructorVm _itemConstructorVm;
         private readonly IGiftCardsVm _giftCardsVm;
+        private readonly IOrderMakerSetCustomerVm _setCustomerVm;
 
         private ReactiveCommand<object> _commandAddCustomer;
         private ReactiveCommand<object> _commandDeleteItem; 
@@ -43,13 +45,15 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Properties
         
-        [Reactive]
-        public int OrderNumber { get; private set; }
+        public extern int OrderNumber { [ObservableAsProperty] get; }
+
+        public extern string CustomerName { [ObservableAsProperty] get; }
+
         [Reactive]
         public string SearchItemText { get; set; }
         [Reactive]
         public decimal Total { get; private set; }
-        
+
         public IReactiveDerivedList<IOrderedItemVm> OrderedItems { get; private set; }
         [Reactive]
         public IOrderedItemVm SelectedItem { get; set; }
@@ -76,17 +80,20 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Constructor
 
-        public OrderMakerVm(IOrderCreator orderCreator, IOrderMakerMenuVm menuVm, IOrderItemConstructorVm itemConstructorVm, IGiftCardsVm giftCardsVm)
+        public OrderMakerVm(IOrderCreator orderCreator, IOrderMakerMenuVm menuVm, IOrderItemConstructorVm itemConstructorVm, 
+            IGiftCardsVm giftCardsVm, IOrderMakerSetCustomerVm orderMakerSetCustomerVm)
         {
             if (orderCreator == null) throw new ArgumentNullException(nameof(orderCreator));
             if (menuVm == null) throw new ArgumentNullException(nameof(menuVm));
             if (itemConstructorVm == null) throw new ArgumentNullException(nameof(itemConstructorVm));
             if (giftCardsVm == null) throw new ArgumentNullException(nameof(giftCardsVm));
+            if (orderMakerSetCustomerVm == null) throw new ArgumentNullException(nameof(orderMakerSetCustomerVm));
 
             _orderCreator = orderCreator;
             _menuVm = menuVm;
             _itemConstructorVm = itemConstructorVm;
             _giftCardsVm = giftCardsVm;
+            _setCustomerVm = orderMakerSetCustomerVm;
         }
 
         #endregion
@@ -95,7 +102,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override IEnumerable<ILifecycleVm> GetChildren()
         {
-            return new ILifecycleVm[]{ _menuVm, _itemConstructorVm, _giftCardsVm };
+            return new ILifecycleVm[]{ _menuVm, _itemConstructorVm, _giftCardsVm, _setCustomerVm };
         }
 
         protected override void OnCreate(IArgsBundle args)
@@ -135,6 +142,16 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override void InitLifetimeSubscriptions()
         {
+            // Order number
+            AddLifetimeSubscription(this.WhenAnyValue(vm => vm._orderCreator.Title)
+                .Select(s => Convert.ToInt32(s))
+                .ToPropertyEx(this, vm => vm.OrderNumber));
+
+            // Customer name
+            AddLifetimeSubscription(this.WhenAnyValue(vm => vm._orderCreator.CustomerName)
+                .Select(name => string.IsNullOrEmpty(name) ? Resources.AddCustomer : name)
+                .ToPropertyEx(this, vm => vm.CustomerName));
+
             // Details type
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm.DetailsType)
                 .Select(GetDetailsVmForType)
@@ -152,6 +169,9 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(_commandVoid.Where(b => b)
                 .SelectMany(_ => _orderCreator.ChangeOrderStatus(OrderStatus.Void))
                 .SubscribeToObserveOnUi(_ => NavigateTo(AppNavigation.ActiveOrders, IntentFlags.ClearTop)));
+
+            // Add customer page
+            AddLifetimeSubscription(_commandAddCustomer.Subscribe(_ => DetailsType = OrderMakerDetailsType.AddCustomer));
 
             // Gift cards page
             AddLifetimeSubscription(_commandGiftCards.Subscribe(_ => DetailsType = OrderMakerDetailsType.GiftCards));
@@ -176,15 +196,10 @@ namespace Y_POS.Core.ViewModels.Pages
                 .Merge(Observable.FromEventPattern(
                     h => _giftCardsVm.CloseEvent += h,
                     h => _giftCardsVm.CloseEvent -= h))
+                .Merge(Observable.FromEventPattern(
+                    h => _setCustomerVm.CloseEvent += h,
+                    h => _setCustomerVm.CloseEvent -= h))
                 .Subscribe(_ => DetailsType = OrderMakerDetailsType.Menu));
-        }
-
-        protected override void OnStart()
-        {
-            this.WhenAnyValue(vm => vm._orderCreator.Title)
-                .Select(s => Convert.ToInt32(s))
-                .SubscribeToObserveOnUi(i => OrderNumber = i);
-                //.ToPropertyEx(this, vm => vm.OrderNumber);
         }
 
         #endregion
@@ -204,6 +219,8 @@ namespace Y_POS.Core.ViewModels.Pages
                     return _itemConstructorVm;
                 case OrderMakerDetailsType.GiftCards:
                     return _giftCardsVm;
+                case OrderMakerDetailsType.AddCustomer:
+                    return _setCustomerVm;
                 default:
                     return _menuVm;
             }

@@ -10,10 +10,13 @@ namespace Y_POS.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var model = (IImageModel) value;
+            string size = parameter as string;
+
+            size = size ?? "100x100";
             
             return model?.ImageUri?.AbsoluteUri == null
                 ? null 
-                : new Uri(model.ImageUri.AbsoluteUri.Replace("$size$", "128x128"));
+                : new Uri(model.ImageUri.AbsoluteUri.Replace("$size$", size));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

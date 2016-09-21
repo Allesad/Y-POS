@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using YumaPos.Client.Common;
 using YumaPos.Client.UI.ViewModels.Contracts;
 using YumaPos.Shared.API.Enums;
 
@@ -12,6 +13,7 @@ namespace Y_POS.Core.ViewModels.Items.Contracts
         int OrderNumber { get; }
         DateTime CreationTime { get; }
         OrderStatus Status { get; }
+        IImageModel CustomerPhoto { get; }
         string CustomerName { get; }
         decimal Amount { get; }
 
