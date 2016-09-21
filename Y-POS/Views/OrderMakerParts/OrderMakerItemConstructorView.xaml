@@ -58,10 +58,6 @@
 
         </DockPanel>
 
-        <Separator Grid.Row="0" Grid.Column="0"
-                   Style="{StaticResource HSeparator}"
-                   VerticalAlignment="Bottom" />
-
         <!-- SELECTED ITEMS LIST -->
         <ListBox Grid.Row="1" Grid.Column="0"
                  ItemsSource="{Binding SelectedGroups}"
@@ -71,6 +67,10 @@
                  Foreground="{StaticResource TextBrush}"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+
+        <Separator Grid.Row="1" Grid.Column="0"
+                   Style="{StaticResource HSeparator}"
+                   VerticalAlignment="Top" />
 
         <Separator Grid.Row="1" Grid.Column="0"
                    Style="{StaticResource HSeparator}"
@@ -131,7 +131,7 @@
                 <ItemsPanelTemplate>
                     <UniformGrid IsItemsHost="True" Columns="4"
                                  VerticalAlignment="Top"
-                                 HorizontalAlignment="Left" />
+                                 HorizontalAlignment="Stretch" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 

@@ -17,6 +17,7 @@ namespace Y_POS.Core.ViewModels.Pages
     {
         #region Properties
         
+        int OrderNumber { get; }
         string SearchItemText { get; set; }
         decimal Total { get; }
         
