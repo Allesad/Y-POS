@@ -34,7 +34,8 @@ namespace Y_POS.Core.ViewModels.Pages
         private readonly IOrderMakerSetCustomerVm _setCustomerVm;
 
         private ReactiveCommand<object> _commandAddCustomer;
-        private ReactiveCommand<object> _commandDeleteItem; 
+        private ReactiveCommand<object> _commandDeleteItem;
+        private ReactiveCommand<object> _commandModifyItem;
         private ReactiveCommand<Unit> _commandClear;
         private ReactiveCommand<bool> _commandVoid;
         private ReactiveCommand<object> _commandGiftCards;
@@ -70,6 +71,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         public ICommand CommandAddCustomer => _commandAddCustomer;
         public ICommand CommandDeleteItem => _commandDeleteItem;
+        public ICommand CommandModifyItem => _commandModifyItem;
         public ICommand CommandClear => _commandClear;
         public ICommand CommandVoid => _commandVoid;
         public ICommand CommandGiftCards => _commandGiftCards;
@@ -128,11 +130,12 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override void InitCommands()
         {
-            var canDeleteItem = this.WhenAnyValue(vm => vm.SelectedItem).Skip(1).Select(item => item != null);
+            var canExecuteItemOperation = this.WhenAnyValue(vm => vm.SelectedItem).Skip(1).Select(item => item != null);
             var canClear = this.WhenAnyValue(vm => vm.OrderedItems.Count).Select(count => count > 0);
 
             _commandAddCustomer = ReactiveCommand.Create();
-            _commandDeleteItem = ReactiveCommand.Create(canDeleteItem);
+            _commandDeleteItem = ReactiveCommand.Create(canExecuteItemOperation);
+            _commandModifyItem = ReactiveCommand.Create(canExecuteItemOperation);
             _commandClear = ReactiveCommand.CreateAsyncObservable(canClear, _ => _orderCreator.ClearOrderItems());
             _commandVoid = ReactiveCommand.CreateAsyncTask(_ => VoidOrder(_orderCreator.OrderId));
             _commandGiftCards = ReactiveCommand.Create();
@@ -161,6 +164,14 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(_commandDeleteItem.Select(param => (IOrderedItemVm) param)
                 .SelectMany(item => _orderCreator.RemoveOrderItem(item.ToGuid()))
                 .SubscribeToObserveOnUi());
+
+            // Modify item
+            AddLifetimeSubscription(_commandModifyItem.Select(param => (IOrderedItemVm) param)
+                .SubscribeToObserveOnUi(orderedItem =>
+                {
+                    _itemConstructorVm.EditOrderItem(_orderCreator.OrderId, orderedItem);
+                    DetailsType = OrderMakerDetailsType.ItemConstructor;
+                }));
 
             // Clear items
             AddLifetimeSubscription(_commandClear.Subscribe());
@@ -240,23 +251,20 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private void OnMenuItemSelected(MenuItemSelectedEventArgs args)
         {
-            //DetailsVm = _itemConstructorVm;
-            DetailsType = OrderMakerDetailsType.ItemConstructor;
-            _itemConstructorVm.ProcessMenuItem(args.MenuItem);
-            //if (args.HasModifiers)
-            //{
-            //    DetailsVm = _itemConstructorVm;
-            //    _itemConstructorVm.ProcessMenuItem(args.MenuItem);
-            //}
-            //else
-            //{
-            //    _orderCreator.AddOrderItem(args.MenuItem.ToGuid())
-            //        .SubscribeToObserveOnUi(
-            //            item =>
-            //                SelectedItem =
-            //                    OrderedItems.First(
-            //                        orderedItem => orderedItem.Uuid.Equals(item.Uuid, StringComparison.OrdinalIgnoreCase)), HandleError);
-            //}
+            if (args.HasModifiers)
+            {
+                DetailsType = OrderMakerDetailsType.ItemConstructor;
+                _itemConstructorVm.ProcessMenuItem(args.MenuItem);
+            }
+            else
+            {
+                _orderCreator.AddOrderItem(args.MenuItem.ToGuid())
+                    .SubscribeToObserveOnUi(
+                        item =>
+                            SelectedItem =
+                                OrderedItems.First(
+                                    orderedItem => orderedItem.Uuid.Equals(item.Uuid, StringComparison.OrdinalIgnoreCase)), HandleError);
+            }
         }
 
         #endregion

@@ -157,7 +157,8 @@
 
                 <!-- SUBMIT ITEM CONSTRUCTOR -->
                 <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
-                                          Title="{Binding Source={x:Static p:Resources.Done}, Converter={StaticResource UpperCaseCoverter}}"
+                                          Title="{Binding Source={x:Static p:Resources.OrderItemConstructor_Done}, 
+                                                Converter={StaticResource UpperCaseCoverter}}"
                                           Command="{Binding CommandDone}" />
 
             </UniformGrid>

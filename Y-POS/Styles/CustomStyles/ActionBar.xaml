@@ -267,5 +267,11 @@
         <Setter Property="Title" Value="{Binding Source={x:Static p:Resources.Transactions}, Converter={StaticResource UpperCaseCoverter}}"/>
         <Setter Property="IconPath" Value="{StaticResource CurrencyIcon}"/>
     </Style>
+    
+    <!-- MODIFY BUTTON STYLE -->
+    <Style x:Key="ActionBarModify" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title" Value="{Binding Source={x:Static p:Resources.Modify}, Converter={StaticResource UpperCaseCoverter}}"/>
+        <Setter Property="IconPath" Value="{StaticResource TuningIcon}"/>
+    </Style>
 
 </ResourceDictionary>

@@ -126,7 +126,12 @@
                                       IconPath="{StaticResource DeleteIcon}"
                                       Command="{Binding CommandDeleteItem}"
                                       CommandParameter="{Binding ElementName=OrderedItemsList, Path=SelectedItem}" />
-
+            
+            <!-- MODIFY ITEM -->
+            <controls:ActionBarButton DockPanel.Dock="Left"
+                                      Style="{StaticResource ActionBarModify}"
+                                      Command="{Binding CommandModifyItem}"
+                                      CommandParameter="{Binding ElementName=OrderedItemsList, Path=SelectedItem}"/>
 
             <!-- CHECKOUT -->
             <controls:ActionBarButton DockPanel.Dock="Right"

@@ -34,6 +34,7 @@ namespace Y_POS.Core.ViewModels.Pages
         
         ICommand CommandAddCustomer { get; }
         ICommand CommandDeleteItem { get; }
+        ICommand CommandModifyItem { get; }
         ICommand CommandClear { get; }
         ICommand CommandVoid { get; }
         ICommand CommandGiftCards { get; }

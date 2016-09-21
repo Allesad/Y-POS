@@ -441,4 +441,10 @@
   <data name="Empty_NoCustomersFound" xml:space="preserve">
     <value>No customers found</value>
   </data>
+  <data name="Modify" xml:space="preserve">
+    <value>Modify</value>
+  </data>
+  <data name="OrderItemConstructor_Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
 </root>

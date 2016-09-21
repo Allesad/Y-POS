@@ -548,6 +548,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Modify.
+        /// </summary>
+        public static string Modify {
+            get {
+                return ResourceManager.GetString("Modify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Active Orders.
         /// </summary>
         public static string Navigation_ActiveOrders {
@@ -634,6 +643,15 @@ namespace Y_POS.Core.Properties {
         public static string Order {
             get {
                 return ResourceManager.GetString("Order", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string OrderItemConstructor_Done {
+            get {
+                return ResourceManager.GetString("OrderItemConstructor_Done", resourceCulture);
             }
         }
         
