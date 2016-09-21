@@ -29,22 +29,12 @@ namespace Y_POS.Views
             switch (type)
             {
                 case OrderMakerDetailsType.ItemConstructor:
-                    DetailsContainer.SetValue(Grid.RowSpanProperty, 2);
-                    /*MenuActions.Visibility = Visibility.Collapsed;
-                    GiftCardsActions.Visibility = Visibility.Collapsed;
-                    ItemConstructorActions.Visibility = Visibility.Visible;*/
-                    break;
                 case OrderMakerDetailsType.GiftCards:
+                case OrderMakerDetailsType.AddCustomer:
                     DetailsContainer.SetValue(Grid.RowSpanProperty, 2);
-                    /*MenuActions.Visibility = Visibility.Collapsed;
-                    ItemConstructorActions.Visibility = Visibility.Collapsed;
-                    GiftCardsActions.Visibility = Visibility.Visible;*/
                     break;
                 default:
                     DetailsContainer.SetValue(Grid.RowSpanProperty, 1);
-                    /*MenuActions.Visibility = Visibility.Visible;
-                    GiftCardsActions.Visibility = Visibility.Collapsed;
-                    ItemConstructorActions.Visibility = Visibility.Collapsed;*/
                     break;
             }
         }

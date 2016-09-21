@@ -437,4 +437,7 @@
   <data name="Dialog_Title_Notification" xml:space="preserve">
     <value>Уведомление</value>
   </data>
+  <data name="Empty_NoCustomersFound" xml:space="preserve">
+    <value>Клиенты не найдены</value>
+  </data>
 </root>

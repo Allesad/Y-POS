@@ -139,6 +139,9 @@
     <Compile Include="Configuration\ApiConfig.cs" />
     <Compile Include="Configuration\ConfigurationProvider.cs" />
     <Compile Include="Controls\ActionBarButton.cs" />
+    <Compile Include="Controls\AddFindCustomerControl.xaml.cs">
+      <DependentUpon>AddFindCustomerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CardNumberInput.xaml.cs">
       <DependentUpon>CardNumberInput.xaml</DependentUpon>
     </Compile>
@@ -152,6 +155,7 @@
     <Compile Include="Converters\NavUriToIconConverter.cs" />
     <Compile Include="Converters\OrderStatusNewVisibilityConverter.cs" />
     <Compile Include="Converters\OrderStatusToTextConverter.cs" />
+    <Compile Include="Converters\PhoneFormatConverter.cs" />
     <Compile Include="DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
@@ -215,6 +219,9 @@
     <Compile Include="Views\NavMenuView.xaml.cs">
       <DependentUpon>NavMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OrderMakerParts\OrderMakerSetCustomerView.xaml.cs">
+      <DependentUpon>OrderMakerSetCustomerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OrderMakerParts\OrderMakerGiftCardsView.xaml.cs">
       <DependentUpon>OrderMakerGiftCardsView.xaml</DependentUpon>
     </Compile>
@@ -243,6 +250,10 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfScheduler.cs" />
+    <Page Include="Controls\AddFindCustomerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\CardNumberInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -396,6 +407,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NavMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OrderMakerParts\OrderMakerSetCustomerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

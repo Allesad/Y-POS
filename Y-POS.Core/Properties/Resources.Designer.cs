@@ -458,6 +458,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No customers found.
+        /// </summary>
+        public static string Empty_NoCustomersFound {
+            get {
+                return ResourceManager.GetString("Empty_NoCustomersFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string Filter {

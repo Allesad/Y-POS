@@ -438,4 +438,7 @@
   <data name="Dialog_Title_Notification" xml:space="preserve">
     <value>Notification</value>
   </data>
+  <data name="Empty_NoCustomersFound" xml:space="preserve">
+    <value>No customers found</value>
+  </data>
 </root>

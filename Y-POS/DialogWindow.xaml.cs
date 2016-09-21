@@ -39,6 +39,8 @@ namespace Y_POS
                 ActionsContainer.Children.Add(btn);
                 ActionsContainer.Columns++;
             }
+
+            ActionsContainer.Children[0].Focus();
         }
 
         private Button CreateButtonFromConfig(DialogButtonConfig config)

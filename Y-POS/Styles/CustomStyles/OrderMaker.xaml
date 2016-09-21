@@ -3,6 +3,7 @@
                     xmlns:ui="clr-namespace:YumaPos.WPF.UI;assembly=YumaPos.WPF.UI"
                     xmlns:controls="clr-namespace:Y_POS.Controls"
                     xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
+                    xmlns:commonControls="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI"
                     xmlns:contracts="clr-namespace:Y_POS.Core.ViewModels.Items.Contracts;assembly=Y-POS.Core"
                     xmlns:selectors="clr-namespace:Y_POS.Selectors">
 
@@ -28,12 +29,10 @@
                 <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
 
-            <Image Grid.Row="0" Grid.RowSpan="2"
+            <commonControls:CachedImage Grid.Row="0" Grid.RowSpan="2"
                    Height="{Binding ElementName=ContainerGrid, Path=ActualHeight}"
                    Stretch="Uniform"
-                   CacheMode="BitmapCache"
-                   Source="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}}" />
-            <!--Source="../../Images/Peri-Peri-new-3001.png" -->
+                   ImageUrl="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}, ConverterParameter=128x128}" />
 
             <Border Grid.Row="1"
                     Background="{StaticResource DimmedTextBackground}"
@@ -82,10 +81,8 @@
                         <RowDefinition Height="2*" />
                     </Grid.RowDefinitions>
 
-                    <Image Stretch="Uniform" Grid.Row="0" Grid.RowSpan="2"
-                           CacheMode="BitmapCache"
-                           Source="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}}" />
-                    <!--Source="../../Images/img.png" -->
+                    <commonControls:CachedImage Stretch="Uniform" Grid.Row="0" Grid.RowSpan="2"
+                           ImageUrl="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}, ConverterParameter=128x128}" />
 
                     <!-- PRICE -->
                     <Border Background="{StaticResource DimmedTextBackground}"
