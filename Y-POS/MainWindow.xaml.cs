@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Y_POS.Views;
 
 namespace Y_POS
 {
@@ -12,8 +11,6 @@ namespace Y_POS
         public MainWindow()
         {
             InitializeComponent();
-
-            //Content = new MainView();
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

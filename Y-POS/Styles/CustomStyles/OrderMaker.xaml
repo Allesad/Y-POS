@@ -226,10 +226,10 @@
                             <RowDefinition Height="2*" />
                         </Grid.RowDefinitions>
 
-                        <Image Grid.Row="0" Grid.RowSpan="2"
+                        <commonControls:CachedImage Grid.Row="0" Grid.RowSpan="2"
                                Stretch="UniformToFill"
                                CacheMode="BitmapCache"
-                               Source="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}}" />
+                               ImageUrl="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}}" />
 
                         <!-- PRICE -->
                         <Border Background="{StaticResource DimmedTextBackground}"
@@ -264,7 +264,7 @@
 
     <!-- SKIP BUTTON DATA TEMPLATE -->
     <DataTemplate x:Key="SkipModifierDt" DataType="{x:Type contracts:IModifierItemVm}">
-        <Button Foreground="{StaticResource PrimaryBrush}"
+        <Button Foreground="{StaticResource TextBrush}"
                 Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
                 Margin="0,0,1,1"
                 Padding="5"
@@ -277,9 +277,10 @@
                     <StackPanel Orientation="Vertical">
                         <!-- ICON -->
                         <Path Data="{StaticResource BackIcon}"
+                              Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
                               RenderTransformOrigin="0.5,0.5"
                               HorizontalAlignment="Center"
-                              Margin="0,5">
+                              Margin="0,8">
                             <Path.RenderTransform>
                                 <RotateTransform Angle="180" />
                             </Path.RenderTransform>
@@ -296,18 +297,20 @@
 
     <!-- SINGE CHOICE MODIFIER ITEM DATA TEMPLATE -->
     <DataTemplate x:Key="SingleChoiceModifierDt" DataType="{x:Type contracts:IModifierItemVm}">
-        <DockPanel>
+        <Border BorderThickness="0,0,0,1"
+                BorderBrush="{StaticResource SeparatorBrush}">
+            <DockPanel Height="44">
 
-            <!-- PRICE -->
-            <TextBlock DockPanel.Dock="Right"
+                <!-- PRICE -->
+                <TextBlock DockPanel.Dock="Right"
                        Style="{StaticResource DefaultSmallText}"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Right"
                        VerticalAlignment="Center"
                        Text="{Binding Price, StringFormat=c}" />
 
-            <!-- TITLE -->
-            <TextBlock DockPanel.Dock="Left"
+                <!-- TITLE -->
+                <TextBlock DockPanel.Dock="Left"
                        Style="{StaticResource DefaultSmallText}"
                        FontSize="11"
                        HorizontalAlignment="Stretch"
@@ -316,14 +319,17 @@
                        TextTrimming="CharacterEllipsis"
                        Text="{Binding Title}" />
 
-        </DockPanel>
+            </DockPanel>
+        </Border>
     </DataTemplate>
 
     <!-- MULTI-QTY MODIFIER ITEM DATA TEMPLATE -->
     <DataTemplate x:Key="MultiQtyModifierDt" DataType="{x:Type contracts:IModifierItemVm}">
-        <DockPanel Height="44">
-            <!-- PRICE -->
-            <TextBlock DockPanel.Dock="Right"
+        <Border BorderThickness="0,0,0,1"
+                BorderBrush="{StaticResource SeparatorBrush}">
+            <DockPanel Height="44">
+                <!-- PRICE -->
+                <TextBlock DockPanel.Dock="Right"
                        Style="{StaticResource DefaultSmallText}"
                        VerticalAlignment="Center"
                        Width="45"
@@ -332,8 +338,8 @@
                        Margin="5,0,0,0"
                        Text="{Binding Price, StringFormat=c}" />
 
-            <!-- QTY & INTERACTION -->
-            <Button DockPanel.Dock="Right"
+                <!-- QTY & INTERACTION -->
+                <Button DockPanel.Dock="Right"
                     Style="{StaticResource CirclePlusButton}"
                     Width="30"
                     Height="30"
@@ -341,15 +347,15 @@
                     Command="{Binding CommandIncreaseQty}"
                     CommandParameter="{Binding}" />
 
-            <TextBlock DockPanel.Dock="Right"
+                <TextBlock DockPanel.Dock="Right"
                        Style="{StaticResource DefaultSmallText}"
                        VerticalAlignment="Center"
                        Margin="10,0">
                 <Run Text="x" />
                 <Run Text="{Binding Qty, Mode=OneWay}" />
-            </TextBlock>
+                </TextBlock>
 
-            <Button DockPanel.Dock="Right"
+                <Button DockPanel.Dock="Right"
                     Style="{StaticResource CircleMinusButton}"
                     Width="30"
                     Height="30"
@@ -357,15 +363,16 @@
                     Command="{Binding CommandDecreaseQty}"
                     CommandParameter="{Binding}" />
 
-            <!-- TITLE -->
-            <TextBlock DockPanel.Dock="Left"
+                <!-- TITLE -->
+                <TextBlock DockPanel.Dock="Left"
                        Style="{StaticResource DefaultSmallText}"
                        FontSize="11"
                        VerticalAlignment="Center"
-                       Margin="0,0,10,0"
+                       Margin="10,0"
                        TextTrimming="CharacterEllipsis"
                        Text="{Binding Title, Mode=OneWay}" />
-        </DockPanel>
+            </DockPanel>
+        </Border>
     </DataTemplate>
 
     <!-- EMPTY TEMPLATE FOR MODIFIERS GROUP -->
@@ -442,6 +449,7 @@
     <!-- MODIFIERS LIST ITEM STYLE -->
     <Style x:Key="ModifiersListItem" TargetType="ListBoxItem" BasedOn="{StaticResource LeftMarkedListItem}">
         <Setter Property="Padding" Value="10,0,30,0"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="ex:StyleExtensions.ForegroundOnPressed" Value="{StaticResource TextBrush}" />
     </Style>
 

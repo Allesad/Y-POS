@@ -25,7 +25,7 @@ namespace Y_POS.Selectors
                 return _skipTemplate;
             }
 
-            _defaultTemplate = (DataTemplate) (_skipTemplate ?? element.FindResource("ModifierButtonDt"));
+            _defaultTemplate = (DataTemplate) (_defaultTemplate ?? element.FindResource("ModifierButtonDt"));
             return _defaultTemplate;
         }
     }
