@@ -3,75 +3,94 @@
                     xmlns:local="clr-namespace:Y_POS.Views"
                     xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
                     xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
-                    xmlns:orderMakerParts="clr-namespace:Y_POS.Views.OrderMakerParts">
-    
+                    xmlns:orderMakerParts="clr-namespace:Y_POS.Views.OrderMakerParts"
+                    xmlns:dialogs="clr-namespace:Y_POS.Core.ViewModels.Dialogs;assembly=Y-POS.Core"
+                    xmlns:dialogViews="clr-namespace:Y_POS.Views.Dialogs"
+                    xmlns:dialogCore="clr-namespace:DialogManagement.Core;assembly=DialogManagement.Core">
+
     <!-- LOGIN -->
     <DataTemplate DataType="{x:Type pages:LoginVm}">
-        <local:LoginView DataContext="{Binding}"/>
+        <local:LoginView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!-- PIN LOGIN -->
     <DataTemplate DataType="{x:Type pages:PinVm}">
-        <local:PinLoginView DataContext="{Binding}"/>
+        <local:PinLoginView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!-- ACTIVE ORDERS -->
     <DataTemplate DataType="{x:Type pages:ActiveOrdersVm}">
-        <local:ActiveOrdersView DataContext="{Binding}"/>
+        <local:ActiveOrdersView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!-- CLOSED ORDERS -->
     <DataTemplate DataType="{x:Type pages:ClosedOrdersVm}">
-        <local:ClosedOrdersView DataContext="{Binding}"/>
+        <local:ClosedOrdersView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!-- CASHDRAWER -->
     <DataTemplate DataType="{x:Type pages:CashdrawerVm}">
-        <local:CashDrawerView DataContext="{Binding}"/>
+        <local:CashDrawerView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!-- REPORTS -->
     <DataTemplate DataType="{x:Type pages:ReportsVm}">
-        <local:ReportsView DataContext="{Binding}"/>
+        <local:ReportsView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!-- SETTINGS -->
     <DataTemplate DataType="{x:Type pages:SettingsVm}">
-        <local:SettingsView DataContext="{Binding}"/>
+        <local:SettingsView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!-- ORDER MAKER -->
     <DataTemplate DataType="{x:Type pages:OrderMakerVm}">
-        <local:OrderMakerView DataContext="{Binding}"/>
+        <local:OrderMakerView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!-- CHECKOUT -->
     <DataTemplate DataType="{x:Type pages:CheckoutVm}">
-        <local:CheckoutView DataContext="{Binding}"/>
+        <local:CheckoutView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!--==================================================-->
     <!-- PARTS -->
     <!--==================================================-->
-    
+
     <!-- ORDER MAKER MENU -->
     <DataTemplate DataType="{x:Type pageParts:OrderMakerMenuVm}">
-        <orderMakerParts:OrderMakerMenuView DataContext="{Binding}"/>
+        <orderMakerParts:OrderMakerMenuView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!-- ORDER ITEM CONSTRUCTOR -->
     <DataTemplate DataType="{x:Type pageParts:OrderItemConstructorVm}">
-        <orderMakerParts:OrderMakerItemConstructorView DataContext="{Binding}"/>
+        <orderMakerParts:OrderMakerItemConstructorView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!-- GIFT CARDS -->
     <DataTemplate DataType="{x:Type pageParts:GiftCardsVm}">
-        <orderMakerParts:OrderMakerGiftCardsView DataContext="{Binding}"/>
+        <orderMakerParts:OrderMakerGiftCardsView DataContext="{Binding}" />
     </DataTemplate>
-    
+
     <!-- ADD CUSTOMER -->
     <DataTemplate DataType="{x:Type pageParts:OrderMakerSetCustomerVm}">
-        <orderMakerParts:OrderMakerSetCustomerView DataContext="{Binding}"/>
+        <orderMakerParts:OrderMakerSetCustomerView DataContext="{Binding}" />
     </DataTemplate>
-    
+
+    <!--==================================================-->
+    <!-- DIALOGS -->
+    <!--==================================================-->
+
+    <DataTemplate DataType="{x:Type dialogCore:TextDialogContent}">
+        <TextBlock Style="{StaticResource DefaultLargeText}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   TextWrapping="Wrap"
+                   Text="{Binding Message}"/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dialogs:SetOrderItemQtyDialogVm}">
+        <dialogViews:SetOrderItemQtyDialog DataContext="{Binding}" />
+    </DataTemplate>
+
 </ResourceDictionary>

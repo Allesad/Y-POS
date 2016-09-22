@@ -210,6 +210,9 @@
     <Compile Include="Views\ClosedOrdersView.xaml.cs">
       <DependentUpon>ClosedOrdersView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\SetOrderItemQtyDialog.xaml.cs">
+      <DependentUpon>SetOrderItemQtyDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -395,6 +398,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ClosedOrdersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\SetOrderItemQtyDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

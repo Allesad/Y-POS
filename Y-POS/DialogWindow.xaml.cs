@@ -21,19 +21,13 @@ namespace Y_POS
             InitializeComponent();
 
             _dialog = dialog;
-
-            Title = !string.IsNullOrWhiteSpace(dialog.Title) ? dialog.Title : string.Empty;
-
-            var dlgType = dialog.GetType();
             
-            if (dlgType == typeof(ConfirmationDialog))
+            if (string.IsNullOrWhiteSpace(dialog.Title))
             {
-                Message.Text = ((TextDialogContent)dialog.Content).Message;
+                HeaderContainer.Visibility = Visibility.Collapsed;
             }
-            else if (dlgType == typeof(CustomContentDialog))
-            {
-                Message.Text = ((TextDialogContent)dialog.Content).Message;
-            }
+
+            DataContext = _dialog;
 
             foreach (var btn in dialog.Buttons.Select(CreateButtonFromConfig))
             {

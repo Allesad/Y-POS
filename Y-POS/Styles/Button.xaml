@@ -104,6 +104,8 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    <Style TargetType="RepeatButton" BasedOn="{StaticResource {x:Type ButtonBase}}"></Style>
 
     <Style x:Key="SquareBtn" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Height">

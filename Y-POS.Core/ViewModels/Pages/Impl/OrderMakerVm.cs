@@ -5,6 +5,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using DialogManagement.Contracts;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Builders;
@@ -16,6 +17,7 @@ using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using Y_POS.Core.Extensions;
 using Y_POS.Core.Properties;
+using Y_POS.Core.ViewModels.Dialogs;
 using Y_POS.Core.ViewModels.Items.Contracts;
 using Y_POS.Core.ViewModels.Items.Impl;
 using Y_POS.Core.ViewModels.PageParts;
@@ -35,6 +37,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private ReactiveCommand<object> _commandAddCustomer;
         private ReactiveCommand<object> _commandDeleteItem;
+        private ReactiveCommand<object> _commandChangeQty; 
         private ReactiveCommand<object> _commandModifyItem;
         private ReactiveCommand<Unit> _commandClear;
         private ReactiveCommand<bool> _commandVoid;
@@ -52,8 +55,8 @@ namespace Y_POS.Core.ViewModels.Pages
 
         [Reactive]
         public string SearchItemText { get; set; }
-        [Reactive]
-        public decimal Total { get; private set; }
+
+        public extern decimal Total { [ObservableAsProperty] get; }
 
         public IReactiveDerivedList<IOrderedItemVm> OrderedItems { get; private set; }
         [Reactive]
@@ -71,6 +74,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         public ICommand CommandAddCustomer => _commandAddCustomer;
         public ICommand CommandDeleteItem => _commandDeleteItem;
+        public ICommand CommandChangeQty => _commandChangeQty;
         public ICommand CommandModifyItem => _commandModifyItem;
         public ICommand CommandClear => _commandClear;
         public ICommand CommandVoid => _commandVoid;
@@ -114,9 +118,11 @@ namespace Y_POS.Core.ViewModels.Pages
             DetailsVm = _menuVm;
             OrderedItems = _orderCreator.OrderedItems.CreateDerivedCollection(item => new OrderedItemVm(item));
 
-            _orderCreator.OrderedItems.Changed.Select(_ => _orderCreator.OrderedItems.Sum(item => item.TotalPrice))
-                .Subscribe(total => Total = total);
-                //.ToPropertyEx(this, vm => vm.Total, 0, SchedulerService.UiScheduler);
+            _orderCreator.OrderedItems.Changed.Select(_ => true)
+                .Merge(_orderCreator.OrderedItems.ItemChanged.Select(_ => true))
+                .Select(_ => _orderCreator.OrderedItems.Sum(item => item.TotalPrice))
+                //.SubscribeToObserveOnUi(total => Total = total);
+                .ToPropertyEx(this, vm => vm.Total, 0, SchedulerService.UiScheduler);
 
             if (orderId != Guid.Empty)
             {
@@ -135,6 +141,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
             _commandAddCustomer = ReactiveCommand.Create();
             _commandDeleteItem = ReactiveCommand.Create(canExecuteItemOperation);
+            _commandChangeQty = ReactiveCommand.Create(canExecuteItemOperation);
             _commandModifyItem = ReactiveCommand.Create(canExecuteItemOperation);
             _commandClear = ReactiveCommand.CreateAsyncObservable(canClear, _ => _orderCreator.ClearOrderItems());
             _commandVoid = ReactiveCommand.CreateAsyncTask(_ => VoidOrder(_orderCreator.OrderId));
@@ -164,6 +171,13 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(_commandDeleteItem.Select(param => (IOrderedItemVm) param)
                 .SelectMany(item => _orderCreator.RemoveOrderItem(item.ToGuid()))
                 .SubscribeToObserveOnUi());
+
+            // Change item qty
+            AddLifetimeSubscription(_commandChangeQty.Select(param => (IOrderedItemVm) param)
+                .SelectMany(async vm => new { ItemId = vm.ToGuid(), InitialQty = vm.Qty, Qty = await GetNewQty(vm.Title, vm.Qty)})
+                .Where(res => res.Qty != res.InitialQty)
+                .SelectMany(res => _orderCreator.SetOrderItemQty(res.ItemId, res.Qty))
+                .Subscribe());
 
             // Modify item
             AddLifetimeSubscription(_commandModifyItem.Select(param => (IOrderedItemVm) param)
@@ -236,6 +250,13 @@ namespace Y_POS.Core.ViewModels.Pages
                     return _menuVm;
             }
         }
+
+        private async Task<int> GetNewQty(string itemName, int initialQty)
+        {
+            var dlg = new SetOrderItemQtyDialogVm(itemName, initialQty);
+            var result = await DialogService.CreateCustomDialog(dlg).ShowAsync();
+            return result == DialogButtonType.Ok ? dlg.Qty : initialQty;
+        } 
 
         private Task<bool> VoidOrder(Guid orderId)
         {

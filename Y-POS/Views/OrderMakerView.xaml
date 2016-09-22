@@ -121,11 +121,17 @@
 
             <!-- DELETE ITEM -->
             <controls:ActionBarButton DockPanel.Dock="Left"
-                                      Style="{StaticResource ActionBarButton}"
-                                      Title="{Binding Source={x:Static p:Resources.DeleteItem}, Converter={StaticResource UpperCaseCoverter}}"
-                                      IconPath="{StaticResource DeleteIcon}"
+                                      Style="{StaticResource ActionBarDeleteItem}"
                                       Command="{Binding CommandDeleteItem}"
                                       CommandParameter="{Binding ElementName=OrderedItemsList, Path=SelectedItem}" />
+            
+            <!-- CHANGE QUANTITY -->
+            <controls:ActionBarButton DockPanel.Dock="Left"
+                                      Style="{StaticResource ActionBarButton}"
+                                      Title="{Binding Source={x:Static p:Resources.Quantity}, Converter={StaticResource UpperCaseCoverter}}"
+                                      IconPath="{StaticResource MathIcon}"
+                                      Command="{Binding CommandChangeQty}"
+                                      CommandParameter="{Binding ElementName=OrderedItemsList, Path=SelectedItem}"/>
             
             <!-- MODIFY ITEM -->
             <controls:ActionBarButton DockPanel.Dock="Left"
