@@ -18,7 +18,7 @@ namespace Y_POS.Views
             OperationsList.ItemsSource = new[]
             {
                 new OperationItem((Geometry) FindResource("CashierInIcon"), "CASHIER IN"),
-                new OperationItem((Geometry) FindResource("CashdrawerCheckIcon"), "CASHDRAWER CHECK"),
+                new OperationItem((Geometry) FindResource("MathIcon"), "CASHDRAWER CHECK"),
                 new OperationItem((Geometry) FindResource("BankIcon"), "BANK WITHDRAW"),
                 new OperationItem((Geometry) FindResource("ArrowDownIcon"), "CASH IN"),
                 new OperationItem((Geometry) FindResource("ArrowUpIcon"), "CASH OUT"),

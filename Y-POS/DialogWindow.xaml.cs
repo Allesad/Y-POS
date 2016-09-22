@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using DialogManagement.Contracts;
 using DialogManagement.Core;
 
@@ -79,6 +80,14 @@ namespace Y_POS
         private void DialogWindow_OnClosed(object sender, EventArgs e)
         {
             _dialog.OnButtonSelected(_resultType);
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+
+            // Begin dragging the window 
+            DragMove();
         }
     }
 }
