@@ -61,15 +61,17 @@
                                         Converter={StaticResource UpperCaseCoverter}}" />
 
         </UniformGrid>
+        
+        <controls:SetCustomerControl/>
 
-        <Grid>
+        <!--<Grid>
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <!-- SEARCH CUSTOMER -->
+            ~1~ SEARCH CUSTOMER @1@
             <commonControls:SearchTextBox Grid.Row="0"
                                           Name="SearchCustomer"
                                           HorizontalAlignment="Stretch"
@@ -84,50 +86,50 @@
                 <Border Background="{StaticResource PrimaryBrush}"
                         Margin="0,40,0,20"
                         HorizontalAlignment="Center">
-                    <!-- AVATAR -->
+                    ~1~ AVATAR @1@
                     <Image Width="180"
                            Height="180"
                            Source="../../Images/63.jpg"/>
                 </Border>
 
-                <!-- POINTS -->
+                ~1~ POINTS @1@
                 <TextBlock HorizontalAlignment="Center"
                            FontSize="24"
                            FontFamily="Segoe UI Light"
                            Margin="0,0,0,20"
                            Text="156 points" />
 
-                <!-- FIRST NAME -->
+                ~1~ FIRST NAME @1@
                 <TextBox
                     helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.FirstName}}"
                     Height="65"
                     Margin="0,0,0,10" />
 
-                <!-- LAST NAME -->
+                ~1~ LAST NAME @1@
                 <TextBox
                     helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.LastName}}"
                     Height="65"
                     Margin="0,0,0,10" />
 
-                <!-- PHONE -->
+                ~1~ PHONE @1@
                 <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Phone}}"
                          Height="65"
                          Margin="0,0,0,10" />
 
-                <!-- EMAIL -->
+                ~1~ EMAIL @1@
                 <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Email}}"
                          Height="65"
                          Margin="0,0,0,10" />
 
             </StackPanel>
 
-            <!-- CUSTOMERS LIST -->
+            ~1~ CUSTOMERS LIST @1@
             <ListBox Grid.Row="1"
                      Name="CustomersList"
                      Background="{StaticResource PrimaryBrush}"
                      ItemContainerStyle="{StaticResource CustomersListItem}" />
 
-        </Grid>
+        </Grid>-->
 
     </DockPanel>
 

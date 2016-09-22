@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
 
         <!-- SET CUSTOMER BUTTON -->
-        <controls:AddFindCustomerControl Grid.Row="0" 
+        <controls:SetCustomerControl Grid.Row="0" 
                                          FirstName="{Binding FirstName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                          LastName="{Binding LastName, Mode=OneWayToSource}"
                                          Phone="{Binding Phone, Mode=OneWayToSource}"

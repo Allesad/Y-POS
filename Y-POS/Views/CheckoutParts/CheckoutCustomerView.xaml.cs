@@ -15,7 +15,7 @@ namespace Y_POS.Views.CheckoutParts
         {
             InitializeComponent();
 
-            this.WhenAnyValue(view => view.CustomersList.ItemsSource)
+            /*this.WhenAnyValue(view => view.CustomersList.ItemsSource)
                 .Select(enumerable => enumerable != null)
                 .Subscribe(b => CustomersList.SetValue(VisibilityProperty, b
                     ? Visibility.Visible
@@ -36,7 +36,7 @@ namespace Y_POS.Views.CheckoutParts
                         new Customer("Saunders, Johnatan", "458 774 8551")
                     }
                     : null;
-            };
+            };*/
         }
 
         private class Customer

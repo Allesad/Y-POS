@@ -60,13 +60,13 @@ namespace Y_POS
             switch (type)
             {
                 case DialogButtonType.Ok:
-                    return "OK";
+                    return Core.Properties.Resources.Ok.ToUpper();
                 case DialogButtonType.Cancel:
-                    return "CANCEL";
+                    return Core.Properties.Resources.Cancel.ToUpper();
                 case DialogButtonType.No:
-                    return "NO";
+                    return Core.Properties.Resources.No.ToUpper();
                 case DialogButtonType.Yes:
-                    return "YES";
+                    return Core.Properties.Resources.Yes.ToUpper();
             }
             return null;
         }

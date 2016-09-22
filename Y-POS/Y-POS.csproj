@@ -148,6 +148,9 @@
     <Compile Include="Controls\ContentPresenterEx.cs" />
     <Compile Include="Controls\MenuSelectorControl.cs" />
     <Compile Include="Controls\NumericKeypadControl.cs" />
+    <Compile Include="Controls\SetCustomerControl.xaml.cs">
+      <DependentUpon>SetCustomerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\ActionBarIconVisibilityConterter.cs" />
     <Compile Include="Converters\ImageModelToSourceConverter.cs" />
     <Compile Include="Converters\MockLoginDataConverter.cs" />
@@ -258,6 +261,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\CardNumberInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SetCustomerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -303,7 +303,7 @@
     <value>Найти</value>
   </data>
   <data name="Search_Customer" xml:space="preserve">
-    <value>Найти клиента</value>
+    <value>Поиск клиента</value>
   </data>
   <data name="Send" xml:space="preserve">
     <value>Отправить</value>
@@ -448,5 +448,11 @@
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>Количество</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
   </data>
 </root>
