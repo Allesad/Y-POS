@@ -74,6 +74,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Dialogs\SetOrderItemQtyDialogVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\IActiveOrderItemVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\ICustomerItemVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\IGiftCardItemVm.cs" />

@@ -218,6 +218,12 @@
                 Value="{Binding Source={x:Static p:Resources.Action_Break}, Converter={StaticResource UpperCaseCoverter}}" />
         <Setter Property="IconPath" Value="{StaticResource BreakIcon}" />
     </Style>
+    
+    <!-- DELETE ITEM BUTTON STYLE -->
+    <Style x:Key="ActionBarDeleteItem" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Title" Value="{Binding Source={x:Static p:Resources.DeleteItem}, Converter={StaticResource UpperCaseCoverter}}"/>
+        <Setter Property="IconPath" Value="{StaticResource DeleteIcon}"/>
+    </Style>
 
     <!-- CLEAR BUTTON STYLE -->
     <Style x:Key="ActionBarClear" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">

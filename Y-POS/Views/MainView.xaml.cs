@@ -41,8 +41,6 @@ namespace Y_POS.Views
                     Owner = _dialogs.Count > 0 ? _dialogs.Peek() : Application.Current.MainWindow
                 };
 
-                PositionDialog(dlgWindow);
-
                 _dialogs.Push(dlgWindow);
 
                 dlgWindow.ShowDialog();
@@ -53,15 +51,6 @@ namespace Y_POS.Views
         {
             var dlg = _dialogs.Pop();
             dlg.Close();
-        }
-
-        private static void PositionDialog(DialogWindow dlg)
-        {
-            var screenWidth = SystemParameters.PrimaryScreenWidth;
-            var screenHeight = SystemParameters.PrimaryScreenHeight;
-
-            dlg.Left = screenWidth / 2f - dlg.Width / 2f;
-            dlg.Top = screenHeight / 2f - dlg.Height / 2f;
         }
 
         private void OnBrowseBack(object sender, ExecutedRoutedEventArgs e)

@@ -3,43 +3,65 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:contracts="clr-namespace:DialogManagement.Contracts;assembly=DialogManagement.Core"
         mc:Ignorable="d"
         Closed="DialogWindow_OnClosed"
-        Title="DialogWindow" 
-        Height="300"
-        Width="400">
-    
+        WindowStartupLocation="CenterOwner"
+        Title="DialogWindow"
+        SizeToContent="Height"
+        Width="400"
+        d:DataContext="{d:DesignInstance contracts:IDialog, d:IsDesignTimeCreatable=False}"
+        >
+
     <Window.Style>
         <Style TargetType="Window">
             <Setter Property="WindowStyle" Value="None" />
-            <Setter Property="ResizeMode" Value="CanResize"/>
-            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="ResizeMode" Value="CanResize" />
+            <Setter Property="ShowInTaskbar" Value="False" />
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
-                    <WindowChrome GlassFrameThickness="1"
-                              ResizeBorderThickness="0"
-                              CaptionHeight="0"
-                              UseAeroCaptionButtons="False"
-                              CornerRadius="0" />
+                    <WindowChrome GlassFrameThickness="-1"
+                                  ResizeBorderThickness="0"
+                                  CaptionHeight="0"
+                                  UseAeroCaptionButtons="False"
+                                  CornerRadius="0" />
                 </Setter.Value>
             </Setter>
         </Style>
     </Window.Style>
 
-    <DockPanel>
+    <DockPanel Name="DialogContainer"
+               Background="{StaticResource SecondaryBrush}">
 
+        <!-- HEADER -->
+        <Border Name="HeaderContainer" 
+                DockPanel.Dock="Top"
+                BorderThickness="0,0,0,2"
+                BorderBrush="{StaticResource SeparatorBrush}">
+            <TextBlock VerticalAlignment="Center"
+                       Style="{StaticResource DefaultLargeText}"
+                       Margin="10,5"
+                       Text="{Binding Title}"/>
+        </Border>
+        
         <!-- BUTTONS -->
-        <UniformGrid DockPanel.Dock="Bottom" 
+        <UniformGrid DockPanel.Dock="Bottom"
                      Name="ActionsContainer"
-                     Height="60"/>
+                     Height="60" />
 
-        <!-- MESSAGE -->
+        <!-- CONTENT -->
         <Border>
-            <TextBlock Name="Message"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       TextWrapping="Wrap"
-                       FontSize="18" />
+            <!--<ScrollViewer
+                HorizontalContentAlignment="Center"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto">
+
+            </ScrollViewer>-->
+
+            <ContentPresenter Name="CustomContent"
+                              MinHeight="150"
+                              Content="{Binding Content}"
+                              Margin="15,10" />
         </Border>
 
     </DockPanel>
