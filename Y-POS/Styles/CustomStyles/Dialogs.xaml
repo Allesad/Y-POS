@@ -12,16 +12,22 @@
     <Style x:Key="DialogActionButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderThickness" Value="0 1 1 0"/>
         <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}"/>
-        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontSize" Value="{StaticResource LargeFontSize}"/>
         <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="ex:StyleExtensions.CornerRadius" Value="0"/>
-        <Setter Property="ex:StyleExtensions.BgOnHover">
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        <Setter Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{StaticResource AccentColor}" Opacity="0.6"/>
+                <SolidColorBrush Color="{StaticResource TextColor}" Opacity="0.8"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource AccentBrush}"/>
+        <Setter Property="ex:StyleExtensions.BgOnHover" Value="{StaticResource AccentSecondaryBrush}" />
+        <Setter Property="ex:StyleExtensions.BgOnPressed" Value="{StaticResource AccentBrush}" />
         <Setter Property="ex:StyleExtensions.BorderBrushOnHover">
+            <Setter.Value>
+                <Binding RelativeSource="{RelativeSource Self}" Path="BorderBrush"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ex:StyleExtensions.BorderBrushOnPressed">
             <Setter.Value>
                 <Binding RelativeSource="{RelativeSource Self}" Path="BorderBrush"/>
             </Setter.Value>

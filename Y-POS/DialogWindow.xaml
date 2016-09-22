@@ -4,12 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        ResizeMode="CanResizeWithGrip"
-        ShowInTaskbar="False"
         Closed="DialogWindow_OnClosed"
         Title="DialogWindow" 
         Height="300"
         Width="400">
+    
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="WindowStyle" Value="None" />
+            <Setter Property="ResizeMode" Value="CanResize"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome GlassFrameThickness="1"
+                              ResizeBorderThickness="0"
+                              CaptionHeight="0"
+                              UseAeroCaptionButtons="False"
+                              CornerRadius="0" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Style>
 
     <DockPanel>
 
