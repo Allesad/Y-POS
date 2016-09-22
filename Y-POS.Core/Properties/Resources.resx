@@ -447,4 +447,7 @@
   <data name="OrderItemConstructor_Done" xml:space="preserve">
     <value>Done</value>
   </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
 </root>

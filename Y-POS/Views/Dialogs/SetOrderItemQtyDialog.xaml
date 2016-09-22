@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="Y_POS.Views.Dialogs.SetOrderItemQtyDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dialogs="clr-namespace:Y_POS.Core.ViewModels.Dialogs;assembly=Y-POS.Core"
+             xmlns:behaviours="clr-namespace:YumaPos.WPF.UI.Behaviours;assembly=YumaPos.WPF.UI"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance dialogs:SetOrderItemQtyDialogVm, d:IsDesignTimeCreatable=False}">
+
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- MENU ITEM TITLE -->
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                   Style="{StaticResource DefaultLargeText}"
+                   FontSize="26"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   TextTrimming="CharacterEllipsis" 
+                   Text="{Binding ItemName, Mode=OneTime}"/>
+
+        <!-- DECREASE BUTTON -->
+        <RepeatButton Grid.Row="1" Grid.Column="0"
+                Padding="5"
+                BorderThickness="1"
+                FontSize="36"
+                Command="{Binding CommandDecreaseQty}"
+                >
+            <RepeatButton.Content>
+                <Path Data="{StaticResource MinusIcon}"
+                      Fill="{StaticResource TextBrush}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"/>
+            </RepeatButton.Content>
+        </RepeatButton>
+        
+        <!-- INCREASE BUTTON -->
+        <RepeatButton Grid.Row="1" Grid.Column="2"
+                Padding="5"
+                BorderThickness="1"
+                FontSize="36"
+                Command="{Binding CommandIncreaseQty}">
+            <RepeatButton.Content>
+                <Path Data="{StaticResource PlusIcon}"
+                      Fill="{StaticResource TextBrush}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"/>
+            </RepeatButton.Content>
+        </RepeatButton>
+        
+        <!-- QTY -->
+        <TextBox Grid.Row="1" Grid.Column="1" 
+                 Style="{StaticResource UnlabeledTextBox}"
+                 VerticalAlignment="Stretch"
+                 Margin="10,0"
+                 FontSize="{StaticResource LargeFontSize}"
+                 TextAlignment="Center"
+                 behaviours:TextBoxFocusBehavior.SelectAllTextOnFocus="True"
+                 Text="{Binding Qty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <i:Interaction.Behaviors>
+                <behaviours:TextBoxInputRegExBehaviour MaxLength="4" RegularExpression="^\d+$"/>
+            </i:Interaction.Behaviors>
+        </TextBox>
+
+    </Grid>
+
+</UserControl>

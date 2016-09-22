@@ -4,7 +4,6 @@
                     xmlns:ui="clr-namespace:YumaPos.WPF.UI;assembly=YumaPos.WPF.UI">
 
     <ResourceDictionary.MergedDictionaries>
-        <!--<controls:SharedResourceDictionary Source="../../Themes/ColorScheme.xaml"/>-->
         <ui:SharedResourceDictionary Source="../Button.xaml"/>
         <ui:SharedResourceDictionary Source="../TextBlock.xaml" />
     </ResourceDictionary.MergedDictionaries>
