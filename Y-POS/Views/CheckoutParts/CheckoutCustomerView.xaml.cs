@@ -1,8 +1,7 @@
-﻿using System;
-using System.Reactive.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using ReactiveUI;
+﻿using System.Windows.Controls;
+using YumaPos.Client.Helpers;
+using YumaPos.Client.Services;
+using Y_POS.Core.ViewModels;
 
 namespace Y_POS.Views.CheckoutParts
 {
@@ -15,6 +14,7 @@ namespace Y_POS.Views.CheckoutParts
         {
             InitializeComponent();
 
+            CustomerControl.DataContext = new SelectCustomerVm(ServiceLocator.Resolve<ICustomersService>());
             /*this.WhenAnyValue(view => view.CustomersList.ItemsSource)
                 .Select(enumerable => enumerable != null)
                 .Subscribe(b => CustomersList.SetValue(VisibilityProperty, b

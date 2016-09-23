@@ -123,6 +123,7 @@
     <Compile Include="ViewModels\Pages\Impl\PinVm.cs" />
     <Compile Include="ViewModels\Pages\Impl\ReportsVm.cs" />
     <Compile Include="ViewModels\Pages\Impl\SettingsVm.cs" />
+    <Compile Include="ViewModels\SelectCustomerVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

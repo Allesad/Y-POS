@@ -10,5 +10,6 @@
     <converters:OrderStatusNewVisibilityConverter x:Key="OrderStatusNewVisibilityConverter"/>
     <converters:ImageModelToSourceConverter x:Key="ImageModelToSourceConverter"/>
     <converters:PhoneFormatConverter x:Key="PhoneFormatConverter"/>
+    <converters:SexToTextConverter x:Key="SexToTextConverter"/>
 
 </ResourceDictionary>

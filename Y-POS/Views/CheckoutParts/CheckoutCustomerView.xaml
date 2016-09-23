@@ -62,7 +62,8 @@
 
         </UniformGrid>
         
-        <controls:SetCustomerControl/>
+        <controls:SetCustomerControl IsNarrow="True"
+                                     x:Name="CustomerControl"/>
 
         <!--<Grid>
 

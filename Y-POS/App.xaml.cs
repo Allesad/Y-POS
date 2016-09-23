@@ -13,7 +13,6 @@ using YumaPos.Client.App;
 using YumaPos.Client.Helpers;
 using YumaPos.Common.Infrastructure.IoC;
 using YumaPos.Common.Infrastructure.Logging;
-using YumaPos.WPF.UI.Controls;
 using Y_POS.Bootstrap;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views;

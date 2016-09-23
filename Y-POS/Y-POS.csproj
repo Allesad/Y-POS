@@ -152,6 +152,7 @@
       <DependentUpon>SetCustomerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\ActionBarIconVisibilityConterter.cs" />
+    <Compile Include="Converters\CustomerControlLayoutConverter.cs" />
     <Compile Include="Converters\ImageModelToSourceConverter.cs" />
     <Compile Include="Converters\MockLoginDataConverter.cs" />
     <Compile Include="Converters\ModifiersGroupMaxQtyToTextConverter.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Converters\OrderStatusNewVisibilityConverter.cs" />
     <Compile Include="Converters\OrderStatusToTextConverter.cs" />
     <Compile Include="Converters\PhoneFormatConverter.cs" />
+    <Compile Include="Converters\SexToTextConverter.cs" />
     <Compile Include="DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>

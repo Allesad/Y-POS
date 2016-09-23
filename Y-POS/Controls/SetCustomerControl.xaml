@@ -9,11 +9,16 @@
              xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviours="clr-namespace:YumaPos.WPF.UI.Behaviours;assembly=YumaPos.WPF.UI"
+             xmlns:converters="clr-namespace:Y_POS.Converters"
+             xmlns:viewModels="clr-namespace:Y_POS.Core.ViewModels;assembly=Y-POS.Core"
              mc:Ignorable="d"
              Name="Control"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance viewModels:SelectCustomerVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
+        <converters:CustomerControlLayoutConverter x:Key="LayoutConverter" />
+
         <Style x:Key="CustomersListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
             <Setter Property="Padding" Value="10,5" />
             <Setter Property="Height" Value="76" />
@@ -31,9 +36,10 @@
                                     Background="{StaticResource SecondaryBrush}"
                                     Margin="0,0,15,0">
 
-                                <Image Width="60"
-                                       Height="60"
-                                       Source="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}}" />
+                                <controls:CachedImage Width="60"
+                                                      Height="60"
+                                                      Source="{Binding ImageModel, Converter={StaticResource ImageModelToSourceConverter}, 
+                                                        ConverterParameter=60x60}" />
 
                             </Border>
 
@@ -51,7 +57,26 @@
             </Setter>
         </Style>
 
-        <Style x:Key="TabSelectorRb" TargetType="RadioButton" BasedOn="{StaticResource {x:Type ToggleButton}}" />
+        <Style x:Key="TabSelectorBtn" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="1" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="FormLabelTbl" TargetType="TextBlock" BasedOn="{StaticResource DefaultSmallText}">
+            <Setter Property="Margin" Value="0,0,10,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="FormTextTbl" TargetType="TextBlock" BasedOn="{StaticResource DefaultText}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -66,24 +91,23 @@
                      Rows="1" Columns="2">
 
             <!-- SEARCH CUSTOMER -->
-            <RadioButton Content="FIND CUSTOMER"
-                         Style="{StaticResource TabSelectorRb}"
-                         GroupName="TabSelector"
-                         BorderThickness="0,0,1,1"
-                         Click="GoToFindCustomer" />
+            <Button Content="FIND CUSTOMER"
+                    Style="{StaticResource TabSelectorBtn}"
+                    BorderThickness="0,0,1,1"
+                    Command="{Binding CommandGoToFindCustomer}" />
 
             <!-- ADD CUSTOMER -->
-            <RadioButton Content="ADD CUSTOMER"
-                         Style="{StaticResource TabSelectorRb}"
-                         GroupName="TabSelector"
-                         BorderThickness="0,0,0,1"
-                         Click="GoToAddCustomer" />
+            <Button Content="ADD CUSTOMER"
+                    Style="{StaticResource TabSelectorBtn}"
+                    BorderThickness="0,0,0,1"
+                    Command="{Binding CommandGoToNewCustomer}" />
 
         </UniformGrid>
 
         <!-- FIND CUSTOMER FORM -->
         <Grid Grid.Row="1"
               Name="FindCustomerContainer"
+              Visibility="{Binding IsNewCustomer, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"
               Background="{StaticResource PrimaryBrush}">
 
             <Grid.RowDefinitions>
@@ -93,23 +117,24 @@
 
             <!-- SEARCH BOX -->
             <controls:SearchTextBox Grid.Row="0"
+                                    Name="SearchBox"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     BorderThickness="0"
                                     FontSize="18"
-                                    Visibility="Collapsed"
+                                    Visibility="{Binding IsCustomerDetailsVisible, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"
                                     LabelText="{Binding Source={x:Static p:Resources.Search_Customer}, 
                                         Converter={StaticResource UpperCaseCoverter}}"
-                                    Text="{Binding ElementName=Control, Path=SearchText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                                    Text="{Binding SearchText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
 
             <!-- CUSTOMERS LIST -->
             <ListBox Grid.Row="1"
                      Name="CustomersList"
-                     Visibility="Collapsed"
                      Background="{StaticResource PrimaryBrush}"
+                     Visibility="{Binding IsCustomerDetailsVisible, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"
                      ItemContainerStyle="{StaticResource CustomersListItem}"
-                     ItemsSource="{Binding ElementName=Control, Path=Customers}"
-                     SelectedItem="{Binding ElementName=Control, Path=SelectedCustomer, Mode=OneWayToSource}">
+                     ItemsSource="{Binding Customers}"
+                     SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
                 <ListBox.Style>
                     <Style TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
@@ -138,12 +163,14 @@
             <!-- CUSTOMER DETAILS -->
             <StackPanel Orientation="Horizontal"
                         Grid.Row="0"
-                        Visibility="{Binding IsDetailsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                        Name="DetailsHeaderContainer"
+                        Visibility="{Binding IsCustomerDetailsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                         Margin="5">
                 <Button Width="50" Height="50"
                         Style="{StaticResource AccentBtn}"
                         Margin="0,0,20,0"
-                        Padding="0">
+                        Padding="0"
+                        Click="OnBackClick">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <Path
@@ -161,118 +188,114 @@
                 <TextBlock Style="{StaticResource DefaultLargeText}"
                            VerticalAlignment="Center"
                            FontWeight="SemiBold"
-                           Text="JACK SMARTASS" />
+                           Text="{Binding SelectedCustomer.FullName}" />
             </StackPanel>
 
-            <DockPanel Grid.Row="1"
-                       Visibility="{Binding IsDetailsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Grid Margin="20" Height="200"
-                      DockPanel.Dock="Top">
+            <StackPanel Grid.Row="1"
+                        Name="CustomerDetailsContainer"
+                        Visibility="{Binding IsCustomerDetailsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="220" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                <DockPanel>
 
                     <!-- PHOTO -->
-                    <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="5"
-                            Margin="0,0,20,0"
-                            BorderThickness="1"
-                            BorderBrush="{StaticResource SeparatorBrush}"
-                            Background="{StaticResource PrimaryBrush}">
+                    <Border
+                        DockPanel.Dock="{Binding ElementName=Control, Path=IsNarrow, Converter={StaticResource LayoutConverter}}"
+                        Margin="20,10"
+                        BorderThickness="1"
+                        HorizontalAlignment="Center"
+                        BorderBrush="{StaticResource SeparatorBrush}"
+                        Background="{StaticResource PrimaryBrush}">
                         <controls:CachedImage
+                            Name="CustomerPhoto"
                             Width="200" Height="200"
-                            Stretch="None"
+                            Stretch="Uniform"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             ImageUrl="{Binding SelectedCustomer.ImageModel, Mode=OneWay, 
                                 Converter={StaticResource ImageModelToSourceConverter}, ConverterParameter=200x200}" />
                     </Border>
 
-                    <!-- PHONE -->
-                    <TextBlock Grid.Row="0" Grid.Column="1"
-                               Style="{StaticResource DefaultSmallText}"
-                               Margin="0,0,10,0"
-                               VerticalAlignment="Center"
-                               Text="PHONE" />
+                    <Grid Name="FormContainer"
+                          Height="200"
+                          Margin="20,10"
+                          VerticalAlignment="Center"
+                          DockPanel.Dock="Top">
 
-                    <TextBlock Grid.Row="0" Grid.Column="2"
-                               Style="{StaticResource DefaultText}"
-                               VerticalAlignment="Center"
-                               Text="123-456-7890" />
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
 
-                    <!-- EMAIL -->
-                    <TextBlock Grid.Row="1" Grid.Column="1"
-                               Style="{StaticResource DefaultSmallText}"
-                               Margin="0,0,10,0"
-                               VerticalAlignment="Center"
-                               Text="EMAIL" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="1" Grid.Column="2"
-                               Style="{StaticResource DefaultText}"
-                               VerticalAlignment="Center"
-                               Text="user_moneky@mail.com" />
+                        <!-- PHONE -->
+                        <TextBlock Grid.Row="0" Grid.Column="0"
+                                   Style="{StaticResource FormLabelTbl}"
+                                   Text="{Binding Source={x:Static p:Resources.Phone}, Converter={StaticResource UpperCaseCoverter}}" />
 
-                    <!-- BIRTH DATE -->
-                    <TextBlock Grid.Row="2" Grid.Column="1"
-                               Style="{StaticResource DefaultSmallText}"
-                               Margin="0,0,10,0"
-                               VerticalAlignment="Center"
-                               Text="BIRTH DATE" />
+                        <TextBlock Grid.Row="0" Grid.Column="1"
+                                   Style="{StaticResource FormTextTbl}"
+                                   Text="{Binding SelectedCustomer.Phone, Converter={StaticResource PhoneFormatConverter}}" />
 
-                    <TextBlock Grid.Row="2" Grid.Column="2"
-                               Style="{StaticResource DefaultText}"
-                               VerticalAlignment="Center"
-                               Text="02/06/1965" />
+                        <!-- EMAIL -->
+                        <TextBlock Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource FormLabelTbl}"
+                                   Text="{Binding Source={x:Static p:Resources.Email}, Converter={StaticResource UpperCaseCoverter}}" />
 
-                    <!-- GENDER -->
-                    <TextBlock Grid.Row="3" Grid.Column="1"
-                               Style="{StaticResource DefaultSmallText}"
-                               Margin="0,0,10,0"
-                               VerticalAlignment="Center"
-                               Text="GENDER" />
+                        <TextBlock Grid.Row="1" Grid.Column="1"
+                                   Style="{StaticResource FormTextTbl}"
+                                   Text="{Binding SelectedCustomer.Email}" />
 
-                    <TextBlock Grid.Row="3" Grid.Column="2"
-                               Style="{StaticResource DefaultText}"
-                               VerticalAlignment="Center"
-                               Text="male" />
+                        <!-- BIRTH DATE -->
+                        <TextBlock Grid.Row="2" Grid.Column="0"
+                                   Style="{StaticResource FormLabelTbl}"
+                                   Text="{Binding Source={x:Static p:Resources.BirthDate}, Converter={StaticResource UpperCaseCoverter}}" />
 
-                    <!-- CARD NUMBER -->
-                    <TextBlock Grid.Row="4" Grid.Column="1"
-                               Style="{StaticResource DefaultSmallText}"
-                               Margin="0,0,10,0"
-                               VerticalAlignment="Center"
-                               Text="CARD #" />
+                        <TextBlock Grid.Row="2" Grid.Column="1"
+                                   Style="{StaticResource FormTextTbl}"
+                                   Text="{Binding SelectedCustomer.BirthDate, StringFormat=d}" />
 
-                    <TextBlock Grid.Row="4" Grid.Column="2"
-                               Style="{StaticResource DefaultText}"
-                               VerticalAlignment="Center"
-                               Text="168131384632" />
-                </Grid>
+                        <!-- GENDER -->
+                        <TextBlock Grid.Row="3" Grid.Column="0"
+                                   Style="{StaticResource FormLabelTbl}"
+                                   Text="{Binding Source={x:Static p:Resources.Gender}, Converter={StaticResource UpperCaseCoverter}}" />
 
-                <Separator DockPanel.Dock="Top"
+                        <TextBlock Grid.Row="3" Grid.Column="1"
+                                   Style="{StaticResource FormTextTbl}"
+                                   Text="{Binding SelectedCustomer.Sex, Converter={StaticResource SexToTextConverter}}" />
+
+                        <!-- CARD NUMBER -->
+                        <TextBlock Grid.Row="4" Grid.Column="0"
+                                   Style="{StaticResource FormLabelTbl}"
+                                   Text="{Binding Source={x:Static p:Resources.Placeholder_CardNumber}, 
+                                        Converter={StaticResource UpperCaseCoverter}}" />
+
+                        <TextBlock Grid.Row="4" Grid.Column="1"
+                                   Style="{StaticResource FormTextTbl}"
+                                   Text="{Binding SelectedCustomer.CardNumber}" />
+                    </Grid>
+                </DockPanel>
+
+                <Separator DockPanel.Dock="Bottom"
                            Style="{StaticResource HSeparator}" />
 
                 <!-- COMMENTS -->
-                <TextBlock DockPanel.Dock="Top"
+                <TextBlock DockPanel.Dock="Bottom"
                            Style="{StaticResource DefaultSmallText}"
                            Margin="20,20,20,0"
-                           Text="COMMENTS" />
+                           Text="{Binding Source={x:Static p:Resources.Comments}, Converter={StaticResource UpperCaseCoverter}}" />
 
-                <TextBlock DockPanel.Dock="Top"
+                <TextBlock DockPanel.Dock="Bottom"
                            Style="{StaticResource DefaultText}"
                            Margin="20"
-                           Text="Blah-blah-blah some random comments" />
-            </DockPanel>
+                           Text="{Binding SelectedCustomer.Comments}" />
+            </StackPanel>
 
             <Separator Grid.Row="0"
                        Style="{StaticResource HSeparator}"
@@ -282,38 +305,63 @@
         <!-- ADD CUSTOMER FORM -->
         <Grid Grid.Row="1"
               Name="AddCustomerContainer"
-              Visibility="Collapsed">
-            <StackPanel Margin="15,0">
-
-                <Border Background="{StaticResource PrimaryBrush}"
-                        Margin="0,40,0,20"
-                        HorizontalAlignment="Center">
-
-                    <!-- AVATAR -->
-                    <Image Width="180"
-                           Height="180"
-                           Source="../../Images/63.jpg" />
-                </Border>
+              Visibility="{Binding IsNewCustomer, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Margin="15">
 
                 <!-- FIRST NAME -->
                 <TextBox
                     helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.FirstName}}"
                     Height="65"
                     Margin="0,0,0,10"
-                    Text="{Binding ElementName=Control, Path=FirstName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="{Binding NewCustomer.FirstName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- LAST NAME -->
                 <TextBox
                     helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.LastName}}"
                     Height="65"
                     Margin="0,0,0,10"
-                    Text="{Binding ElementName=Control, Path=LastName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="{Binding NewCustomer.LastName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Grid>
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- BIRTH DATE-->
+                    <TextBox Grid.Column="0"
+                             helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.BirthDate}}"
+                             Height="65"
+                             Margin="0,0,0,10"
+                             Text="{Binding NewCustomer.BirthDate, Mode=OneWayToSource, StringFormat=d}" />
+
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               TextAlignment="Right"
+                               Margin="15,0,15,10"
+                               Text="{Binding Source={x:Static p:Resources.Gender}, Converter={StaticResource UpperCaseCoverter}}"/>
+
+                    <!-- SEX -->
+                    <ComboBox Grid.Column="2"
+                              Height="65"
+                              Margin="0,0,0,10"
+                              SelectedItem="{Binding NewCustomer.Sex, Mode=OneWayToSource, Converter={StaticResource SexToTextConverter}}">
+
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="{Binding Source={x:Static p:Resources.Sex_Male}}" />
+                            <ComboBoxItem Content="{Binding Source={x:Static p:Resources.Sex_Female}}" />
+                        </ComboBox.Items>
+
+                    </ComboBox>
+                </Grid>
 
                 <!-- PHONE -->
                 <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Phone}}"
                          Height="65"
                          Margin="0,0,0,10"
-                         Text="{Binding ElementName=Control, Path=Phone, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                         Text="{Binding NewCustomer.HomePhone, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Behaviors>
                         <behaviours:TextBoxInputRegExBehaviour MaxLength="10" RegularExpression="^\d+$" />
                     </i:Interaction.Behaviors>
@@ -323,7 +371,7 @@
                 <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Email}}"
                          Height="65"
                          Margin="0,0,0,10"
-                         Text="{Binding ElementName=Control, Path=Email, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                         Text="{Binding NewCustomer.Email, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
 
             </StackPanel>
         </Grid>

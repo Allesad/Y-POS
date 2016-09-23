@@ -455,4 +455,19 @@
   <data name="Yes" xml:space="preserve">
     <value>Да</value>
   </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Дата рождения</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Комментарии</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Пол</value>
+  </data>
+  <data name="Sex_Female" xml:space="preserve">
+    <value>Женский</value>
+  </data>
+  <data name="Sex_Male" xml:space="preserve">
+    <value>Мужской</value>
+  </data>
 </root>
