@@ -27,6 +27,7 @@ using YumaPos.Shared.Infrastructure;
 using Y_POS.Configuration;
 using Y_POS.Core;
 using Y_POS.Core.MockData;
+using Y_POS.Core.ViewModels;
 using Y_POS.Core.ViewModels.PageParts;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Resources;
@@ -129,7 +130,7 @@ namespace Y_POS.Bootstrap
             builder.Register<OrderMakerMenuVm>(Lifecycles.PerScope).As<IOrderMakerMenuVm>();
             builder.Register<OrderItemConstructorVm>(Lifecycles.PerScope).As<IOrderItemConstructorVm>();
             builder.Register<GiftCardsVm>(Lifecycles.PerScope).As<IGiftCardsVm>();
-            builder.Register<OrderMakerSetCustomerVm>(Lifecycles.PerScope).As<IOrderMakerSetCustomerVm>();
+            builder.Register<SelectCustomerVm>(Lifecycles.PerScope).As<ISelectCustomerVm>();
         }
 
         private static IRegistrationBuilder<TImpl, ConcreteReflectionActivatorData, SingleRegistrationStyle> Register<TImpl>(this ContainerBuilder builder, Lifecycles lifecycle = Lifecycles.PerDefaultScope)

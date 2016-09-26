@@ -24,10 +24,7 @@ namespace Y_POS.Views
 
         #endregion
 
-        protected ILifecycleVm TypedDataContext
-        {
-            get { return DataContext as ILifecycleVm; }
-        }
+        protected ILifecycleVm TypedDataContext => DataContext as ILifecycleVm;
 
         protected BaseView()
         {
@@ -49,24 +46,20 @@ namespace Y_POS.Views
             if (oldViewModel == null || newViewModel == null)
                 return;
 
-            if (oldViewModel.CommandViewUnloaded != null)
-                oldViewModel.CommandViewUnloaded.Execute(null);
-            if (newViewModel.CommandViewLoaded != null)
-                newViewModel.CommandViewLoaded.Execute(null);
+            oldViewModel.CommandViewUnloaded?.Execute(null);
+            newViewModel.CommandViewLoaded?.Execute(null);
         }
 
         protected virtual void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             var viewModel = TypedDataContext;
-            if (viewModel != null && viewModel.CommandViewUnloaded != null)
-                viewModel.CommandViewUnloaded.Execute(null);
+            viewModel?.CommandViewUnloaded?.Execute(null);
         }
 
         protected virtual void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             var viewModel = TypedDataContext;
-            if (viewModel != null && viewModel.CommandViewLoaded != null)
-                viewModel.CommandViewLoaded.Execute(null);
+            viewModel?.CommandViewLoaded?.Execute(null);
         }
     }
 }

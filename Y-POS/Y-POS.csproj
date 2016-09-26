@@ -148,8 +148,8 @@
     <Compile Include="Controls\ContentPresenterEx.cs" />
     <Compile Include="Controls\MenuSelectorControl.cs" />
     <Compile Include="Controls\NumericKeypadControl.cs" />
-    <Compile Include="Controls\SetCustomerControl.xaml.cs">
-      <DependentUpon>SetCustomerControl.xaml</DependentUpon>
+    <Compile Include="Views\CommonParts\SelectCustomerView.xaml.cs">
+      <DependentUpon>SelectCustomerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\ActionBarIconVisibilityConterter.cs" />
     <Compile Include="Converters\CustomerControlLayoutConverter.cs" />
@@ -227,9 +227,6 @@
     <Compile Include="Views\NavMenuView.xaml.cs">
       <DependentUpon>NavMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OrderMakerParts\OrderMakerSetCustomerView.xaml.cs">
-      <DependentUpon>OrderMakerSetCustomerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\OrderMakerParts\OrderMakerGiftCardsView.xaml.cs">
       <DependentUpon>OrderMakerGiftCardsView.xaml</DependentUpon>
     </Compile>
@@ -266,7 +263,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SetCustomerControl.xaml">
+    <Page Include="Views\CommonParts\SelectCustomerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -423,10 +420,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NavMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OrderMakerParts\OrderMakerSetCustomerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

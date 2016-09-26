@@ -3,134 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:commonControls="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI"
-             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-             xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
-             xmlns:controls="clr-namespace:Y_POS.Controls"
+             xmlns:commonParts="clr-namespace:Y_POS.Views.CommonParts"
+             xmlns:views="clr-namespace:Y_POS.Views"
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="404">
 
-    <UserControl.Resources>
-        <Style x:Key="CustomersListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-            <Setter Property="Height" Value="76" />
-            <Setter Property="FontSize" Value="18" />
-            <Setter Property="BorderThickness" Value="0,0,0,1" />
-            <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}" />
-            <Setter Property="ContentTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <!-- AVATAR -->
-                            <Border DockPanel.Dock="Left"
-                                    VerticalAlignment="Center"
-                                    Background="{StaticResource SecondaryBrush}"
-                                    Margin="0,0,15,0">
-                                <Image Width="60"
-                                       Height="60"
-                                       Source="../../Images/63.jpg" />
-                            </Border>
-
-                            <StackPanel VerticalAlignment="Center"
-                                        HorizontalAlignment="Stretch">
-
-                                <!-- NAME -->
-                                <TextBlock Text="{Binding Name}" />
-                                <!-- PHONE -->
-                                <TextBlock Text="{Binding Phone}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
-
     <DockPanel>
 
-        <!-- ACTION BAR -->
-        <UniformGrid DockPanel.Dock="Bottom"
-                     Columns="2">
-
-            <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
-                                      BorderThickness="0,0,1,0"
-                                      BorderBrush="{StaticResource ActionBarBg}"
-                                      Title="{Binding Source={x:Static p:Resources.Clear}, 
-                                        Converter={StaticResource UpperCaseCoverter}}" />
-            <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
-                                      Title="{Binding Source={x:Static p:Resources.Ok}, 
-                                        Converter={StaticResource UpperCaseCoverter}}" />
-
-        </UniformGrid>
-        
-        <controls:SetCustomerControl IsNarrow="True"
-                                     x:Name="CustomerControl"/>
-
-        <!--<Grid>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            ~1~ SEARCH CUSTOMER @1@
-            <commonControls:SearchTextBox Grid.Row="0"
-                                          Name="SearchCustomer"
-                                          HorizontalAlignment="Stretch"
-                                          BorderThickness="0,0,0,1"
-                                          Height="65"
-                                          LabelText="{Binding Source={x:Static p:Resources.Search_Customer}, 
-                                    Converter={StaticResource UpperCaseCoverter}}" />
-
-            <StackPanel Grid.Row="1"
-                        Margin="15,0">
-
-                <Border Background="{StaticResource PrimaryBrush}"
-                        Margin="0,40,0,20"
-                        HorizontalAlignment="Center">
-                    ~1~ AVATAR @1@
-                    <Image Width="180"
-                           Height="180"
-                           Source="../../Images/63.jpg"/>
-                </Border>
-
-                ~1~ POINTS @1@
-                <TextBlock HorizontalAlignment="Center"
-                           FontSize="24"
-                           FontFamily="Segoe UI Light"
-                           Margin="0,0,0,20"
-                           Text="156 points" />
-
-                ~1~ FIRST NAME @1@
-                <TextBox
-                    helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.FirstName}}"
-                    Height="65"
-                    Margin="0,0,0,10" />
-
-                ~1~ LAST NAME @1@
-                <TextBox
-                    helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.LastName}}"
-                    Height="65"
-                    Margin="0,0,0,10" />
-
-                ~1~ PHONE @1@
-                <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Phone}}"
-                         Height="65"
-                         Margin="0,0,0,10" />
-
-                ~1~ EMAIL @1@
-                <TextBox helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Email}}"
-                         Height="65"
-                         Margin="0,0,0,10" />
-
-            </StackPanel>
-
-            ~1~ CUSTOMERS LIST @1@
-            <ListBox Grid.Row="1"
-                     Name="CustomersList"
-                     Background="{StaticResource PrimaryBrush}"
-                     ItemContainerStyle="{StaticResource CustomersListItem}" />
-
-        </Grid>-->
+        <commonParts:SelectCustomerView IsNarrow="True" 
+                                        DataContext="{Binding RelativeSource={RelativeSource AncestorType=views:CheckoutView}, Path=DataContext.OptionVm}"/>
 
     </DockPanel>
 

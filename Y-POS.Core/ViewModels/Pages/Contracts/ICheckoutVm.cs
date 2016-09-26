@@ -4,6 +4,10 @@ namespace Y_POS.Core.ViewModels.Pages
 {
     public interface ICheckoutVm : IPageVm
     {
-         
+        #region Properties
+
+        IBaseVm OptionVm { get; }
+
+        #endregion
     }
 }

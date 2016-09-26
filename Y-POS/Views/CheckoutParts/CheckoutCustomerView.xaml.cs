@@ -1,7 +1,4 @@
 ﻿using System.Windows.Controls;
-using YumaPos.Client.Helpers;
-using YumaPos.Client.Services;
-using Y_POS.Core.ViewModels;
 
 namespace Y_POS.Views.CheckoutParts
 {
@@ -13,30 +10,6 @@ namespace Y_POS.Views.CheckoutParts
         public CheckoutCustomerView()
         {
             InitializeComponent();
-
-            CustomerControl.DataContext = new SelectCustomerVm(ServiceLocator.Resolve<ICustomersService>());
-            /*this.WhenAnyValue(view => view.CustomersList.ItemsSource)
-                .Select(enumerable => enumerable != null)
-                .Subscribe(b => CustomersList.SetValue(VisibilityProperty, b
-                    ? Visibility.Visible
-                    : Visibility.Collapsed));
-
-            SearchCustomer.Search += (sender, args) =>
-            {
-                CustomersList.ItemsSource = SearchCustomer.HasText
-                    ? new[]
-                    {
-                        new Customer("Johnsone, Andrew", "1545 258 6985"),
-                        new Customer("Johnson, Alice", "154 445 8788"),
-                        new Customer("Johnsone, Daniel", "458 788 2339"),
-                        new Customer("Johnsone, Michael", "458 774 8551"),
-                        new Customer("Doe, John", "458 788 2339"),
-                        new Customer("Morrisson, John", "458 774 8551"),
-                        new Customer("Green, Johny", "458 788 2339"),
-                        new Customer("Saunders, Johnatan", "458 774 8551")
-                    }
-                    : null;
-            };*/
         }
 
         private class Customer
