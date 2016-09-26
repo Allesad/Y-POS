@@ -1,5 +1,7 @@
-﻿using YumaPos.Client.Common;
+﻿using System;
+using YumaPos.Client.Common;
 using YumaPos.Client.UI.ViewModels.Impl;
+using YumaPos.Shared.API.Enums;
 using YumaPos.Shared.API.Models;
 using Y_POS.Core.ViewModels.Items.Contracts;
 
@@ -16,6 +18,10 @@ namespace Y_POS.Core.ViewModels.Items.Impl
         public string FullName => $"{FirstName} {LastName}";
         public string Phone { get; }
         public string Email { get; }
+        public string CardNumber { get; }
+        public DateTime? BirthDate { get; }
+        public string Comments { get; }
+        public Gender? Sex { get; }
 
         #endregion
 
@@ -27,8 +33,12 @@ namespace Y_POS.Core.ViewModels.Items.Impl
             FirstName = model.FirstName;
             LastName = model.LastName;
             Phone = model.HomePhone;
-            Email = model.Email;
+            Email = model.Email ?? "-";
+            CardNumber = model.CardNo ?? "-";
             ImageModel = ImageService.GetImage(model.ImageId);
+            BirthDate = model.BirthDate;
+            Comments = model.Memo ?? "-";
+            Sex = model.Sex;
         }
 
         #endregion

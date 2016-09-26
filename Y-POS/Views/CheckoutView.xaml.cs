@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views.CheckoutParts;
 
 namespace Y_POS.Views
@@ -64,6 +65,10 @@ namespace Y_POS.Views
                     rb.IsChecked = false;
                 }
             }
+            else
+            {
+                Content.Content = ((ICheckoutVm) DataContext).OptionVm;
+            }
         }
 
         private class OperationItem
@@ -100,6 +105,11 @@ namespace Y_POS.Views
             OperationsList.IsEnabled = false;
 
             _isPaid = true;
+        }
+
+        private void Content_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            int i = 0;
         }
     }
 }

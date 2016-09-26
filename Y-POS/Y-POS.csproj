@@ -148,7 +148,11 @@
     <Compile Include="Controls\ContentPresenterEx.cs" />
     <Compile Include="Controls\MenuSelectorControl.cs" />
     <Compile Include="Controls\NumericKeypadControl.cs" />
+    <Compile Include="Views\CommonParts\SelectCustomerView.xaml.cs">
+      <DependentUpon>SelectCustomerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\ActionBarIconVisibilityConterter.cs" />
+    <Compile Include="Converters\CustomerControlLayoutConverter.cs" />
     <Compile Include="Converters\ImageModelToSourceConverter.cs" />
     <Compile Include="Converters\MockLoginDataConverter.cs" />
     <Compile Include="Converters\ModifiersGroupMaxQtyToTextConverter.cs" />
@@ -156,6 +160,7 @@
     <Compile Include="Converters\OrderStatusNewVisibilityConverter.cs" />
     <Compile Include="Converters\OrderStatusToTextConverter.cs" />
     <Compile Include="Converters\PhoneFormatConverter.cs" />
+    <Compile Include="Converters\SexToTextConverter.cs" />
     <Compile Include="DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
@@ -222,9 +227,6 @@
     <Compile Include="Views\NavMenuView.xaml.cs">
       <DependentUpon>NavMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OrderMakerParts\OrderMakerSetCustomerView.xaml.cs">
-      <DependentUpon>OrderMakerSetCustomerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\OrderMakerParts\OrderMakerGiftCardsView.xaml.cs">
       <DependentUpon>OrderMakerGiftCardsView.xaml</DependentUpon>
     </Compile>
@@ -258,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\CardNumberInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CommonParts\SelectCustomerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -414,10 +420,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NavMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OrderMakerParts\OrderMakerSetCustomerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

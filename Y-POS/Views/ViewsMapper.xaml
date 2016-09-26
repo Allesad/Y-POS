@@ -6,7 +6,9 @@
                     xmlns:orderMakerParts="clr-namespace:Y_POS.Views.OrderMakerParts"
                     xmlns:dialogs="clr-namespace:Y_POS.Core.ViewModels.Dialogs;assembly=Y-POS.Core"
                     xmlns:dialogViews="clr-namespace:Y_POS.Views.Dialogs"
-                    xmlns:dialogCore="clr-namespace:DialogManagement.Core;assembly=DialogManagement.Core">
+                    xmlns:dialogCore="clr-namespace:DialogManagement.Core;assembly=DialogManagement.Core"
+                    xmlns:controls="clr-namespace:Y_POS.Controls"
+                    xmlns:commonParts="clr-namespace:Y_POS.Views.CommonParts">
 
     <!-- LOGIN -->
     <DataTemplate DataType="{x:Type pages:LoginVm}">
@@ -73,8 +75,8 @@
     </DataTemplate>
 
     <!-- ADD CUSTOMER -->
-    <DataTemplate DataType="{x:Type pageParts:OrderMakerSetCustomerVm}">
-        <orderMakerParts:OrderMakerSetCustomerView DataContext="{Binding}" />
+    <DataTemplate DataType="{x:Type pageParts:SelectCustomerVm}">
+        <commonParts:SelectCustomerView DataContext="{Binding}" />
     </DataTemplate>
 
     <!--==================================================-->

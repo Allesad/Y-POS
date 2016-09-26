@@ -75,6 +75,7 @@
       <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Dialogs\SetOrderItemQtyDialogVm.cs" />
+    <Compile Include="ViewModels\PageParts\Contracts\ISelectCustomerVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\IActiveOrderItemVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\ICustomerItemVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\IGiftCardItemVm.cs" />
@@ -93,11 +94,9 @@
     <Compile Include="ViewModels\Items\Impl\ModifiersGroupItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\NavMenuItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\OrderedItemVm.cs" />
-    <Compile Include="ViewModels\PageParts\Contracts\IOrderMakerSetCustomerVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\IGiftCardsVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\IOrderItemConstructorVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\IOrderMakerMenuVm.cs" />
-    <Compile Include="ViewModels\PageParts\Impl\OrderMakerSetCustomerVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\GiftCardsVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\OrderItemConstructorVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\OrderMakerMenuVm.cs" />
@@ -123,6 +122,7 @@
     <Compile Include="ViewModels\Pages\Impl\PinVm.cs" />
     <Compile Include="ViewModels\Pages\Impl\ReportsVm.cs" />
     <Compile Include="ViewModels\Pages\Impl\SettingsVm.cs" />
+    <Compile Include="ViewModels\PageParts\Impl\SelectCustomerVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

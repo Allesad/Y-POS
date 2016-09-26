@@ -9,7 +9,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="DialogActionButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="BorderThickness" Value="0 1 1 0"/>
+        <Setter Property="BorderThickness" Value="0 0 1 0"/>
         <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}"/>
         <Setter Property="FontSize" Value="{StaticResource LargeFontSize}"/>
         <Setter Property="FontWeight" Value="Normal"/>

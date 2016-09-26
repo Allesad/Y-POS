@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using DialogManagement.Contracts;
 using YumaPos.Client.Helpers;
 using YumaPos.Client.Navigation.Contracts;
@@ -43,6 +44,7 @@ namespace Y_POS.Views
 
                 _dialogs.Push(dlgWindow);
 
+                ShadowOverlay.Visibility = Visibility.Visible;
                 dlgWindow.ShowDialog();
             });
         }
@@ -51,6 +53,10 @@ namespace Y_POS.Views
         {
             var dlg = _dialogs.Pop();
             dlg.Close();
+            if (_dialogs.Count == 0)
+            {
+                ShadowOverlay.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void OnBrowseBack(object sender, ExecutedRoutedEventArgs e)

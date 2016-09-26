@@ -33,7 +33,7 @@ namespace Y_POS.Core.ViewModels.Pages
         private readonly IOrderMakerMenuVm _menuVm;
         private readonly IOrderItemConstructorVm _itemConstructorVm;
         private readonly IGiftCardsVm _giftCardsVm;
-        private readonly IOrderMakerSetCustomerVm _setCustomerVm;
+        private readonly ISelectCustomerVm _selectCustomerVm;
 
         private ReactiveCommand<object> _commandAddCustomer;
         private ReactiveCommand<object> _commandDeleteItem;
@@ -87,19 +87,19 @@ namespace Y_POS.Core.ViewModels.Pages
         #region Constructor
 
         public OrderMakerVm(IOrderCreator orderCreator, IOrderMakerMenuVm menuVm, IOrderItemConstructorVm itemConstructorVm, 
-            IGiftCardsVm giftCardsVm, IOrderMakerSetCustomerVm orderMakerSetCustomerVm)
+            IGiftCardsVm giftCardsVm, ISelectCustomerVm selectCustomerVm)
         {
             if (orderCreator == null) throw new ArgumentNullException(nameof(orderCreator));
             if (menuVm == null) throw new ArgumentNullException(nameof(menuVm));
             if (itemConstructorVm == null) throw new ArgumentNullException(nameof(itemConstructorVm));
             if (giftCardsVm == null) throw new ArgumentNullException(nameof(giftCardsVm));
-            if (orderMakerSetCustomerVm == null) throw new ArgumentNullException(nameof(orderMakerSetCustomerVm));
+            if (selectCustomerVm == null) throw new ArgumentNullException(nameof(selectCustomerVm));
 
             _orderCreator = orderCreator;
             _menuVm = menuVm;
             _itemConstructorVm = itemConstructorVm;
             _giftCardsVm = giftCardsVm;
-            _setCustomerVm = orderMakerSetCustomerVm;
+            _selectCustomerVm = selectCustomerVm;
         }
 
         #endregion
@@ -108,7 +108,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override IEnumerable<ILifecycleVm> GetChildren()
         {
-            return new ILifecycleVm[]{ _menuVm, _itemConstructorVm, _giftCardsVm, _setCustomerVm };
+            return new ILifecycleVm[]{ _menuVm, _itemConstructorVm, _giftCardsVm, _selectCustomerVm };
         }
 
         protected override void OnCreate(IArgsBundle args)
@@ -222,8 +222,8 @@ namespace Y_POS.Core.ViewModels.Pages
                     h => _giftCardsVm.CloseEvent += h,
                     h => _giftCardsVm.CloseEvent -= h))
                 .Merge(Observable.FromEventPattern(
-                    h => _setCustomerVm.CloseEvent += h,
-                    h => _setCustomerVm.CloseEvent -= h))
+                    h => _selectCustomerVm.CancelEvent += h,
+                    h => _selectCustomerVm.CancelEvent -= h))
                 .Subscribe(_ => DetailsType = OrderMakerDetailsType.Menu));
         }
 
@@ -245,7 +245,7 @@ namespace Y_POS.Core.ViewModels.Pages
                 case OrderMakerDetailsType.GiftCards:
                     return _giftCardsVm;
                 case OrderMakerDetailsType.AddCustomer:
-                    return _setCustomerVm;
+                    return _selectCustomerVm;
                 default:
                     return _menuVm;
             }

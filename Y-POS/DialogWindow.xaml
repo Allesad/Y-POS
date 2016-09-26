@@ -9,6 +9,7 @@
         WindowStartupLocation="CenterOwner"
         Title="DialogWindow"
         SizeToContent="Height"
+        Background="Transparent"
         Width="400"
         d:DataContext="{d:DesignInstance contracts:IDialog, d:IsDesignTimeCreatable=False}"
         >
@@ -29,6 +30,16 @@
             </Setter>
         </Style>
     </Window.Style>
+    
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.4" To="1" Duration="0:0:0.200" FillBehavior="HoldEnd"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
 
     <DockPanel Name="DialogContainer"
                Background="{StaticResource SecondaryBrush}">

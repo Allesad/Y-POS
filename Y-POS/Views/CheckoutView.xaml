@@ -46,7 +46,8 @@
         <!-- CENTRAL CONTENT -->
         <ContentPresenter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                           Name="Content"
-                          checkoutParts:CheckoutPaymentView.Checkout="Content_OnCheckout" />
+                          checkoutParts:CheckoutPaymentView.Checkout="Content_OnCheckout" 
+                          DataContextChanged="Content_OnDataContextChanged"/>
 
         <!-- PAYMENT TYPES -->
         <StackPanel Grid.Row="0" Grid.Column="2">

@@ -1,5 +1,7 @@
-﻿using YumaPos.Client.Common;
+﻿using System;
+using YumaPos.Client.Common;
 using YumaPos.Client.UI.ViewModels.Contracts;
+using YumaPos.Shared.API.Enums;
 
 namespace Y_POS.Core.ViewModels.Items.Contracts
 {
@@ -12,6 +14,10 @@ namespace Y_POS.Core.ViewModels.Items.Contracts
         string FullName { get; }
         string Phone { get; }
         string Email { get; }
+        string CardNumber { get; }
+        DateTime? BirthDate { get; }
+        string Comments { get; }
+        Gender? Sex { get; }
 
         #endregion
     }
