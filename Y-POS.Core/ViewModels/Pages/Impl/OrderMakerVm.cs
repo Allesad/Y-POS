@@ -167,7 +167,7 @@ namespace Y_POS.Core.ViewModels.Pages
                     h => _selectCustomerVm.CustomerSelectedEvent += h,
                     h => _selectCustomerVm.CustomerSelectedEvent -= h)
                 .Select(pattern => pattern.EventArgs.Customer)
-                .SelectMany(customer => _orderCreator.SetCustomer(customer.CustomerId.Value, $"{customer.FirstName} + {customer.LastName}"))
+                .SelectMany(customer => _orderCreator.SetCustomer(customer.CustomerId.Value, $"{customer.FirstName} {customer.LastName}"))
                 .Subscribe(_ => DetailsType = OrderMakerDetailsType.Menu));
 
             // Details type
