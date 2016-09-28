@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using YumaPos.Client.Hardware;
 using YumaPos.Client.Helpers;
-using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views.CheckoutParts;
 
 namespace Y_POS.Views
@@ -21,18 +19,18 @@ namespace Y_POS.Views
         {
             InitializeComponent();
 
-            Content.Content = new CheckoutPaymentView();
+            //Content.Content = new CheckoutPaymentView();
             
-            OperationsList.SetValue(ItemsControl.ItemsSourceProperty, new[]
+            /*OperationsList.SetValue(ItemsControl.ItemsSourceProperty, new[]
             {
                 new OperationItem((Geometry) FindResource("CustomerIcon"), Core.Properties.Resources.Customer, "Add Customer"),
                 new OperationItem((Geometry) FindResource("PercentIcon"), Core.Properties.Resources.Discount, "10% - Happy Hour"),
                 new OperationItem((Geometry) FindResource("DivideIcon"), Core.Properties.Resources.Split, "All on One"),
                 new OperationItem((Geometry) FindResource("PromoIcon"), Core.Properties.Resources.Promo, "No")
-            });
+            });*/
         }
 
-        private void SwitchToPayment(object sender, RoutedEventArgs e)
+        /*private void SwitchToPayment(object sender, RoutedEventArgs e)
         {
             OperationsList.UnselectAll();
             ((RadioButton) sender).IsChecked = true;
@@ -70,9 +68,9 @@ namespace Y_POS.Views
             }
             else
             {
-                Content.Content = ((ICheckoutVm) DataContext).OptionVm;
+                Content.Content = ((ICheckoutVm) DataContext).OperationVm;
             }
-        }
+        }*/
 
         private class OperationItem
         {

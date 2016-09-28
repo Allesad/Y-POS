@@ -1,25 +1,248 @@
 ﻿<views:BaseView x:Class="Y_POS.Views.CheckoutView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:Y_POS.Controls"
-             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-             xmlns:checkoutParts="clr-namespace:Y_POS.Views.CheckoutParts"
-             xmlns:views="clr-namespace:Y_POS.Views"
-             mc:Ignorable="d"
-             d:DesignHeight="768" d:DesignWidth="1024">
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:controls="clr-namespace:Y_POS.Controls"
+                xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+                xmlns:checkoutParts="clr-namespace:Y_POS.Views.CheckoutParts"
+                xmlns:views="clr-namespace:Y_POS.Views"
+                xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
+                xmlns:markupExtensions="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
+                mc:Ignorable="d"
+                d:DesignHeight="768" d:DesignWidth="1024"
+                d:DataContext="{d:DesignInstance pages:ICheckoutVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
-        <Style x:Key="PaymentTypeButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Style x:Key="PaymentTypeButton" TargetType="RadioButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+            <Setter Property="GroupName" Value="PaymentType" />
+            <Setter Property="Height" Value="75" />
             <Setter Property="FontSize" Value="18" />
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="BorderThickness" Value="0,0,1,1" />
+            <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}" />
+            <Setter Property="markupExtensions:StyleExtensions.BorderBrushOnHover"
+                    Value="{StaticResource SeparatorBrush}" />
+            <Setter Property="markupExtensions:StyleExtensions.BorderBrushOnPressed"
+                    Value="{StaticResource SeparatorBrush}" />
+            <Setter Property="Command" Value="{Binding CommandSwitchToPaymentType}" />
+        </Style>
+
+        <Style x:Key="OperationButton" TargetType="RadioButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+            <Setter Property="GroupName" Value="OperationType" />
+            <Setter Property="Command" Value="{Binding CommandSwitchToOperationType}" />
+            <Setter Property="Padding" Value="35,15,25,15" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="markupExtensions:StyleExtensions.BgOnChecked" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}">
+                                <!-- This is used for ListView that does not use GridView -->
+                                <ContentPresenter x:Name="ContentPresenter"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  Content="{TemplateBinding ContentControl.Content}"
+                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                                  ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                                                  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                            </Border>
+
+                            <Border Name="SelectionMark"
+                                    Background="{StaticResource OperationListSelectionBrush}"
+                                    Width="20"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Left"
+                                    Visibility="Collapsed">
+
+                                <Path VerticalAlignment="Center"
+                                      HorizontalAlignment="Center"
+                                      Data="{StaticResource GreaterThanIcon}"
+                                      Fill="{StaticResource PrimaryBrush}"
+                                      RenderTransformOrigin="0.5,0.5">
+                                    <Path.RenderTransform>
+                                        <RotateTransform Angle="180" />
+                                    </Path.RenderTransform>
+                                </Path>
+
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background"
+                                        Value="{Binding RelativeSource={RelativeSource Self}, 
+                                Path=(markupExtensions:StyleExtensions.BgOnHover)}" />
+                                <Setter Property="Foreground"
+                                        Value="{Binding RelativeSource={RelativeSource Self},
+                                Path=(markupExtensions:StyleExtensions.ForegroundOnHover)}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Foreground"
+                                        Value="{Binding RelativeSource={RelativeSource Self},
+                                Path=(markupExtensions:StyleExtensions.ForegroundOnPressed)}" />
+                                <Setter TargetName="SelectionMark" Property="Visibility" Value="Visible" />
+                                <Setter Property="BorderBrush" Value="{StaticResource OperationListSelectionBrush}" />
+                                <Setter Property="BorderThickness" Value="0,1" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CustomerOperationBtn" TargetType="RadioButton" BasedOn="{StaticResource OperationButton}">
+            <Setter Property="CommandParameter" Value="{x:Static pages:OperationType.Customer}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+
+                        <DockPanel>
+
+                            <!-- ICON -->
+                            <Path DockPanel.Dock="Left"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource CustomerIcon}"
+                                  Height="20"
+                                  Width="20"
+                                  Margin="0,0,35,0"
+                                  Stretch="Uniform"
+                                  Fill="{StaticResource TextBrush}" />
+
+                            <!-- CONTENT -->
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock
+                                    Text="{Binding Source={x:Static p:Resources.Customer}, Converter={StaticResource UpperCaseCoverter}}"
+                                    Foreground="{StaticResource ButtonText}"
+                                    FontSize="12"
+                                    Margin="0,0,0,10" />
+
+                                <TextBlock Text="{Binding}"
+                                           FontSize="18"
+                                           Foreground="{StaticResource TextBrush}" />
+                            </StackPanel>
+
+                        </DockPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DiscountOperationBtn" TargetType="RadioButton" BasedOn="{StaticResource OperationButton}">
+            <Setter Property="CommandParameter" Value="{x:Static pages:OperationType.Discount}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+
+                        <DockPanel>
+
+                            <!-- ICON -->
+                            <Path DockPanel.Dock="Left"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource PercentIcon}"
+                                  Height="20"
+                                  Width="20"
+                                  Margin="0,0,35,0"
+                                  Stretch="Uniform"
+                                  Fill="{StaticResource TextBrush}" />
+
+                            <!-- CONTENT -->
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock
+                                    Text="{Binding Source={x:Static p:Resources.Discount}, Converter={StaticResource UpperCaseCoverter}}"
+                                    Foreground="{StaticResource ButtonText}"
+                                    FontSize="12"
+                                    Margin="0,0,0,10" />
+
+                                <TextBlock Text="{Binding}"
+                                           FontSize="18"
+                                           Foreground="{StaticResource TextBrush}" />
+                            </StackPanel>
+
+                        </DockPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SplittingOperationBtn" TargetType="RadioButton" BasedOn="{StaticResource OperationButton}">
+            <Setter Property="CommandParameter" Value="{x:Static pages:OperationType.Splitting}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <DockPanel>
+
+                            <!-- ICON -->
+                            <Path DockPanel.Dock="Left"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource DivideIcon}"
+                                  Height="20"
+                                  Width="20"
+                                  Margin="0,0,35,0"
+                                  Stretch="Uniform"
+                                  Fill="{StaticResource TextBrush}" />
+
+                            <!-- CONTENT -->
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock
+                                    Text="{Binding Source={x:Static p:Resources.Split}, Converter={StaticResource UpperCaseCoverter}}"
+                                    Foreground="{StaticResource ButtonText}"
+                                    FontSize="12"
+                                    Margin="0,0,0,10" />
+
+                                <TextBlock Text="{Binding}"
+                                           FontSize="18"
+                                           Foreground="{StaticResource TextBrush}" />
+                            </StackPanel>
+
+                        </DockPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="MarketingOperationBtn" TargetType="RadioButton" BasedOn="{StaticResource OperationButton}">
+            <Setter Property="CommandParameter" Value="{x:Static pages:OperationType.Marketing}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <DockPanel>
+
+                            <!-- ICON -->
+                            <Path DockPanel.Dock="Left"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource PromoIcon}"
+                                  Height="20"
+                                  Width="20"
+                                  Margin="0,0,35,0"
+                                  Stretch="Uniform"
+                                  Fill="{StaticResource TextBrush}" />
+
+                            <!-- CONTENT -->
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock
+                                    Text="{Binding Source={x:Static p:Resources.Promo}, Converter={StaticResource UpperCaseCoverter}}"
+                                    Foreground="{StaticResource ButtonText}"
+                                    FontSize="12"
+                                    Margin="0,0,0,10" />
+
+                                <TextBlock Text="{Binding}"
+                                           FontSize="18"
+                                           Foreground="{StaticResource TextBrush}" />
+                            </StackPanel>
+
+                        </DockPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
-    
+
     <UserControl.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Print" Executed="CommandPrint_OnExecuted"/>
+        <CommandBinding Command="ApplicationCommands.Print" Executed="CommandPrint_OnExecuted" />
     </UserControl.CommandBindings>
 
     <Grid>
@@ -50,8 +273,9 @@
         <!-- CENTRAL CONTENT -->
         <ContentPresenter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                           Name="Content"
-                          checkoutParts:CheckoutPaymentView.Checkout="Content_OnCheckout" 
-                          DataContextChanged="Content_OnDataContextChanged"/>
+                          Content="{Binding OperationVm}"
+                          checkoutParts:CheckoutPaymentView.Checkout="Content_OnCheckout"
+                          DataContextChanged="Content_OnDataContextChanged" />
 
         <!-- PAYMENT TYPES -->
         <StackPanel Grid.Row="0" Grid.Column="2">
@@ -59,39 +283,68 @@
             <UniformGrid
                 Name="PaymentTypesContainer"
                 Columns="2"
-                Height="150"
+                MaxHeight="225"
                 Margin="1,0,0,0"
                 VerticalAlignment="Top">
 
-                <RadioButton Content="CASH"
-                             GroupName="PaymentType"
-                             Style="{StaticResource PaymentTypeButton}"
-                             BorderBrush="{StaticResource SeparatorBrush}"
-                             Click="SwitchToPayment" />
-                <RadioButton Content="CARD"
-                             GroupName="PaymentType"
-                             Style="{StaticResource PaymentTypeButton}"
+                <!-- CASH -->
+                <RadioButton Style="{StaticResource PaymentTypeButton}"
+                             Content="CASH"
+                             CommandParameter="{x:Static pages:PaymentType.Cash}" />
+                <!-- CARD -->
+                <RadioButton Style="{StaticResource PaymentTypeButton}"
                              BorderThickness="0,0,0,1"
-                             BorderBrush="{StaticResource SeparatorBrush}"
-                             Click="SwitchToPayment" />
-                <RadioButton Content="MOBILE"
-                             GroupName="PaymentType"
-                             Style="{StaticResource PaymentTypeButton}"
-                             BorderBrush="{StaticResource SeparatorBrush}"
-                             Click="SwitchToPayment" />
-                <RadioButton Content="GIFT CARD"
-                             GroupName="PaymentType"
-                             Style="{StaticResource PaymentTypeButton}"
-                             BorderBrush="{StaticResource SeparatorBrush}"
+                             CommandParameter="{x:Static pages:PaymentType.Card}"
+                             Content="CARD" />
+                <!-- MOBILE -->
+                <RadioButton Style="{StaticResource PaymentTypeButton}"
+                             CommandParameter="{x:Static pages:PaymentType.Mobile}"
+                             Content="MOBILE" />
+                <!-- GIFT CARD -->
+                <RadioButton Style="{StaticResource PaymentTypeButton}"
                              BorderThickness="0,0,0,1"
-                             Click="SwitchToPayment" />
+                             CommandParameter="{x:Static pages:PaymentType.GiftCard}"
+                             Content="GIFT CARD" />
+                <!-- POINTS -->
+                <RadioButton Style="{StaticResource PaymentTypeButton}"
+                             CommandParameter="{x:Static pages:PaymentType.Points}"
+                             Content="POINTS" />
+                <!-- MULTIPLE -->
+                <RadioButton Style="{StaticResource PaymentTypeButton}"
+                             BorderThickness="0,0,0,1"
+                             CommandParameter="{x:Static pages:PaymentType.Multiple}"
+                             Content="MULTIPLE" />
 
             </UniformGrid>
 
-            <!-- OPERATIONS LIST -->
-            <ListBox Name="OperationsList"
+            <!--<ListBox Name="OperationsList"
                      ItemContainerStyle="{StaticResource RightMarkedIconVerticalListItem}"
-                     SelectionChanged="OperationsList_OnSelectionChanged" />
+                     SelectionChanged="OperationsList_OnSelectionChanged"
+                     Visibility="Collapsed" />-->
+
+            <!-- OPERATIONS LIST -->
+            <ItemsControl Name="OperationsList"
+                     >
+                <!--<ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>-->
+                <ItemsControl.Items>
+                    <!-- CUSTOMER -->
+                    <RadioButton Style="{StaticResource CustomerOperationBtn}"
+                                 Content="Select Customer" />
+                    <!-- DISCOUNT -->
+                    <RadioButton Style="{StaticResource DiscountOperationBtn}"
+                                 Content="Select discount" />
+                    <!-- SPLITTING -->
+                    <RadioButton Style="{StaticResource SplittingOperationBtn}"
+                                 Content="Select Splitting" />
+                    <!-- MARKETING -->
+                    <RadioButton Style="{StaticResource MarketingOperationBtn}"
+                                 Content="Select Marketing" />
+                </ItemsControl.Items>
+            </ItemsControl>
 
         </StackPanel>
 
@@ -102,7 +355,7 @@
 
             <!-- BACK -->
             <controls:ActionBarButton Style="{StaticResource ActionBarBackButton}"
-                                      DockPanel.Dock="Left"/>
+                                      DockPanel.Dock="Left" />
 
             <!-- SEND -->
             <controls:ActionBarButton Style="{StaticResource ActionBarSend}"

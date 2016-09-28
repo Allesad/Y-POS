@@ -94,13 +94,13 @@
                      Rows="1" Columns="2">
 
             <!-- SEARCH CUSTOMER -->
-            <Button Content="FIND CUSTOMER"
+            <Button Content="{Binding Source={x:Static p:Resources.Search_Customer}, Converter={StaticResource UpperCaseCoverter}}"
                     Style="{StaticResource TabSelectorBtn}"
                     BorderThickness="0,0,1,1"
                     Command="{Binding CommandGoToFindCustomer}" />
 
             <!-- ADD CUSTOMER -->
-            <Button Content="ADD CUSTOMER"
+            <Button Content="{Binding Source={x:Static p:Resources.AddCustomer}, Converter={StaticResource UpperCaseCoverter}}"
                     Style="{StaticResource TabSelectorBtn}"
                     BorderThickness="0,0,0,1"
                     Command="{Binding CommandGoToNewCustomer}" />
