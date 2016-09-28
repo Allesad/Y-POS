@@ -143,9 +143,6 @@
     <Compile Include="Configuration\ApiConfig.cs" />
     <Compile Include="Configuration\ConfigurationProvider.cs" />
     <Compile Include="Controls\ActionBarButton.cs" />
-    <Compile Include="Controls\AddFindCustomerControl.xaml.cs">
-      <DependentUpon>AddFindCustomerControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\CardNumberInput.xaml.cs">
       <DependentUpon>CardNumberInput.xaml</DependentUpon>
     </Compile>
@@ -259,10 +256,6 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfScheduler.cs" />
-    <Page Include="Controls\AddFindCustomerControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\CardNumberInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

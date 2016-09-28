@@ -162,6 +162,14 @@ namespace Y_POS.Core.ViewModels.Pages
                 .Select(name => string.IsNullOrEmpty(name) ? Resources.AddCustomer : name)
                 .ToPropertyEx(this, vm => vm.CustomerName));
 
+            // Select customer
+            AddLifetimeSubscription(Observable.FromEventPattern<CustomerSelectedEventArgs>(
+                    h => _selectCustomerVm.CustomerSelectedEvent += h,
+                    h => _selectCustomerVm.CustomerSelectedEvent -= h)
+                .Select(pattern => pattern.EventArgs.Customer)
+                .SelectMany(customer => _orderCreator.SetCustomer(customer.CustomerId.Value, $"{customer.FirstName} + {customer.LastName}"))
+                .Subscribe(_ => DetailsType = OrderMakerDetailsType.Menu));
+
             // Details type
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm.DetailsType)
                 .Select(GetDetailsVmForType)

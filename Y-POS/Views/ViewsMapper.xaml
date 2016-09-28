@@ -74,7 +74,7 @@
         <orderMakerParts:OrderMakerGiftCardsView DataContext="{Binding}" />
     </DataTemplate>
 
-    <!-- ADD CUSTOMER -->
+    <!-- SELECT CUSTOMER -->
     <DataTemplate DataType="{x:Type pageParts:SelectCustomerVm}">
         <commonParts:SelectCustomerView DataContext="{Binding}" />
     </DataTemplate>
