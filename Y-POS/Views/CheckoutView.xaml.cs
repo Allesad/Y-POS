@@ -1,7 +1,10 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using YumaPos.Client.Hardware;
+using YumaPos.Client.Helpers;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views.CheckoutParts;
 
@@ -110,6 +113,11 @@ namespace Y_POS.Views
         private void Content_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             int i = 0;
+        }
+
+        private void CommandPrint_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            ServiceLocator.Resolve<IPrintService>().PrintReceipt(null);
         }
     }
 }

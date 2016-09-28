@@ -17,6 +17,10 @@
             <Setter Property="BorderThickness" Value="0,0,1,1" />
         </Style>
     </UserControl.Resources>
+    
+    <UserControl.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Print" Executed="CommandPrint_OnExecuted"/>
+    </UserControl.CommandBindings>
 
     <Grid>
 

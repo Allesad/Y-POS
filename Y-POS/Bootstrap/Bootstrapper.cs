@@ -7,8 +7,11 @@ using YumaPos.Client.App;
 using YumaPos.Client.Builders;
 using YumaPos.Client.Common;
 using YumaPos.Client.Configuration;
+using YumaPos.Client.Factories;
 using YumaPos.Client.Hardware;
 using YumaPos.Client.LocalData.Repositories;
+using YumaPos.Client.Module.Checkout.Contracts;
+using YumaPos.Client.Module.Checkout.Core;
 using YumaPos.Client.Navigation.Contracts;
 using YumaPos.Client.Navigation.Impl;
 using YumaPos.Client.Navigation.PageRegistration;
@@ -27,10 +30,11 @@ using YumaPos.Shared.Infrastructure;
 using Y_POS.Configuration;
 using Y_POS.Core;
 using Y_POS.Core.MockData;
-using Y_POS.Core.ViewModels;
+using Y_POS.Core.Receipt;
 using Y_POS.Core.ViewModels.PageParts;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Resources;
+using IReceiptBuilder = YumaPos.Client.Builders.IReceiptBuilder;
 
 namespace Y_POS.Bootstrap
 {
@@ -99,6 +103,8 @@ namespace Y_POS.Bootstrap
             builder.Register<ImageService>().As<IImageService>();
             builder.Register<GiftCardService>().As<IGiftCardService>();
             builder.Register<CustomersService>().As<ICustomersService>();
+            builder.Register<CheckoutService>().As<ICheckoutService>();
+            builder.Register<MockPaymentService>().As<IPaymentService>();
 
             // Hardware
             builder.Register<MockPrinter>().As<IPrintService>();
@@ -109,6 +115,13 @@ namespace Y_POS.Bootstrap
             // Business logic
             builder.Register<OrderCreator>(Lifecycles.PerScope).As<IOrderCreator>();
             builder.Register<OrderItemConstructor>(Lifecycles.PerScope).As<IOrderItemConstructor>();
+            builder.Register<CheckoutManager>(Lifecycles.PerScope).As<ICheckoutManager>();
+
+            // Factories
+            builder.Register<ReceiptTemplateFactory>().As<IReceiptTemplateFactory>();
+
+            // Builders
+            builder.Register<ReceiptBuilder>().As<IReceiptBuilder>();
 
             // Main ViewModels
             builder.Register<AppMainVm>().As<IAppMainVm>();

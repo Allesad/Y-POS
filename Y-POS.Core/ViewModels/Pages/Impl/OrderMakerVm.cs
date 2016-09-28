@@ -147,7 +147,7 @@ namespace Y_POS.Core.ViewModels.Pages
             _commandVoid = ReactiveCommand.CreateAsyncTask(_ => VoidOrder(_orderCreator.OrderId));
             _commandGiftCards = ReactiveCommand.Create();
             _commandPrint = ReactiveCommand.CreateAsyncTask(_ => PrintOrder(_orderCreator.OrderId));
-            _commandCheckout = ReactiveCommand.Create();
+            _commandCheckout = ReactiveCommand.Create(this.WhenAnyValue(vm => vm._orderCreator.OrderId).Select(id => id != Guid.Empty));
         }
 
         protected override void InitLifetimeSubscriptions()
@@ -233,7 +233,12 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private void NavigateTo(NavUri targetUri, IntentFlags flags = IntentFlags.None)
         {
-            NavigationService.StartIntent(new Intent(targetUri).SetFlags(flags));
+            var intent = new Intent(targetUri).SetFlags(flags);
+            if (targetUri.Equals(AppNavigation.Checkout))
+            {
+                intent.SetArgs(new ArgsBundle().Put("id", _orderCreator.OrderId));
+            }
+            NavigationService.StartIntent(intent);
         }
 
         private ILifecycleVm GetDetailsVmForType(OrderMakerDetailsType type)

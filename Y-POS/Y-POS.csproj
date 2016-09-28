@@ -108,6 +108,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\YumaPos.Client.LocalData.dll</HintPath>
     </Reference>
+    <Reference Include="YumaPos.Client.Module.Checkout, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\YumaPos.Client.Module.Checkout.dll</HintPath>
+    </Reference>
     <Reference Include="YumaPos.Client.WCF">
       <HintPath>..\Libs\YumaPos.Client.WCF.dll</HintPath>
     </Reference>

@@ -61,6 +61,7 @@
     <Compile Include="MockData\MockExtensions.cs" />
     <Compile Include="MockData\MockMenuService.cs" />
     <Compile Include="MockData\MockOrderService.cs" />
+    <Compile Include="MockData\MockPaymentService.cs" />
     <Compile Include="MockData\MockPrinter.cs" />
     <Compile Include="MockData\MockStoreSettingsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,7 +75,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
+    <Compile Include="Receipt\ReceiptBuilder.cs" />
+    <Compile Include="Receipt\ReceiptTemplateFactory.cs" />
     <Compile Include="ViewModels\Dialogs\SetOrderItemQtyDialogVm.cs" />
+    <Compile Include="ViewModels\Items\Impl\ReceiptItemVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\ISelectCustomerVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\IActiveOrderItemVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\ICustomerItemVm.cs" />
@@ -168,6 +172,9 @@
     </Reference>
     <Reference Include="YumaPos.Client.LocalData">
       <HintPath>..\Libs\YumaPos.Client.LocalData.dll</HintPath>
+    </Reference>
+    <Reference Include="YumaPos.Client.Module.Checkout">
+      <HintPath>..\Libs\YumaPos.Client.Module.Checkout.dll</HintPath>
     </Reference>
     <Reference Include="YumaPos.Common.Infrastructure">
       <HintPath>..\Libs\YumaPos.Common.Infrastructure.dll</HintPath>
