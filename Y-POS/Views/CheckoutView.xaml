@@ -8,12 +8,51 @@
                 xmlns:checkoutParts="clr-namespace:Y_POS.Views.CheckoutParts"
                 xmlns:views="clr-namespace:Y_POS.Views"
                 xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
-                xmlns:markupExtensions="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
+                xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
+                xmlns:converters="clr-namespace:Y_POS.Converters"
+                xmlns:impl="clr-namespace:Y_POS.Core.ViewModels.Items.Impl;assembly=Y-POS.Core"
+                xmlns:behaviors="clr-namespace:YumaPos.WPF.UI.Behaviors;assembly=YumaPos.WPF.UI"
                 mc:Ignorable="d"
                 d:DesignHeight="768" d:DesignWidth="1024"
                 d:DataContext="{d:DesignInstance pages:ICheckoutVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
+        
+        <converters:CheckoutOperationToCheckedConverter x:Key="OperationToCheckedConverter"/>
+        <converters:PaymentTypeToCheckedConverter x:Key="PaymentTypeToCheckedConverter"/>
+        <converters:CheckoutCustomerNameToTitleConverter x:Key="CustomerNameToTitleConverter"/>
+
+        <Style x:Key="ReceiptListItem" TargetType="ListBoxItem" BasedOn="{StaticResource LeftMarkedListItem}">
+            <Setter Property="ex:StyleExtensions.ForegroundOnPressed" Value="{StaticResource TextBrush}" />
+            
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="{x:Type impl:ReceiptItemVm}">
+                        
+                        <DockPanel>
+                            
+                            <!-- PRICE -->
+                            <TextBlock DockPanel.Dock="Right"
+                                       Style="{StaticResource DefaultLargeText}"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding Total, Mode=OneWay, StringFormat=c}"
+                                       />
+                            
+                            <!-- RECEIPT NUMBER -->
+                            <TextBlock DockPanel.Dock="Left"
+                                       VerticalAlignment="Center">
+                                <Run Text="{x:Static p:Resources.Receipt}"/>
+                                <Run Text=" "/>
+                                <Run Text="{Binding SplittingNumber, Mode=OneWay}"/>
+                            </TextBlock>
+                            
+                        </DockPanel>
+                        
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
         <Style x:Key="PaymentTypeButton" TargetType="RadioButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
             <Setter Property="GroupName" Value="PaymentType" />
             <Setter Property="Height" Value="75" />
@@ -21,9 +60,9 @@
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="BorderThickness" Value="0,0,1,1" />
             <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}" />
-            <Setter Property="markupExtensions:StyleExtensions.BorderBrushOnHover"
+            <Setter Property="ex:StyleExtensions.BorderBrushOnHover"
                     Value="{StaticResource SeparatorBrush}" />
-            <Setter Property="markupExtensions:StyleExtensions.BorderBrushOnPressed"
+            <Setter Property="ex:StyleExtensions.BorderBrushOnPressed"
                     Value="{StaticResource SeparatorBrush}" />
             <Setter Property="Command" Value="{Binding CommandSwitchToPaymentType}" />
         </Style>
@@ -32,8 +71,9 @@
             <Setter Property="GroupName" Value="OperationType" />
             <Setter Property="Command" Value="{Binding CommandSwitchToOperationType}" />
             <Setter Property="Padding" Value="35,15,25,15" />
+            <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="markupExtensions:StyleExtensions.BgOnChecked" Value="Transparent"/>
+            <Setter Property="ex:StyleExtensions.BgOnChecked" Value="Transparent"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
@@ -75,15 +115,15 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background"
                                         Value="{Binding RelativeSource={RelativeSource Self}, 
-                                Path=(markupExtensions:StyleExtensions.BgOnHover)}" />
+                                Path=(ex:StyleExtensions.BgOnHover)}" />
                                 <Setter Property="Foreground"
                                         Value="{Binding RelativeSource={RelativeSource Self},
-                                Path=(markupExtensions:StyleExtensions.ForegroundOnHover)}" />
+                                Path=(ex:StyleExtensions.ForegroundOnHover)}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Foreground"
                                         Value="{Binding RelativeSource={RelativeSource Self},
-                                Path=(markupExtensions:StyleExtensions.ForegroundOnPressed)}" />
+                                Path=(ex:StyleExtensions.ForegroundOnPressed)}" />
                                 <Setter TargetName="SelectionMark" Property="Visibility" Value="Visible" />
                                 <Setter Property="BorderBrush" Value="{StaticResource OperationListSelectionBrush}" />
                                 <Setter Property="BorderThickness" Value="0,1" />
@@ -266,9 +306,22 @@
         <Border Grid.Row="0" Grid.Column="2"
                 Background="{StaticResource PrimaryBrush}" />
 
-        <!-- RECEIPT -->
-        <Image Grid.Row="0" Grid.Column="0"
-               Source="../Images/Receipt.png" />
+        <!-- RECEIPTS -->
+        <DockPanel Grid.Row="0" Grid.Column="0">
+
+            <ListBox DockPanel.Dock="Top"
+                 ItemContainerStyle="{StaticResource ReceiptListItem}"
+                 ItemsSource="{Binding Receipts}"
+                 SelectedItem="{Binding SelectedReceipt, Mode=TwoWay}"/>
+            
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Hidden"
+                          PanningMode="VerticalOnly"
+                          behaviors:TouchScrollingBehavior.IsEnabled="True">
+                <Image Source="../Images/Receipt.png" />
+            </ScrollViewer>
+        </DockPanel>
+        
 
         <!-- CENTRAL CONTENT -->
         <ContentPresenter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
@@ -289,59 +342,69 @@
 
                 <!-- CASH -->
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
-                             Content="CASH"
+                             Content="{Binding Source={x:Static p:Resources.PaymentType_Cash}, Converter={StaticResource UpperCaseCoverter}}"
+                             IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
+                                ConverterParameter={x:Static pages:PaymentType.Cash}}"
                              CommandParameter="{x:Static pages:PaymentType.Cash}" />
                 <!-- CARD -->
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
                              BorderThickness="0,0,0,1"
+                             IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
+                                ConverterParameter={x:Static pages:PaymentType.Card}}"
                              CommandParameter="{x:Static pages:PaymentType.Card}"
-                             Content="CARD" />
+                             Content="{Binding Source={x:Static p:Resources.PaymentType_Card}, Converter={StaticResource UpperCaseCoverter}}"/>
                 <!-- MOBILE -->
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
+                             IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
+                                ConverterParameter={x:Static pages:PaymentType.Mobile}}"
                              CommandParameter="{x:Static pages:PaymentType.Mobile}"
-                             Content="MOBILE" />
+                             Content="{Binding Source={x:Static p:Resources.PaymentType_Mobile}, Converter={StaticResource UpperCaseCoverter}}"/>
                 <!-- GIFT CARD -->
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
                              BorderThickness="0,0,0,1"
+                             IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
+                                ConverterParameter={x:Static pages:PaymentType.GiftCard}}"
                              CommandParameter="{x:Static pages:PaymentType.GiftCard}"
-                             Content="GIFT CARD" />
+                             Content="{Binding Source={x:Static p:Resources.PaymentType_GiftCard}, Converter={StaticResource UpperCaseCoverter}}"/>
                 <!-- POINTS -->
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
+                             IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
+                                ConverterParameter={x:Static pages:PaymentType.Points}}"
                              CommandParameter="{x:Static pages:PaymentType.Points}"
-                             Content="POINTS" />
+                             Content="{Binding Source={x:Static p:Resources.PaymentType_Points}, Converter={StaticResource UpperCaseCoverter}}"/>
                 <!-- MULTIPLE -->
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
                              BorderThickness="0,0,0,1"
+                             IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
+                                ConverterParameter={x:Static pages:PaymentType.Multiple}}"
                              CommandParameter="{x:Static pages:PaymentType.Multiple}"
-                             Content="MULTIPLE" />
+                             Content="{Binding Source={x:Static p:Resources.PaymentType_Multiple}, Converter={StaticResource UpperCaseCoverter}}"/>
 
             </UniformGrid>
-
-            <!--<ListBox Name="OperationsList"
-                     ItemContainerStyle="{StaticResource RightMarkedIconVerticalListItem}"
-                     SelectionChanged="OperationsList_OnSelectionChanged"
-                     Visibility="Collapsed" />-->
 
             <!-- OPERATIONS LIST -->
             <ItemsControl Name="OperationsList"
                      >
-                <!--<ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>-->
                 <ItemsControl.Items>
                     <!-- CUSTOMER -->
                     <RadioButton Style="{StaticResource CustomerOperationBtn}"
-                                 Content="Select Customer" />
+                                 IsChecked="{Binding CurrentOperationType, Mode=OneWay, Converter={StaticResource OperationToCheckedConverter}, 
+                                    ConverterParameter={x:Static pages:OperationType.Customer}}"
+                                 Content="{Binding CustomerName, Mode=OneWay, Converter={StaticResource CustomerNameToTitleConverter}}" />
                     <!-- DISCOUNT -->
                     <RadioButton Style="{StaticResource DiscountOperationBtn}"
+                                 IsChecked="{Binding CurrentOperationType, Mode=OneWay, Converter={StaticResource OperationToCheckedConverter}, 
+                                    ConverterParameter={x:Static pages:OperationType.Discount}}"
                                  Content="Select discount" />
                     <!-- SPLITTING -->
                     <RadioButton Style="{StaticResource SplittingOperationBtn}"
+                                 IsChecked="{Binding CurrentOperationType, Mode=OneWay, Converter={StaticResource OperationToCheckedConverter}, 
+                                    ConverterParameter={x:Static pages:OperationType.Splitting}}"
                                  Content="Select Splitting" />
                     <!-- MARKETING -->
                     <RadioButton Style="{StaticResource MarketingOperationBtn}"
+                                 IsChecked="{Binding CurrentOperationType, Mode=OneWay, Converter={StaticResource OperationToCheckedConverter}, 
+                                    ConverterParameter={x:Static pages:OperationType.Marketing}}"
                                  Content="Select Marketing" />
                 </ItemsControl.Items>
             </ItemsControl>

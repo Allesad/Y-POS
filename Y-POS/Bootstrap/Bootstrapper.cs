@@ -29,6 +29,7 @@ using YumaPos.Shared.Core.Reciept.Contracts;
 using YumaPos.Shared.Infrastructure;
 using Y_POS.Configuration;
 using Y_POS.Core;
+using Y_POS.Core.Checkout;
 using Y_POS.Core.MockData;
 using Y_POS.Core.Receipt;
 using Y_POS.Core.ViewModels.PageParts;
@@ -144,6 +145,10 @@ namespace Y_POS.Bootstrap
             builder.Register<OrderItemConstructorVm>(Lifecycles.PerScope).As<IOrderItemConstructorVm>();
             builder.Register<GiftCardsVm>(Lifecycles.PerScope).As<IGiftCardsVm>();
             builder.Register<SelectCustomerVm>(Lifecycles.PerScope).As<ISelectCustomerVm>();
+            builder.Register<PaymentVm>(Lifecycles.PerScope).As<IPaymentVm>();
+
+            // ViewModel Controllers
+            builder.Register<CheckoutVmController>(Lifecycles.PerScope);
         }
 
         private static IRegistrationBuilder<TImpl, ConcreteReflectionActivatorData, SingleRegistrationStyle> Register<TImpl>(this ContainerBuilder builder, Lifecycles lifecycle = Lifecycles.PerDefaultScope)

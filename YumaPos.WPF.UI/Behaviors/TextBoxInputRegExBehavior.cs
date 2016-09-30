@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-namespace YumaPos.WPF.UI.Behaviours
+namespace YumaPos.WPF.UI.Behaviors
 {
     /// <summary>
     ///     From http://stackoverflow.com/questions/1268552/how-do-i-get-a-textbox-to-only-accept-numeric-input-in-wpf
@@ -16,12 +16,12 @@ namespace YumaPos.WPF.UI.Behaviours
     ///         <see cref="MaxLength"/>,
     ///         <see cref="EmptyValue"/>.
     /// </summary>
-    public sealed class TextBoxInputRegExBehaviour : Behavior<TextBox>
+    public sealed class TextBoxInputRegExBehavior : Behavior<TextBox>
     {
         #region DependencyProperties
 
         public static readonly DependencyProperty RegularExpressionProperty =
-            DependencyProperty.Register("RegularExpression", typeof(string), typeof(TextBoxInputRegExBehaviour), new FrameworkPropertyMetadata(".*"));
+            DependencyProperty.Register("RegularExpression", typeof(string), typeof(TextBoxInputRegExBehavior), new FrameworkPropertyMetadata(".*"));
 
         public string RegularExpression
         {
@@ -36,7 +36,7 @@ namespace YumaPos.WPF.UI.Behaviours
         }
 
         public static readonly DependencyProperty MaxLengthProperty =
-            DependencyProperty.Register("MaxLength", typeof(int), typeof(TextBoxInputRegExBehaviour),
+            DependencyProperty.Register("MaxLength", typeof(int), typeof(TextBoxInputRegExBehavior),
                                             new FrameworkPropertyMetadata(int.MinValue));
 
         public int MaxLength
@@ -52,7 +52,7 @@ namespace YumaPos.WPF.UI.Behaviours
         }
 
         public static readonly DependencyProperty EmptyValueProperty =
-            DependencyProperty.Register("EmptyValue", typeof(string), typeof(TextBoxInputRegExBehaviour), null);
+            DependencyProperty.Register("EmptyValue", typeof(string), typeof(TextBoxInputRegExBehavior), null);
 
         public string EmptyValue
         {

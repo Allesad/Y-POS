@@ -45,8 +45,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviours\TextBoxFocusBehavior.cs" />
-    <Compile Include="Behaviours\TextBoxInputRegExBehaviour.cs" />
+    <Compile Include="Behaviors\TextBoxFocusBehavior.cs" />
+    <Compile Include="Behaviors\TextBoxInputRegExBehavior.cs" />
+    <Compile Include="Behaviors\TouchScrollingBehavior.cs" />
     <Compile Include="Controls\CachedImage.cs" />
     <Compile Include="Controls\IconButton.cs" />
     <Compile Include="Controls\SearchTextBox.cs" />

@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppNavigation.cs" />
+    <Compile Include="Checkout\CheckoutVmController.cs" />
     <Compile Include="Extensions\DialogEx.cs" />
     <Compile Include="Extensions\ObservableExtensions.cs" />
     <Compile Include="MockData\MockAccountServiceManager.cs" />
@@ -79,8 +80,10 @@
     <Compile Include="Receipt\ReceiptTemplateFactory.cs" />
     <Compile Include="ViewModels\Dialogs\SetOrderItemQtyDialogVm.cs" />
     <Compile Include="ViewModels\Items\Impl\ReceiptItemVm.cs" />
+    <Compile Include="ViewModels\PageParts\ClosablePagePartVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\IDiscountVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\IMarketingVm.cs" />
+    <Compile Include="ViewModels\PageParts\Contracts\IPaymentCompleteVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\IPaymentVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\ISelectCustomerVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\IActiveOrderItemVm.cs" />
@@ -110,6 +113,7 @@
     <Compile Include="ViewModels\PageParts\Impl\MarketingVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\OrderItemConstructorVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\OrderMakerMenuVm.cs" />
+    <Compile Include="ViewModels\PageParts\Impl\PaymentCompleteVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\PaymentVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\SplittingsVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\ICashDrawerVm.cs" />

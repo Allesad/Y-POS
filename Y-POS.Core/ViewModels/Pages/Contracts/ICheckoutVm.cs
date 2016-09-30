@@ -20,7 +20,8 @@ namespace Y_POS.Core.ViewModels.Pages
         Customer,
         Discount,
         Splitting,
-        Marketing
+        Marketing,
+        PaymentComplete
     }
 
     public interface ICheckoutVm : IPageVm
@@ -29,7 +30,10 @@ namespace Y_POS.Core.ViewModels.Pages
 
         ReceiptItemVm[] Receipts { get; }
         ReceiptItemVm SelectedReceipt { get; set; }
-        ILifecycleVm OperationVm { get; }
+        IBaseVm OperationVm { get; }
+        OperationType CurrentOperationType { get; }
+        PaymentType CurrentPaymentType { get; }
+        string CustomerName { get; }
 
         #endregion
 

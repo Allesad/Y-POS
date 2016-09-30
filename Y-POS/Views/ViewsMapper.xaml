@@ -8,7 +8,8 @@
                     xmlns:dialogViews="clr-namespace:Y_POS.Views.Dialogs"
                     xmlns:dialogCore="clr-namespace:DialogManagement.Core;assembly=DialogManagement.Core"
                     xmlns:controls="clr-namespace:Y_POS.Controls"
-                    xmlns:commonParts="clr-namespace:Y_POS.Views.CommonParts">
+                    xmlns:commonParts="clr-namespace:Y_POS.Views.CommonParts"
+                    xmlns:checkoutParts="clr-namespace:Y_POS.Views.CheckoutParts">
 
     <!-- LOGIN -->
     <DataTemplate DataType="{x:Type pages:LoginVm}">
@@ -77,6 +78,31 @@
     <!-- SELECT CUSTOMER -->
     <DataTemplate DataType="{x:Type pageParts:SelectCustomerVm}">
         <commonParts:SelectCustomerView DataContext="{Binding}" />
+    </DataTemplate>
+    
+    <!-- PAYMENT -->
+    <DataTemplate DataType="{x:Type pageParts:PaymentVm}">
+        <checkoutParts:CheckoutPaymentView DataContext="{Binding}"/>
+    </DataTemplate>
+    
+    <!-- DISCOUNT -->
+    <DataTemplate DataType="{x:Type pageParts:DiscountVm}">
+        <checkoutParts:CheckoutDiscountView DataContext="{Binding}"/>
+    </DataTemplate>
+    
+    <!-- SPLITTINGS -->
+    <DataTemplate DataType="{x:Type pageParts:SplittingsVm}">
+        <checkoutParts:CheckoutSplittingsView DataContext="{Binding}"/>
+    </DataTemplate>
+    
+    <!-- MARKETING -->
+    <DataTemplate DataType="{x:Type pageParts:MarketingVm}">
+        <checkoutParts:CheckoutPromoView DataContext="{Binding}"/>
+    </DataTemplate>
+    
+    <!-- PAYMENT COMPLETE -->
+    <DataTemplate DataType="{x:Type pageParts:PaymentCompleteVm}">
+        <checkoutParts:CheckoutPaymentCompleteView DataContext="{Binding}"/>
     </DataTemplate>
 
     <!--==================================================-->

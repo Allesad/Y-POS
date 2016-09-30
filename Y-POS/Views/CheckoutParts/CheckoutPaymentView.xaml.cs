@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Y_POS.Core.ViewModels.PageParts;
 
 namespace Y_POS.Views.CheckoutParts
 {
@@ -11,6 +12,14 @@ namespace Y_POS.Views.CheckoutParts
         public CheckoutPaymentView()
         {
             InitializeComponent();
+            
+            Loaded += (sender, args) =>
+            {
+                ReceivedTb.Text = ((PaymentVm) DataContext).Received.ToString("c");
+                TipsTb.Text = ((PaymentVm) DataContext).Tips.ToString("c");
+
+                ReceivedTb.Focus();
+            };
         }
 
         private void DoCheckout(object sender, RoutedEventArgs e)
@@ -26,6 +35,11 @@ namespace Y_POS.Views.CheckoutParts
         {
             add { AddHandler(CheckoutEvent, value);}
             remove { RemoveHandler(CheckoutEvent, value);}
+        }
+
+        private void Input_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            KeypadControl.TargetBox = (TextBox) sender;
         }
     }
 }

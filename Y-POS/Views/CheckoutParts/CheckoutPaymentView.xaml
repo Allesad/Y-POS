@@ -6,16 +6,20 @@
              xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
+             xmlns:behaviors="clr-namespace:YumaPos.WPF.UI.Behaviors;assembly=YumaPos.WPF.UI"
              mc:Ignorable="d"
-             d:DesignHeight="700" d:DesignWidth="404">
+             d:DesignHeight="700" d:DesignWidth="404"
+             d:DataContext="{d:DesignInstance pageParts:PaymentVm, d:IsDesignTimeCreatable=False}">
 
     <DockPanel>
         <!-- ACTION BAR -->
         <controls:ActionBarButton DockPanel.Dock="Bottom"
                                   Style="{StaticResource ActionBarMainActionButton}"
                                   Title="{Binding Source={x:Static p:Resources.Checkout}, 
-                                        Converter={StaticResource UpperCaseCoverter}}" 
-                                  Click="DoCheckout"/>
+                                        Converter={StaticResource UpperCaseCoverter}}"
+                                  Command="{Binding CommandCheckout}" />
 
         <!-- CONTENT -->
         <Grid Margin="20,15">
@@ -37,41 +41,52 @@
                      Margin="10,5"
                      IsEnabled="False"
                      helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Subtotal}, 
-                    Converter={StaticResource UpperCaseCoverter}}"
-                     Text="$100.00" />
+                        Converter={StaticResource UpperCaseCoverter}}"
+                     Text="{Binding Subtotal, Mode=OneWay, StringFormat=c}" />
 
             <!-- RECEIVED -->
             <TextBox Grid.Row="0" Grid.Column="1"
+                     Name="ReceivedTb"
                      Margin="10,5"
                      helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Received}, 
-                    Converter={StaticResource UpperCaseCoverter}}"
-                     Text="$150.00" />
+                        Converter={StaticResource UpperCaseCoverter}}"
+                     Text="{Binding Received, Mode=OneWayToSource, StringFormat=c, UpdateSourceTrigger=PropertyChanged}"
+                     GotFocus="Input_OnGotFocus"
+                     behaviors:TextBoxFocusBehavior.SelectAllTextOnFocus="True">
+                <!--<i:Interaction.Behaviors>
+                    <behaviours:TextBoxInputRegExBehaviour RegularExpression="^\$?(?:0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{1,3})*)(?:\.\d{2})?$"/>
+                </i:Interaction.Behaviors>-->
+            </TextBox>
 
             <!-- TOTAL -->
             <TextBox Grid.Row="1" Grid.Column="0"
                      Margin="10,5"
                      IsEnabled="False"
                      helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Total}, 
-                    Converter={StaticResource UpperCaseCoverter}}"
-                     Text="$110.00" />
+                        Converter={StaticResource UpperCaseCoverter}}"
+                     Text="{Binding Total, Mode=OneWay, StringFormat=c}" />
 
             <!-- TIPS -->
             <TextBox Grid.Row="1" Grid.Column="1"
+                     Name="TipsTb"
                      Margin="10,5"
                      helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Tips},
-                    Converter={StaticResource UpperCaseCoverter}}"
-                     Text="$10.00" />
+                        Converter={StaticResource UpperCaseCoverter}}"
+                     Text="{Binding Tips, Mode=OneWayToSource, StringFormat=c, UpdateSourceTrigger=PropertyChanged}" 
+                     GotFocus="Input_OnGotFocus"
+                     behaviors:TextBoxFocusBehavior.SelectAllTextOnFocus="True"/>
 
             <!-- CHANGE -->
             <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                      Margin="10,5"
                      IsEnabled="False"
                      helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Change}, 
-                    Converter={StaticResource UpperCaseCoverter}}"
-                     Text="$40.00" />
+                        Converter={StaticResource UpperCaseCoverter}}"
+                     Text="{Binding Change, Mode=OneWay, StringFormat=c}" />
 
             <!-- KEYPAD -->
-            <controls:NumericKeypadControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
+            <controls:NumericKeypadControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                           x:Name="KeypadControl"/>
 
         </Grid>
     </DockPanel>

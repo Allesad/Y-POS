@@ -4,9 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+             xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="404"
-             Margin="0,0,0,75">
+             Margin="0,0,0,75"
+             d:DataContext="{d:DesignInstance pageParts:PaymentCompleteVm, d:IsDesignTimeCreatable=False}">
     
     <UserControl.Resources>
         
@@ -68,16 +70,20 @@
         <!-- ACTIONS -->
 
         <Button Style="{StaticResource SummaryActionButton}" 
-                Content="{Binding Source={x:Static p:Resources.Action_CloseOrder}}"/>
+                Content="{Binding Source={x:Static p:Resources.Action_CloseOrder}}"
+                Command="{Binding CommandCloseOrder}"/>
 
         <Button Style="{StaticResource SummaryActionButton}" 
-                Content="{Binding Source={x:Static p:Resources.Action_CloseAndNewOrder}}"/>
+                Content="{Binding Source={x:Static p:Resources.Action_CloseAndNewOrder}}"
+                Command="{Binding CommandCloseAndCreateNewOrder}"/>
 
         <Button Style="{StaticResource SummaryActionButton}" 
-                Content="{Binding Source={x:Static p:Resources.Action_NewOrder}}"/>
+                Content="{Binding Source={x:Static p:Resources.Action_NewOrder}}"
+                Command="{Binding CommandNewOrder}"/>
 
         <Button Style="{StaticResource SummaryActionButton}" 
-                Content="{Binding Source={x:Static p:Resources.ActiveOrders}}"/>
+                Content="{Binding Source={x:Static p:Resources.ActiveOrders}}"
+                Command="{Binding CommandActiveOrders}"/>
         
     </StackPanel>
     

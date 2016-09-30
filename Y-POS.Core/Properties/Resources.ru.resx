@@ -470,4 +470,22 @@
   <data name="Sex_Male" xml:space="preserve">
     <value>Мужской</value>
   </data>
+  <data name="PaymentType_Card" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="PaymentType_Cash" xml:space="preserve">
+    <value>Наличные</value>
+  </data>
+  <data name="PaymentType_GiftCard" xml:space="preserve">
+    <value>Подар. карта</value>
+  </data>
+  <data name="PaymentType_Mobile" xml:space="preserve">
+    <value>Mobile</value>
+  </data>
+  <data name="PaymentType_Multiple" xml:space="preserve">
+    <value>Смешанный</value>
+  </data>
+  <data name="PaymentType_Points" xml:space="preserve">
+    <value>Баллы</value>
+  </data>
 </root>

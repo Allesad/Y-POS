@@ -827,6 +827,60 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Card.
+        /// </summary>
+        public static string PaymentType_Card {
+            get {
+                return ResourceManager.GetString("PaymentType_Card", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash.
+        /// </summary>
+        public static string PaymentType_Cash {
+            get {
+                return ResourceManager.GetString("PaymentType_Cash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gift Card.
+        /// </summary>
+        public static string PaymentType_GiftCard {
+            get {
+                return ResourceManager.GetString("PaymentType_GiftCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mobile.
+        /// </summary>
+        public static string PaymentType_Mobile {
+            get {
+                return ResourceManager.GetString("PaymentType_Mobile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple.
+        /// </summary>
+        public static string PaymentType_Multiple {
+            get {
+                return ResourceManager.GetString("PaymentType_Multiple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Points.
+        /// </summary>
+        public static string PaymentType_Points {
+            get {
+                return ResourceManager.GetString("PaymentType_Points", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone.
         /// </summary>
         public static string Phone {

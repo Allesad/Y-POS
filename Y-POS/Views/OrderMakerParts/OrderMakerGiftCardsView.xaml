@@ -10,8 +10,8 @@
                 xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
                 xmlns:controls="clr-namespace:Y_POS.Controls"
                 xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-                xmlns:behaviours="clr-namespace:YumaPos.WPF.UI.Behaviours;assembly=YumaPos.WPF.UI"
                 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                xmlns:behaviors="clr-namespace:YumaPos.WPF.UI.Behaviors;assembly=YumaPos.WPF.UI"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
                 d:DataContext="{d:DesignInstance pageParts:IGiftCardsVm, d:IsDesignTimeCreatable=False}">
@@ -104,10 +104,10 @@
                  helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Amount}, 
                             Converter={StaticResource UpperCaseCoverter}}" 
                  Text="{Binding RefillAmount, Mode=TwoWay, StringFormat=f, UpdateSourceTrigger=PropertyChanged}"
-                 behaviours:TextBoxFocusBehavior.SelectAllTextOnFocus="True"
+                 behaviors:TextBoxFocusBehavior.SelectAllTextOnFocus="True"
                  >
             <i:Interaction.Behaviors>
-                <behaviours:TextBoxInputRegExBehaviour MaxLength="10"/>
+                <behaviors:TextBoxInputRegExBehavior MaxLength="10"/>
             </i:Interaction.Behaviors>
         </TextBox>
 

@@ -8,12 +8,12 @@
                 xmlns:contracts="clr-namespace:Y_POS.Core.ViewModels.Items.Contracts;assembly=Y-POS.Core"
                 xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
                 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                xmlns:behaviours="clr-namespace:YumaPos.WPF.UI.Behaviours;assembly=YumaPos.WPF.UI"
                 xmlns:converters="clr-namespace:Y_POS.Converters"
                 xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
                 xmlns:controls="clr-namespace:Y_POS.Controls"
                 xmlns:views="clr-namespace:Y_POS.Views"
                 xmlns:commonParts="clr-namespace:Y_POS.Views.CommonParts"
+                xmlns:behaviors="clr-namespace:YumaPos.WPF.UI.Behaviors;assembly=YumaPos.WPF.UI"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
                 d:DataContext="{d:DesignInstance pageParts:SelectCustomerVm, d:IsDesignTimeCreatable=False}">
@@ -367,7 +367,7 @@
                          Margin="0,0,0,10"
                          Text="{Binding Phone, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Behaviors>
-                        <behaviours:TextBoxInputRegExBehaviour MaxLength="10" RegularExpression="^\d+$" />
+                        <behaviors:TextBoxInputRegExBehavior MaxLength="10" RegularExpression="^\d+$" />
                     </i:Interaction.Behaviors>
                 </TextBox>
 

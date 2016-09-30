@@ -1,5 +1,4 @@
 ﻿using System;
-using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Module.Checkout.Contracts;
 using YumaPos.Client.UI.ViewModels.Impl;
 
@@ -9,23 +8,17 @@ namespace Y_POS.Core.ViewModels.Items.Impl
     {
         #region Properties
 
-        public int SplittingNumber { get; private set; }
-        [Reactive]
-        public string Total { get; private set; }
-        [Reactive]
-        public string Paid { get; private set; }
-        [Reactive]
-        public string Change { get; private set; }
-        [Reactive]
-        public bool IsPaid { get; private set; }
-        [Reactive]
-        public bool IsRefunded { get; private set; }
-        [Reactive]
-        public bool IsVoid { get; private set; }
-        [Reactive]
-        public bool IsTaxExempt { get; private set; }
-        [Reactive]
-        public string Receipt { get; private set; }
+        public int SplittingNumber => Model.SplittingNumber;
+        public string Total => Model.Total;
+        public string Paid => Model.Paid;
+        public string Change => Model.Change;
+        public bool IsPaid => Model.IsPaid;
+        public bool IsRefunded => Model.IsRefunded;
+        public bool IsVoid => Model.IsVoid;
+        public bool IsTaxExempt => Model.IsTaxExempt;
+        public string Receipt => Model.ReceiptFormatted;
+
+        public IReceiptItem Model { get; }
 
         #endregion
 
@@ -34,18 +27,15 @@ namespace Y_POS.Core.ViewModels.Items.Impl
         public ReceiptItemVm(IReceiptItem model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
-
-            SplittingNumber = model.SplittingNumber;
-            Total = model.Total;
-            Paid = model.Paid;
-            Change = model.Change;
-            IsPaid = model.IsPaid;
-            IsRefunded = model.IsRefunded;
-            IsTaxExempt = model.IsTaxExempt;
-            Receipt = model.ReceiptFormatted;
-            IsVoid = model.IsVoid;
+            
+            Model = model;
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return $"Receipt {SplittingNumber}\tTotal: {Total}";
+        }
     }
 }

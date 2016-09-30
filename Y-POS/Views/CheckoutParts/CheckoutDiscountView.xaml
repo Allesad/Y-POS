@@ -6,8 +6,10 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+             xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
              mc:Ignorable="d"
-             d:DesignHeight="700" d:DesignWidth="404">
+             d:DesignHeight="700" d:DesignWidth="404"
+             d:DataContext="{d:DesignInstance pageParts:IDiscountVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
         <DataTemplate x:Key="DiscountItemDt">
@@ -29,8 +31,9 @@
             <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
                                       BorderThickness="0,0,1,0"
                                       BorderBrush="{StaticResource ActionBarBg}"
-                                      Title="{Binding Source={x:Static p:Resources.Clear}, 
-                                        Converter={StaticResource UpperCaseCoverter}}" />
+                                      Title="{Binding Source={x:Static p:Resources.Cancel}, 
+                                        Converter={StaticResource UpperCaseCoverter}}" 
+                                      Command="{Binding CommandCancel}"/>
             <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
                                       Title="{Binding Source={x:Static p:Resources.Ok}, 
                                         Converter={StaticResource UpperCaseCoverter}}" />

@@ -149,6 +149,9 @@
     <Compile Include="Controls\ContentPresenterEx.cs" />
     <Compile Include="Controls\MenuSelectorControl.cs" />
     <Compile Include="Controls\NumericKeypadControl.cs" />
+    <Compile Include="Converters\CheckoutCustomerNameToTitleConverter.cs" />
+    <Compile Include="Converters\CheckoutOperationToCheckedConverter.cs" />
+    <Compile Include="Converters\PaymentTypeToCheckedConverter.cs" />
     <Compile Include="Views\CommonParts\SelectCustomerView.xaml.cs">
       <DependentUpon>SelectCustomerView.xaml</DependentUpon>
     </Compile>

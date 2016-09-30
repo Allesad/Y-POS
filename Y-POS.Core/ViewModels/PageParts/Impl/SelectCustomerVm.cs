@@ -115,7 +115,11 @@ namespace Y_POS.Core.ViewModels.PageParts
             AddLifetimeSubscription(_commandCancel.Subscribe(_ => RaiseCancelEvent()));
 
             // Submit command
-            AddLifetimeSubscription(_commandSubmit.Subscribe(RaiseCustomerSelectedEvent));
+            AddLifetimeSubscription(_commandSubmit.Subscribe(customer =>
+            {
+                SelectedCustomer = null;
+                RaiseCustomerSelectedEvent(customer);
+            }));
 
             // Search customers
             this.WhenAnyValue(vm => vm.SearchText).Skip(1)
@@ -176,27 +180,6 @@ namespace Y_POS.Core.ViewModels.PageParts
             customer.CustomerId = response.Value;
             return customer;
         }
-
-        /*private IObservable<Unit> GetCustomerOperation()
-        {
-            if (SelectedCustomer != null)
-            {
-                return
-                    _orderCreator.SetCustomer(SelectedCustomer.ToGuid(), SelectedCustomer.FullName)
-                        .Select(_ => Unit.Default);
-            }
-            return _customersService.AddCustomer(new CustomerDto
-                {
-                    FirstName = FirstName,
-                    LastName = LastName,
-                    HomePhone = Phone,
-                    Email = Email,
-                    BirthDate = BirthDate,
-                    Sex = Sex
-                })
-                .SelectMany(dto => _orderCreator.SetCustomer(dto.Value, $"{FirstName} {LastName}"))
-                .Select(_ => Unit.Default);
-        }*/
 
         private void RaiseCancelEvent()
         {
