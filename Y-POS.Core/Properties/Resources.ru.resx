@@ -488,4 +488,7 @@
   <data name="PaymentType_Points" xml:space="preserve">
     <value>Баллы</value>
   </data>
+  <data name="Split_Proportionally" xml:space="preserve">
+    <value>Пропорционально</value>
+  </data>
 </root>

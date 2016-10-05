@@ -148,7 +148,7 @@ namespace Y_POS.Bootstrap
             builder.Register<PaymentVm>(Lifecycles.PerScope).As<IPaymentVm>();
 
             // ViewModel Controllers
-            builder.Register<CheckoutVmController>(Lifecycles.PerScope);
+            builder.Register<CheckoutController>(Lifecycles.PerScope);
         }
 
         private static IRegistrationBuilder<TImpl, ConcreteReflectionActivatorData, SingleRegistrationStyle> Register<TImpl>(this ContainerBuilder builder, Lifecycles lifecycle = Lifecycles.PerDefaultScope)

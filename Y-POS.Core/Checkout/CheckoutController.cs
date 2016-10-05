@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
+using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -11,7 +12,7 @@ using Y_POS.Core.Infrastructure;
 
 namespace Y_POS.Core.Checkout
 {
-    public sealed class CheckoutController
+    public sealed class CheckoutController : ReactiveObject
     {
         #region Fields
 
@@ -24,11 +25,13 @@ namespace Y_POS.Core.Checkout
         #region Properties
 
         public Guid OrderId { get; private set; }
+        public bool IsInitialized => OrderId != Guid.Empty;
 
         public IObservable<ReceiptItem[]> ReceiptsStream { get; }
         public IObservable<OrderStatus> OrderStatusStream { get; }
         public IObservable<string> CustomerNameStream { get; }
         public IObservable<SplittingType> SplittingTypeStream { get; }
+        public IObservable<string> DiscountStream { get; }
         
         [Reactive]
         private ReceiptItem[] Receipts { get; set; }
@@ -41,6 +44,9 @@ namespace Y_POS.Core.Checkout
 
         [Reactive]
         private SplittingType SplittingType { get; set; }
+
+        [Reactive]
+        private string CurrentDiscountName { get; set; }
 
         #endregion
 
@@ -62,6 +68,7 @@ namespace Y_POS.Core.Checkout
             OrderStatusStream = this.WhenAnyValue(controller => controller.OrderStatus);
             CustomerNameStream = this.WhenAnyValue(controller => controller.CustomerName);
             SplittingTypeStream = this.WhenAnyValue(controller => controller.SplittingType);
+            DiscountStream = this.WhenAnyValue(controller => controller.CurrentDiscountName);
         }
 
         #endregion
@@ -70,28 +77,52 @@ namespace Y_POS.Core.Checkout
 
         public Task Init(Guid orderId)
         {
-            Guard.NonEmptyGuid(orderId, nameof(orderId));
-
-            return InitImpl(orderId);
+            return Init(orderId, CancellationToken.None);
         }
 
+        public Task Init(Guid orderId, CancellationToken ct)
+        {
+            Guard.NonEmptyGuid(orderId, nameof(orderId));
+            if (IsInitialized) throw new InvalidOperationException($"{nameof(CheckoutController)} already initialized!");
+
+            return InitImpl(orderId, ct);
+        }
+
+        /*
+         * SPLITTING
+         * */
         public Task SplitAllOnOne()
+        {
+            return SplitAllOnOne(CancellationToken.None);
+        }
+
+        public Task SplitAllOnOne(CancellationToken ct)
         {
             CheckInitialized();
 
-            return _checkoutService.SplitAllReceiptsToOne(OrderId).ToTask();
+            return SplitInternal(SplittingType.AllOnOne, null, ct);
         }
 
         public Task SplitEvenly(int count)
+        {
+            return SplitEvenly(count, CancellationToken.None);
+        }
+
+        public Task SplitEvenly(int count, CancellationToken ct)
         {
             Guard.IsPositive(count, nameof(count));
 
             CheckInitialized();
 
-            return _checkoutService.SplitReceiptsEvenly(OrderId, count).ToTask();
+            return SplitInternal(SplittingType.SplitEvently, count, ct);
         }
 
         public Task SplitProportionally(int[] proportions)
+        {
+            return SplitProportionally(proportions, CancellationToken.None);
+        }
+
+        public Task SplitProportionally(int[] proportions, CancellationToken ct)
         {
             Guard.NotEmpty(proportions, nameof(proportions));
             if (proportions.Sum() != 100)
@@ -105,7 +136,36 @@ namespace Y_POS.Core.Checkout
             
             CheckInitialized();
 
-            return _checkoutService.SplitReceiptsProportionally(OrderId, proportions).ToTask();
+            return SplitInternal(SplittingType.SplitProportionally, proportions, ct);
+        }
+
+        /*
+         * DISCOUNT
+         * */
+        public async Task SetDiscountAsync(string discountName, CancellationToken ct)
+        {
+            CheckInitialized();
+
+            await Task.Delay(300, ct);
+
+            CurrentDiscountName = discountName;
+        }
+
+        /*
+         * PAYMENT
+         */
+        public async Task<IPaymentResponse> Pay(PaymentParams paymentParams)
+        {
+            Guard.NotNull(paymentParams, nameof(paymentParams));
+            CheckInitialized();
+
+            var result = await _paymentService.ProcessPayment(paymentParams).ToTask().ConfigureAwait(false);
+
+            if (result.IsSuccess)
+            {
+                await RefreshReceipts(CancellationToken.None).ConfigureAwait(false);
+            }
+            return result;
         }
 
         #endregion
@@ -114,17 +174,19 @@ namespace Y_POS.Core.Checkout
 
         private void CheckInitialized()
         {
-            if (OrderId == Guid.Empty) throw new InvalidOperationException($"{nameof(CheckoutController)} is not initialized!");
+            if (!IsInitialized) throw new InvalidOperationException($"{nameof(CheckoutController)} is not initialized!");
         }
 
-        private async Task InitImpl(Guid orderId)
+        private async Task InitImpl(Guid orderId, CancellationToken ct)
         {
             OrderId = orderId;
 
-            var orderTask = _orderService.GetOrderById(OrderId).ToTask();
-            var receiptsTask = _checkoutService.GetReceiptsByOrderId(OrderId).ToTask();
+            var orderTask = _orderService.GetOrderById(OrderId).ToTask(ct);
+            var receiptsTask = _checkoutService.GetReceiptsByOrderId(OrderId).ToTask(ct);
 
             await Task.WhenAll(orderTask, receiptsTask).ConfigureAwait(false);
+
+            if (ct.IsCancellationRequested) return;
 
             var order = orderTask.Result;
             var receipts = receiptsTask.Result;
@@ -132,41 +194,44 @@ namespace Y_POS.Core.Checkout
             OrderStatus = order.Status;
             CustomerName = order.CustomerName;
             SplittingType = order.Splitting;
+            Receipts = receipts.Select(dto => new ReceiptItem(dto, OrderStatus == OrderStatus.Void)).ToArray();
         }
 
-        private async Task SplitInternal(SplittingType type, object args)
+        private async Task SplitInternal(SplittingType type, object args, CancellationToken ct)
         {
             bool shouldRefreshReceipts = false;
 
             switch (type)
             {
                 case SplittingType.AllOnOne:
-                    shouldRefreshReceipts = await _checkoutService.SplitAllReceiptsToOne(OrderId).ToTask()
+                    shouldRefreshReceipts = await _checkoutService.SplitAllReceiptsToOne(OrderId).ToTask(ct)
                         .ConfigureAwait(false);
                     SplittingType = SplittingType.AllOnOne;
                     break;
                 case SplittingType.SplitEvently:
-                    shouldRefreshReceipts = await _checkoutService.SplitReceiptsEvenly(OrderId, (int) args).ToTask()
+                    shouldRefreshReceipts = await _checkoutService.SplitReceiptsEvenly(OrderId, (int) args).ToTask(ct)
                         .ConfigureAwait(false);
                     SplittingType = SplittingType.SplitEvently;
                     break;
                 case SplittingType.SplitProportionally:
-                    shouldRefreshReceipts = await _checkoutService.SplitReceiptsProportionally(OrderId, (int[]) args).ToTask()
+                    shouldRefreshReceipts = await _checkoutService.SplitReceiptsProportionally(OrderId, (int[]) args).ToTask(ct)
                         .ConfigureAwait(false);
                     SplittingType = SplittingType.SplitProportionally;
                     break;
             }
 
-            if (!shouldRefreshReceipts) return;
+            if (!shouldRefreshReceipts || ct.IsCancellationRequested) return;
 
-            await RefreshReceipts();
+            await RefreshReceipts(ct).ConfigureAwait(false);
         }
 
-        private async Task RefreshReceipts()
+        private async Task RefreshReceipts(CancellationToken ct)
         {
-            var receipts = await _checkoutService.GetReceiptsByOrderId(OrderId).ToTask().ConfigureAwait(false);
+            var receipts = await _checkoutService.GetReceiptsByOrderId(OrderId).ToTask(ct).ConfigureAwait(false);
 
+            if (ct.IsCancellationRequested) return;
 
+            Receipts = receipts.Select(dto => new ReceiptItem(dto)).ToArray();
         }
 
         #endregion

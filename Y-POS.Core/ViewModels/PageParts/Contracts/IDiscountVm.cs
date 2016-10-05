@@ -8,6 +8,7 @@ namespace Y_POS.Core.ViewModels.PageParts
         #region Commands
 
         ICommand CommandCancel { get; }
+        ICommand CommandSetDiscount { get; }
 
         #endregion
     }

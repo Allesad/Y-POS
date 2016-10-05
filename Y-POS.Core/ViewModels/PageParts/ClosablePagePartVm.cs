@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Windows.Input;
 using YumaPos.Client.UI.ViewModels.Impl;
 
 namespace Y_POS.Core.ViewModels.PageParts
@@ -9,6 +10,7 @@ namespace Y_POS.Core.ViewModels.PageParts
         #region Events
 
         public event EventHandler CloseEvent;
+        public ICommand CommandSetDiscount { get; }
 
         #endregion
 

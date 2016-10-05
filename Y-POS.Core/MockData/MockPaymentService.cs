@@ -14,7 +14,7 @@ namespace Y_POS.Core.MockData
 
         public IObservable<IPaymentResponse> ProcessPayment(PaymentParams paymentParams)
         {
-            return Observable.Return(new PaymentResponse(true)).Delay(TimeSpan.FromSeconds(1));
+            return Observable.Return(new PaymentResponse(false, "Shit just got serious.")).Delay(TimeSpan.FromSeconds(1));
         }
 
         public Task<IPaymentResponse> ProcessPaymentAsync(PaymentParams paymentParams)

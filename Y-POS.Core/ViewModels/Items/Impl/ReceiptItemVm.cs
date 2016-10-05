@@ -1,6 +1,6 @@
 ﻿using System;
-using YumaPos.Client.Module.Checkout.Contracts;
 using YumaPos.Client.UI.ViewModels.Impl;
+using Y_POS.Core.Checkout;
 
 namespace Y_POS.Core.ViewModels.Items.Impl
 {
@@ -9,22 +9,22 @@ namespace Y_POS.Core.ViewModels.Items.Impl
         #region Properties
 
         public int SplittingNumber => Model.SplittingNumber;
-        public string Total => Model.Total;
-        public string Paid => Model.Paid;
-        public string Change => Model.Change;
+        public decimal Total => Model.Total;
+        public decimal Paid => Model.TotalPaid;
+        public decimal Change => Model.Change;
         public bool IsPaid => Model.IsPaid;
         public bool IsRefunded => Model.IsRefunded;
         public bool IsVoid => Model.IsVoid;
         public bool IsTaxExempt => Model.IsTaxExempt;
-        public string Receipt => Model.ReceiptFormatted;
+        //public string Receipt => Model.ReceiptFormatted;
 
-        public IReceiptItem Model { get; }
+        public ReceiptItem Model { get; }
 
         #endregion
 
         #region Constructor
 
-        public ReceiptItemVm(IReceiptItem model)
+        public ReceiptItemVm(ReceiptItem model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             
@@ -35,7 +35,7 @@ namespace Y_POS.Core.ViewModels.Items.Impl
 
         public override string ToString()
         {
-            return $"Receipt {SplittingNumber}\tTotal: {Total}";
+            return $"Receipt {SplittingNumber.ToString("D")}\tTotal: {Total.ToString("C")}";
         }
     }
 }

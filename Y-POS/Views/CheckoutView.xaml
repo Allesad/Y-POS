@@ -21,6 +21,7 @@
         <converters:CheckoutOperationToCheckedConverter x:Key="OperationToCheckedConverter"/>
         <converters:PaymentTypeToCheckedConverter x:Key="PaymentTypeToCheckedConverter"/>
         <converters:CheckoutCustomerNameToTitleConverter x:Key="CustomerNameToTitleConverter"/>
+        <converters:SplittingTypeToTextConverter x:Key="SplittingTypeToTextConverter"/>
 
         <Style x:Key="ReceiptListItem" TargetType="ListBoxItem" BasedOn="{StaticResource LeftMarkedListItem}">
             <Setter Property="ex:StyleExtensions.ForegroundOnPressed" Value="{StaticResource TextBrush}" />
@@ -57,7 +58,6 @@
             <Setter Property="GroupName" Value="PaymentType" />
             <Setter Property="Height" Value="75" />
             <Setter Property="FontSize" Value="18" />
-            <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="BorderThickness" Value="0,0,1,1" />
             <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}" />
             <Setter Property="ex:StyleExtensions.BorderBrushOnHover"
@@ -395,12 +395,12 @@
                     <RadioButton Style="{StaticResource DiscountOperationBtn}"
                                  IsChecked="{Binding CurrentOperationType, Mode=OneWay, Converter={StaticResource OperationToCheckedConverter}, 
                                     ConverterParameter={x:Static pages:OperationType.Discount}}"
-                                 Content="Select discount" />
+                                 Content="{Binding DiscountName, Mode=OneWay}" />
                     <!-- SPLITTING -->
                     <RadioButton Style="{StaticResource SplittingOperationBtn}"
                                  IsChecked="{Binding CurrentOperationType, Mode=OneWay, Converter={StaticResource OperationToCheckedConverter}, 
                                     ConverterParameter={x:Static pages:OperationType.Splitting}}"
-                                 Content="Select Splitting" />
+                                 Content="{Binding CurrentSplittingType, Mode=OneWay, Converter={StaticResource SplittingTypeToTextConverter}}" />
                     <!-- MARKETING -->
                     <RadioButton Style="{StaticResource MarketingOperationBtn}"
                                  IsChecked="{Binding CurrentOperationType, Mode=OneWay, Converter={StaticResource OperationToCheckedConverter}, 

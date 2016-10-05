@@ -2,7 +2,7 @@
 
 namespace Y_POS.Core.ViewModels.PageParts
 {
-    public interface IPaymentVm : ILifecycleVm
+    public interface IPaymentVm : IBaseVm
     {
          
     }

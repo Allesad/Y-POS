@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
 using ReactiveUI;
-using YumaPos.Client.Module.Checkout.Contracts;
 using Y_POS.Core.Checkout;
 
 namespace Y_POS.Core.ViewModels.PageParts
@@ -10,8 +9,9 @@ namespace Y_POS.Core.ViewModels.PageParts
     {
         #region Fields
 
-        private readonly CheckoutVmController _controller;
-        private readonly ICheckoutManager _checkoutManager;
+        //private readonly CheckoutVmController _controller;
+        private readonly CheckoutController _controller;
+        //private readonly ICheckoutManager _checkoutManager;
 
         #endregion
 
@@ -25,26 +25,30 @@ namespace Y_POS.Core.ViewModels.PageParts
 
         #region Constructor
 
-        public SplittingsVm(CheckoutVmController controller, ICheckoutManager checkoutManager)
+        public SplittingsVm(CheckoutController controller)
         {
             if (controller == null) throw new ArgumentNullException(nameof(controller));
-            if (checkoutManager == null) throw new ArgumentNullException(nameof(checkoutManager));
+            //if (checkoutManager == null) throw new ArgumentNullException(nameof(checkoutManager));
 
+            //_controller = controller;
             _controller = controller;
-            _checkoutManager = checkoutManager;
+            //_checkoutManager = checkoutManager;
 
             var cmdCancel = ReactiveCommand.Create();
             cmdCancel.Subscribe(_ => RaiseCloseEvent());
 
             CommandCancel = cmdCancel;
             
-            var cmdAllOnOne = ReactiveCommand.CreateAsyncObservable(_ => _checkoutManager.SplitAllOnOne());
+            //var cmdAllOnOne = ReactiveCommand.CreateAsyncObservable(_ => _checkoutManager.SplitAllOnOne());
+            var cmdAllOnOne = ReactiveCommand.CreateAsyncTask((_, ct) => _controller.SplitAllOnOne(ct));
             cmdAllOnOne.Subscribe(_ => RaiseCloseEvent());
 
             CommandAllOnOne = cmdAllOnOne;
 
+            /*var cmdSplitEvenly =
+                ReactiveCommand.CreateAsyncObservable(param => _checkoutManager.SplitEvenly(int.Parse(param.ToString())));*/
             var cmdSplitEvenly =
-                ReactiveCommand.CreateAsyncObservable(param => _checkoutManager.SplitEvenly(int.Parse(param.ToString())));
+                ReactiveCommand.CreateAsyncTask((param, ct) => _controller.SplitEvenly(Convert.ToInt32(param.ToString()), ct));
             cmdSplitEvenly.Subscribe(_ => RaiseCloseEvent());
 
             CommandSplitEvenly = cmdSplitEvenly;

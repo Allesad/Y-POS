@@ -1052,6 +1052,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proportionally.
+        /// </summary>
+        public static string Split_Proportionally {
+            get {
+                return ResourceManager.GetString("Split_Proportionally", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Staff Member.
         /// </summary>
         public static string StaffMember {

@@ -57,30 +57,43 @@ namespace Y_POS.Core.Checkout
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as ReceiptItem);
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == this.GetType() && Equals((ReceiptItem) obj);
         }
 
         public bool Equals(ReceiptItem other)
         {
-            if (other == null) return false;
-
+            if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-
-            return SplittingNumber == other.SplittingNumber
-                   && Total == other.Total
-                   && Subtotal == other.Subtotal
-                   && Change == other.Change
-                   && TotalPaid == other.TotalPaid
-                   && IsPaid == other.IsPaid
-                   && IsRefunded == other.IsRefunded
-                   && IsVoid == other.IsVoid
-                   && IsTaxExempt == other.IsTaxExempt
-                   && Tenders.SequenceEqual(other.Tenders);
+            return SplittingNumber == other.SplittingNumber 
+                && Total == other.Total 
+                && Subtotal == other.Subtotal 
+                && Change == other.Change 
+                && TotalPaid == other.TotalPaid 
+                && IsPaid == other.IsPaid 
+                && IsRefunded == other.IsRefunded 
+                && IsVoid == other.IsVoid 
+                && IsTaxExempt == other.IsTaxExempt 
+                && Equals(Tenders, other.Tenders);
         }
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            unchecked
+            {
+                var hashCode = SplittingNumber;
+                hashCode = (hashCode * 397) ^ Total.GetHashCode();
+                hashCode = (hashCode * 397) ^ Subtotal.GetHashCode();
+                hashCode = (hashCode * 397) ^ Change.GetHashCode();
+                hashCode = (hashCode * 397) ^ TotalPaid.GetHashCode();
+                hashCode = (hashCode * 397) ^ IsPaid.GetHashCode();
+                hashCode = (hashCode * 397) ^ IsRefunded.GetHashCode();
+                hashCode = (hashCode * 397) ^ IsVoid.GetHashCode();
+                hashCode = (hashCode * 397) ^ IsTaxExempt.GetHashCode();
+                hashCode = (hashCode * 397) ^ (Tenders?.GetHashCode() ?? 0);
+                return hashCode;
+            }
         }
 
         #endregion

@@ -7,7 +7,7 @@ namespace Y_POS.Core.ViewModels.PageParts
 {
     public sealed class PaymentCompleteVm : BaseVm, IPaymentCompleteVm
     {
-        private readonly CheckoutVmController _controller;
+        private readonly CheckoutController _controller;
 
         #region Fields
 
@@ -28,7 +28,7 @@ namespace Y_POS.Core.ViewModels.PageParts
 
         #region Constructor
 
-        public PaymentCompleteVm(CheckoutVmController controller)
+        public PaymentCompleteVm(CheckoutController controller)
         {
             if (controller == null) throw new ArgumentNullException(nameof(controller));
 

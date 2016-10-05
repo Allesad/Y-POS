@@ -489,4 +489,7 @@
   <data name="PaymentType_Points" xml:space="preserve">
     <value>Points</value>
   </data>
+  <data name="Split_Proportionally" xml:space="preserve">
+    <value>Proportionally</value>
+  </data>
 </root>

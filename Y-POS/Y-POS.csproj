@@ -152,6 +152,7 @@
     <Compile Include="Converters\CheckoutCustomerNameToTitleConverter.cs" />
     <Compile Include="Converters\CheckoutOperationToCheckedConverter.cs" />
     <Compile Include="Converters\PaymentTypeToCheckedConverter.cs" />
+    <Compile Include="Converters\SplittingTypeToTextConverter.cs" />
     <Compile Include="Views\CommonParts\SelectCustomerView.xaml.cs">
       <DependentUpon>SelectCustomerView.xaml</DependentUpon>
     </Compile>

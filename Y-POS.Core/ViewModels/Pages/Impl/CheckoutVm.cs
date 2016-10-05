@@ -6,9 +6,9 @@ using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Common;
-using YumaPos.Client.Module.Checkout.Contracts;
 using YumaPos.Client.UI.ViewModels.Contracts;
 using YumaPos.Client.UI.ViewModels.Impl;
+using YumaPos.Shared.API.Enums;
 using Y_POS.Core.Checkout;
 using Y_POS.Core.Extensions;
 using Y_POS.Core.ViewModels.Items.Impl;
@@ -20,11 +20,12 @@ namespace Y_POS.Core.ViewModels.Pages
     {
         #region Fields
 
-        private readonly ICheckoutManager _checkoutManager;
-        private readonly CheckoutVmController _controller;
-        private readonly IPaymentVm _paymentVm;
+        private readonly CheckoutController _controller;
         private readonly ISelectCustomerVm _selectCustomerVm;
 
+        private readonly SelectedReceiptController _selectedReceiptController;
+
+        private PaymentVm _paymentVm;
         private DiscountVm _discountVm;
         private SplittingsVm _splittingsVm;
         private MarketingVm _marketingVm;
@@ -32,11 +33,11 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private ReactiveCommand<object> _commandSwitchToPaymentType;
         private ReactiveCommand<object> _commandSwitchToOperationType;
-        
+
         #endregion
 
         #region Properties
-        
+
         [Reactive]
         public ReceiptItemVm[] Receipts { get; private set; }
 
@@ -51,8 +52,11 @@ namespace Y_POS.Core.ViewModels.Pages
         [Reactive]
         public PaymentType CurrentPaymentType { get; private set; }
 
-        [Reactive]
-        public string CustomerName { get; private set; }
+        public SplittingType CurrentSplittingType { [ObservableAsProperty] get; }
+
+        public string CustomerName { [ObservableAsProperty] get; }
+
+        public string DiscountName { [ObservableAsProperty] get; }
 
         #endregion
 
@@ -69,20 +73,16 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Constructor
 
-        public CheckoutVm(ICheckoutManager checkoutManager, 
-            CheckoutVmController controller,
-            ISelectCustomerVm selectCustomerVm, 
-            IPaymentVm paymentVm)
+        public CheckoutVm(CheckoutController controller,
+            ISelectCustomerVm selectCustomerVm)
         {
-            if (checkoutManager == null) throw new ArgumentNullException(nameof(checkoutManager));
             if (controller == null) throw new ArgumentNullException(nameof(controller));
             if (selectCustomerVm == null) throw new ArgumentNullException(nameof(selectCustomerVm));
-            if (paymentVm == null) throw new ArgumentNullException(nameof(paymentVm));
 
-            _checkoutManager = checkoutManager;
             _controller = controller;
             _selectCustomerVm = selectCustomerVm;
-            _paymentVm = paymentVm;
+
+            _selectedReceiptController = new SelectedReceiptController();
         }
 
         #endregion
@@ -91,7 +91,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override IEnumerable<ILifecycleVm> GetChildren()
         {
-            return new ILifecycleVm[] { _selectCustomerVm, _paymentVm };
+            return new ILifecycleVm[] {_selectCustomerVm};
         }
 
         protected override void InitCommands()
@@ -114,7 +114,11 @@ namespace Y_POS.Core.ViewModels.Pages
 
             // Handle payment type switch
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm.CurrentPaymentType)
-                .Subscribe(type => CurrentOperationType = OperationType.Payment));
+                .Subscribe(type =>
+                {
+                    CurrentOperationType = OperationType.Payment;
+                    _paymentVm?.CommandSetPaymentType.Execute(type);
+                }));
 
             // Handle operation type content switch
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm.CurrentOperationType)
@@ -122,11 +126,19 @@ namespace Y_POS.Core.ViewModels.Pages
                 .ToPropertyEx(this, vm => vm.OperationVm));
 
             // Current customer
-            AddLifetimeSubscription(this.WhenAnyValue(vm => vm._checkoutManager.CustomerName)
-                .SubscribeToObserveOnUi(customerName => CustomerName = customerName));
+            AddLifetimeSubscription(_controller.CustomerNameStream
+                .ToPropertyEx(this, vm => vm.CustomerName, string.Empty, SchedulerService.UiScheduler));
+
+            // Current splitting type
+            AddLifetimeSubscription(_controller.SplittingTypeStream
+                .ToPropertyEx(this, vm => vm.CurrentSplittingType, SplittingType.AllOnOne, SchedulerService.UiScheduler));
+
+            // Current discount
+            AddLifetimeSubscription(_controller.DiscountStream
+                .ToPropertyEx(this, vm => vm.DiscountName, "-", SchedulerService.UiScheduler));
 
             // Select customer
-            AddLifetimeSubscription(Observable.FromEventPattern<CustomerSelectedEventArgs>(
+            /*AddLifetimeSubscription(Observable.FromEventPattern<CustomerSelectedEventArgs>(
                 h => _selectCustomerVm.CustomerSelectedEvent += h,
                 h => _selectCustomerVm.CustomerSelectedEvent -= h)
                 .Select(pattern => pattern.EventArgs.Customer)
@@ -134,29 +146,36 @@ namespace Y_POS.Core.ViewModels.Pages
                 .SubscribeToObserveOnUi(_ =>
                 {
                     CurrentOperationType = OperationType.Payment;
-                }));
+                }));*/
 
             // Handle close events
             AddLifetimeSubscription(Observable.FromEventPattern(
-                    h => _selectCustomerVm.CancelEvent += h,
-                    h => _selectCustomerVm.CancelEvent -= h)
+                h => _selectCustomerVm.CancelEvent += h,
+                h => _selectCustomerVm.CancelEvent -= h)
                 .Subscribe(_ => CurrentOperationType = OperationType.Payment));
 
             // Receipts
-            AddLifetimeSubscription(this.WhenAnyValue(vm => vm._checkoutManager.Receipts).Skip(1)
+            AddLifetimeSubscription(_controller.ReceiptsStream
+                .Where(items => items != null)
                 .Select(items => items.Select(item => new ReceiptItemVm(item)).ToArray())
-                .Subscribe(vms => Receipts = vms));
+                .SubscribeToObserveOnUi(receipts => Receipts = receipts));
 
             // Current receipt tracking
-            AddLifetimeSubscription(this.WhenAnyValue(vm => vm._checkoutManager.CurrentReceipt).Skip(1)
-                .SubscribeToObserveOnUi(item => SelectedReceipt = Receipts.First(vm => vm.Model == item)));
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm.SelectedReceipt).Skip(1)
-                .Where(vm => vm != null)
-                .Select(vm => vm.Model)
-                .Subscribe(receiptModel => _checkoutManager.CurrentReceipt = receiptModel));
+                .Subscribe(receipt =>
+                {
+                    if (receipt != null)
+                    {
+                        _selectedReceiptController.SetSelectedReceipt(receipt.Model);
+                    }
+                    else
+                    {
+                        _selectedReceiptController.SetNoSelection();
+                    }
+                }));
         }
 
-        protected override void OnCreate(IArgsBundle args)
+        protected override async void OnCreate(IArgsBundle args)
         {
             Guid orderId = args?.GetGuid("id") ?? Guid.Empty;
             if (orderId == Guid.Empty)
@@ -165,7 +184,16 @@ namespace Y_POS.Core.ViewModels.Pages
             }
 
             // Load receipts
-            _checkoutManager.LoadOrder(orderId).Subscribe();
+            try
+            {
+                await _controller.Init(orderId);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                DialogService.ShowErrorMessage($"Cannot load order: {ex.Message}");
+                NavigationService.Back();
+            }
         }
 
         #endregion
@@ -177,6 +205,7 @@ namespace Y_POS.Core.ViewModels.Pages
             switch (type)
             {
                 case OperationType.Payment:
+                    _paymentVm = _paymentVm ?? new PaymentVm(_controller, _selectedReceiptController);
                     return _paymentVm;
                 case OperationType.PaymentComplete:
                     _paymentCompleteVm = _paymentCompleteVm ?? new PaymentCompleteVm(_controller);
@@ -184,38 +213,52 @@ namespace Y_POS.Core.ViewModels.Pages
                 case OperationType.Customer:
                     return _selectCustomerVm;
                 case OperationType.Splitting:
-                    if (_splittingsVm == null)
-                    {
-                        _splittingsVm = new SplittingsVm(_controller, _checkoutManager);
-                        AddLifetimeSubscription(Observable.FromEventPattern(
-                                h => _splittingsVm.CloseEvent += h,
-                                h => _splittingsVm.CloseEvent -= h)
-                            .Subscribe(_ => CurrentOperationType = OperationType.Payment));
-                    }
+                    _splittingsVm = _splittingsVm ?? CreateAndSetUpSplittingsVm();
                     return _splittingsVm;
                 case OperationType.Discount:
-                    if (_discountVm == null)
-                    {
-                        _discountVm = new DiscountVm(_controller);
-                        AddLifetimeSubscription(Observable.FromEventPattern(
-                                h => _discountVm.CloseEvent += h,
-                                h => _discountVm.CloseEvent -= h)
-                            .Subscribe(_ => CurrentOperationType = OperationType.Payment));
-                    }
+                    _discountVm = _discountVm ?? CreateAndSetUpDiscountVm();
                     return _discountVm;
                 case OperationType.Marketing:
-                    if (_marketingVm == null)
-                    {
-                        _marketingVm = new MarketingVm(_controller);
-                        AddLifetimeSubscription(Observable.FromEventPattern(
-                                h => _marketingVm.CloseEvent += h,
-                                h => _marketingVm.CloseEvent -= h)
-                            .Subscribe(_ => CurrentOperationType = OperationType.Payment));
-                    }
+                    _marketingVm = _marketingVm ?? CreateAndSetUpMarketingVm();
                     return _marketingVm;
                 default:
                     return null;
             }
+        }
+
+        private SplittingsVm CreateAndSetUpSplittingsVm()
+        {
+            var vm = new SplittingsVm(_controller);
+
+            AddLifetimeSubscription(Observable.FromEventPattern(
+                    h => vm.CloseEvent += h,
+                    h => vm.CloseEvent -= h)
+                .Subscribe(_ => CurrentOperationType = OperationType.Payment));
+
+            return vm;
+        }
+
+        private DiscountVm CreateAndSetUpDiscountVm()
+        {
+            var vm = new DiscountVm(_controller);
+
+            AddLifetimeSubscription(Observable.FromEventPattern(
+                            h => vm.CloseEvent += h,
+                            h => vm.CloseEvent -= h)
+                            .Subscribe(_ => CurrentOperationType = OperationType.Payment));
+            return vm;
+        }
+
+        private MarketingVm CreateAndSetUpMarketingVm()
+        {
+            var vm = new MarketingVm(_controller);
+
+            AddLifetimeSubscription(Observable.FromEventPattern(
+                            h => vm.CloseEvent += h,
+                            h => vm.CloseEvent -= h)
+                            .Subscribe(_ => CurrentOperationType = OperationType.Payment));
+
+            return vm;
         }
 
         #endregion

@@ -51,9 +51,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppNavigation.cs" />
-    <Compile Include="Checkout\CheckoutVmController.cs" />
+    <Compile Include="Checkout\CheckoutController.cs" />
+    <Compile Include="Checkout\ReceiptItem.cs" />
+    <Compile Include="Checkout\SelectedReceiptController.cs" />
     <Compile Include="Extensions\DialogEx.cs" />
     <Compile Include="Extensions\ObservableExtensions.cs" />
+    <Compile Include="Infrastructure\Error.cs" />
+    <Compile Include="Infrastructure\Guard.cs" />
+    <Compile Include="Infrastructure\StringExtensions.cs" />
+    <Compile Include="Infrastructure\TypeExtensions.cs" />
     <Compile Include="MockData\MockAccountServiceManager.cs" />
     <Compile Include="MockData\MockAppServiceManager.cs" />
     <Compile Include="MockData\MockAuthApi.cs" />

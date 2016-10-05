@@ -9,19 +9,20 @@ namespace Y_POS.Core.ViewModels.PageParts
     {
         #region Fields
 
-        private readonly CheckoutVmController _controller;
+        private readonly CheckoutController _controller;
 
         #endregion
 
         #region Commands
 
         public ICommand CommandCancel { get; }
+        public ICommand CommandSetDiscount { get; }
 
         #endregion
 
         #region Constructor
 
-        public DiscountVm(CheckoutVmController controller)
+        public DiscountVm(CheckoutController controller)
         {
             if (controller == null)
                 throw new ArgumentNullException(nameof(controller));
@@ -32,6 +33,11 @@ namespace Y_POS.Core.ViewModels.PageParts
             cmdCancel.Subscribe(_ => RaiseCloseEvent());
 
             CommandCancel = cmdCancel;
+
+            var cmdSetDiscount = ReactiveCommand.CreateAsyncTask((param, ct) => _controller.SetDiscountAsync(param.ToString(), ct));
+            cmdSetDiscount.Subscribe(_ => RaiseCloseEvent());
+
+            CommandSetDiscount = cmdSetDiscount;
         }
 
         #endregion

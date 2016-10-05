@@ -9,7 +9,7 @@ namespace Y_POS.Core.ViewModels.PageParts
     {
         #region Fields
 
-        private readonly CheckoutVmController _controller;
+        private readonly CheckoutController _controller;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Y_POS.Core.ViewModels.PageParts
 
         #region Constructor
 
-        public MarketingVm(CheckoutVmController controller)
+        public MarketingVm(CheckoutController controller)
         {
             if (controller == null)
                 throw new ArgumentNullException(nameof(controller));

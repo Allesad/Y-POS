@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using YumaPos.Client.UI.ViewModels.Contracts;
+using YumaPos.Shared.API.Enums;
 using Y_POS.Core.ViewModels.Items.Impl;
 
 namespace Y_POS.Core.ViewModels.Pages
@@ -33,7 +34,9 @@ namespace Y_POS.Core.ViewModels.Pages
         IBaseVm OperationVm { get; }
         OperationType CurrentOperationType { get; }
         PaymentType CurrentPaymentType { get; }
+        SplittingType CurrentSplittingType { get; }
         string CustomerName { get; }
+        string DiscountName { get; }
 
         #endregion
 
