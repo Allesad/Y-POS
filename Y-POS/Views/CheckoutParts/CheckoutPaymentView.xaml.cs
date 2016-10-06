@@ -12,6 +12,9 @@ namespace Y_POS.Views.CheckoutParts
         public CheckoutPaymentView()
         {
             InitializeComponent();
+
+            ReceivedTb.Text = 0.ToString("c");
+            TipsTb.Text = 0.ToString("c");
             
             Loaded += (sender, args) =>
             {

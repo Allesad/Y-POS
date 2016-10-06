@@ -58,6 +58,7 @@
     <Compile Include="Extensions\ObservableExtensions.cs" />
     <Compile Include="Infrastructure\Error.cs" />
     <Compile Include="Infrastructure\Guard.cs" />
+    <Compile Include="Infrastructure\ResponseMessage.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Infrastructure\TypeExtensions.cs" />
     <Compile Include="MockData\MockAccountServiceManager.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="MockData\MockDataGenerator.cs" />
     <Compile Include="MockData\MockExtensions.cs" />
     <Compile Include="MockData\MockMenuService.cs" />
+    <Compile Include="MockData\MockMsrService.cs" />
     <Compile Include="MockData\MockOrderService.cs" />
     <Compile Include="MockData\MockPaymentService.cs" />
     <Compile Include="MockData\MockPrinter.cs" />
@@ -84,7 +86,10 @@
     </Compile>
     <Compile Include="Receipt\ReceiptBuilder.cs" />
     <Compile Include="Receipt\ReceiptTemplateFactory.cs" />
+    <Compile Include="ViewModels\Dialogs\GiftCardNumberDialog.cs" />
+    <Compile Include="ViewModels\Dialogs\ProcessingDialog.cs" />
     <Compile Include="ViewModels\Dialogs\SetOrderItemQtyDialogVm.cs" />
+    <Compile Include="ViewModels\Items\Impl\DiscountItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\ReceiptItemVm.cs" />
     <Compile Include="ViewModels\PageParts\ClosablePagePartVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\IDiscountVm.cs" />
@@ -121,6 +126,7 @@
     <Compile Include="ViewModels\PageParts\Impl\OrderMakerMenuVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\PaymentCompleteVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\PaymentVm.cs" />
+    <Compile Include="ViewModels\PageParts\Impl\RefundVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\SplittingsVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\ICashDrawerVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\ICheckoutVm.cs" />

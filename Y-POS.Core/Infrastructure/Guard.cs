@@ -17,6 +17,7 @@ namespace Y_POS.Core.Infrastructure
         private const string IsEqualMessage = "Compared objects must be equal.";
         private const string IsPositiveMessage = "Argument '{0}' must be a positive value. Value: '{1}'.";
         private const string IsTrueMessage = "True expected for '{0}' but the condition was False.";
+        private const string IsFalseMessage = "False expected for '{0}' but the condition was True.";
         private const string NotNegativeMessage = "Argument '{0}' cannot be a negative value. Value: '{1}'.";
         private const string EmptyGuidMessage = "Argument '{0}' cannot be an empty Guid.";
 
@@ -83,6 +84,11 @@ namespace Y_POS.Core.Infrastructure
         {
             if (!arg)
                 throw Error.Argument(argName, message.FormatInvariant(argName));
+        }
+
+        public static void IsFalse(bool arg, string argName, string message = IsFalseMessage)
+        {
+            if (arg) throw Error.Argument(argName, message.FormatInvariant(argName));
         }
 
         [DebuggerStepThrough]

@@ -100,6 +100,11 @@
         <checkoutParts:CheckoutPromoView DataContext="{Binding}"/>
     </DataTemplate>
     
+    <!-- REFUND -->
+    <DataTemplate DataType="{x:Type pageParts:RefundVm}">
+        <checkoutParts:CheckoutRefundView DataContext="{Binding}"/>
+    </DataTemplate>
+    
     <!-- PAYMENT COMPLETE -->
     <DataTemplate DataType="{x:Type pageParts:PaymentCompleteVm}">
         <checkoutParts:CheckoutPaymentCompleteView DataContext="{Binding}"/>

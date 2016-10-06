@@ -8,6 +8,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Services;
 using YumaPos.Shared.API.Enums;
+using YumaPos.Shared.API.Models;
 using Y_POS.Core.Infrastructure;
 
 namespace Y_POS.Core.Checkout
@@ -18,6 +19,7 @@ namespace Y_POS.Core.Checkout
 
         private readonly IOrderService _orderService;
         private readonly ICheckoutService _checkoutService;
+        private readonly IDiscountService _discountService;
         private readonly IPaymentService _paymentService;
 
         #endregion
@@ -54,15 +56,18 @@ namespace Y_POS.Core.Checkout
 
         public CheckoutController(IOrderService orderService, 
             ICheckoutService checkoutService, 
-            IPaymentService paymentService)
+            IPaymentService paymentService, 
+            IDiscountService discountService)
         {
             Guard.NotNull(orderService, nameof(orderService));
             Guard.NotNull(checkoutService, nameof(checkoutService));
             Guard.NotNull(paymentService, nameof(paymentService));
+            Guard.NotNull(discountService, nameof(discountService));
 
             _orderService = orderService;
             _checkoutService = checkoutService;
             _paymentService = paymentService;
+            _discountService = discountService;
 
             ReceiptsStream = this.WhenAnyValue(controller => controller.Receipts);
             OrderStatusStream = this.WhenAnyValue(controller => controller.OrderStatus);
@@ -142,30 +147,71 @@ namespace Y_POS.Core.Checkout
         /*
          * DISCOUNT
          * */
-        public async Task SetDiscountAsync(string discountName, CancellationToken ct)
+
+        public IObservable<DiscountDto[]> GetDiscountsAsync()
         {
+            return GetDiscountsAsync(CancellationToken.None);
+        }
+
+        public IObservable<DiscountDto[]> GetDiscountsAsync(CancellationToken ct)
+        {
+            return _discountService.GetAllDiscounts();
+        }
+
+        public Task ApplyDiscountAsync(ReceiptItem receipt, DiscountDto discount)
+        {
+            return ApplyDiscountAsync(receipt, discount, CancellationToken.None);
+        }
+
+        public Task ApplyDiscountAsync(ReceiptItem receipt, DiscountDto discount, CancellationToken ct)
+        {
+            Guard.NotNull(receipt, nameof(receipt));
+            Guard.NotNull(discount, nameof(discount));
             CheckInitialized();
 
-            await Task.Delay(300, ct);
-
-            CurrentDiscountName = discountName;
+            return ApplyDiscountInternal(receipt, discount, ct);
         }
 
         /*
          * PAYMENT
          */
-        public async Task<IPaymentResponse> Pay(PaymentParams paymentParams)
+
+        public Task<IPaymentResponse> PayAsync(PaymentParams paymentParams)
+        {
+            return PayAsync(paymentParams, CancellationToken.None);
+        }
+
+        public Task<IPaymentResponse> PayAsync(PaymentParams paymentParams, CancellationToken ct)
         {
             Guard.NotNull(paymentParams, nameof(paymentParams));
             CheckInitialized();
 
-            var result = await _paymentService.ProcessPayment(paymentParams).ToTask().ConfigureAwait(false);
+            return PayInternal(paymentParams, ct);
+        }
 
-            if (result.IsSuccess)
-            {
-                await RefreshReceipts(CancellationToken.None).ConfigureAwait(false);
-            }
-            return result;
+        public Task<IPaymentResponse> RefundAsync(ReceiptItem receiptToRefund)
+        {
+            return RefundAsync(receiptToRefund, CancellationToken.None);
+        }
+
+        public Task<IPaymentResponse> RefundAsync(ReceiptItem receiptToRefund, CancellationToken ct)
+        {
+            Guard.NotNull(receiptToRefund, nameof(receiptToRefund));
+            Guard.IsTrue(receiptToRefund.IsPaid, nameof(receiptToRefund.IsPaid));
+            Guard.IsFalse(receiptToRefund.IsRefunded, nameof(receiptToRefund.IsRefunded));
+            CheckInitialized();
+
+            return RefundInternal(receiptToRefund, ct);
+        }
+
+        /*
+         * VOID
+         */
+        public Task VoidOrderAsync()
+        {
+            CheckInitialized();
+
+            return VoidInternal();
         }
 
         #endregion
@@ -223,6 +269,50 @@ namespace Y_POS.Core.Checkout
             if (!shouldRefreshReceipts || ct.IsCancellationRequested) return;
 
             await RefreshReceipts(ct).ConfigureAwait(false);
+        }
+
+        private async Task ApplyDiscountInternal(ReceiptItem receipt, DiscountDto discount, CancellationToken ct)
+        {
+            var response = await _checkoutService.AddDiscountToReceipt(OrderId, discount.Id, receipt.SplittingNumber).ToTask(ct)
+                .ConfigureAwait(false);
+
+            if (response.Errors != null && !response.Errors.Any())
+            {
+                await RefreshReceipts(ct).ConfigureAwait(false);
+            }
+            CurrentDiscountName = discount.Name;
+        }
+
+        private async Task<IPaymentResponse> PayInternal(PaymentParams paymentParams, CancellationToken ct)
+        {
+            var result = await _paymentService.ProcessPayment(paymentParams).ToTask(ct).ConfigureAwait(false);
+
+            if (result.IsSuccess)
+            {
+                await RefreshReceipts(ct).ConfigureAwait(false);
+            }
+            return result;
+        }
+
+        private async Task<IPaymentResponse> RefundInternal(ReceiptItem receiptToRefund, CancellationToken ct)
+        {
+            var result = await _paymentService.ProcessRefund(new PaymentParams
+            {
+                OrderId = OrderId,
+                ReceiptNumber = receiptToRefund.SplittingNumber
+            }).ToTask(ct).ConfigureAwait(false);
+
+            if (result.IsSuccess)
+            {
+                await RefreshReceipts(ct).ConfigureAwait(false);
+            }
+            return result;
+        }
+
+        private async Task VoidInternal()
+        {
+            await _orderService.UpdateOrderStatus(OrderId, (int)OrderStatus.Void);
+            OrderStatus = OrderStatus.Void;
         }
 
         private async Task RefreshReceipts(CancellationToken ct)

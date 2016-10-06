@@ -126,6 +126,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\YumaPos.FrontEnd.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="YumaPos.Hardware.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\YumaPos.Hardware.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="YumaPos.Hardware.PinpadHardware.Core">
+      <HintPath>..\Libs\YumaPos.Hardware.PinpadHardware.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="YumaPos.Hardware.PinpadHardware.Core.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\YumaPos.Hardware.PinpadHardware.Core.Contracts.dll</HintPath>
+    </Reference>
     <Reference Include="YumaPos.Shared.Core2">
       <HintPath>..\Libs\YumaPos.Shared.Core2.dll</HintPath>
     </Reference>
@@ -151,8 +162,13 @@
     <Compile Include="Controls\NumericKeypadControl.cs" />
     <Compile Include="Converters\CheckoutCustomerNameToTitleConverter.cs" />
     <Compile Include="Converters\CheckoutOperationToCheckedConverter.cs" />
+    <Compile Include="Converters\DiscountToTextConverter.cs" />
     <Compile Include="Converters\PaymentTypeToCheckedConverter.cs" />
+    <Compile Include="Converters\ReceiptRefundedToIconConverter.cs" />
     <Compile Include="Converters\SplittingTypeToTextConverter.cs" />
+    <Compile Include="Views\CheckoutParts\CheckoutRefundView.xaml.cs">
+      <DependentUpon>CheckoutRefundView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CommonParts\SelectCustomerView.xaml.cs">
       <DependentUpon>SelectCustomerView.xaml</DependentUpon>
     </Compile>
@@ -261,6 +277,10 @@
     </Compile>
     <Compile Include="WpfScheduler.cs" />
     <Page Include="Controls\CardNumberInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CheckoutParts\CheckoutRefundView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -483,6 +503,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Images\paid.png" />
+    <Resource Include="Images\refund.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

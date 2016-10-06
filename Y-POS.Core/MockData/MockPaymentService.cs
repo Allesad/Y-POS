@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using YumaPos.Client.Services;
+using YumaPos.Common.Infrastructure.BusinessLogic.Tendering;
 
 namespace Y_POS.Core.MockData
 {
@@ -14,7 +16,11 @@ namespace Y_POS.Core.MockData
 
         public IObservable<IPaymentResponse> ProcessPayment(PaymentParams paymentParams)
         {
-            return Observable.Return(new PaymentResponse(false, "Shit just got serious.")).Delay(TimeSpan.FromSeconds(1));
+            if (paymentParams.Tenders.Any(tp => tp.TenderType != TenderType.Ca && tp.TenderType != TenderType.Cc && tp.TenderType != TenderType.Eg))
+            {
+                return Observable.Return(new PaymentResponse(false, "Not supported payment type"));
+            }
+            return Observable.Return(new PaymentResponse(true)).Delay(TimeSpan.FromSeconds(1));
         }
 
         public Task<IPaymentResponse> ProcessPaymentAsync(PaymentParams paymentParams)

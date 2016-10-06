@@ -143,6 +143,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Customer.
         /// </summary>
         public static string AddCustomer {
@@ -985,6 +994,15 @@ namespace Y_POS.Core.Properties {
         public static string Search_Customer {
             get {
                 return ResourceManager.GetString("Search_Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select discount.
+        /// </summary>
+        public static string SelectDiscount {
+            get {
+                return ResourceManager.GetString("SelectDiscount", resourceCulture);
             }
         }
         

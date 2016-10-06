@@ -5,10 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-             xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="404"
              d:DataContext="{d:DesignInstance pageParts:SplittingsVm, d:IsDesignTimeCreatable=False}">
@@ -28,20 +25,9 @@
             <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
             <Setter Property="Height" Value="65" />
             <Setter Property="Padding" Value="15" />
-            <Setter Property="IsChecked">
-                <Setter.Value>
-                    <Binding RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Path="IsSelected"
-                             Mode="TwoWay" />
-                </Setter.Value>
-            </Setter>
         </Style>
 
         <Style x:Key="SplitExpander" TargetType="Expander" BasedOn="{x:Null}">
-            <Setter Property="IsExpanded">
-                <Setter.Value>
-                    <Binding RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Path="IsSelected" Mode="TwoWay" />
-                </Setter.Value>
-            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Expander">
@@ -68,32 +54,10 @@
             <Setter Property="FontSize" Value="24" />
             <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
         </Style>
-
-        <Style x:Key="SplitListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-            <Setter Property="ex:StyleExtensions.BgOnPressed" Value="Transparent" />
-        </Style>
-
-        <Style x:Key="SplitEvenlyListItem" TargetType="ListBoxItem" BasedOn="{StaticResource SplitListItem}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBoxItem">
-                        <Button Content="{TemplateBinding Content}"
-                                Command="{Binding ElementName=SplittingTypesList, Path=DataContext.CommandSplitEvenly}"
-                                CommandParameter="{TemplateBinding Content}" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        
     </UserControl.Resources>
 
     <DockPanel>
-
-        <!-- ACTION BAR -->
-        <!--<UniformGrid DockPanel.Dock="Bottom"
-                     Columns="2">
-
-            
-        </UniformGrid>-->
 
         <controls:ActionBarButton DockPanel.Dock="Bottom" Style="{StaticResource ActionBarMainActionButton}"
                                   BorderThickness="0,0,1,0"
@@ -184,52 +148,6 @@
                     Content="{x:Static p:Resources.Split_BySeats}" />
 
         </StackPanel>
-
-        <!--<ListBox Name="SplittingTypesList"
-                 ItemContainerStyle="{StaticResource SplitListItem}"
-                 SelectionMode="Single"
-                 Margin="10">
-
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel HorizontalAlignment="Stretch" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-
-            <ListBox.Items>
-                <Button Content="{x:Static p:Resources.Split_AllOnOne}"
-                        Command="{Binding CommandAllOnOne}" />
-
-                <Expander Style="{StaticResource SplitExpander}"
-                          Header="{x:Static p:Resources.Split_Evenly}">
-                    <ListBox SelectionMode="Single"
-                             ItemContainerStyle="{StaticResource SplitEvenlyListItem}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid HorizontalAlignment="Stretch"
-                                             Columns="5" Rows="2" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-
-                        <ListBox.Items>
-                            <system:String>1</system:String>
-                            <system:String>2</system:String>
-                            <system:String>3</system:String>
-                            <system:String>4</system:String>
-                            <system:String>5</system:String>
-                            <system:String>6</system:String>
-                            <system:String>7</system:String>
-                            <system:String>8</system:String>
-                            <system:String>9</system:String>
-                            <system:String>N</system:String>
-                        </ListBox.Items>
-
-                    </ListBox>
-                </Expander>
-                <ToggleButton Style="{StaticResource SplitButton}"
-                              Content="{x:Static p:Resources.Split_BySeats}" />
-            </ListBox.Items>
-        </ListBox>-->
 
     </DockPanel>
 

@@ -181,43 +181,33 @@ namespace Y_POS.Controls
                     return;
                 case NumericKeypadButtonCode.Button0:
                     SetText("0");
-                    //TargetBox.Text += "0";
                     return;
                 case NumericKeypadButtonCode.Button1:
                     SetText("1");
-                    //TargetBox.Text += "1";
                     return;
                 case NumericKeypadButtonCode.Button2:
                     SetText("2");
-                    //TargetBox.Text += "2";
                     return;
                 case NumericKeypadButtonCode.Button3:
                     SetText("3");
-                    //TargetBox.Text += "3";
                     return;
                 case NumericKeypadButtonCode.Button4:
                     SetText("4");
-                    //TargetBox.Text += "4";
                     return;
                 case NumericKeypadButtonCode.Button5:
                     SetText("5");
-                    //TargetBox.Text += "5";
                     return;
                 case NumericKeypadButtonCode.Button6:
                     SetText("6");
-                    //TargetBox.Text += "6";
                     return;
                 case NumericKeypadButtonCode.Button7:
                     SetText("7");
-                    //TargetBox.Text += "7";
                     return;
                 case NumericKeypadButtonCode.Button8:
                     SetText("8");
-                    //TargetBox.Text += "8";
                     return;
                 case NumericKeypadButtonCode.Button9:
                     SetText("9");
-                    //TargetBox.Text += "9";
                     return;
             }
         }
@@ -233,7 +223,6 @@ namespace Y_POS.Controls
             else
             {
                 TargetBox.Text += text;
-                //TargetBox.Text = TargetBox.Text.Insert(TargetBox.CaretIndex, text);
             }
         }
 

@@ -24,6 +24,8 @@ using YumaPos.Common.Infrastructure.Logging;
 using YumaPos.Common.Tools.IoC;
 using YumaPos.Common.Tools.Logging;
 using YumaPos.FrontEnd.Infrastructure.Common.Serialization;
+using YumaPos.Hardware.PinpadHardware.Core.Contracts.Interfaces;
+using YumaPos.Hardware.PinpadHardware.Core.Ingenico.Implementations;
 using YumaPos.Shared.API;
 using YumaPos.Shared.Core.Reciept.Contracts;
 using YumaPos.Shared.Infrastructure;
@@ -105,10 +107,13 @@ namespace Y_POS.Bootstrap
             builder.Register<GiftCardService>().As<IGiftCardService>();
             builder.Register<CustomersService>().As<ICustomersService>();
             builder.Register<CheckoutService>().As<ICheckoutService>();
-            builder.Register<MockPaymentService>().As<IPaymentService>();
+            builder.Register<PaymentService>().As<IPaymentService>();
+            builder.Register<DiscountService>().As<IDiscountService>();
 
             // Hardware
             builder.Register<MockPrinter>().As<IPrintService>();
+            builder.Register<MockMsrService>().As<IMsrService>();
+            builder.Register<IngenicoPinPadDriver>().As<IPinPadDriver>();
 
             // Dialogs
             builder.Register<DialogManager>().As<IDialogManager>();

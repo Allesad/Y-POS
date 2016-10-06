@@ -13,6 +13,92 @@
              d:DesignHeight="700" d:DesignWidth="404"
              d:DataContext="{d:DesignInstance pageParts:PaymentVm, d:IsDesignTimeCreatable=False}">
 
+    <UserControl.Resources>
+        <Style x:Key="MultiplePaymentTb" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="IsEnabled" Value="False" />
+            <Setter Property="Height" Value="65" />
+            <Setter Property="Margin" Value="0,0,10,10" />
+        </Style>
+
+        <Style x:Key="MultiplePaymentAddBtn" TargetType="Button" BasedOn="{StaticResource SquareBtn}">
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Width" Value="65" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        </Style>
+
+        <DataTemplate x:Key="AddCashDt">
+            <StackPanel Orientation="Vertical">
+                <Path Stretch="Uniform"
+                      Data="{StaticResource DollarSignIcon}" 
+                      Fill="{StaticResource TextBrush}"/>
+                <TextBlock HorizontalAlignment="Center"
+                           Margin="0,6,0,0"
+                           Style="{StaticResource DefaultSmallText}"
+                           Text="{Binding Source={x:Static p:Resources.Add}, Converter={StaticResource UpperCaseCoverter}}"
+                           TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AddCardDt">
+            <StackPanel Orientation="Vertical">
+                <Path Stretch="Uniform"
+                      Data="{StaticResource DollarSignIcon}" 
+                      Fill="{StaticResource TextBrush}"/>
+                <TextBlock HorizontalAlignment="Center"
+                           Margin="0,6,0,0"
+                           Style="{StaticResource DefaultSmallText}"
+                           Text="{Binding Source={x:Static p:Resources.Add}, Converter={StaticResource UpperCaseCoverter}}"
+                           TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AddGiftCardDt">
+            <StackPanel Orientation="Vertical">
+                <Path Stretch="Uniform"
+                      Data="{StaticResource GiftCardIcon}" 
+                      Fill="{StaticResource TextBrush}"/>
+                <TextBlock HorizontalAlignment="Center"
+                           Margin="0,6,0,0"
+                           Style="{StaticResource DefaultSmallText}"
+                           Text="{Binding Source={x:Static p:Resources.Add}, Converter={StaticResource UpperCaseCoverter}}"
+                           TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AddMobileDt">
+            <StackPanel Orientation="Vertical">
+                <Path Stretch="Uniform"
+                      Data="{StaticResource DollarSignIcon}" 
+                      Fill="{StaticResource TextBrush}"/>
+                <TextBlock HorizontalAlignment="Center"
+                           Margin="0,6,0,0"
+                           Style="{StaticResource DefaultSmallText}"
+                           Text="{Binding Source={x:Static p:Resources.Add}, Converter={StaticResource UpperCaseCoverter}}"
+                           TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AddPointsDt">
+            <StackPanel Orientation="Vertical">
+                <Path Stretch="Uniform"
+                      Data="{StaticResource DollarSignIcon}" 
+                      Fill="{StaticResource TextBrush}"/>
+                <TextBlock HorizontalAlignment="Center"
+                           Margin="0,6,0,0"
+                           Style="{StaticResource DefaultSmallText}"
+                           Text="{Binding Source={x:Static p:Resources.Add}, Converter={StaticResource UpperCaseCoverter}}"
+                           TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </DataTemplate>
+        
+        
+    </UserControl.Resources>
+
     <DockPanel>
         <!-- ACTION BAR -->
         <controls:ActionBarButton DockPanel.Dock="Bottom"
@@ -72,9 +158,9 @@
                      Margin="10,5"
                      helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Tips},
                         Converter={StaticResource UpperCaseCoverter}}"
-                     Text="{Binding Tips, Mode=OneWayToSource, StringFormat=c, UpdateSourceTrigger=PropertyChanged}" 
+                     Text="{Binding Tips, Mode=OneWayToSource, StringFormat=c, UpdateSourceTrigger=PropertyChanged}"
                      GotFocus="Input_OnGotFocus"
-                     behaviors:TextBoxFocusBehavior.SelectAllTextOnFocus="True"/>
+                     behaviors:TextBoxFocusBehavior.SelectAllTextOnFocus="True" />
 
             <!-- CHANGE -->
             <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
@@ -86,10 +172,75 @@
 
             <!-- KEYPAD -->
             <controls:NumericKeypadControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-                                           x:Name="KeypadControl"/>
-            
+                                           x:Name="KeypadControl"
+                                           Visibility="{Binding IsMultiplePayment, Converter={StaticResource BoolToVisibilityConverter},
+                                                ConverterParameter=true}" />
+
             <!-- MULTIPLE PAYMENT FORM -->
-            
+            <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                  Visibility="{Binding IsMultiplePayment, Converter={StaticResource BoolToVisibilityConverter}}"
+                  Margin="10,50,10,0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- CASH PAYMENT -->
+                <TextBox Grid.Row="0" Grid.Column="0"
+                         Style="{StaticResource MultiplePaymentTb}"
+                         helpers:PlaceholderTextHelper.PlaceholderText="CASH PAYMENT" />
+
+                <Button Grid.Row="0" Grid.Column="1"
+                        Style="{StaticResource MultiplePaymentAddBtn}"
+                        ContentTemplate="{StaticResource AddCashDt}"/>
+
+                <!-- CARD PAYMENT -->
+                <TextBox Grid.Row="1" Grid.Column="0"
+                         Style="{StaticResource MultiplePaymentTb}"
+                         helpers:PlaceholderTextHelper.PlaceholderText="CARD PAYMENT" />
+
+                <Button Grid.Row="1" Grid.Column="1"
+                        Style="{StaticResource MultiplePaymentAddBtn}"
+                        ContentTemplate="{StaticResource AddCardDt}"/>
+
+                <!-- GIFT CARD PAYMENT -->
+                <TextBox Grid.Row="2" Grid.Column="0"
+                         Style="{StaticResource MultiplePaymentTb}"
+                         helpers:PlaceholderTextHelper.PlaceholderText="GIFT CARD PAYMENT" />
+
+                <Button Grid.Row="2" Grid.Column="1"
+                        Style="{StaticResource MultiplePaymentAddBtn}"
+                        ContentTemplate="{StaticResource AddGiftCardDt}" />
+
+                <!-- MOBILE PAYMENT -->
+                <TextBox Grid.Row="3" Grid.Column="0"
+                         Style="{StaticResource MultiplePaymentTb}"
+                         helpers:PlaceholderTextHelper.PlaceholderText="MOBILE PAYMENT" />
+
+                <Button Grid.Row="3" Grid.Column="1"
+                        Style="{StaticResource MultiplePaymentAddBtn}"
+                        ContentTemplate="{StaticResource AddMobileDt}"/>
+
+                <!-- POINTS PAYMENT -->
+                <TextBox Grid.Row="4" Grid.Column="0"
+                         Style="{StaticResource MultiplePaymentTb}"
+                         helpers:PlaceholderTextHelper.PlaceholderText="POINTS PAYMENT" />
+
+                <Button Grid.Row="4" Grid.Column="1"
+                        Style="{StaticResource MultiplePaymentAddBtn}"
+                        ContentTemplate="{StaticResource AddPointsDt}"/>
+
+            </Grid>
 
         </Grid>
     </DockPanel>

@@ -6,6 +6,7 @@ using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Common;
+using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Contracts;
 using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
@@ -29,10 +30,13 @@ namespace Y_POS.Core.ViewModels.Pages
         private DiscountVm _discountVm;
         private SplittingsVm _splittingsVm;
         private MarketingVm _marketingVm;
+        private RefundVm _refundVm;
         private PaymentCompleteVm _paymentCompleteVm;
 
         private ReactiveCommand<object> _commandSwitchToPaymentType;
         private ReactiveCommand<object> _commandSwitchToOperationType;
+        private ReactiveCommand<bool> _commandVoid;
+        private ReactiveCommand<object> _commandRefund; 
 
         #endregion
 
@@ -52,11 +56,11 @@ namespace Y_POS.Core.ViewModels.Pages
         [Reactive]
         public PaymentType CurrentPaymentType { get; private set; }
 
-        public SplittingType CurrentSplittingType { [ObservableAsProperty] get; }
+        public extern SplittingType CurrentSplittingType { [ObservableAsProperty] get; }
 
-        public string CustomerName { [ObservableAsProperty] get; }
+        public extern string CustomerName { [ObservableAsProperty] get; }
 
-        public string DiscountName { [ObservableAsProperty] get; }
+        public extern string DiscountName { [ObservableAsProperty] get; }
 
         #endregion
 
@@ -64,8 +68,8 @@ namespace Y_POS.Core.ViewModels.Pages
 
         public ICommand CommandPrint { get; }
         public ICommand CommandSendEmail { get; }
-        public ICommand CommandVoid { get; }
-        public ICommand CommandRefund { get; }
+        public ICommand CommandVoid => _commandVoid;
+        public ICommand CommandRefund => _commandRefund;
         public ICommand CommandSwitchToPaymentType => _commandSwitchToPaymentType;
         public ICommand CommandSwitchToOperationType => _commandSwitchToOperationType;
 
@@ -96,8 +100,26 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override void InitCommands()
         {
-            _commandSwitchToPaymentType = ReactiveCommand.Create();
-            _commandSwitchToOperationType = ReactiveCommand.Create();
+            var canPerformReceiptOperation = this.WhenAnyValue(vm => vm.SelectedReceipt)
+                .Select(vm => vm != null && !vm.IsPaid);
+            _commandSwitchToPaymentType = ReactiveCommand.Create(canPerformReceiptOperation);
+            _commandSwitchToOperationType = ReactiveCommand.Create(canPerformReceiptOperation);
+
+            var canGoToRefund = this.WhenAny(vm => vm.SelectedReceipt, vm => vm.CurrentOperationType, (receipt, type) => 
+                receipt.Value != null
+                && receipt.Value.IsPaid
+                && !receipt.Value.IsRefunded
+                && type.Value != OperationType.Refund);
+            _commandRefund = ReactiveCommand.Create(canGoToRefund);
+
+            _commandVoid = ReactiveCommand.CreateAsyncTask(async _ =>
+            {
+                if (!await DialogService.CreateConfirmationDialog(Properties.Resources.Dialog_Confirmation_VoidOrder,
+                    Properties.Resources.Dialog_Title_Confirmation).ShowAsync()) return false;
+
+                await _controller.VoidOrderAsync();
+                return true;
+            });
         }
 
         protected override void InitLifetimeSubscriptions()
@@ -111,6 +133,15 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(_commandSwitchToOperationType
                 .Select(param => (OperationType) param)
                 .Subscribe(type => CurrentOperationType = type));
+
+            // Void order
+            AddLifetimeSubscription(_commandVoid
+                .Where(b => b)
+                .Subscribe(_ => NavigationService.StartIntent(new Intent(AppNavigation.ActiveOrders).SetFlags(IntentFlags.ClearTop))));
+
+            // Refund receipt
+            AddLifetimeSubscription(_commandRefund
+                .SubscribeToObserveOnUi(_ => CurrentOperationType = OperationType.Refund ));
 
             // Handle payment type switch
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm.CurrentPaymentType)
@@ -158,7 +189,15 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(_controller.ReceiptsStream
                 .Where(items => items != null)
                 .Select(items => items.Select(item => new ReceiptItemVm(item)).ToArray())
-                .SubscribeToObserveOnUi(receipts => Receipts = receipts));
+                .SubscribeToObserveOnUi(receipts =>
+                {
+                    Receipts = receipts;
+                    var receiptToSelect = SelectedReceipt != null 
+                        ? Receipts.FirstOrDefault(vm => vm.Model.Equals(SelectedReceipt.Model)) 
+                        : Receipts.FirstOrDefault(vm => !vm.IsPaid);
+
+                    SelectedReceipt = receiptToSelect ?? Receipts.FirstOrDefault();
+                }));
 
             // Current receipt tracking
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm.SelectedReceipt).Skip(1)
@@ -210,6 +249,9 @@ namespace Y_POS.Core.ViewModels.Pages
                 case OperationType.PaymentComplete:
                     _paymentCompleteVm = _paymentCompleteVm ?? new PaymentCompleteVm(_controller);
                     return _paymentCompleteVm;
+                case OperationType.Refund:
+                    _refundVm = _refundVm ?? CreateAndSetUpRefundVm();
+                    return _refundVm;
                 case OperationType.Customer:
                     return _selectCustomerVm;
                 case OperationType.Splitting:
@@ -240,7 +282,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private DiscountVm CreateAndSetUpDiscountVm()
         {
-            var vm = new DiscountVm(_controller);
+            var vm = new DiscountVm(_controller, _selectedReceiptController);
 
             AddLifetimeSubscription(Observable.FromEventPattern(
                             h => vm.CloseEvent += h,
@@ -257,6 +299,18 @@ namespace Y_POS.Core.ViewModels.Pages
                             h => vm.CloseEvent += h,
                             h => vm.CloseEvent -= h)
                             .Subscribe(_ => CurrentOperationType = OperationType.Payment));
+
+            return vm;
+        }
+
+        private RefundVm CreateAndSetUpRefundVm()
+        {
+            var vm = new RefundVm(_controller, _selectedReceiptController);
+
+            AddLifetimeSubscription(Observable.FromEventPattern(
+                h => vm.CloseEvent += h,
+                h => vm.CloseEvent -= h)
+                .Subscribe(_ => CurrentOperationType = OperationType.Payment));
 
             return vm;
         }

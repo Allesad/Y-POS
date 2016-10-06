@@ -491,4 +491,10 @@
   <data name="Split_Proportionally" xml:space="preserve">
     <value>Пропорционально</value>
   </data>
+  <data name="SelectDiscount" xml:space="preserve">
+    <value>Выберите скидку</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
 </root>

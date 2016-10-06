@@ -1,12 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using DialogManagement.Contracts;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Services;
 using YumaPos.Client.UI.ViewModels.Impl;
+using YumaPos.Common.Infrastructure.BusinessLogic.Tendering;
 using Y_POS.Core.Checkout;
 using Y_POS.Core.Extensions;
+using Y_POS.Core.Infrastructure;
+using Y_POS.Core.ViewModels.Dialogs;
 using Y_POS.Core.ViewModels.Pages;
 
 namespace Y_POS.Core.ViewModels.PageParts
@@ -17,9 +25,7 @@ namespace Y_POS.Core.ViewModels.PageParts
 
         private readonly CheckoutController _controller;
         private readonly SelectedReceiptController _selectedReceiptController;
-
-        private PaymentParams _currentPaymentParams;
-
+        
         #endregion
 
         #region Properties
@@ -41,11 +47,14 @@ namespace Y_POS.Core.ViewModels.PageParts
         
         public extern decimal Change { [ObservableAsProperty] get; }
 
+        public extern bool IsMultiplePayment { [ObservableAsProperty] get; }
+
         #endregion
 
         #region Commands
 
         public ICommand CommandCheckout { get; }
+        public ICommand CommandAddPayment { get; }
         public ICommand CommandSetPaymentType { get; }
 
         #endregion
@@ -65,16 +74,16 @@ namespace Y_POS.Core.ViewModels.PageParts
                 .CombineLatest(_selectedReceiptController.SelectedReceiptStream.Select(item => item != null), 
                     (paymentValid, hasSelectedReceipt) => paymentValid && hasSelectedReceipt);
 
-            var cmdCheckout = ReactiveCommand.CreateAsyncTask(canPayStream, (_, ct) => _controller.Pay(_currentPaymentParams));
+            var cmdCheckout = ReactiveCommand.CreateAsyncTask(canPayStream, 
+                (_, ct) => Pay(_controller.OrderId, _selectedReceiptController.CurrentReceipt.SplittingNumber, ct));
             cmdCheckout
-                .Subscribe(response =>
+                .SubscribeToObserveOnUi(response =>
                 {
                     if (!response.IsSuccess)
                     {
-                        DialogService.ShowErrorMessage(response.Message);
+                        DialogService.ShowErrorMessage(response.ErrorMessage);
+                        return;
                     }
-                    /*DialogService.ShowNotificationMessage($"Received: {Received.ToString("c")},\n" +
-                                                          $"Tips: {Tips.ToString("c")}");*/
                 });
 
             CommandCheckout = cmdCheckout;
@@ -92,6 +101,13 @@ namespace Y_POS.Core.ViewModels.PageParts
                 .Subscribe(type => PaymentType = type);
 
             CommandSetPaymentType = cmdSetPaymentType;
+
+            this.WhenAnyValue(vm => vm.PaymentType)
+                .Select(type => type == PaymentType.Multiple)
+                .ToPropertyEx(this, vm => vm.IsMultiplePayment, false, SchedulerService.UiScheduler);
+
+            // Command Add payment
+            //var cmdAddPayment = ReactiveCommand.CreateAsyncTask();
         }
 
         #endregion
@@ -108,6 +124,57 @@ namespace Y_POS.Core.ViewModels.PageParts
             Subtotal = receipt.Subtotal;
             Total = receipt.Total;
         }
+
+        private async Task<TenderParams[]> GetPaymentInfo()
+        {
+            switch (PaymentType)
+            {
+                case PaymentType.Cash:
+                    return new[] {new TenderParams {Amount = Received, TipAmount = Tips, TenderType = TenderType.Ca}};
+                case PaymentType.Card:
+                    return new[] {new TenderParams {Amount = Received, TipAmount = Tips, TenderType = TenderType.Cc}};
+                case PaymentType.GiftCard:
+                    var dialog = new GiftCardNumberDialog();
+                    if (await DialogService.CreateCustomDialog(dialog, "GIFT CARD").ShowAsync() == DialogButtonType.Cancel)
+                    {
+                        return null;
+                    }
+                    return new[] {new TenderParams
+                    {
+                        Amount = Received,
+                        TipAmount = Tips,
+                        TenderType = TenderType.Eg,
+                        Ccnum = dialog.CardNumber
+                    }};
+            }
+            throw new InvalidOperationException("Selected payment type not supported!");
+        }
+
+        private async Task<ResponseMessage> Pay(Guid orderId, int splittingNumber, CancellationToken ct)
+        {
+            var tenders = await GetPaymentInfo().ConfigureAwait(false);
+
+            if (ct.IsCancellationRequested)
+            {
+                return ResponseMessage.Fail("Operation cancelled");
+            }
+
+            if (tenders == null)
+            {
+                return ResponseMessage.Success();
+            }
+            
+            var paymentResponse = await _controller.PayAsync(new PaymentParams
+            {
+                OrderId = orderId,
+                ReceiptNumber = splittingNumber,
+                Tenders = tenders
+            }, ct).ConfigureAwait(false);
+
+            return paymentResponse.IsSuccess
+                ? ResponseMessage.Success()
+                : ResponseMessage.Fail(paymentResponse.Message);
+        } 
 
         private void Reset()
         {

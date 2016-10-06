@@ -22,6 +22,7 @@ namespace Y_POS.Core.ViewModels.Pages
         Discount,
         Splitting,
         Marketing,
+        Refund,
         PaymentComplete
     }
 

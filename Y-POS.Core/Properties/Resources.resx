@@ -492,4 +492,10 @@
   <data name="Split_Proportionally" xml:space="preserve">
     <value>Proportionally</value>
   </data>
+  <data name="SelectDiscount" xml:space="preserve">
+    <value>Select discount</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
 </root>

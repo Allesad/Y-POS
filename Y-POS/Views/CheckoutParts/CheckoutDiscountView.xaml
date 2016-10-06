@@ -3,49 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
+             xmlns:impl="clr-namespace:Y_POS.Core.ViewModels.Items.Impl;assembly=Y-POS.Core"
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="404"
-             d:DataContext="{d:DesignInstance pageParts:IDiscountVm, d:IsDesignTimeCreatable=False}">
+             d:DataContext="{d:DesignInstance pageParts:DiscountVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="DiscountItemDt">
+        <DataTemplate x:Key="DiscountItemDt" DataType="{x:Type impl:DiscountItemVm}">
             <Button FontSize="18"
                     Height="65"
                     Foreground="{StaticResource TextBrush}"
                     Padding="15"
                     Margin="0,0,0,10"
-                    Content="{Binding}" 
+                    Content="{Binding Name}"
                     Command="{Binding ElementName=Discounts, Path=DataContext.CommandSetDiscount}"
-                    CommandParameter="{Binding}"/>
+                    CommandParameter="{Binding Model}" />
         </DataTemplate>
     </UserControl.Resources>
 
     <DockPanel>
 
         <!-- ACTION BAR -->
-        <UniformGrid DockPanel.Dock="Bottom"
-                     Columns="2">
-
-            <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
-                                      BorderThickness="0,0,1,0"
-                                      BorderBrush="{StaticResource ActionBarBg}"
-                                      Title="{Binding Source={x:Static p:Resources.Cancel}, 
-                                        Converter={StaticResource UpperCaseCoverter}}" 
-                                      Command="{Binding CommandCancel}"/>
-            <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
-                                      Title="{Binding Source={x:Static p:Resources.Ok}, 
-                                        Converter={StaticResource UpperCaseCoverter}}" 
-                                      Command="{Binding CommandSetDiscount}"/>
-
-        </UniformGrid>
+        <controls:ActionBarButton DockPanel.Dock="Bottom"
+                                  Style="{StaticResource ActionBarMainActionButton}"
+                                  BorderBrush="{StaticResource ActionBarBg}"
+                                  Title="{Binding Source={x:Static p:Resources.Cancel}, 
+                                        Converter={StaticResource UpperCaseCoverter}}"
+                                  Command="{Binding CommandCancel}" />
 
         <ItemsControl Margin="10"
                       Name="Discounts"
                       HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding Discounts, Mode=OneWay}"
                       ItemTemplate="{StaticResource DiscountItemDt}">
 
             <ItemsControl.ItemsPanel>
@@ -53,14 +45,6 @@
                     <StackPanel />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-
-            <ItemsControl.Items>
-                <system:String>5% - Morning Hours</system:String>
-                <system:String>10% - Happy Hours</system:String>
-                <system:String>10% - Best Customer</system:String>
-                <system:String>15% - War Veterans</system:String>
-                <system:String>CUSTOM DISCOUNT</system:String>
-            </ItemsControl.Items>
 
         </ItemsControl>
 

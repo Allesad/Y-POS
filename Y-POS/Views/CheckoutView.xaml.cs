@@ -1,9 +1,14 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Reactive.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ReactiveUI;
 using YumaPos.Client.Hardware;
 using YumaPos.Client.Helpers;
+using Y_POS.Core.Extensions;
+using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views.CheckoutParts;
 
 namespace Y_POS.Views
@@ -18,16 +23,26 @@ namespace Y_POS.Views
         public CheckoutView()
         {
             InitializeComponent();
+        }
 
-            //Content.Content = new CheckoutPaymentView();
-            
-            /*OperationsList.SetValue(ItemsControl.ItemsSourceProperty, new[]
-            {
-                new OperationItem((Geometry) FindResource("CustomerIcon"), Core.Properties.Resources.Customer, "Add Customer"),
-                new OperationItem((Geometry) FindResource("PercentIcon"), Core.Properties.Resources.Discount, "10% - Happy Hour"),
-                new OperationItem((Geometry) FindResource("DivideIcon"), Core.Properties.Resources.Split, "All on One"),
-                new OperationItem((Geometry) FindResource("PromoIcon"), Core.Properties.Resources.Promo, "No")
-            });*/
+        private CheckoutVm ViewModel => (CheckoutVm) DataContext;
+
+        protected override void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            base.OnLoaded(sender, routedEventArgs);
+
+            this.WhenAnyValue(view => view.ViewModel.Receipts)
+                .Where(vms => vms != null)
+                .Select(vms => vms.Any(vm => vm.IsPaid))
+                .SubscribeToObserveOnUi(hasPaidReceipts =>
+                {
+                    RightActionButton.Command = hasPaidReceipts
+                        ? ViewModel.CommandRefund
+                        : ViewModel.CommandVoid;
+                    RightActionButton.Title = hasPaidReceipts
+                        ? Core.Properties.Resources.Refund.ToUpper()
+                        : Core.Properties.Resources.Void.ToUpper();
+                });
         }
 
         /*private void SwitchToPayment(object sender, RoutedEventArgs e)
