@@ -191,13 +191,21 @@ namespace Y_POS.Core.ViewModels.Pages
                 .Select(items => items.Select(item => new ReceiptItemVm(item)).ToArray())
                 .SubscribeToObserveOnUi(receipts =>
                 {
+                    var receiptModel = SelectedReceipt?.Model;
+
                     Receipts = receipts;
-                    var receiptToSelect = SelectedReceipt != null 
-                        ? Receipts.FirstOrDefault(vm => vm.Model.Equals(SelectedReceipt.Model)) 
+                    var receiptToSelect = receiptModel != null
+                        ? Receipts.FirstOrDefault(vm => vm.Model.SplittingNumber == receiptModel.SplittingNumber)
                         : Receipts.FirstOrDefault(vm => !vm.IsPaid);
 
                     SelectedReceipt = receiptToSelect ?? Receipts.FirstOrDefault();
                 }));
+
+            // Order payment completion tracking
+            Observable.FromEventPattern(
+                    h => _controller.PaymentCompleted += h,
+                    h => _controller.PaymentCompleted -= h)
+                .Subscribe(_ => CurrentOperationType = OperationType.PaymentComplete);
 
             // Current receipt tracking
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm.SelectedReceipt).Skip(1)
@@ -310,7 +318,7 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(Observable.FromEventPattern(
                 h => vm.CloseEvent += h,
                 h => vm.CloseEvent -= h)
-                .Subscribe(_ => CurrentOperationType = OperationType.Payment));
+                .Subscribe(_ => CurrentOperationType = OperationType.PaymentComplete));
 
             return vm;
         }

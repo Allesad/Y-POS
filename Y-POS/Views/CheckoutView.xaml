@@ -12,6 +12,7 @@
                 xmlns:converters="clr-namespace:Y_POS.Converters"
                 xmlns:impl="clr-namespace:Y_POS.Core.ViewModels.Items.Impl;assembly=Y-POS.Core"
                 xmlns:behaviors="clr-namespace:YumaPos.WPF.UI.Behaviors;assembly=YumaPos.WPF.UI"
+                xmlns:awe="http://schemas.awesomium.com/winfx"
                 mc:Ignorable="d"
                 d:DesignHeight="768" d:DesignWidth="1024"
                 d:DataContext="{d:DesignInstance pages:ICheckoutVm, d:IsDesignTimeCreatable=False}">
@@ -24,9 +25,11 @@
         <converters:SplittingTypeToTextConverter x:Key="SplittingTypeToTextConverter" />
         <converters:DiscountToTextConverter x:Key="DiscountToTextConverter"/>
         <converters:ReceiptRefundedToIconConverter x:Key="ReceiptStatusIconConverter"/>
+        
+        <awe:UrlConverter x:Key="UrlConverter"/>
 
         <Style x:Key="ReceiptListItem" TargetType="ListBoxItem" BasedOn="{StaticResource LeftMarkedListItem}">
-            <Setter Property="Padding" Value="25,10,35,10"/>
+            <Setter Property="Padding" Value="25,6,35,6"/>
             <Setter Property="ex:StyleExtensions.ForegroundOnPressed" Value="{StaticResource TextBrush}" />
 
             <Setter Property="ContentTemplate">
@@ -34,7 +37,7 @@
                     <DataTemplate DataType="{x:Type impl:ReceiptItemVm}">
 
                         <DockPanel Name="Container"
-                                   Height="50">
+                                   Height="44">
 
                             <!-- PRICE -->
                             <TextBlock DockPanel.Dock="Right"
@@ -343,12 +346,14 @@
                      ItemsSource="{Binding Receipts}"
                      SelectedItem="{Binding SelectedReceipt, Mode=TwoWay}" />
 
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+            <awe:WebControl x:Name="ReceiptControl"
+                            />
+            <!--<ScrollViewer HorizontalScrollBarVisibility="Disabled"
                           VerticalScrollBarVisibility="Hidden"
                           PanningMode="VerticalOnly"
                           behaviors:TouchScrollingBehavior.IsEnabled="True">
                 <Image Source="../Images/Receipt.png" />
-            </ScrollViewer>
+            </ScrollViewer>-->
         </DockPanel>
 
 

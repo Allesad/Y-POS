@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Threading;
+using Awesomium.Core;
 using NLog;
 using ReactiveUI;
 using YumaPos.Client.App;
@@ -16,6 +17,7 @@ using YumaPos.Common.Infrastructure.Logging;
 using Y_POS.Bootstrap;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views;
+using LogLevel = Awesomium.Core.LogLevel;
 
 namespace Y_POS
 {
@@ -29,8 +31,8 @@ namespace Y_POS
         protected override void OnStartup(StartupEventArgs e)
         {
             Thread.CurrentThread.Name = "Y-POS.Win";
-            //const string lang = "ru-RU";
-            const string lang = "en-US";
+            const string lang = "ru-RU";
+            //const string lang = "en-US";
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
             Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
 
@@ -53,6 +55,17 @@ namespace Y_POS
             RxApp.SupportsRangeNotifications = false;
 
             InitExceptionHandlers();
+
+            // Setup Awesomium
+            if (!WebCore.IsInitialized)
+            {
+                WebCore.Initialize(new WebConfig
+                {
+                    LogLevel = LogLevel.Normal,
+                    //HomeURL = new Uri("https://habrahabr.ru/all/")
+                }, true);
+            }
+
             Bootstrap();
         }
 
@@ -61,6 +74,11 @@ namespace Y_POS
             AppDomain.CurrentDomain.UnhandledException -= CurrentDomainOnUnhandledException;
             Current.DispatcherUnhandledException -= DispatcherOnUnhandledException;
             TaskScheduler.UnobservedTaskException -= TaskSchedulerOnUnobservedTaskException;
+
+            if (WebCore.IsInitialized)
+            {
+                WebCore.Shutdown();
+            }
 
             base.OnExit(e);
         }

@@ -16,7 +16,7 @@ namespace Y_POS.Core.ViewModels.Items.Impl
         public bool IsRefunded => Model.IsRefunded;
         public bool IsVoid => Model.IsVoid;
         public bool IsTaxExempt => Model.IsTaxExempt;
-        //public string Receipt => Model.ReceiptFormatted;
+        public string ReceiptHtml => Model.ReceiptHtml;
 
         public ReceiptItem Model { get; }
 

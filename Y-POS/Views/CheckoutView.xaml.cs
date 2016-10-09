@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,6 +9,7 @@ using ReactiveUI;
 using YumaPos.Client.Hardware;
 using YumaPos.Client.Helpers;
 using Y_POS.Core.Extensions;
+using Y_POS.Core.Infrastructure;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views.CheckoutParts;
 
@@ -32,6 +34,7 @@ namespace Y_POS.Views
             base.OnLoaded(sender, routedEventArgs);
 
             this.WhenAnyValue(view => view.ViewModel.Receipts)
+                .TakeUntil(closingObservable)
                 .Where(vms => vms != null)
                 .Select(vms => vms.Any(vm => vm.IsPaid))
                 .SubscribeToObserveOnUi(hasPaidReceipts =>
@@ -43,6 +46,30 @@ namespace Y_POS.Views
                         ? Core.Properties.Resources.Refund.ToUpper()
                         : Core.Properties.Resources.Void.ToUpper();
                 });
+
+            this.WhenAnyValue(view => view.ViewModel.SelectedReceipt)
+                .TakeUntil(closingObservable)
+                .Select(vm => vm?.ReceiptHtml)
+                .SubscribeToObserveOnUi(receiptHtml =>
+                {
+                    if (receiptHtml.IsEmpty())
+                    {
+                        ReceiptControl.GoToHome();
+                        return;
+                    }
+                    ReceiptControl.LoadHTML(receiptHtml);
+                });
+
+            this.WhenAnyValue(view => view.ViewModel.CurrentOperationType)
+                .Select(type => type == OperationType.PaymentComplete)
+                .SubscribeToObserveOnUi(isComplete => ActionBarLeftContainer.SetValue(Grid.ColumnSpanProperty, isComplete ? 2 : 1));
+        }
+
+        protected override void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            base.OnUnloaded(sender, routedEventArgs);
+
+            if (!ReceiptControl.IsDisposed) ReceiptControl.Dispose();
         }
 
         /*private void SwitchToPayment(object sender, RoutedEventArgs e)

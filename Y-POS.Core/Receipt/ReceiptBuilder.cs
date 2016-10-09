@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using YumaPos.Client.Builders;
-using YumaPos.Client.Common;
 using YumaPos.Client.Factories;
+using Y_POS.Core.Properties;
 
 namespace Y_POS.Core.Receipt
 {
@@ -14,7 +14,6 @@ namespace Y_POS.Core.Receipt
         #region Fields
 
         private readonly IReceiptTemplateFactory _templateFactory;
-        private readonly IResourcesService _resourcesService;
 
         private string _logoUrl;
         private string _restaurantName;
@@ -45,15 +44,12 @@ namespace Y_POS.Core.Receipt
 
         #region Constructor
 
-        public ReceiptBuilder(IReceiptTemplateFactory templateFactory, IResourcesService resourcesService)
+        public ReceiptBuilder(IReceiptTemplateFactory templateFactory)
         {
             if (templateFactory == null)
                 throw new ArgumentNullException(nameof(templateFactory));
-            if (resourcesService == null)
-                throw new ArgumentNullException(nameof(resourcesService));
 
             _templateFactory = templateFactory;
-            _resourcesService = resourcesService;
 
             _taxes = new List<Tax>();
             _discounts = new Dictionary<string, string>();
@@ -129,7 +125,7 @@ namespace Y_POS.Core.Receipt
         {
             if (!string.IsNullOrEmpty(cashierName))
             {
-                _cashierName = $"{_resourcesService.GetStub("Cashier")}: {cashierName}";
+                _cashierName = $"{Resources.Cashier}: {cashierName}";
             }
             return this;
         }
@@ -176,7 +172,8 @@ namespace Y_POS.Core.Receipt
             return this;
         }
 
-        public IReceiptBuilder AddItem(string title, string modifiers, string qty, string pricePerOne, string priceForAll, string amount, string discount)
+        public IReceiptBuilder AddItem(string title, string modifiers, string qty, string pricePerOne,
+            string priceForAll, string amount, string discount)
         {
             _orderedItems.Add(new OrderedItem(title, modifiers, qty, pricePerOne, priceForAll, amount, discount));
             return this;
@@ -299,7 +296,8 @@ namespace Y_POS.Core.Receipt
                     {"DiscountValue", discount.Value}
                 };
 
-                discountsSb.Append(Regex.Replace(discTemplate, @"\{(.+?)\}", match => discountParams[match.Groups[1].Value]));
+                discountsSb.Append(Regex.Replace(discTemplate, @"\{(.+?)\}",
+                    match => discountParams[match.Groups[1].Value]));
             }
 
             var paymentTypesSb = new StringBuilder();
@@ -313,7 +311,8 @@ namespace Y_POS.Core.Receipt
                     {"PaymentTypeAmount", type.Amount}
                 };
 
-                paymentTypesSb.Append(Regex.Replace(typeTemplate, @"\{(.+?)\}", match => typesParams[match.Groups[1].Value]));
+                paymentTypesSb.Append(Regex.Replace(typeTemplate, @"\{(.+?)\}",
+                    match => typesParams[match.Groups[1].Value]));
             }
 
             var parameters = new Dictionary<string, string>
@@ -412,8 +411,7 @@ namespace Y_POS.Core.Receipt
 
             foreach (var orderedItem in receipt.OrderedItems.ToArray())
             {
-                var modifiers =
-                    $"{(orderedItem.RelatedModifiers.Any() ? string.Join(" / ", orderedItem.RelatedModifiers.Select(mod => $"{mod.Name} + {mod.Quantity} x {mod.Price}")) + " / " : string.Empty)} {(orderedItem.CommonModifiers.Any() ? string.Join(" / ", orderedItem.CommonModifiers.Select(mod => $"{mod.Name} + {mod.Quantity} x {mod.Price}")) + " / " : string.Empty)}";
+                var modifiers = $"{(orderedItem.RelatedModifiers.Any() ? string.Join(" / ", orderedItem.RelatedModifiers.Select(mod => $"{mod.Name} + {mod.Quantity} x {mod.Price}")) + " / " : string.Empty)} {(orderedItem.CommonModifiers.Any() ? string.Join(" / ", orderedItem.CommonModifiers.Select(mod => $"{mod.Name} + {mod.Quantity} x {mod.Price}")) + " / " : string.Empty)}";
 
                 AddItem(orderedItem.Title, modifiers, orderedItem.Qty,
                     orderedItem.PricePerOne, orderedItem.PriceForAll, orderedItem.Amount, orderedItem.Discount);
@@ -466,7 +464,8 @@ namespace Y_POS.Core.Receipt
             public string Discount { get; private set; }
 
 
-            public OrderedItem(string title, string modifiers, string qty, string pricePerOne, string priceForAll, string amount, string discount)
+            public OrderedItem(string title, string modifiers, string qty, string pricePerOne, string priceForAll,
+                string amount, string discount)
             {
                 Title = title;
                 Modifiers = modifiers;

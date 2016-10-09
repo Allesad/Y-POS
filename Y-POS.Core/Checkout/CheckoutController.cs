@@ -28,13 +28,14 @@ namespace Y_POS.Core.Checkout
 
         public Guid OrderId { get; private set; }
         public bool IsInitialized => OrderId != Guid.Empty;
+        public bool OrderIsPaid { get; private set; }
 
         public IObservable<ReceiptItem[]> ReceiptsStream { get; }
         public IObservable<OrderStatus> OrderStatusStream { get; }
         public IObservable<string> CustomerNameStream { get; }
         public IObservable<SplittingType> SplittingTypeStream { get; }
         public IObservable<string> DiscountStream { get; }
-        
+
         [Reactive]
         private ReceiptItem[] Receipts { get; set; }
 
@@ -52,11 +53,17 @@ namespace Y_POS.Core.Checkout
 
         #endregion
 
+        #region Event
+
+        public event EventHandler PaymentCompleted;
+
+        #endregion
+
         #region Constructor
 
-        public CheckoutController(IOrderService orderService, 
-            ICheckoutService checkoutService, 
-            IPaymentService paymentService, 
+        public CheckoutController(IOrderService orderService,
+            ICheckoutService checkoutService,
+            IPaymentService paymentService,
             IDiscountService discountService)
         {
             Guard.NotNull(orderService, nameof(orderService));
@@ -88,7 +95,8 @@ namespace Y_POS.Core.Checkout
         public Task Init(Guid orderId, CancellationToken ct)
         {
             Guard.NonEmptyGuid(orderId, nameof(orderId));
-            if (IsInitialized) throw new InvalidOperationException($"{nameof(CheckoutController)} already initialized!");
+            if (IsInitialized)
+                throw new InvalidOperationException($"{nameof(CheckoutController)} already initialized!");
 
             return InitImpl(orderId, ct);
         }
@@ -96,6 +104,7 @@ namespace Y_POS.Core.Checkout
         /*
          * SPLITTING
          * */
+
         public Task SplitAllOnOne()
         {
             return SplitAllOnOne(CancellationToken.None);
@@ -138,7 +147,7 @@ namespace Y_POS.Core.Checkout
             {
                 throw new ArgumentException("Proportions cannot contain negative values");
             }
-            
+
             CheckInitialized();
 
             return SplitInternal(SplittingType.SplitProportionally, proportions, ct);
@@ -170,6 +179,18 @@ namespace Y_POS.Core.Checkout
             CheckInitialized();
 
             return ApplyDiscountInternal(receipt, discount, ct);
+        }
+
+        public Task RemoveAllDiscountsAsync()
+        {
+            return RemoveAllDiscountsAsync(CancellationToken.None);
+        }
+
+        public Task RemoveAllDiscountsAsync(CancellationToken ct)
+        {
+            CheckInitialized();
+
+            return RemoveAllDiscountsInternal(ct);
         }
 
         /*
@@ -204,14 +225,48 @@ namespace Y_POS.Core.Checkout
             return RefundInternal(receiptToRefund, ct);
         }
 
+        /* 
+         * PROGRESS
+         */
+
+        public Task StartOrder()
+        {
+            CheckInitialized();
+
+            return UpdateOrderStatus(OrderStatus.InProgress);
+        }
+
+        public Task DoneOrder()
+        {
+            CheckInitialized();
+
+            return UpdateOrderStatus(OrderStatus.Prepared);
+        }
+
         /*
          * VOID
          */
+
         public Task VoidOrderAsync()
         {
             CheckInitialized();
 
-            return VoidInternal();
+            return OrderStatus != OrderStatus.Void
+                ? UpdateOrderStatus(OrderStatus.Void)
+                : Task.FromResult(0);
+        }
+
+        /* 
+         * CLOSE
+         */
+
+        public Task CloseOrderAsync()
+        {
+            CheckInitialized();
+
+            return OrderStatus != OrderStatus.Closed
+                ? CloseInternal()
+                : Task.FromResult(0);
         }
 
         #endregion
@@ -220,7 +275,8 @@ namespace Y_POS.Core.Checkout
 
         private void CheckInitialized()
         {
-            if (!IsInitialized) throw new InvalidOperationException($"{nameof(CheckoutController)} is not initialized!");
+            if (!IsInitialized)
+                throw new InvalidOperationException($"{nameof(CheckoutController)} is not initialized!");
         }
 
         private async Task InitImpl(Guid orderId, CancellationToken ct)
@@ -260,8 +316,9 @@ namespace Y_POS.Core.Checkout
                     SplittingType = SplittingType.SplitEvently;
                     break;
                 case SplittingType.SplitProportionally:
-                    shouldRefreshReceipts = await _checkoutService.SplitReceiptsProportionally(OrderId, (int[]) args).ToTask(ct)
-                        .ConfigureAwait(false);
+                    shouldRefreshReceipts =
+                        await _checkoutService.SplitReceiptsProportionally(OrderId, (int[]) args).ToTask(ct)
+                            .ConfigureAwait(false);
                     SplittingType = SplittingType.SplitProportionally;
                     break;
             }
@@ -273,14 +330,25 @@ namespace Y_POS.Core.Checkout
 
         private async Task ApplyDiscountInternal(ReceiptItem receipt, DiscountDto discount, CancellationToken ct)
         {
-            var response = await _checkoutService.AddDiscountToReceipt(OrderId, discount.Id, receipt.SplittingNumber).ToTask(ct)
-                .ConfigureAwait(false);
+            var response =
+                await _checkoutService.AddDiscountToReceipt(OrderId, discount.Id, receipt.SplittingNumber).ToTask(ct)
+                    .ConfigureAwait(false);
 
-            if (response.Errors != null && !response.Errors.Any())
+            if (response.Errors == null)
             {
                 await RefreshReceipts(ct).ConfigureAwait(false);
             }
             CurrentDiscountName = discount.Name;
+        }
+
+        private async Task RemoveAllDiscountsInternal(CancellationToken ct)
+        {
+            var response = await _checkoutService.RemoveAllDiscounts(OrderId).ToTask(ct).ConfigureAwait(false);
+
+            if (response.Errors == null)
+            {
+                await RefreshReceipts(ct).ConfigureAwait(false);
+            }
         }
 
         private async Task<IPaymentResponse> PayInternal(PaymentParams paymentParams, CancellationToken ct)
@@ -290,6 +358,12 @@ namespace Y_POS.Core.Checkout
             if (result.IsSuccess)
             {
                 await RefreshReceipts(ct).ConfigureAwait(false);
+
+                if (OrderStatus != OrderStatus.Closed && OrderStatus != OrderStatus.Void &&
+                    Receipts.All(item => item.IsPaid))
+                {
+                    RaisePaymentCompletedEvent();
+                }
             }
             return result;
         }
@@ -309,10 +383,16 @@ namespace Y_POS.Core.Checkout
             return result;
         }
 
-        private async Task VoidInternal()
+        private async Task UpdateOrderStatus(OrderStatus status)
         {
-            await _orderService.UpdateOrderStatus(OrderId, (int)OrderStatus.Void);
-            OrderStatus = OrderStatus.Void;
+            await _orderService.UpdateOrderStatus(OrderId, (int) status);
+            OrderStatus = status;
+        }
+
+        private async Task CloseInternal()
+        {
+            await _orderService.CloseOrder(OrderId).ToTask().ConfigureAwait(false);
+            OrderStatus = OrderStatus.Closed;
         }
 
         private async Task RefreshReceipts(CancellationToken ct)
@@ -322,6 +402,13 @@ namespace Y_POS.Core.Checkout
             if (ct.IsCancellationRequested) return;
 
             Receipts = receipts.Select(dto => new ReceiptItem(dto)).ToArray();
+            OrderIsPaid = Receipts.All(item => item.IsPaid);
+        }
+
+        private void RaisePaymentCompletedEvent()
+        {
+            var handler = Volatile.Read(ref PaymentCompleted);
+            handler?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion

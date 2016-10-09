@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using YumaPos.Client.Builders;
+using YumaPos.Client.Helpers;
 using YumaPos.Client.Services;
 using YumaPos.Shared.API.Models;
 using Y_POS.Core.Infrastructure;
 
 namespace Y_POS.Core.Checkout
 {
-    public class ReceiptItem : IEquatable<ReceiptItem>
+    public partial class ReceiptItem : IEquatable<ReceiptItem>
     {
         #region Properties
 
@@ -22,6 +24,9 @@ namespace Y_POS.Core.Checkout
         public bool IsTaxExempt { get; }
         public bool IsMultipleTendersPayment => Tenders.Count() > 1;
         public IEnumerable<TenderParams> Tenders { get; }
+
+        public YumaPos.Client.Builders.Receipt Receipt { get; }
+        public string ReceiptHtml { get; }
         
         #endregion
 
@@ -45,10 +50,11 @@ namespace Y_POS.Core.Checkout
             IsVoid = isVoid;
             IsTaxExempt = model.IsTaxExempt;
 
-            Tenders =
-                model.Tenders.ToArray().Select(tender => new TenderParams {Amount = tender.TenderAmount, TenderType = tender.Type});
+            Tenders = model.Tenders.ToArray()
+                .Select(tender => new TenderParams {Amount = tender.TenderAmount, TenderType = tender.Type});
 
-
+            Receipt = Map(model);
+            ReceiptHtml = ServiceLocator.Resolve<IReceiptBuilder>().BuildFromReceipt(Receipt);
         }
 
         #endregion
@@ -74,8 +80,7 @@ namespace Y_POS.Core.Checkout
                 && IsPaid == other.IsPaid 
                 && IsRefunded == other.IsRefunded 
                 && IsVoid == other.IsVoid 
-                && IsTaxExempt == other.IsTaxExempt 
-                && Equals(Tenders, other.Tenders);
+                && IsTaxExempt == other.IsTaxExempt;
         }
 
         public override int GetHashCode()
@@ -91,7 +96,6 @@ namespace Y_POS.Core.Checkout
                 hashCode = (hashCode * 397) ^ IsRefunded.GetHashCode();
                 hashCode = (hashCode * 397) ^ IsVoid.GetHashCode();
                 hashCode = (hashCode * 397) ^ IsTaxExempt.GetHashCode();
-                hashCode = (hashCode * 397) ^ (Tenders?.GetHashCode() ?? 0);
                 return hashCode;
             }
         }
