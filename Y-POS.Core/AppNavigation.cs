@@ -16,7 +16,7 @@ namespace Y_POS.Core
         public static readonly NavUri Reports = new NavUri(string.Empty, typeof(IReportsVm).Name);
         public static readonly NavUri Settings = new NavUri(string.Empty, typeof(ISettingsVm).Name);
         public static readonly NavUri OrderMaker = new NavUri(string.Empty, typeof(IOrderMakerVm).Name);
-        public static readonly NavUri Checkout = new NavUri(string.Empty, typeof(ICheckoutVm).Name);
+        public static readonly NavUri Checkout = new NavUri(string.Empty, typeof(CheckoutVm).Name);
         
         #endregion
     }

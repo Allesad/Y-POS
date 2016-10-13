@@ -39,7 +39,7 @@ namespace Y_POS.Core.Infrastructure
         [DebuggerStepThrough]
         public static bool IsWhiteSpace(this string value)
         {
-            Guard.ArgumentNotNull(value, "value");
+            Guard.NotNull(value, "value");
 
             if (value.Length == 0)
                 return false;

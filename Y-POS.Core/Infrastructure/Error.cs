@@ -81,8 +81,8 @@ namespace Y_POS.Core.Infrastructure
         [DebuggerStepThrough]
         public static Exception InvalidOperation<T>(string message, Exception innerException, Func<T> member)
         {
-            Guard.ArgumentNotNull(message, "message");
-            Guard.ArgumentNotNull(member, "member");
+            Guard.NotNull(message, "message");
+            Guard.NotNull(member, "member");
 
             return new InvalidOperationException(message.FormatCurrent(member.GetMethodInfo().Name), innerException);
         }

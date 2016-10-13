@@ -105,41 +105,6 @@ namespace Y_POS.Core.Infrastructure
                 throw Error.Argument(argName, "Type '{0}' must be a valid Enum type.", arg.FullName);
         }*/
 
-        [DebuggerStepThrough]
-        //[Obsolete("Use NotNull() with nameof operator instead")]
-        public static void ArgumentNotNull(object arg, string argName)
-        {
-            if (arg == null)
-                throw new ArgumentNullException(argName);
-        }
-
-        [DebuggerStepThrough]
-        //[Obsolete("Use NotNull() with nameof operator instead")]
-        public static void ArgumentNotNull<T>(Func<T> arg)
-        {
-            if (arg() == null)
-                throw new ArgumentNullException(GetParamName(arg));
-        }
-
-        [DebuggerStepThrough]
-        //[Obsolete("Use NotEmpty() with nameof operator instead")]
-        public static void ArgumentNotEmpty(Func<string> arg)
-        {
-            if (arg().IsEmpty())
-            {
-                var argName = GetParamName(arg);
-                throw Error.Argument(argName, "String parameter '{0}' cannot be null or all whitespace.", argName);
-            }
-        }
-
-        [DebuggerStepThrough]
-        //[Obsolete("Use NotEmpty() with nameof operator instead")]
-        public static void ArgumentNotEmpty(string arg, string argName)
-        {
-            if (arg.IsEmpty())
-                throw Error.Argument(argName, "String parameter '{0}' cannot be null or all whitespace.", argName);
-        }
-
         /*[DebuggerStepThrough]
         public static void InheritsFrom<TBase>(Type type)
         {

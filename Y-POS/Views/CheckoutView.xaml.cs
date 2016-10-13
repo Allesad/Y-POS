@@ -56,7 +56,7 @@ namespace Y_POS.Views
                 });
 
             this.WhenAnyValue(view => view.ViewModel.CurrentOperationType)
-                .Select(type => type == OperationType.PaymentComplete)
+                .Select(type => type == CheckoutOperationType.PaymentComplete)
                 .SubscribeToObserveOnUi(isComplete => ActionBarLeftContainer.SetValue(Grid.ColumnSpanProperty, isComplete ? 2 : 1));
         }
 

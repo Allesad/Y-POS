@@ -9,6 +9,7 @@ using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Services;
 using YumaPos.Shared.API.Enums;
 using YumaPos.Shared.API.Models;
+using YumaPos.Shared.Core.Utils.Formating;
 using Y_POS.Core.Infrastructure;
 
 namespace Y_POS.Core.Checkout
@@ -104,6 +105,23 @@ namespace Y_POS.Core.Checkout
                 throw new InvalidOperationException($"{nameof(CheckoutController)} already initialized!");
 
             return InitImpl(orderId, ct);
+        }
+
+        /* 
+         * CUSTOMERS
+         */
+        public Task SetCustomerAsync(CustomerDto customer)
+        {
+            return SetCustomerAsync(customer, CancellationToken.None);
+        }
+
+        public Task SetCustomerAsync(CustomerDto customer, CancellationToken ct)
+        {
+            Guard.NotNull(customer, nameof(customer));
+            Guard.NotNull(customer.CustomerId, nameof(customer.CustomerId));
+            CheckInitialized();
+
+            return SetCustomerInternal(customer, ct);
         }
 
         /*
@@ -300,6 +318,13 @@ namespace Y_POS.Core.Checkout
             CustomerName = order.CustomerName;
             EmployeeName = order.EmployeeName;
             SplittingType = order.Splitting;
+        }
+
+        private async Task SetCustomerInternal(CustomerDto customer, CancellationToken ct)
+        {
+            await _orderService.UpdateOrderCustomer(OrderId, customer.CustomerId.Value).ToTask(ct).ConfigureAwait(false);
+            
+            CustomerName = FormattingUtils.FullName(customer.FirstName, customer.LastName);
         }
 
         private async Task SplitInternal(SplittingType type, object args, CancellationToken ct)

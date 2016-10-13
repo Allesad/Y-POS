@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using Y_POS.Core.ViewModels.Pages;
+using Y_POS.Core.Enums;
 
 namespace Y_POS.Converters
 {

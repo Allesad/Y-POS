@@ -9,8 +9,8 @@ namespace Y_POS.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var operation = (OperationType) value;
-            var controlOperation = (OperationType) parameter;
+            var operation = (CheckoutOperationType) value;
+            var controlOperation = (CheckoutOperationType) parameter;
 
             return operation == controlOperation;
         }

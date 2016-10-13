@@ -59,7 +59,9 @@
     <Compile Include="Enums\PaymentType.cs" />
     <Compile Include="Extensions\DialogEx.cs" />
     <Compile Include="Extensions\ObservableExtensions.cs" />
+    <Compile Include="Infrastructure\Decorators\ServerRuntimeErrorDecorator.cs" />
     <Compile Include="Infrastructure\Error.cs" />
+    <Compile Include="Infrastructure\Exceptions\ServerRuntimeException.cs" />
     <Compile Include="Infrastructure\Guard.cs" />
     <Compile Include="Infrastructure\ResponseMessage.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />
@@ -132,7 +134,6 @@
     <Compile Include="ViewModels\PageParts\Impl\RefundVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\SplittingsVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\ICashDrawerVm.cs" />
-    <Compile Include="ViewModels\Pages\Contracts\ICheckoutVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\INavMenuVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\IOrderMakerVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\IReportsVm.cs" />
@@ -227,6 +228,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Infrastructure\Decorators\ServerErrorDecorator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ServerErrorDecorator.txt</LastGenOutput>
+    </Content>
+    <Content Include="Infrastructure\Decorators\ServerErrorDecorator.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServerErrorDecorator.tt</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

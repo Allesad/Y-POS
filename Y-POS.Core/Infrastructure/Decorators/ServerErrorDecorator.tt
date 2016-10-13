@@ -1,0 +1,61 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(SolutionDir)\Libs\YumaPos.Shared.Infrastructure.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="YumaPos.Shared.Infrastructure" #>
+<#@ output extension=".cs" #>
+<#
+
+	var t = typeof(ITerminalApi);
+
+ #>
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using YumaPos.Shared.Infrastructure;
+using YumaPos.FrontEnd.Infrastructure.CommandProcessing;
+using YumaPos.Shared.API.Enums;
+using YumaPos.Shared.API.Models;
+using YumaPos.Shared.API.ResponseDtos;
+
+namespace Y_POS.Core.Infrastructure.Decorators
+{
+	public sealed class ServerErrorDecorator : <#= t.Name #>
+	{
+		private readonly <#= t.Name #> _actor;
+
+		#region Properties
+
+		public ExecutionContext ExecutionContext {
+            get { return _actor.ExecutionContext; }
+            set { _actor.ExecutionContext = value; }
+        }
+
+		#endregion
+
+		public ServerErrorDecorator(<#= t.Name #> actor)
+		{
+			if (actor == null) throw new ArgumentNullException(nameof(actor));
+		    _actor = actor;
+		}
+
+<#
+				foreach(var method in from m in t.GetMethods()
+where !t.GetProperties().Any(p => p.GetGetMethod() == m || p.GetSetMethod() == m)
+select m){
+								if (method.ReturnType == typeof(void)){
+					Write("public void " + method.Name);
+								}else{
+					Write("public Task<" + string.Join(", ", method.ReturnType.GenericTypeArguments.Select(type => type.Name)) + "> " + method.Name);
+								}
+								var parameters = method.GetParameters();
+								Write("(" + string.Join(", ", parameters.Select(p => p.ParameterType.Name + " " + p.Name)) + "){}");
+								WriteLine("");
+				}
+
+ #>
+	}
+}

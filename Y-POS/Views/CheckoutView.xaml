@@ -13,7 +13,7 @@
                 xmlns:awe="http://schemas.awesomium.com/winfx"
                 mc:Ignorable="d"
                 d:DesignHeight="768" d:DesignWidth="1024"
-                d:DataContext="{d:DesignInstance pages:ICheckoutVm, d:IsDesignTimeCreatable=False}">
+                d:DataContext="{d:DesignInstance pages:CheckoutVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
 
@@ -162,7 +162,7 @@
         </Style>
 
         <Style x:Key="CustomerOperationBtn" TargetType="RadioButton" BasedOn="{StaticResource OperationButton}">
-            <Setter Property="CommandParameter" Value="{x:Static pages:OperationType.Customer}" />
+            <Setter Property="CommandParameter" Value="{x:Static pages:CheckoutOperationType.Customer}" />
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate>
@@ -199,7 +199,7 @@
         </Style>
 
         <Style x:Key="DiscountOperationBtn" TargetType="RadioButton" BasedOn="{StaticResource OperationButton}">
-            <Setter Property="CommandParameter" Value="{x:Static pages:OperationType.Discount}" />
+            <Setter Property="CommandParameter" Value="{x:Static pages:CheckoutOperationType.Discount}" />
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate>
@@ -236,7 +236,7 @@
         </Style>
 
         <Style x:Key="SplittingOperationBtn" TargetType="RadioButton" BasedOn="{StaticResource OperationButton}">
-            <Setter Property="CommandParameter" Value="{x:Static pages:OperationType.Splitting}" />
+            <Setter Property="CommandParameter" Value="{x:Static pages:CheckoutOperationType.Splitting}" />
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate>
@@ -272,7 +272,7 @@
         </Style>
 
         <Style x:Key="MarketingOperationBtn" TargetType="RadioButton" BasedOn="{StaticResource OperationButton}">
-            <Setter Property="CommandParameter" Value="{x:Static pages:OperationType.Marketing}" />
+            <Setter Property="CommandParameter" Value="{x:Static pages:CheckoutOperationType.Marketing}" />
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate>
@@ -366,42 +366,42 @@
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
                              Content="{Binding Source={x:Static p:Resources.PaymentType_Cash}, Converter={StaticResource UpperCaseCoverter}}"
                              IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
-                                ConverterParameter={x:Static pages:PaymentType.Cash}}"
-                             CommandParameter="{x:Static pages:PaymentType.Cash}" />
+                                ConverterParameter={x:Static pages:PaymentTypeSwitch.Cash}}"
+                             CommandParameter="{x:Static pages:PaymentTypeSwitch.Cash}" />
                 <!-- CARD -->
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
                              BorderThickness="0,0,0,1"
                              IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
-                                ConverterParameter={x:Static pages:PaymentType.Card}}"
-                             CommandParameter="{x:Static pages:PaymentType.Card}"
+                                ConverterParameter={x:Static pages:PaymentTypeSwitch.Card}}"
+                             CommandParameter="{x:Static pages:PaymentTypeSwitch.Card}"
                              Content="{Binding Source={x:Static p:Resources.PaymentType_Card}, Converter={StaticResource UpperCaseCoverter}}" />
                 <!-- MOBILE -->
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
                              IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
-                                ConverterParameter={x:Static pages:PaymentType.Mobile}}"
-                             CommandParameter="{x:Static pages:PaymentType.Mobile}"
+                                ConverterParameter={x:Static pages:PaymentTypeSwitch.Mobile}}"
+                             CommandParameter="{x:Static pages:PaymentTypeSwitch.Mobile}"
                              Content="{Binding Source={x:Static p:Resources.PaymentType_Mobile}, Converter={StaticResource UpperCaseCoverter}}" 
                              IsEnabled="False"/>
                 <!-- GIFT CARD -->
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
                              BorderThickness="0,0,0,1"
                              IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
-                                ConverterParameter={x:Static pages:PaymentType.GiftCard}}"
-                             CommandParameter="{x:Static pages:PaymentType.GiftCard}"
+                                ConverterParameter={x:Static pages:PaymentTypeSwitch.GiftCard}}"
+                             CommandParameter="{x:Static pages:PaymentTypeSwitch.GiftCard}"
                              Content="{Binding Source={x:Static p:Resources.PaymentType_GiftCard}, Converter={StaticResource UpperCaseCoverter}}" />
                 <!-- POINTS -->
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
                              IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
-                                ConverterParameter={x:Static pages:PaymentType.Points}}"
-                             CommandParameter="{x:Static pages:PaymentType.Points}"
+                                ConverterParameter={x:Static pages:PaymentTypeSwitch.Points}}"
+                             CommandParameter="{x:Static pages:PaymentTypeSwitch.Points}"
                              Content="{Binding Source={x:Static p:Resources.PaymentType_Points}, Converter={StaticResource UpperCaseCoverter}}" 
                              IsEnabled="False"/>
                 <!-- MULTIPLE -->
                 <RadioButton Style="{StaticResource PaymentTypeButton}"
                              BorderThickness="0,0,0,1"
                              IsChecked="{Binding CurrentPaymentType, Mode=OneWay, Converter={StaticResource PaymentTypeToCheckedConverter},
-                                ConverterParameter={x:Static pages:PaymentType.Multiple}}"
-                             CommandParameter="{x:Static pages:PaymentType.Multiple}"
+                                ConverterParameter={x:Static pages:PaymentTypeSwitch.Multiple}}"
+                             CommandParameter="{x:Static pages:PaymentTypeSwitch.Multiple}"
                              Content="{Binding Source={x:Static p:Resources.PaymentType_Multiple}, Converter={StaticResource UpperCaseCoverter}}" />
 
             </UniformGrid>
@@ -412,22 +412,22 @@
                     <!-- CUSTOMER -->
                     <RadioButton Style="{StaticResource CustomerOperationBtn}"
                                  IsChecked="{Binding CurrentOperationType, Mode=OneWay, Converter={StaticResource OperationToCheckedConverter}, 
-                                    ConverterParameter={x:Static pages:OperationType.Customer}}"
+                                    ConverterParameter={x:Static pages:CheckoutOperationType.Customer}}"
                                  Content="{Binding CustomerName, Mode=OneWay, Converter={StaticResource CustomerNameToTitleConverter}}" />
                     <!-- DISCOUNT -->
                     <RadioButton Style="{StaticResource DiscountOperationBtn}"
                                  IsChecked="{Binding CurrentOperationType, Mode=OneWay, Converter={StaticResource OperationToCheckedConverter}, 
-                                    ConverterParameter={x:Static pages:OperationType.Discount}}"
+                                    ConverterParameter={x:Static pages:CheckoutOperationType.Discount}}"
                                  Content="{Binding DiscountName, Mode=OneWay, Converter={StaticResource DiscountToTextConverter}}" />
                     <!-- SPLITTING -->
                     <RadioButton Style="{StaticResource SplittingOperationBtn}"
                                  IsChecked="{Binding CurrentOperationType, Mode=OneWay, Converter={StaticResource OperationToCheckedConverter}, 
-                                    ConverterParameter={x:Static pages:OperationType.Splitting}}"
+                                    ConverterParameter={x:Static pages:CheckoutOperationType.Splitting}}"
                                  Content="{Binding CurrentSplittingType, Mode=OneWay, Converter={StaticResource SplittingTypeToTextConverter}}" />
                     <!-- MARKETING -->
                     <RadioButton Style="{StaticResource MarketingOperationBtn}"
                                  IsChecked="{Binding CurrentOperationType, Mode=OneWay, Converter={StaticResource OperationToCheckedConverter}, 
-                                    ConverterParameter={x:Static pages:OperationType.Marketing}}"
+                                    ConverterParameter={x:Static pages:CheckoutOperationType.Marketing}}"
                                  Content="Select Marketing" />
                 </ItemsControl.Items>
             </ItemsControl>
