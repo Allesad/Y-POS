@@ -8,16 +8,17 @@
         Closed="DialogWindow_OnClosed"
         WindowStartupLocation="CenterOwner"
         Title="DialogWindow"
-        SizeToContent="Height"
+        SizeToContent="WidthAndHeight"
+        MinWidth="400"
+        MaxHeight="700"
         Background="Transparent"
-        Width="400"
         d:DataContext="{d:DesignInstance contracts:IDialog, d:IsDesignTimeCreatable=False}"
         >
 
     <Window.Style>
         <Style TargetType="Window">
             <Setter Property="WindowStyle" Value="None" />
-            <Setter Property="ResizeMode" Value="CanResize" />
+            <Setter Property="ResizeMode" Value="NoResize" />
             <Setter Property="ShowInTaskbar" Value="False" />
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>

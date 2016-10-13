@@ -28,6 +28,8 @@ namespace Y_POS.Core.Checkout
 
         public Guid OrderId { get; private set; }
         public bool IsInitialized => OrderId != Guid.Empty;
+
+        [Reactive]
         public bool OrderIsPaid { get; private set; }
 
         public IObservable<ReceiptItem[]> ReceiptsStream { get; }
@@ -40,10 +42,13 @@ namespace Y_POS.Core.Checkout
         private ReceiptItem[] Receipts { get; set; }
 
         [Reactive]
-        private OrderStatus OrderStatus { get; set; }
+        public OrderStatus OrderStatus { get; private set; }
 
         [Reactive]
         private string CustomerName { get; set; }
+
+        [Reactive]
+        public string EmployeeName { get; private set; }
 
         [Reactive]
         private SplittingType SplittingType { get; set; }
@@ -284,19 +289,17 @@ namespace Y_POS.Core.Checkout
             OrderId = orderId;
 
             var orderTask = _orderService.GetOrderById(OrderId).ToTask(ct);
-            var receiptsTask = _checkoutService.GetReceiptsByOrderId(OrderId).ToTask(ct);
 
-            await Task.WhenAll(orderTask, receiptsTask).ConfigureAwait(false);
+            await Task.WhenAll(orderTask, RefreshReceipts(ct)).ConfigureAwait(false);
 
             if (ct.IsCancellationRequested) return;
 
             var order = orderTask.Result;
-            var receipts = receiptsTask.Result;
 
             OrderStatus = order.Status;
             CustomerName = order.CustomerName;
+            EmployeeName = order.EmployeeName;
             SplittingType = order.Splitting;
-            Receipts = receipts.Select(dto => new ReceiptItem(dto, OrderStatus == OrderStatus.Void)).ToArray();
         }
 
         private async Task SplitInternal(SplittingType type, object args, CancellationToken ct)
@@ -401,7 +404,8 @@ namespace Y_POS.Core.Checkout
 
             if (ct.IsCancellationRequested) return;
 
-            Receipts = receipts.Select(dto => new ReceiptItem(dto)).ToArray();
+            var isVoid = OrderStatus == OrderStatus.Void;
+            Receipts = receipts.Select(dto => new ReceiptItem(dto, isVoid)).ToArray();
             OrderIsPaid = Receipts.All(item => item.IsPaid);
         }
 

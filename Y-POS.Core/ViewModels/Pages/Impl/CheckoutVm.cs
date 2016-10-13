@@ -17,8 +17,22 @@ using Y_POS.Core.ViewModels.PageParts;
 
 namespace Y_POS.Core.ViewModels.Pages
 {
-    public sealed class CheckoutVm : PageVm, ICheckoutVm
+    public sealed class CheckoutVm : PageVm
     {
+        #region Enums
+
+        public enum PaymentTypeSwitch
+        {
+            Cash,
+            Card,
+            Mobile,
+            GiftCard,
+            Points,
+            Multiple
+        }
+
+        #endregion
+
         #region Fields
 
         private readonly CheckoutController _controller;
@@ -35,6 +49,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private ReactiveCommand<object> _commandSwitchToPaymentType;
         private ReactiveCommand<object> _commandSwitchToOperationType;
+        private ReactiveCommand<object> _commandMultiplePayment;
         private ReactiveCommand<bool> _commandVoid;
         private ReactiveCommand<object> _commandRefund; 
 
@@ -54,7 +69,7 @@ namespace Y_POS.Core.ViewModels.Pages
         public OperationType CurrentOperationType { get; private set; }
 
         [Reactive]
-        public PaymentType CurrentPaymentType { get; private set; }
+        public PaymentTypeSwitch CurrentPaymentType { get; private set; }
 
         public extern SplittingType CurrentSplittingType { [ObservableAsProperty] get; }
 
@@ -71,6 +86,7 @@ namespace Y_POS.Core.ViewModels.Pages
         public ICommand CommandVoid => _commandVoid;
         public ICommand CommandRefund => _commandRefund;
         public ICommand CommandSwitchToPaymentType => _commandSwitchToPaymentType;
+        public ICommand CommandMultiplePayment => _commandMultiplePayment;
         public ICommand CommandSwitchToOperationType => _commandSwitchToOperationType;
 
         #endregion
@@ -126,7 +142,7 @@ namespace Y_POS.Core.ViewModels.Pages
         {
             // Switch to payment type
             AddLifetimeSubscription(_commandSwitchToPaymentType
-                .Select(param => (PaymentType) param)
+                .Select(param => (PaymentTypeSwitch) param)
                 .Subscribe(type => CurrentPaymentType = type));
 
             // Switch to operation type
@@ -136,7 +152,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
             // Void order
             AddLifetimeSubscription(_commandVoid
-                .Where(b => b)
+                .Where(isCompleted => isCompleted)
                 .Subscribe(_ => NavigationService.StartIntent(new Intent(AppNavigation.ActiveOrders).SetFlags(IntentFlags.ClearTop))));
 
             // Refund receipt
@@ -144,15 +160,17 @@ namespace Y_POS.Core.ViewModels.Pages
                 .SubscribeToObserveOnUi(_ => CurrentOperationType = OperationType.Refund ));
 
             // Handle payment type switch
-            AddLifetimeSubscription(this.WhenAnyValue(vm => vm.CurrentPaymentType)
+            AddLifetimeSubscription(this.WhenAnyValue(vm => vm.CurrentPaymentType).Skip(1)
                 .Subscribe(type =>
                 {
                     CurrentOperationType = OperationType.Payment;
-                    _paymentVm?.CommandSetPaymentType.Execute(type);
+                    _paymentVm?.CommandSetMultiplePayment.Execute(type == PaymentTypeSwitch.Multiple);
+                    _paymentVm?.CommandSetPaymentType.Execute(ToPaymentType(type));
                 }));
 
             // Handle operation type content switch
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm.CurrentOperationType)
+                .Where(type => type != OperationType.None)
                 .Select(GetOperationVmForType)
                 .ToPropertyEx(this, vm => vm.OperationVm));
 
@@ -195,9 +213,10 @@ namespace Y_POS.Core.ViewModels.Pages
 
                     Receipts = receipts;
                     var receiptToSelect = receiptModel != null
-                        ? Receipts.FirstOrDefault(vm => vm.Model.SplittingNumber == receiptModel.SplittingNumber)
+                        ? Receipts.FirstOrDefault(vm => vm.Model.SplittingNumber == receiptModel.SplittingNumber && !vm.IsPaid)
                         : Receipts.FirstOrDefault(vm => !vm.IsPaid);
 
+                    receiptToSelect = receiptToSelect ?? Receipts.FirstOrDefault(vm => !vm.IsPaid);
                     SelectedReceipt = receiptToSelect ?? Receipts.FirstOrDefault();
                 }));
 
@@ -234,6 +253,9 @@ namespace Y_POS.Core.ViewModels.Pages
             try
             {
                 await _controller.Init(orderId);
+                CurrentOperationType = _controller.OrderIsPaid 
+                    ? OperationType.PaymentComplete
+                    : OperationType.Payment;
             }
             catch (Exception ex)
             {
@@ -318,9 +340,28 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(Observable.FromEventPattern(
                 h => vm.CloseEvent += h,
                 h => vm.CloseEvent -= h)
-                .Subscribe(_ => CurrentOperationType = OperationType.PaymentComplete));
+                .Subscribe(_ => CurrentOperationType = _controller.OrderIsPaid 
+                    ? OperationType.PaymentComplete
+                    : OperationType.Payment));
 
             return vm;
+        }
+
+        private Enums.PaymentType ToPaymentType(PaymentTypeSwitch type)
+        {
+            switch (type)
+            {
+                default:
+                    return Enums.PaymentType.Cash;
+                case PaymentTypeSwitch.Card:
+                    return Enums.PaymentType.Card;
+                case PaymentTypeSwitch.GiftCard:
+                    return Enums.PaymentType.GiftCard;
+                case PaymentTypeSwitch.Mobile:
+                    return Enums.PaymentType.Mobile;
+                case PaymentTypeSwitch.Points:
+                    return Enums.PaymentType.Points;
+            }
         }
 
         #endregion

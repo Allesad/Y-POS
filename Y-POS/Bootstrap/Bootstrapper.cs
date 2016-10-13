@@ -143,7 +143,7 @@ namespace Y_POS.Bootstrap
             builder.RegisterType<ReportsVm>().As<IReportsVm>().InstancePerLifetimeScope();
             builder.RegisterType<SettingsVm>().As<ISettingsVm>().InstancePerLifetimeScope();
             builder.RegisterType<OrderMakerVm>().As<IOrderMakerVm>().InstancePerLifetimeScope();
-            builder.RegisterType<CheckoutVm>().As<ICheckoutVm>().InstancePerLifetimeScope();
+            builder.RegisterType<CheckoutVm>().InstancePerLifetimeScope();
 
             // Page parts ViewModels
             builder.Register<OrderMakerMenuVm>(Lifecycles.PerScope).As<IOrderMakerMenuVm>();
@@ -191,7 +191,7 @@ namespace Y_POS.Bootstrap
                 Register<IReportsVm>(AppNavigation.Reports);
                 Register<ISettingsVm>(AppNavigation.Settings);
                 Register<IOrderMakerVm>(AppNavigation.OrderMaker);
-                Register<ICheckoutVm>(AppNavigation.Checkout);
+                Register<CheckoutVm>(AppNavigation.Checkout);
             }
         }
     }

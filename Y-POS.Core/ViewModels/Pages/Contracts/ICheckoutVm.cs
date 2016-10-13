@@ -17,6 +17,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
     public enum OperationType
     {
+        None,
         Payment,
         Customer,
         Discount,

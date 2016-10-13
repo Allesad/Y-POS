@@ -6,14 +6,17 @@
              xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
              xmlns:controls="clr-namespace:Y_POS.Controls"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
              xmlns:behaviors="clr-namespace:YumaPos.WPF.UI.Behaviors;assembly=YumaPos.WPF.UI"
+             xmlns:converters="clr-namespace:Y_POS.Converters"
+             xmlns:enums="clr-namespace:Y_POS.Core.Enums;assembly=Y-POS.Core"
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="404"
              d:DataContext="{d:DesignInstance pageParts:PaymentVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
+        <converters:PaymentModeToVisibilityConverter x:Key="ModeToVisibilityConverter" />
+
         <Style x:Key="MultiplePaymentTb" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
             <Setter Property="IsEnabled" Value="False" />
             <Setter Property="Height" Value="65" />
@@ -24,13 +27,14 @@
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Width" Value="65" />
             <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Command" Value="{Binding CommandAddPartialPayment}" />
         </Style>
 
         <DataTemplate x:Key="AddCashDt">
             <StackPanel Orientation="Vertical">
                 <Path Stretch="Uniform"
-                      Data="{StaticResource DollarSignIcon}" 
-                      Fill="{StaticResource TextBrush}"/>
+                      Data="{StaticResource DollarSignIcon}"
+                      Fill="{StaticResource TextBrush}" />
                 <TextBlock HorizontalAlignment="Center"
                            Margin="0,6,0,0"
                            Style="{StaticResource DefaultSmallText}"
@@ -43,8 +47,8 @@
         <DataTemplate x:Key="AddCardDt">
             <StackPanel Orientation="Vertical">
                 <Path Stretch="Uniform"
-                      Data="{StaticResource DollarSignIcon}" 
-                      Fill="{StaticResource TextBrush}"/>
+                      Data="{StaticResource CardIcon}"
+                      Fill="{StaticResource TextBrush}" />
                 <TextBlock HorizontalAlignment="Center"
                            Margin="0,6,0,0"
                            Style="{StaticResource DefaultSmallText}"
@@ -57,8 +61,8 @@
         <DataTemplate x:Key="AddGiftCardDt">
             <StackPanel Orientation="Vertical">
                 <Path Stretch="Uniform"
-                      Data="{StaticResource GiftCardIcon}" 
-                      Fill="{StaticResource TextBrush}"/>
+                      Data="{StaticResource GiftCardIcon}"
+                      Fill="{StaticResource TextBrush}" />
                 <TextBlock HorizontalAlignment="Center"
                            Margin="0,6,0,0"
                            Style="{StaticResource DefaultSmallText}"
@@ -71,8 +75,8 @@
         <DataTemplate x:Key="AddMobileDt">
             <StackPanel Orientation="Vertical">
                 <Path Stretch="Uniform"
-                      Data="{StaticResource DollarSignIcon}" 
-                      Fill="{StaticResource TextBrush}"/>
+                      Data="{StaticResource MobileIcon}"
+                      Fill="{StaticResource TextBrush}" />
                 <TextBlock HorizontalAlignment="Center"
                            Margin="0,6,0,0"
                            Style="{StaticResource DefaultSmallText}"
@@ -85,8 +89,8 @@
         <DataTemplate x:Key="AddPointsDt">
             <StackPanel Orientation="Vertical">
                 <Path Stretch="Uniform"
-                      Data="{StaticResource DollarSignIcon}" 
-                      Fill="{StaticResource TextBrush}"/>
+                      Data="{StaticResource PiggyBankIcon}"
+                      Fill="{StaticResource TextBrush}" />
                 <TextBlock HorizontalAlignment="Center"
                            Margin="0,6,0,0"
                            Style="{StaticResource DefaultSmallText}"
@@ -95,17 +99,49 @@
                            TextTrimming="CharacterEllipsis" />
             </StackPanel>
         </DataTemplate>
-        
-        
+
+
     </UserControl.Resources>
 
     <DockPanel>
         <!-- ACTION BAR -->
         <controls:ActionBarButton DockPanel.Dock="Bottom"
                                   Style="{StaticResource ActionBarMainActionButton}"
-                                  Title="{Binding Source={x:Static p:Resources.Checkout}, 
-                                        Converter={StaticResource UpperCaseCoverter}}"
-                                  Command="{Binding CommandCheckout}" />
+                                  Title="{Binding Source={x:Static p:Resources.Pay}, Converter={StaticResource UpperCaseCoverter}}"
+                                  Command="{Binding CommandCheckout}"
+                                  Visibility="{Binding IsMultiplePayment, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, 
+                                    ConverterParameter=true}" />
+
+        <UniformGrid Columns="2" Rows="1"
+                     DockPanel.Dock="Bottom"
+                     Visibility="{Binding IsMultiplePayment, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+
+            <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
+                                      Title="{Binding Source={x:Static p:Resources.Cancel}, Converter={StaticResource UpperCaseCoverter}}"
+                                      BorderThickness="0,0,1,0"
+                                      Command="{Binding CommandCancelPartialPayment}"
+                                      Visibility="{Binding Mode, Mode=OneWay, Converter={StaticResource ModeToVisibilityConverter},
+                                        ConverterParameter=default}" />
+            <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
+                                      x:Name="MultiAdd"
+                                      Title="{Binding Source={x:Static p:Resources.Add}, Converter={StaticResource UpperCaseCoverter}}"
+                                      Command="{Binding CommandSubmitPartialPayment}"
+                                      Visibility="{Binding Mode, Mode=OneWay, Converter={StaticResource ModeToVisibilityConverter}, 
+                                        ConverterParameter=default}" />
+
+            <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
+                                      Title="{Binding Source={x:Static p:Resources.Reset}, Converter={StaticResource UpperCaseCoverter}}"
+                                      BorderThickness="0,0,1,0"
+                                      Command="{Binding CommandResetMultiplePayment}"
+                                      Visibility="{Binding Mode, Mode=OneWay, Converter={StaticResource ModeToVisibilityConverter},
+                                        ConverterParameter=overview}" />
+            <controls:ActionBarButton Style="{StaticResource ActionBarMainActionButton}"
+                                      x:Name="MultiPay"
+                                      Title="{Binding Source={x:Static p:Resources.Pay}, Converter={StaticResource UpperCaseCoverter}}"
+                                      Command="{Binding CommandCheckout}"
+                                      Visibility="{Binding Mode, Mode=OneWay, Converter={StaticResource ModeToVisibilityConverter},
+                                        ConverterParameter=overview}" />
+        </UniformGrid>
 
         <!-- CONTENT -->
         <Grid Margin="20,15">
@@ -130,15 +166,26 @@
                         Converter={StaticResource UpperCaseCoverter}}"
                      Text="{Binding Subtotal, Mode=OneWay, StringFormat=c}" />
 
+            <!-- TOTAL RECEIVED -->
+            <TextBox Grid.Row="0" Grid.Column="1"
+                     Name="TotalReceivedTb"
+                     Margin="10,5"
+                     helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Received}, 
+                        Converter={StaticResource UpperCaseCoverter}}"
+                     IsEnabled="False"
+                     Visibility="{Binding Mode, Mode=OneWay, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter=overview}"
+                     Text="{Binding TotalReceived, Mode=OneWay, StringFormat=c}" />
+
             <!-- RECEIVED -->
             <TextBox Grid.Row="0" Grid.Column="1"
                      Name="ReceivedTb"
                      Margin="10,5"
                      helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Received}, 
                         Converter={StaticResource UpperCaseCoverter}}"
-                     Text="{Binding Received, Mode=OneWayToSource, StringFormat=c, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding Received, Mode=TwoWay, StringFormat={}{#.00}, UpdateSourceTrigger=PropertyChanged}"
                      GotFocus="Input_OnGotFocus"
-                     behaviors:TextBoxFocusBehavior.SelectAllTextOnFocus="True">
+                     behaviors:TextBoxFocusBehavior.SelectAllTextOnFocus="True"
+                     Visibility="{Binding Mode, Mode=OneWay, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter=default}">
                 <!--<i:Interaction.Behaviors>
                     <behaviours:TextBoxInputRegExBehaviour RegularExpression="^\$?(?:0|[1-9]\d*|[1-9]\d{0,2}(?:,\d{1,3})*)(?:\.\d{2})?$"/>
                 </i:Interaction.Behaviors>-->
@@ -152,15 +199,26 @@
                         Converter={StaticResource UpperCaseCoverter}}"
                      Text="{Binding Total, Mode=OneWay, StringFormat=c}" />
 
+            <!-- TOTAL TIPS -->
+            <TextBox Grid.Row="1" Grid.Column="1"
+                     Name="TotalTipsTb"
+                     Margin="10,5"
+                     helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Tips},
+                        Converter={StaticResource UpperCaseCoverter}}"
+                     IsEnabled="False"
+                     Visibility="{Binding Mode, Mode=OneWay, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter=overview}"
+                     Text="{Binding TotalTips, Mode=OneWay, StringFormat=c}" />
+
             <!-- TIPS -->
             <TextBox Grid.Row="1" Grid.Column="1"
                      Name="TipsTb"
                      Margin="10,5"
                      helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.Tips},
                         Converter={StaticResource UpperCaseCoverter}}"
-                     Text="{Binding Tips, Mode=OneWayToSource, StringFormat=c, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding Tips, Mode=TwoWay, StringFormat={}{#.00}, UpdateSourceTrigger=PropertyChanged}"
                      GotFocus="Input_OnGotFocus"
-                     behaviors:TextBoxFocusBehavior.SelectAllTextOnFocus="True" />
+                     behaviors:TextBoxFocusBehavior.SelectAllTextOnFocus="True"
+                     Visibility="{Binding Mode, Mode=OneWay, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter=default}" />
 
             <!-- CHANGE -->
             <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
@@ -173,12 +231,12 @@
             <!-- KEYPAD -->
             <controls:NumericKeypadControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                                            x:Name="KeypadControl"
-                                           Visibility="{Binding IsMultiplePayment, Converter={StaticResource BoolToVisibilityConverter},
-                                                ConverterParameter=true}" />
+                                           Visibility="{Binding Mode, Mode=OneWay, Converter={StaticResource ModeToVisibilityConverter},
+                                                ConverterParameter=default}" />
 
             <!-- MULTIPLE PAYMENT FORM -->
             <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-                  Visibility="{Binding IsMultiplePayment, Converter={StaticResource BoolToVisibilityConverter}}"
+                  Visibility="{Binding Mode, Mode=OneWay, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter=overview}"
                   Margin="10,50,10,0">
 
                 <Grid.RowDefinitions>
@@ -198,47 +256,64 @@
                 <!-- CASH PAYMENT -->
                 <TextBox Grid.Row="0" Grid.Column="0"
                          Style="{StaticResource MultiplePaymentTb}"
-                         helpers:PlaceholderTextHelper.PlaceholderText="CASH PAYMENT" />
+                         helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.PaymentType_Cash}, 
+                            Converter={StaticResource UpperCaseCoverter}}"
+                         Text="{Binding TotalCashPayment, Mode=OneWay, StringFormat=c}" />
 
                 <Button Grid.Row="0" Grid.Column="1"
                         Style="{StaticResource MultiplePaymentAddBtn}"
-                        ContentTemplate="{StaticResource AddCashDt}"/>
+                        ContentTemplate="{StaticResource AddCashDt}"
+                        CommandParameter="{Binding Source={x:Static enums:PaymentType.Cash}}" />
 
                 <!-- CARD PAYMENT -->
                 <TextBox Grid.Row="1" Grid.Column="0"
                          Style="{StaticResource MultiplePaymentTb}"
-                         helpers:PlaceholderTextHelper.PlaceholderText="CARD PAYMENT" />
+                         helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.PaymentType_Card}, 
+                            Converter={StaticResource UpperCaseCoverter}}"
+                         Text="{Binding TotalCardPayment, Mode=OneWay, StringFormat=c}" />
 
                 <Button Grid.Row="1" Grid.Column="1"
                         Style="{StaticResource MultiplePaymentAddBtn}"
-                        ContentTemplate="{StaticResource AddCardDt}"/>
+                        ContentTemplate="{StaticResource AddCardDt}"
+                        CommandParameter="{Binding Source={x:Static enums:PaymentType.Card}}" />
 
                 <!-- GIFT CARD PAYMENT -->
                 <TextBox Grid.Row="2" Grid.Column="0"
                          Style="{StaticResource MultiplePaymentTb}"
-                         helpers:PlaceholderTextHelper.PlaceholderText="GIFT CARD PAYMENT" />
+                         helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.GiftCard}, 
+                            Converter={StaticResource UpperCaseCoverter}}"
+                         Text="{Binding TotalGiftCardPayment, Mode=OneWay, StringFormat=c}" />
 
                 <Button Grid.Row="2" Grid.Column="1"
                         Style="{StaticResource MultiplePaymentAddBtn}"
-                        ContentTemplate="{StaticResource AddGiftCardDt}" />
+                        ContentTemplate="{StaticResource AddGiftCardDt}"
+                        CommandParameter="{Binding Source={x:Static enums:PaymentType.GiftCard}}" />
 
                 <!-- MOBILE PAYMENT -->
                 <TextBox Grid.Row="3" Grid.Column="0"
                          Style="{StaticResource MultiplePaymentTb}"
-                         helpers:PlaceholderTextHelper.PlaceholderText="MOBILE PAYMENT" />
+                         helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.PaymentType_Mobile}, 
+                            Converter={StaticResource UpperCaseCoverter}}"
+                         Text="{Binding TotalMobilePayment, Mode=OneWay, StringFormat=c}" />
 
                 <Button Grid.Row="3" Grid.Column="1"
                         Style="{StaticResource MultiplePaymentAddBtn}"
-                        ContentTemplate="{StaticResource AddMobileDt}"/>
+                        ContentTemplate="{StaticResource AddMobileDt}"
+                        IsEnabled="False"
+                        CommandParameter="{Binding Source={x:Static enums:PaymentType.Mobile}}" />
 
                 <!-- POINTS PAYMENT -->
                 <TextBox Grid.Row="4" Grid.Column="0"
                          Style="{StaticResource MultiplePaymentTb}"
-                         helpers:PlaceholderTextHelper.PlaceholderText="POINTS PAYMENT" />
+                         helpers:PlaceholderTextHelper.PlaceholderText="{Binding Source={x:Static p:Resources.PaymentType_Points}, 
+                            Converter={StaticResource UpperCaseCoverter}}"
+                         Text="{Binding TotalPointsPayment, Mode=OneWay, StringFormat=c}" />
 
                 <Button Grid.Row="4" Grid.Column="1"
                         Style="{StaticResource MultiplePaymentAddBtn}"
-                        ContentTemplate="{StaticResource AddPointsDt}"/>
+                        ContentTemplate="{StaticResource AddPointsDt}"
+                        IsEnabled="False"
+                        CommandParameter="{Binding Source={x:Static enums:PaymentType.Points}}" />
 
             </Grid>
 

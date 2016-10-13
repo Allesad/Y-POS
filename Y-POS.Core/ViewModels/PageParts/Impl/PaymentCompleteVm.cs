@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Input;
@@ -12,6 +13,13 @@ using Y_POS.Core.Extensions;
 
 namespace Y_POS.Core.ViewModels.PageParts
 {
+    public enum OrderProgressState
+    {
+        NotStarted,
+        InProgress,
+        Prepared
+    }
+
     public sealed class PaymentCompleteVm : BaseVm, IPaymentCompleteVm
     {
         #region Fields
@@ -27,8 +35,11 @@ namespace Y_POS.Core.ViewModels.PageParts
         #endregion
 
         #region Properties
+        
+        public extern OrderProgressState ProgressState { [ObservableAsProperty] get; }
 
-        public extern bool IsInProgress { [ObservableAsProperty] get; }
+        public decimal OrderAmount { get; set; }
+        public string EmployeeName => _controller.EmployeeName;
 
         #endregion
 
@@ -57,9 +68,11 @@ namespace Y_POS.Core.ViewModels.PageParts
             _commandNewOrder = ReactiveCommand.Create();
             _commandActiveOrders = ReactiveCommand.Create();
 
-            _commandStart = ReactiveCommand.CreateAsyncTask(this.WhenAnyValue(vm => vm.IsInProgress).Select(inProgress => !inProgress), 
+            _commandStart = ReactiveCommand.CreateAsyncTask(
+                this.WhenAnyValue(vm => vm.ProgressState).Select(state => state == OrderProgressState.NotStarted), 
                 _ => _controller.StartOrder());
-            _commandDone = ReactiveCommand.CreateAsyncTask(this.WhenAnyValue(vm => vm.IsInProgress).Select(inProgress => inProgress), 
+            _commandDone = ReactiveCommand.CreateAsyncTask(
+                this.WhenAnyValue(vm => vm.ProgressState).Select(state => state == OrderProgressState.InProgress), 
                 _ => _controller.DoneOrder());
 
             // Subscribe to commands
@@ -71,8 +84,15 @@ namespace Y_POS.Core.ViewModels.PageParts
             _commandDone.Subscribe();
 
             _controller.OrderStatusStream
-                .Select(status => status == OrderStatus.InProgress)
-                .ToPropertyEx(this, vm => vm.IsInProgress);
+                .Select(status => status == OrderStatus.Prepared || status == OrderStatus.Closed
+                    ? OrderProgressState.Prepared
+                    : status == OrderStatus.InProgress
+                        ? OrderProgressState.InProgress 
+                        : OrderProgressState.NotStarted)
+                .ToPropertyEx(this, vm => vm.ProgressState);
+
+            _controller.ReceiptsStream.Take(1).Select(receipts => receipts.Sum(receipt => receipt.Total))
+                .SubscribeToObserveOnUi(total => OrderAmount = total);
         }
 
         #endregion

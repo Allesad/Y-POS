@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using ReactiveUI;
+using Y_POS.Core.Extensions;
 using Y_POS.Core.ViewModels.PageParts;
 
 namespace Y_POS.Views.CheckoutParts
@@ -13,32 +15,27 @@ namespace Y_POS.Views.CheckoutParts
         {
             InitializeComponent();
 
-            ReceivedTb.Text = 0.ToString("c");
-            TipsTb.Text = 0.ToString("c");
+            ReceivedTb.Text = "0";
+            TipsTb.Text = "0";
             
             Loaded += (sender, args) =>
             {
-                ReceivedTb.Text = ((PaymentVm) DataContext).Received.ToString("c");
-                TipsTb.Text = ((PaymentVm) DataContext).Tips.ToString("c");
+                ReceivedTb.Text = ((PaymentVm) DataContext).Received.ToString("N2");
+                TipsTb.Text = ((PaymentVm) DataContext).Tips.ToString("N2");
 
                 ReceivedTb.Focus();
+
+                /*this.WhenAnyValue(view => view.ViewModel.Mode, view => view.ViewModel.IsMultiplePayment)
+                    .SubscribeToObserveOnUi(_ =>
+                    {
+                        ReceivedTb.Text = "0";
+                        TipsTb.Text = "0";
+                        ReceivedTb.Focus();
+                    });*/
             };
         }
 
-        private void DoCheckout(object sender, RoutedEventArgs e)
-        {
-            RoutedEventArgs args = new RoutedEventArgs(CheckoutEvent);
-            RaiseEvent(args);
-        }
-
-        public static readonly RoutedEvent CheckoutEvent = EventManager.RegisterRoutedEvent("Checkout",
-            RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (CheckoutPaymentView));
-
-        public event RoutedEventHandler Checkout
-        {
-            add { AddHandler(CheckoutEvent, value);}
-            remove { RemoveHandler(CheckoutEvent, value);}
-        }
+        private PaymentVm ViewModel => (PaymentVm)DataContext;
 
         private void Input_OnGotFocus(object sender, RoutedEventArgs e)
         {

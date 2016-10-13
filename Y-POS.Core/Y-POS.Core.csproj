@@ -56,6 +56,8 @@
     <Compile Include="Checkout\ReceiptItem.cs" />
     <Compile Include="Checkout\ReceiptItemMapping.cs" />
     <Compile Include="Checkout\SelectedReceiptController.cs" />
+    <Compile Include="Enums\PaymentMode.cs" />
+    <Compile Include="Enums\PaymentType.cs" />
     <Compile Include="Extensions\DialogEx.cs" />
     <Compile Include="Extensions\ObservableExtensions.cs" />
     <Compile Include="Infrastructure\Error.cs" />

@@ -27,7 +27,6 @@ namespace Y_POS.Core.ViewModels.Dialogs
         {
             _msrSubscription = Msr.GetDataStream()
                 .Where(data => data.SuccessfulRead)
-                .Take(1)
                 .Subscribe(data => CardNumber = data.AccountNumber);
         }
 

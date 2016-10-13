@@ -125,5 +125,9 @@
     <DataTemplate DataType="{x:Type dialogs:SetOrderItemQtyDialogVm}">
         <dialogViews:SetOrderItemQtyDialog DataContext="{Binding}" />
     </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type dialogs:GiftCardNumberDialog}">
+        <dialogViews:GetGiftCardNumberDialog DataContext="{Binding}"/>
+    </DataTemplate>
 
 </ResourceDictionary>

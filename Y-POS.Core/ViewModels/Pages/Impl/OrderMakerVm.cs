@@ -121,7 +121,6 @@ namespace Y_POS.Core.ViewModels.Pages
             _orderCreator.OrderedItems.Changed.Select(_ => true)
                 .Merge(_orderCreator.OrderedItems.ItemChanged.Select(_ => true))
                 .Select(_ => _orderCreator.OrderedItems.Sum(item => item.TotalPrice))
-                //.SubscribeToObserveOnUi(total => Total = total);
                 .ToPropertyEx(this, vm => vm.Total, 0, SchedulerService.UiScheduler);
 
             if (orderId != Guid.Empty)
@@ -147,7 +146,8 @@ namespace Y_POS.Core.ViewModels.Pages
             _commandVoid = ReactiveCommand.CreateAsyncTask(_ => VoidOrder(_orderCreator.OrderId));
             _commandGiftCards = ReactiveCommand.Create();
             _commandPrint = ReactiveCommand.CreateAsyncTask(_ => PrintOrder(_orderCreator.OrderId));
-            _commandCheckout = ReactiveCommand.Create(this.WhenAnyValue(vm => vm._orderCreator.OrderId).Select(id => id != Guid.Empty));
+            /*this.WhenAnyValue(vm => vm._orderCreator.OrderId).Select(id => id != Guid.Empty)*/
+            _commandCheckout = ReactiveCommand.Create();
         }
 
         protected override void InitLifetimeSubscriptions()
@@ -213,7 +213,11 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(_commandPrint.SubscribeToObserveOnUi());
 
             // Navigate to checkout
-            AddLifetimeSubscription(_commandCheckout.SubscribeToObserveOnUi(_ => NavigateTo(AppNavigation.Checkout, IntentFlags.NoHistory)));
+            AddLifetimeSubscription(_commandCheckout.SubscribeToObserveOnUi(_ =>
+            {
+                if (_orderCreator.OrderId == Guid.Empty) return;
+                NavigateTo(AppNavigation.Checkout, IntentFlags.NoHistory);
+            }));
 
             // Menu item selection
             AddLifetimeSubscription(Observable.FromEventPattern<MenuItemSelectedEventArgs>(
@@ -274,7 +278,7 @@ namespace Y_POS.Core.ViewModels.Pages
         private Task<bool> VoidOrder(Guid orderId)
         {
             return
-                DialogService.CreateConfirmationDialog(Properties.Resources.Dialog_Confirmation_VoidOrder)
+                DialogService.CreateConfirmationDialog(Resources.Dialog_Confirmation_VoidOrder)
                     .ShowAsync();
         } 
 

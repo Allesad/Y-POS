@@ -5,13 +5,11 @@
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:controls="clr-namespace:Y_POS.Controls"
                 xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-                xmlns:checkoutParts="clr-namespace:Y_POS.Views.CheckoutParts"
                 xmlns:views="clr-namespace:Y_POS.Views"
                 xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
                 xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
                 xmlns:converters="clr-namespace:Y_POS.Converters"
                 xmlns:impl="clr-namespace:Y_POS.Core.ViewModels.Items.Impl;assembly=Y-POS.Core"
-                xmlns:behaviors="clr-namespace:YumaPos.WPF.UI.Behaviors;assembly=YumaPos.WPF.UI"
                 xmlns:awe="http://schemas.awesomium.com/winfx"
                 mc:Ignorable="d"
                 d:DesignHeight="768" d:DesignWidth="1024"
@@ -25,8 +23,6 @@
         <converters:SplittingTypeToTextConverter x:Key="SplittingTypeToTextConverter" />
         <converters:DiscountToTextConverter x:Key="DiscountToTextConverter"/>
         <converters:ReceiptRefundedToIconConverter x:Key="ReceiptStatusIconConverter"/>
-        
-        <awe:UrlConverter x:Key="UrlConverter"/>
 
         <Style x:Key="ReceiptListItem" TargetType="ListBoxItem" BasedOn="{StaticResource LeftMarkedListItem}">
             <Setter Property="Padding" Value="25,6,35,6"/>
@@ -348,21 +344,13 @@
 
             <awe:WebControl x:Name="ReceiptControl"
                             />
-            <!--<ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                          VerticalScrollBarVisibility="Hidden"
-                          PanningMode="VerticalOnly"
-                          behaviors:TouchScrollingBehavior.IsEnabled="True">
-                <Image Source="../Images/Receipt.png" />
-            </ScrollViewer>-->
         </DockPanel>
 
 
         <!-- CENTRAL CONTENT -->
         <ContentPresenter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                           Name="Content"
-                          Content="{Binding OperationVm}"
-                          checkoutParts:CheckoutPaymentView.Checkout="Content_OnCheckout"
-                          DataContextChanged="Content_OnDataContextChanged" />
+                          Content="{Binding OperationVm}"/>
 
         <!-- PAYMENT TYPES -->
         <StackPanel Grid.Row="0" Grid.Column="2">

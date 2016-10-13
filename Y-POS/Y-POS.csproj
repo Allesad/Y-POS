@@ -170,6 +170,7 @@
     <Compile Include="Converters\CheckoutCustomerNameToTitleConverter.cs" />
     <Compile Include="Converters\CheckoutOperationToCheckedConverter.cs" />
     <Compile Include="Converters\DiscountToTextConverter.cs" />
+    <Compile Include="Converters\PaymentModeToVisibilityConverter.cs" />
     <Compile Include="Converters\PaymentTypeToCheckedConverter.cs" />
     <Compile Include="Converters\ReceiptRefundedToIconConverter.cs" />
     <Compile Include="Converters\SplittingTypeToTextConverter.cs" />
@@ -242,6 +243,9 @@
     </Compile>
     <Compile Include="Views\ClosedOrdersView.xaml.cs">
       <DependentUpon>ClosedOrdersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\GetGiftCardNumberDialog.xaml.cs">
+      <DependentUpon>GetGiftCardNumberDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\SetOrderItemQtyDialog.xaml.cs">
       <DependentUpon>SetOrderItemQtyDialog.xaml</DependentUpon>
@@ -432,6 +436,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ClosedOrdersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\GetGiftCardNumberDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
