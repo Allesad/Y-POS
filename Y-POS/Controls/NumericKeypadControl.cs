@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
@@ -25,6 +27,19 @@ namespace Y_POS.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericKeypadControl),
                 new FrameworkPropertyMetadata(typeof(NumericKeypadControl)));
+        }
+
+        #endregion
+
+        #region Target TextBox
+
+        public static readonly DependencyProperty TargetBoxProperty = DependencyProperty.Register(
+            "TargetBox", typeof (TextBox), typeof (NumericKeypadControl), new PropertyMetadata(default(TextBox)));
+
+        public TextBox TargetBox
+        {
+            get { return (TextBox) GetValue(TargetBoxProperty); }
+            set { SetValue(TargetBoxProperty, value); }
         }
 
         #endregion
@@ -74,48 +89,12 @@ namespace Y_POS.Controls
 
             if (btn == null) return;
 
-            btn.Click += BtnOnClick;
-            /*switch (partName)
+            if (partName.Equals("PART_Dot", StringComparison.Ordinal))
             {
-                case "PART_1":
-                    break;
-                case "PART_2":
+                btn.Content = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            }
 
-                    break;
-                case "PART_3":
-
-                    break;
-                case "PART_4":
-
-                    break;
-                case "PART_5":
-
-                    break;
-                case "PART_6":
-
-                    break;
-                case "PART_7":
-
-                    break;
-                case "PART_8":
-
-                    break;
-                case "PART_9":
-
-                    break;
-                case "PART_0":
-
-                    break;
-                case "PART_Dot":
-
-                    break;
-                case "PART_Delete":
-
-                    break;
-                case "PART_Clear":
-
-                    break;
-            }*/
+            btn.Click += BtnOnClick;
         }
 
         private void BtnOnClick(object sender, RoutedEventArgs routedEventArgs)
@@ -168,8 +147,83 @@ namespace Y_POS.Controls
 
             if (code == NumericKeypadButtonCode.None) return;
 
-            var args = new RoutedEventArgs(ButtonClickEvent, code);
-            RaiseEvent(args);
+            if (TargetBox != null)
+            {
+                ProcessClick(code);
+            }
+            else
+            {
+                var args = new RoutedEventArgs(ButtonClickEvent, code);
+                RaiseEvent(args);
+            }
+        }
+
+        private void ProcessClick(NumericKeypadButtonCode code)
+        {
+            switch (code)
+            {
+                case NumericKeypadButtonCode.Clear:
+                    TargetBox.Clear();
+                    return;
+                case NumericKeypadButtonCode.Delete:
+                    if (TargetBox.SelectionLength > 0)
+                    {
+                        TargetBox.SelectedText = string.Empty;
+                        return;
+                    }
+                    if (TargetBox.Text.Length > 0)
+                    {
+                        TargetBox.Text = TargetBox.Text.Remove(TargetBox.Text.Length - 1);
+                    }
+                    return;
+                case NumericKeypadButtonCode.Dot:
+                    TargetBox.Text += CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+                    return;
+                case NumericKeypadButtonCode.Button0:
+                    SetText("0");
+                    return;
+                case NumericKeypadButtonCode.Button1:
+                    SetText("1");
+                    return;
+                case NumericKeypadButtonCode.Button2:
+                    SetText("2");
+                    return;
+                case NumericKeypadButtonCode.Button3:
+                    SetText("3");
+                    return;
+                case NumericKeypadButtonCode.Button4:
+                    SetText("4");
+                    return;
+                case NumericKeypadButtonCode.Button5:
+                    SetText("5");
+                    return;
+                case NumericKeypadButtonCode.Button6:
+                    SetText("6");
+                    return;
+                case NumericKeypadButtonCode.Button7:
+                    SetText("7");
+                    return;
+                case NumericKeypadButtonCode.Button8:
+                    SetText("8");
+                    return;
+                case NumericKeypadButtonCode.Button9:
+                    SetText("9");
+                    return;
+            }
+        }
+
+        private void SetText(string text)
+        {
+            if (TargetBox.SelectionLength > 0)
+            {
+                TargetBox.SelectedText = text;
+                TargetBox.SelectionLength = 0;
+                TargetBox.CaretIndex = TargetBox.Text.Length - 1;
+            }
+            else
+            {
+                TargetBox.Text += text;
+            }
         }
 
         #endregion

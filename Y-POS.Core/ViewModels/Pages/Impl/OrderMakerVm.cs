@@ -16,6 +16,7 @@ using YumaPos.Client.UI.ViewModels.Contracts;
 using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using Y_POS.Core.Extensions;
+using Y_POS.Core.Infrastructure.Exceptions;
 using Y_POS.Core.Properties;
 using Y_POS.Core.ViewModels.Dialogs;
 using Y_POS.Core.ViewModels.Items.Contracts;
@@ -121,12 +122,11 @@ namespace Y_POS.Core.ViewModels.Pages
             _orderCreator.OrderedItems.Changed.Select(_ => true)
                 .Merge(_orderCreator.OrderedItems.ItemChanged.Select(_ => true))
                 .Select(_ => _orderCreator.OrderedItems.Sum(item => item.TotalPrice))
-                //.SubscribeToObserveOnUi(total => Total = total);
                 .ToPropertyEx(this, vm => vm.Total, 0, SchedulerService.UiScheduler);
 
             if (orderId != Guid.Empty)
             {
-                _orderCreator.LoadOrder(orderId).SubscribeToObserveOnUi();
+                _orderCreator.LoadOrder(orderId).SubscribeToObserveOnUi(_ => {}, HandleError);
             }
             else
             {
@@ -147,6 +147,7 @@ namespace Y_POS.Core.ViewModels.Pages
             _commandVoid = ReactiveCommand.CreateAsyncTask(_ => VoidOrder(_orderCreator.OrderId));
             _commandGiftCards = ReactiveCommand.Create();
             _commandPrint = ReactiveCommand.CreateAsyncTask(_ => PrintOrder(_orderCreator.OrderId));
+            /*this.WhenAnyValue(vm => vm._orderCreator.OrderId).Select(id => id != Guid.Empty)*/
             _commandCheckout = ReactiveCommand.Create();
         }
 
@@ -161,6 +162,14 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm._orderCreator.CustomerName)
                 .Select(name => string.IsNullOrEmpty(name) ? Resources.AddCustomer : name)
                 .ToPropertyEx(this, vm => vm.CustomerName));
+
+            // Select customer
+            AddLifetimeSubscription(Observable.FromEventPattern<CustomerSelectedEventArgs>(
+                    h => _selectCustomerVm.CustomerSelectedEvent += h,
+                    h => _selectCustomerVm.CustomerSelectedEvent -= h)
+                .Select(pattern => pattern.EventArgs.Customer)
+                .SelectMany(customer => _orderCreator.SetCustomer(customer.CustomerId.Value, $"{customer.FirstName} {customer.LastName}"))
+                .Subscribe(_ => DetailsType = OrderMakerDetailsType.Menu));
 
             // Details type
             AddLifetimeSubscription(this.WhenAnyValue(vm => vm.DetailsType)
@@ -205,7 +214,11 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(_commandPrint.SubscribeToObserveOnUi());
 
             // Navigate to checkout
-            AddLifetimeSubscription(_commandCheckout.SubscribeToObserveOnUi(_ => NavigateTo(AppNavigation.Checkout, IntentFlags.NoHistory)));
+            AddLifetimeSubscription(_commandCheckout.SubscribeToObserveOnUi(_ =>
+            {
+                if (_orderCreator.OrderId == Guid.Empty) return;
+                NavigateTo(AppNavigation.Checkout, IntentFlags.NoHistory);
+            }));
 
             // Menu item selection
             AddLifetimeSubscription(Observable.FromEventPattern<MenuItemSelectedEventArgs>(
@@ -227,13 +240,25 @@ namespace Y_POS.Core.ViewModels.Pages
                 .Subscribe(_ => DetailsType = OrderMakerDetailsType.Menu));
         }
 
+        protected override void HandleError(Exception exception)
+        {
+            if (!(exception is ServerRuntimeException)) throw exception;
+            Logger.Error(exception.Message, exception);
+            DialogService.ShowErrorMessage(Resources.Dialog_Error_ServerRuntimeError);
+        }
+
         #endregion
 
         #region Private methods
 
         private void NavigateTo(NavUri targetUri, IntentFlags flags = IntentFlags.None)
         {
-            NavigationService.StartIntent(new Intent(targetUri).SetFlags(flags));
+            var intent = new Intent(targetUri).SetFlags(flags);
+            if (targetUri.Equals(AppNavigation.Checkout))
+            {
+                intent.SetArgs(new ArgsBundle().Put("id", _orderCreator.OrderId));
+            }
+            NavigationService.StartIntent(intent);
         }
 
         private ILifecycleVm GetDetailsVmForType(OrderMakerDetailsType type)
@@ -261,7 +286,7 @@ namespace Y_POS.Core.ViewModels.Pages
         private Task<bool> VoidOrder(Guid orderId)
         {
             return
-                DialogService.CreateConfirmationDialog(Properties.Resources.Dialog_Confirmation_VoidOrder)
+                DialogService.CreateConfirmationDialog(Resources.Dialog_Confirmation_VoidOrder)
                     .ShowAsync();
         } 
 

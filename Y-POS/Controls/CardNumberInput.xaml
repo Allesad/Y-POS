@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-             xmlns:behaviours="clr-namespace:YumaPos.WPF.UI.Behaviours;assembly=YumaPos.WPF.UI"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:YumaPos.WPF.UI.Behaviors;assembly=YumaPos.WPF.UI"
              mc:Ignorable="d"
              x:Name="CardInput"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -25,7 +25,7 @@
                     Converter={StaticResource UpperCaseCoverter}}"
                  Text="{Binding CardNumber, ElementName=CardInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
             <i:Interaction.Behaviors>
-                <behaviours:TextBoxInputRegExBehaviour RegularExpression="^\d+$" MaxLength="10"/>
+                <behaviors:TextBoxInputRegExBehavior RegularExpression="^\d+$" MaxLength="10"/>
             </i:Interaction.Behaviors>
         </TextBox>
 

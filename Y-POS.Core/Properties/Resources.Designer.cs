@@ -143,6 +143,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Customer.
         /// </summary>
         public static string AddCustomer {
@@ -184,6 +193,15 @@ namespace Y_POS.Core.Properties {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Card number.
+        /// </summary>
+        public static string CardNumber {
+            get {
+                return ResourceManager.GetString("CardNumber", resourceCulture);
             }
         }
         
@@ -283,6 +301,15 @@ namespace Y_POS.Core.Properties {
         public static string CashDrawerSummary_Sales {
             get {
                 return ResourceManager.GetString("CashDrawerSummary_Sales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cashier.
+        /// </summary>
+        public static string Cashier {
+            get {
+                return ResourceManager.GetString("Cashier", resourceCulture);
             }
         }
         
@@ -409,6 +436,15 @@ namespace Y_POS.Core.Properties {
         public static string Dialog_Error_InvalidRefillAmount {
             get {
                 return ResourceManager.GetString("Dialog_Error_InvalidRefillAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server error occurred.
+        /// </summary>
+        public static string Dialog_Error_ServerRuntimeError {
+            get {
+                return ResourceManager.GetString("Dialog_Error_ServerRuntimeError", resourceCulture);
             }
         }
         
@@ -818,11 +854,74 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pay.
+        /// </summary>
+        public static string Pay {
+            get {
+                return ResourceManager.GetString("Pay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Payment.
         /// </summary>
         public static string Payment {
             get {
                 return ResourceManager.GetString("Payment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Card.
+        /// </summary>
+        public static string PaymentType_Card {
+            get {
+                return ResourceManager.GetString("PaymentType_Card", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash.
+        /// </summary>
+        public static string PaymentType_Cash {
+            get {
+                return ResourceManager.GetString("PaymentType_Cash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gift Card.
+        /// </summary>
+        public static string PaymentType_GiftCard {
+            get {
+                return ResourceManager.GetString("PaymentType_GiftCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mobile.
+        /// </summary>
+        public static string PaymentType_Mobile {
+            get {
+                return ResourceManager.GetString("PaymentType_Mobile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple.
+        /// </summary>
+        public static string PaymentType_Multiple {
+            get {
+                return ResourceManager.GetString("PaymentType_Multiple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Points.
+        /// </summary>
+        public static string PaymentType_Points {
+            get {
+                return ResourceManager.GetString("PaymentType_Points", resourceCulture);
             }
         }
         
@@ -917,6 +1016,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset.
+        /// </summary>
+        public static string Reset {
+            get {
+                return ResourceManager.GetString("Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string Search {
@@ -931,6 +1039,15 @@ namespace Y_POS.Core.Properties {
         public static string Search_Customer {
             get {
                 return ResourceManager.GetString("Search_Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select discount.
+        /// </summary>
+        public static string SelectDiscount {
+            get {
+                return ResourceManager.GetString("SelectDiscount", resourceCulture);
             }
         }
         
@@ -998,11 +1115,29 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proportionally.
+        /// </summary>
+        public static string Split_Proportionally {
+            get {
+                return ResourceManager.GetString("Split_Proportionally", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Staff Member.
         /// </summary>
         public static string StaffMember {
             get {
                 return ResourceManager.GetString("StaffMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string Start {
+            get {
+                return ResourceManager.GetString("Start", resourceCulture);
             }
         }
         

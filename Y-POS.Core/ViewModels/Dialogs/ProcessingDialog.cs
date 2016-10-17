@@ -1,0 +1,39 @@
+﻿using System.Collections.Generic;
+using System.Threading;
+using DialogManagement.Contracts;
+using DialogManagement.Core;
+using YumaPos.Client.UI.ViewModels.Impl;
+
+namespace Y_POS.Core.ViewModels.Dialogs
+{
+    public sealed class ProcessingDialog : BaseVm, IDialogButtonsConfigProvider
+    {
+        #region Fields
+
+        #endregion
+
+        #region Properties
+
+        public CancellationToken Token { get; }
+
+        #endregion
+
+        #region Commands
+        
+        #endregion
+
+        #region Constructor
+
+        public ProcessingDialog(CancellationToken ct)
+        {
+            Token = ct;
+        }
+
+        #endregion
+        
+        public IEnumerable<DialogButtonConfig> GetButtons()
+        {
+            return DefaultButtonSets.Cancel;
+        }
+    }
+}

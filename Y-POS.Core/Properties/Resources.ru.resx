@@ -470,4 +470,49 @@
   <data name="Sex_Male" xml:space="preserve">
     <value>Мужской</value>
   </data>
+  <data name="PaymentType_Card" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="PaymentType_Cash" xml:space="preserve">
+    <value>Наличные</value>
+  </data>
+  <data name="PaymentType_GiftCard" xml:space="preserve">
+    <value>Подар. карта</value>
+  </data>
+  <data name="PaymentType_Mobile" xml:space="preserve">
+    <value>Mobile</value>
+  </data>
+  <data name="PaymentType_Multiple" xml:space="preserve">
+    <value>Смешанный</value>
+  </data>
+  <data name="PaymentType_Points" xml:space="preserve">
+    <value>Баллы</value>
+  </data>
+  <data name="Split_Proportionally" xml:space="preserve">
+    <value>Пропорционально</value>
+  </data>
+  <data name="SelectDiscount" xml:space="preserve">
+    <value>Выберите скидку</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="Cashier" xml:space="preserve">
+    <value>Кассир</value>
+  </data>
+  <data name="CardNumber" xml:space="preserve">
+    <value>Номер карты</value>
+  </data>
+  <data name="Pay" xml:space="preserve">
+    <value>Оплатить</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Сбросить</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Начать</value>
+  </data>
+  <data name="Dialog_Error_ServerRuntimeError" xml:space="preserve">
+    <value>Произошла ошибка на сервере</value>
+  </data>
 </root>

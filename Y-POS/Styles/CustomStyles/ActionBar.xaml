@@ -248,6 +248,7 @@
 
     <!-- PRINT BUTTON STYLE -->
     <Style x:Key="ActionBarPrint" TargetType="controls:ActionBarButton" BasedOn="{StaticResource ActionBarButton}">
+        <Setter Property="Command" Value="Print"/>
         <Setter Property="Title"
                 Value="{Binding Source={x:Static p:Resources.Print}, Converter={StaticResource UpperCaseCoverter}}" />
         <Setter Property="IconPath"

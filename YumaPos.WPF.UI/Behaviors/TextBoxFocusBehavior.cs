@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace YumaPos.WPF.UI.Behaviours
+namespace YumaPos.WPF.UI.Behaviors
 {
     public class TextBoxFocusBehavior
     {

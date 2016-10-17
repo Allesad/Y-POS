@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using ReactiveUI;
@@ -8,12 +9,19 @@ using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using YumaPos.Shared.API.Models;
+using Y_POS.Core.Extensions;
 using Y_POS.Core.ViewModels.Items.Contracts;
 
 namespace Y_POS.Core.ViewModels.Items.Impl
 {
     public sealed class ActiveOrderItemVm : BaseEntityVm, IActiveOrderItemVm
     {
+        #region Fields
+
+        private bool _isReadOnly;
+
+        #endregion
+
         #region Properties
 
         public int OrderNumber { get; }
@@ -44,11 +52,18 @@ namespace Y_POS.Core.ViewModels.Items.Impl
             CustomerName = dto.CustomerName;
             Amount = dto.Amount;
 
+            _isReadOnly = dto.Transactions != null && dto.Transactions.Any();
+
             var cmd = ReactiveCommand.Create();
             cmd.Select(o => Guid.Parse((string) o))
                 .ObserveOn(SchedulerService.UiScheduler)
-                .Subscribe(id => NavigationService.StartIntent(new Intent(AppNavigation.OrderMaker)
-                    .SetArgs(new ArgsBundle().Put("id", id))));
+                .Subscribe(id =>
+                {
+                    var intent = new Intent(_isReadOnly ? AppNavigation.Checkout : AppNavigation.OrderMaker)
+                        .SetArgs(new ArgsBundle().Put("id", id))
+                        .AddToBackstack(!_isReadOnly);
+                    NavigationService.StartIntent(intent);
+                });
             CommandOpen = cmd;
         }
 

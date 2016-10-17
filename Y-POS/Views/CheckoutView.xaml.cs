@@ -1,9 +1,14 @@
 ﻿using System.Linq;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using System.Windows.Input;
+using ReactiveUI;
+using YumaPos.Client.Hardware;
+using YumaPos.Client.Helpers;
+using Y_POS.Core.Extensions;
+using Y_POS.Core.Infrastructure;
 using Y_POS.Core.ViewModels.Pages;
-using Y_POS.Views.CheckoutParts;
 
 namespace Y_POS.Views
 {
@@ -12,104 +17,59 @@ namespace Y_POS.Views
     /// </summary>
     public partial class CheckoutView : BaseView
     {
-        private bool _isPaid;
-
         public CheckoutView()
         {
             InitializeComponent();
-
-            Content.Content = new CheckoutPaymentView();
-            
-            OperationsList.SetValue(ItemsControl.ItemsSourceProperty, new[]
-            {
-                new OperationItem((Geometry) FindResource("CustomerIcon"), Core.Properties.Resources.Customer, "Add Customer"),
-                new OperationItem((Geometry) FindResource("PercentIcon"), Core.Properties.Resources.Discount, "10% - Happy Hour"),
-                new OperationItem((Geometry) FindResource("DivideIcon"), Core.Properties.Resources.Split, "All on One"),
-                new OperationItem((Geometry) FindResource("PromoIcon"), Core.Properties.Resources.Promo, "No")
-            });
         }
 
-        private void SwitchToPayment(object sender, RoutedEventArgs e)
-        {
-            OperationsList.UnselectAll();
-            ((RadioButton) sender).IsChecked = true;
-            Content.Content = new CheckoutPaymentView();
-        }
+        private CheckoutVm ViewModel => (CheckoutVm) DataContext;
 
-        private void OperationsList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        protected override void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            UserControl content = null;
-            switch (OperationsList.SelectedIndex)
-            {
-                case -1:
-                    content = new CheckoutPaymentView();
-                    break;
-                case 0:
-                    content = new CheckoutCustomerView();
-                    break;
-                case 1:
-                    content = new CheckoutDiscountView();
-                    break;
-                case 2:
-                    content = new CheckoutSplittingsView();
-                    break;
-                case 3:
-                    content = new CheckoutPromoView();
-                    break;
-            }
-            if (content != null)
-            {
-                Content.Content = content;
-                foreach (var rb in PaymentTypesContainer.Children.OfType<RadioButton>())
+            base.OnLoaded(sender, routedEventArgs);
+
+            this.WhenAnyValue(view => view.ViewModel.Receipts)
+                .TakeUntil(closingObservable)
+                .Where(vms => vms != null)
+                .Select(vms => vms.Any(vm => vm.IsPaid))
+                .SubscribeToObserveOnUi(hasPaidReceipts =>
                 {
-                    rb.IsChecked = false;
-                }
-            }
-            else
-            {
-                Content.Content = ((ICheckoutVm) DataContext).OptionVm;
-            }
+                    RightActionButton.Command = hasPaidReceipts
+                        ? ViewModel.CommandRefund
+                        : ViewModel.CommandVoid;
+                    RightActionButton.Title = hasPaidReceipts
+                        ? Core.Properties.Resources.Refund.ToUpper()
+                        : Core.Properties.Resources.Void.ToUpper();
+                });
+
+            this.WhenAnyValue(view => view.ViewModel.SelectedReceipt)
+                .TakeUntil(closingObservable)
+                .Select(vm => vm?.ReceiptHtml)
+                .SubscribeToObserveOnUi(receiptHtml =>
+                {
+                    if (receiptHtml.IsEmpty())
+                    {
+                        ReceiptControl.GoToHome();
+                        return;
+                    }
+                    ReceiptControl.LoadHTML(receiptHtml);
+                });
+
+            this.WhenAnyValue(view => view.ViewModel.CurrentOperationType)
+                .Select(type => type == CheckoutOperationType.PaymentComplete)
+                .SubscribeToObserveOnUi(isComplete => ActionBarLeftContainer.SetValue(Grid.ColumnSpanProperty, isComplete ? 2 : 1));
         }
 
-        private class OperationItem
+        protected override void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            public Geometry Icon { get; set; }
-            public string Title { get; set; }
-            public string Content { get; set; }
+            base.OnUnloaded(sender, routedEventArgs);
 
-            public OperationItem(Geometry icon, string title, string content)
-            {
-                Icon = icon;
-                Title = title;
-                Content = content;
-            }
+            if (!ReceiptControl.IsDisposed) ReceiptControl.Dispose();
         }
 
-        private void SwitchActionBar(object sender, RoutedEventArgs e)
+        private void CommandPrint_OnExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!_isPaid) return;
-
-            ActionBarLeftContainer.SetValue(Grid.ColumnSpanProperty, 1);
-            Content.Content = new CheckoutPaymentView();
-            RightActionButton.Title = Core.Properties.Resources.Void.ToUpper();
-            PaymentTypesContainer.IsEnabled = true;
-            OperationsList.IsEnabled = true;
-        }
-
-        private void Content_OnCheckout(object sender, RoutedEventArgs e)
-        {
-            ActionBarLeftContainer.SetValue(Grid.ColumnSpanProperty, 2);
-            Content.Content = new CheckoutPaymentCompleteView();
-            RightActionButton.Title = Core.Properties.Resources.Refund.ToUpper();
-            PaymentTypesContainer.IsEnabled = false;
-            OperationsList.IsEnabled = false;
-
-            _isPaid = true;
-        }
-
-        private void Content_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            int i = 0;
+            ServiceLocator.Resolve<IPrintService>().PrintReceipt(null);
         }
     }
 }

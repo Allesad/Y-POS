@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using YumaPos.Client.UI.ViewModels.Contracts;
 using YumaPos.Shared.API.Enums;
+using YumaPos.Shared.API.Models;
 using Y_POS.Core.ViewModels.Items.Contracts;
 
 namespace Y_POS.Core.ViewModels.PageParts
@@ -36,7 +37,18 @@ namespace Y_POS.Core.ViewModels.PageParts
         #region Events
 
         event EventHandler CancelEvent;
+        event EventHandler<CustomerSelectedEventArgs> CustomerSelectedEvent;
 
         #endregion
+    }
+
+    public class CustomerSelectedEventArgs : EventArgs
+    {
+        public CustomerSelectedEventArgs(CustomerDto customer)
+        {
+            Customer = customer;
+        }
+
+        public CustomerDto Customer { get; private set; }
     }
 }

@@ -8,12 +8,12 @@
                 xmlns:contracts="clr-namespace:Y_POS.Core.ViewModels.Items.Contracts;assembly=Y-POS.Core"
                 xmlns:helpers="clr-namespace:YumaPos.WPF.UI.Helpers;assembly=YumaPos.WPF.UI"
                 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                xmlns:behaviours="clr-namespace:YumaPos.WPF.UI.Behaviours;assembly=YumaPos.WPF.UI"
                 xmlns:converters="clr-namespace:Y_POS.Converters"
                 xmlns:pageParts="clr-namespace:Y_POS.Core.ViewModels.PageParts;assembly=Y-POS.Core"
                 xmlns:controls="clr-namespace:Y_POS.Controls"
                 xmlns:views="clr-namespace:Y_POS.Views"
                 xmlns:commonParts="clr-namespace:Y_POS.Views.CommonParts"
+                xmlns:behaviors="clr-namespace:YumaPos.WPF.UI.Behaviors;assembly=YumaPos.WPF.UI"
                 mc:Ignorable="d"
                 d:DesignHeight="300" d:DesignWidth="300"
                 d:DataContext="{d:DesignInstance pageParts:SelectCustomerVm, d:IsDesignTimeCreatable=False}">
@@ -79,9 +79,10 @@
         <Style x:Key="FormTextTbl" TargetType="TextBlock" BasedOn="{StaticResource DefaultText}">
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+        
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Name="Container">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
@@ -94,13 +95,13 @@
                      Rows="1" Columns="2">
 
             <!-- SEARCH CUSTOMER -->
-            <Button Content="FIND CUSTOMER"
+            <Button Content="{Binding Source={x:Static p:Resources.Search_Customer}, Converter={StaticResource UpperCaseCoverter}}"
                     Style="{StaticResource TabSelectorBtn}"
                     BorderThickness="0,0,1,1"
                     Command="{Binding CommandGoToFindCustomer}" />
 
             <!-- ADD CUSTOMER -->
-            <Button Content="ADD CUSTOMER"
+            <Button Content="{Binding Source={x:Static p:Resources.AddCustomer}, Converter={StaticResource UpperCaseCoverter}}"
                     Style="{StaticResource TabSelectorBtn}"
                     BorderThickness="0,0,0,1"
                     Command="{Binding CommandGoToNewCustomer}" />
@@ -367,7 +368,7 @@
                          Margin="0,0,0,10"
                          Text="{Binding Phone, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Behaviors>
-                        <behaviours:TextBoxInputRegExBehaviour MaxLength="10" RegularExpression="^\d+$" />
+                        <behaviors:TextBoxInputRegExBehavior MaxLength="10" RegularExpression="^\d+$" />
                     </i:Interaction.Behaviors>
                 </TextBox>
 

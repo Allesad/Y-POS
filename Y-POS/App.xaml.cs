@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Threading;
+using Awesomium.Core;
 using NLog;
 using ReactiveUI;
 using YumaPos.Client.App;
@@ -14,8 +15,10 @@ using YumaPos.Client.Helpers;
 using YumaPos.Common.Infrastructure.IoC;
 using YumaPos.Common.Infrastructure.Logging;
 using Y_POS.Bootstrap;
+using Y_POS.Core.Infrastructure;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views;
+using LogLevel = Awesomium.Core.LogLevel;
 
 namespace Y_POS
 {
@@ -53,6 +56,17 @@ namespace Y_POS
             RxApp.SupportsRangeNotifications = false;
 
             InitExceptionHandlers();
+
+            // Setup Awesomium
+            if (!WebCore.IsInitialized)
+            {
+                WebCore.Initialize(new WebConfig
+                {
+                    LogLevel = LogLevel.Normal,
+                    //HomeURL = new Uri("https://habrahabr.ru/all/")
+                }, true);
+            }
+
             Bootstrap();
         }
 
@@ -61,6 +75,11 @@ namespace Y_POS
             AppDomain.CurrentDomain.UnhandledException -= CurrentDomainOnUnhandledException;
             Current.DispatcherUnhandledException -= DispatcherOnUnhandledException;
             TaskScheduler.UnobservedTaskException -= TaskSchedulerOnUnobservedTaskException;
+
+            if (WebCore.IsInitialized)
+            {
+                WebCore.Shutdown();
+            }
 
             base.OnExit(e);
         }
@@ -78,6 +97,7 @@ namespace Y_POS
 
             LoggerHelper.LoggingService = resolver.Resolve<ILoggingService>();
             ServiceLocator.Init(resolver);
+            TimeLogger.logger = resolver.Resolve<ILoggingService>().GetLog("TimeLogger");
             await resolver.Resolve<IAppServiceManager>().InitAsync();
 
             ShowUi(resolver);

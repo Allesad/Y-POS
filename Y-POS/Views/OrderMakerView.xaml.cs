@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Reactive.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
 using Y_POS.Core.Extensions;
@@ -21,6 +22,7 @@ namespace Y_POS.Views
             base.OnLoaded(sender, routedEventArgs);
 
             ((IOrderMakerVm) DataContext).WhenAnyValue(vm => vm.DetailsType)
+                .TakeUntil(closingObservable)
                 .SubscribeToObserveOnUi(UpdateActionBar);
         }
 

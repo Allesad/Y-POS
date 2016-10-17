@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace Y_POS.Views.CommonParts
 {
@@ -10,6 +11,16 @@ namespace Y_POS.Views.CommonParts
         public SelectCustomerView()
         {
             InitializeComponent();
+        }
+
+        protected override void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            base.OnLoaded(sender, routedEventArgs);
+
+            if (((SelectCustomerView)sender).ActualWidth < 700)
+            {
+                IsNarrow = true;
+            }
         }
 
         #region IsNarrow

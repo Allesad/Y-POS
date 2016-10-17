@@ -28,6 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,8 +52,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppNavigation.cs" />
+    <Compile Include="Checkout\CheckoutController.cs" />
+    <Compile Include="Checkout\ReceiptItem.cs" />
+    <Compile Include="Checkout\ReceiptItemMapping.cs" />
+    <Compile Include="Checkout\SelectedReceiptController.cs" />
+    <Compile Include="Enums\PaymentType.cs" />
     <Compile Include="Extensions\DialogEx.cs" />
     <Compile Include="Extensions\ObservableExtensions.cs" />
+    <Compile Include="Infrastructure\Decorators\ApiLoggerDecorator.cs">
+      <DependentUpon>ApiLoggerDecorator.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Infrastructure\Decorators\ServerRuntimeErrorDecorator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServerRuntimeErrorDecorator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Error.cs" />
+    <Compile Include="Infrastructure\Exceptions\ServerRuntimeException.cs" />
+    <Compile Include="Infrastructure\Guard.cs" />
+    <Compile Include="Infrastructure\ReflectionExtensions.cs" />
+    <Compile Include="Infrastructure\ResponseMessage.cs" />
+    <Compile Include="Infrastructure\StringExtensions.cs" />
+    <Compile Include="Infrastructure\TimeLogger.cs" />
+    <Compile Include="Infrastructure\TypeExtensions.cs" />
     <Compile Include="MockData\MockAccountServiceManager.cs" />
     <Compile Include="MockData\MockAppServiceManager.cs" />
     <Compile Include="MockData\MockAuthApi.cs" />
@@ -60,7 +84,9 @@
     <Compile Include="MockData\MockDataGenerator.cs" />
     <Compile Include="MockData\MockExtensions.cs" />
     <Compile Include="MockData\MockMenuService.cs" />
+    <Compile Include="MockData\MockMsrService.cs" />
     <Compile Include="MockData\MockOrderService.cs" />
+    <Compile Include="MockData\MockPaymentService.cs" />
     <Compile Include="MockData\MockPrinter.cs" />
     <Compile Include="MockData\MockStoreSettingsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,7 +100,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
+    <Compile Include="Receipt\ReceiptBuilder.cs" />
+    <Compile Include="Receipt\ReceiptTemplateFactory.cs" />
+    <Compile Include="ViewModels\Dialogs\GiftCardNumberDialog.cs" />
+    <Compile Include="ViewModels\Dialogs\ProcessingDialog.cs" />
     <Compile Include="ViewModels\Dialogs\SetOrderItemQtyDialogVm.cs" />
+    <Compile Include="ViewModels\Items\Impl\DiscountItemVm.cs" />
+    <Compile Include="ViewModels\Items\Impl\ReceiptItemVm.cs" />
+    <Compile Include="ViewModels\PageParts\ClosablePagePartVm.cs" />
+    <Compile Include="ViewModels\PageParts\Contracts\IDiscountVm.cs" />
+    <Compile Include="ViewModels\PageParts\Contracts\IMarketingVm.cs" />
+    <Compile Include="ViewModels\PageParts\Contracts\IPaymentCompleteVm.cs" />
+    <Compile Include="ViewModels\PageParts\Contracts\IPaymentVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\ISelectCustomerVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\IActiveOrderItemVm.cs" />
     <Compile Include="ViewModels\Items\Contracts\ICustomerItemVm.cs" />
@@ -97,11 +134,17 @@
     <Compile Include="ViewModels\PageParts\Contracts\IGiftCardsVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\IOrderItemConstructorVm.cs" />
     <Compile Include="ViewModels\PageParts\Contracts\IOrderMakerMenuVm.cs" />
+    <Compile Include="ViewModels\PageParts\Contracts\ISplittingsVm.cs" />
+    <Compile Include="ViewModels\PageParts\Impl\DiscountVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\GiftCardsVm.cs" />
+    <Compile Include="ViewModels\PageParts\Impl\MarketingVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\OrderItemConstructorVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\OrderMakerMenuVm.cs" />
+    <Compile Include="ViewModels\PageParts\Impl\PaymentCompleteVm.cs" />
+    <Compile Include="ViewModels\PageParts\Impl\PaymentVm.cs" />
+    <Compile Include="ViewModels\PageParts\Impl\RefundVm.cs" />
+    <Compile Include="ViewModels\PageParts\Impl\SplittingsVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\ICashDrawerVm.cs" />
-    <Compile Include="ViewModels\Pages\Contracts\ICheckoutVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\INavMenuVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\IOrderMakerVm.cs" />
     <Compile Include="ViewModels\Pages\Contracts\IReportsVm.cs" />
@@ -169,6 +212,9 @@
     <Reference Include="YumaPos.Client.LocalData">
       <HintPath>..\Libs\YumaPos.Client.LocalData.dll</HintPath>
     </Reference>
+    <Reference Include="YumaPos.Client.Module.Checkout">
+      <HintPath>..\Libs\YumaPos.Client.Module.Checkout.dll</HintPath>
+    </Reference>
     <Reference Include="YumaPos.Common.Infrastructure">
       <HintPath>..\Libs\YumaPos.Common.Infrastructure.dll</HintPath>
     </Reference>
@@ -193,6 +239,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Infrastructure\Decorators\ApiLoggerDecorator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ApiLoggerDecorator.cs</LastGenOutput>
+    </Content>
+    <Content Include="Infrastructure\Decorators\ServerRuntimeErrorDecorator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ServerRuntimeErrorDecorator.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

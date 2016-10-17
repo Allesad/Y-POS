@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using YumaPos.Client.Builders;
 using YumaPos.Client.Extensions;
 using YumaPos.Client.Services;
 using YumaPos.Client.UI.ViewModels.Impl;
@@ -23,12 +23,11 @@ namespace Y_POS.Core.ViewModels.PageParts
         #region Fields
 
         private readonly ICustomersService _customersService;
-        private readonly IOrderCreator _orderCreator;
 
         private ReactiveCommand<object> _commandGoToFindCustomer;
         private ReactiveCommand<object> _commandGoToNewCustomer;
         private ReactiveCommand<object> _commandCancel;
-        private ReactiveCommand<Unit> _commandSubmit;
+        private ReactiveCommand<CustomerDto> _commandSubmit;
 
         #endregion
 
@@ -74,18 +73,17 @@ namespace Y_POS.Core.ViewModels.PageParts
         #region Events
 
         public event EventHandler CancelEvent;
+        public event EventHandler<CustomerSelectedEventArgs> CustomerSelectedEvent;
 
         #endregion
 
         #region Constructor
 
-        public SelectCustomerVm(ICustomersService customersService, IOrderCreator orderCreator)
+        public SelectCustomerVm(ICustomersService customersService)
         {
             if (customersService == null) throw new ArgumentNullException(nameof(customersService));
-            if (orderCreator == null) throw new ArgumentNullException(nameof(orderCreator));
 
             _customersService = customersService;
-            _orderCreator = orderCreator;
 
             this.WhenAnyValue(vm => vm.SelectedCustomer).Skip(1)
                 .Select(vm => vm != null)
@@ -102,8 +100,7 @@ namespace Y_POS.Core.ViewModels.PageParts
             _commandGoToNewCustomer = ReactiveCommand.Create(this.WhenAnyValue(vm => vm.IsNewCustomer).Select(b => !b));
 
             _commandCancel = ReactiveCommand.Create();
-            
-            _commandSubmit = ReactiveCommand.CreateAsyncObservable(IsFormValidStream(), _ => GetCustomerOperation());
+            _commandSubmit = ReactiveCommand.CreateAsyncTask(IsFormValidStream(), _ => GetCustomerToSubmit());
         }
 
         protected override void InitLifetimeSubscriptions()
@@ -118,7 +115,11 @@ namespace Y_POS.Core.ViewModels.PageParts
             AddLifetimeSubscription(_commandCancel.Subscribe(_ => RaiseCancelEvent()));
 
             // Submit command
-            AddLifetimeSubscription(_commandSubmit.Subscribe(_ => RaiseCancelEvent()));
+            AddLifetimeSubscription(_commandSubmit.Subscribe(customer =>
+            {
+                SelectedCustomer = null;
+                RaiseCustomerSelectedEvent(customer);
+            }));
 
             // Search customers
             this.WhenAnyValue(vm => vm.SearchText).Skip(1)
@@ -154,31 +155,42 @@ namespace Y_POS.Core.ViewModels.PageParts
             return _customersService.GetCustomers(count: 50, search: query);
         }
 
-        private IObservable<Unit> GetCustomerOperation()
+        private async Task<CustomerDto> GetCustomerToSubmit()
         {
-            if (SelectedCustomer != null)
-            {
-                return
-                    _orderCreator.SetCustomer(SelectedCustomer.ToGuid(), SelectedCustomer.FullName)
-                        .Select(_ => Unit.Default);
-            }
-            return _customersService.AddCustomer(new CustomerDto
+            if (!IsNewCustomer)
+                return new CustomerDto
                 {
-                    FirstName = FirstName,
-                    LastName = LastName,
-                    HomePhone = Phone,
-                    Email = Email,
-                    BirthDate = BirthDate,
-                    Sex = Sex
-                })
-                .SelectMany(dto => _orderCreator.SetCustomer(dto.Value, $"{FirstName} {LastName}"))
-                .Select(_ => Unit.Default);
+                    CustomerId = SelectedCustomer.ToGuid(),
+                    FirstName = SelectedCustomer.FirstName,
+                    LastName = SelectedCustomer.LastName,
+                    HomePhone = SelectedCustomer.Phone,
+                    Email = SelectedCustomer.Email,
+                    Sex = SelectedCustomer.Sex
+                };
+            var customer = new CustomerDto
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                HomePhone = Phone,
+                Email = Email,
+                BirthDate = BirthDate,
+                Sex = Sex
+            };
+            var response = await _customersService.AddCustomer(customer).ToTask();
+            customer.CustomerId = response.Value;
+            return customer;
         }
 
         private void RaiseCancelEvent()
         {
             var handler = Volatile.Read(ref CancelEvent);
             handler?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void RaiseCustomerSelectedEvent(CustomerDto customer)
+        {
+            var handler = Volatile.Read(ref CustomerSelectedEvent);
+            handler?.Invoke(this, new CustomerSelectedEventArgs(customer));
         }
 
         #endregion

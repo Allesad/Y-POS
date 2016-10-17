@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dialogs="clr-namespace:Y_POS.Core.ViewModels.Dialogs;assembly=Y-POS.Core"
-             xmlns:behaviours="clr-namespace:YumaPos.WPF.UI.Behaviours;assembly=YumaPos.WPF.UI"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:YumaPos.WPF.UI.Behaviors;assembly=YumaPos.WPF.UI"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance dialogs:SetOrderItemQtyDialogVm, d:IsDesignTimeCreatable=False}">
@@ -68,10 +68,10 @@
                  Margin="10,0"
                  FontSize="{StaticResource LargeFontSize}"
                  TextAlignment="Center"
-                 behaviours:TextBoxFocusBehavior.SelectAllTextOnFocus="True"
+                 behaviors:TextBoxFocusBehavior.SelectAllTextOnFocus="True"
                  Text="{Binding Qty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Behaviors>
-                <behaviours:TextBoxInputRegExBehaviour MaxLength="4" RegularExpression="^\d+$"/>
+                <behaviors:TextBoxInputRegExBehavior MaxLength="4" RegularExpression="^\d+$"/>
             </i:Interaction.Behaviors>
         </TextBox>
 

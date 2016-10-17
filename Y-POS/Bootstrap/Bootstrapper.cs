@@ -7,8 +7,11 @@ using YumaPos.Client.App;
 using YumaPos.Client.Builders;
 using YumaPos.Client.Common;
 using YumaPos.Client.Configuration;
+using YumaPos.Client.Factories;
 using YumaPos.Client.Hardware;
 using YumaPos.Client.LocalData.Repositories;
+using YumaPos.Client.Module.Checkout.Contracts;
+using YumaPos.Client.Module.Checkout.Core;
 using YumaPos.Client.Navigation.Contracts;
 using YumaPos.Client.Navigation.Impl;
 using YumaPos.Client.Navigation.PageRegistration;
@@ -21,16 +24,21 @@ using YumaPos.Common.Infrastructure.Logging;
 using YumaPos.Common.Tools.IoC;
 using YumaPos.Common.Tools.Logging;
 using YumaPos.FrontEnd.Infrastructure.Common.Serialization;
+using YumaPos.Hardware.PinpadHardware.Core.Contracts.Interfaces;
+using YumaPos.Hardware.PinpadHardware.Core.Ingenico.Implementations;
 using YumaPos.Shared.API;
 using YumaPos.Shared.Core.Reciept.Contracts;
 using YumaPos.Shared.Infrastructure;
 using Y_POS.Configuration;
 using Y_POS.Core;
+using Y_POS.Core.Checkout;
+using Y_POS.Core.Infrastructure.Decorators;
 using Y_POS.Core.MockData;
-using Y_POS.Core.ViewModels;
+using Y_POS.Core.Receipt;
 using Y_POS.Core.ViewModels.PageParts;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Resources;
+using IReceiptBuilder = YumaPos.Client.Builders.IReceiptBuilder;
 
 namespace Y_POS.Bootstrap
 {
@@ -39,6 +47,8 @@ namespace Y_POS.Bootstrap
         private const string MAIN_SCOPE = "MainScope";
 
         #region Properties
+
+        private static bool UseTimeLoggerForApi => false;
 
         #endregion
 
@@ -51,7 +61,7 @@ namespace Y_POS.Bootstrap
 
             var container = builder.Build();
 
-            var mainScope = container.BeginLifetimeScope("MainScope");
+            var mainScope = container.BeginLifetimeScope(MAIN_SCOPE);
 
             return mainScope.Resolve<IResolver>();
         }
@@ -68,11 +78,20 @@ namespace Y_POS.Bootstrap
             builder.Register<ResourceService>().As<IResourcesService>();
 
             // API
-            //builder.Register<MockAuthApi>().As<IAuthorizationApi>();
-            builder.Register<ApiConfig>().As<IAPIConfig>();
+            builder.Register<ApiConfig>(Lifecycles.Singleton).As<IAPIConfig>();
+            builder.Register<AuthorizationApi>(Lifecycles.PerScope).As<IAuthorizationApi>();
             builder.Register<SerializationService>().As<ISerializationService>();
-            builder.Register<AuthorizationApi>(Lifecycles.PerDependency).As<IAuthorizationApi>();
-            builder.Register<TerminalApi>().As<ITerminalApi>();
+            builder.Register<TerminalApi>();
+            builder.Register(ctx =>
+            {
+                ITerminalApi api = ctx.Resolve<TerminalApi>();
+                api = new ServerRuntimeErrorDecorator(api);
+                if (UseTimeLoggerForApi)
+                {
+                    api = new ApiLoggerDecorator(api);
+                }
+                return api;
+            }).As<ITerminalApi>().InstancePerMatchingLifetimeScope(MAIN_SCOPE);
             builder.Register<BackOfficeApi>().As<IBackOfficeApi>();
 
             // Data access
@@ -99,9 +118,14 @@ namespace Y_POS.Bootstrap
             builder.Register<ImageService>().As<IImageService>();
             builder.Register<GiftCardService>().As<IGiftCardService>();
             builder.Register<CustomersService>().As<ICustomersService>();
+            builder.Register<CheckoutService>().As<ICheckoutService>();
+            builder.Register<PaymentService>().As<IPaymentService>();
+            builder.Register<DiscountService>().As<IDiscountService>();
 
             // Hardware
             builder.Register<MockPrinter>().As<IPrintService>();
+            builder.Register<MockMsrService>().As<IMsrService>();
+            builder.Register<IngenicoPinPadDriver>().As<IPinPadDriver>();
 
             // Dialogs
             builder.Register<DialogManager>().As<IDialogManager>();
@@ -109,6 +133,13 @@ namespace Y_POS.Bootstrap
             // Business logic
             builder.Register<OrderCreator>(Lifecycles.PerScope).As<IOrderCreator>();
             builder.Register<OrderItemConstructor>(Lifecycles.PerScope).As<IOrderItemConstructor>();
+            builder.Register<CheckoutManager>(Lifecycles.PerScope).As<ICheckoutManager>();
+
+            // Factories
+            builder.Register<ReceiptTemplateFactory>().As<IReceiptTemplateFactory>();
+
+            // Builders
+            builder.Register<ReceiptBuilder>().As<IReceiptBuilder>();
 
             // Main ViewModels
             builder.Register<AppMainVm>().As<IAppMainVm>();
@@ -124,13 +155,17 @@ namespace Y_POS.Bootstrap
             builder.RegisterType<ReportsVm>().As<IReportsVm>().InstancePerLifetimeScope();
             builder.RegisterType<SettingsVm>().As<ISettingsVm>().InstancePerLifetimeScope();
             builder.RegisterType<OrderMakerVm>().As<IOrderMakerVm>().InstancePerLifetimeScope();
-            builder.RegisterType<CheckoutVm>().As<ICheckoutVm>().InstancePerLifetimeScope();
+            builder.RegisterType<CheckoutVm>().InstancePerLifetimeScope();
 
             // Page parts ViewModels
             builder.Register<OrderMakerMenuVm>(Lifecycles.PerScope).As<IOrderMakerMenuVm>();
             builder.Register<OrderItemConstructorVm>(Lifecycles.PerScope).As<IOrderItemConstructorVm>();
             builder.Register<GiftCardsVm>(Lifecycles.PerScope).As<IGiftCardsVm>();
             builder.Register<SelectCustomerVm>(Lifecycles.PerScope).As<ISelectCustomerVm>();
+            builder.Register<PaymentVm>(Lifecycles.PerScope).As<IPaymentVm>();
+
+            // ViewModel Controllers
+            builder.Register<CheckoutController>(Lifecycles.PerScope);
         }
 
         private static IRegistrationBuilder<TImpl, ConcreteReflectionActivatorData, SingleRegistrationStyle> Register<TImpl>(this ContainerBuilder builder, Lifecycles lifecycle = Lifecycles.PerDefaultScope)
@@ -168,7 +203,7 @@ namespace Y_POS.Bootstrap
                 Register<IReportsVm>(AppNavigation.Reports);
                 Register<ISettingsVm>(AppNavigation.Settings);
                 Register<IOrderMakerVm>(AppNavigation.OrderMaker);
-                Register<ICheckoutVm>(AppNavigation.Checkout);
+                Register<CheckoutVm>(AppNavigation.Checkout);
             }
         }
     }

@@ -19,7 +19,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,6 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,6 +41,12 @@
   <ItemGroup>
     <Reference Include="Autofac, Version=4.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.1.0\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Awesomium.Core, Version=1.7.5.1, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214, processorArchitecture=x86">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Awesomium.Windows.Controls, Version=1.7.5.1, Culture=neutral, PublicKeyToken=7a34e179b8b61c39, processorArchitecture=x86">
       <Private>True</Private>
     </Reference>
     <Reference Include="DialogManagement.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -108,6 +115,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\YumaPos.Client.LocalData.dll</HintPath>
     </Reference>
+    <Reference Include="YumaPos.Client.Module.Checkout, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\YumaPos.Client.Module.Checkout.dll</HintPath>
+    </Reference>
     <Reference Include="YumaPos.Client.WCF">
       <HintPath>..\Libs\YumaPos.Client.WCF.dll</HintPath>
     </Reference>
@@ -121,6 +132,17 @@
     <Reference Include="YumaPos.FrontEnd.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\YumaPos.FrontEnd.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="YumaPos.Hardware.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\YumaPos.Hardware.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="YumaPos.Hardware.PinpadHardware.Core">
+      <HintPath>..\Libs\YumaPos.Hardware.PinpadHardware.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="YumaPos.Hardware.PinpadHardware.Core.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\YumaPos.Hardware.PinpadHardware.Core.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="YumaPos.Shared.Core2">
       <HintPath>..\Libs\YumaPos.Shared.Core2.dll</HintPath>
@@ -139,15 +161,22 @@
     <Compile Include="Configuration\ApiConfig.cs" />
     <Compile Include="Configuration\ConfigurationProvider.cs" />
     <Compile Include="Controls\ActionBarButton.cs" />
-    <Compile Include="Controls\AddFindCustomerControl.xaml.cs">
-      <DependentUpon>AddFindCustomerControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\CardNumberInput.xaml.cs">
       <DependentUpon>CardNumberInput.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ContentPresenterEx.cs" />
     <Compile Include="Controls\MenuSelectorControl.cs" />
     <Compile Include="Controls\NumericKeypadControl.cs" />
+    <Compile Include="Converters\CheckoutCustomerNameToTitleConverter.cs" />
+    <Compile Include="Converters\CheckoutOperationToCheckedConverter.cs" />
+    <Compile Include="Converters\DiscountToTextConverter.cs" />
+    <Compile Include="Converters\PaymentModeToVisibilityConverter.cs" />
+    <Compile Include="Converters\PaymentTypeToCheckedConverter.cs" />
+    <Compile Include="Converters\ReceiptRefundedToIconConverter.cs" />
+    <Compile Include="Converters\SplittingTypeToTextConverter.cs" />
+    <Compile Include="Views\CheckoutParts\CheckoutRefundView.xaml.cs">
+      <DependentUpon>CheckoutRefundView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CommonParts\SelectCustomerView.xaml.cs">
       <DependentUpon>SelectCustomerView.xaml</DependentUpon>
     </Compile>
@@ -215,6 +244,9 @@
     <Compile Include="Views\ClosedOrdersView.xaml.cs">
       <DependentUpon>ClosedOrdersView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\GetGiftCardNumberDialog.xaml.cs">
+      <DependentUpon>GetGiftCardNumberDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\SetOrderItemQtyDialog.xaml.cs">
       <DependentUpon>SetOrderItemQtyDialog.xaml</DependentUpon>
     </Compile>
@@ -255,11 +287,11 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfScheduler.cs" />
-    <Page Include="Controls\AddFindCustomerControl.xaml">
+    <Page Include="Controls\CardNumberInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\CardNumberInput.xaml">
+    <Page Include="Views\CheckoutParts\CheckoutRefundView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -407,6 +439,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Dialogs\GetGiftCardNumberDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Dialogs\SetOrderItemQtyDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -482,6 +518,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Images\paid.png" />
+    <Resource Include="Images\refund.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -545,6 +583,13 @@
     <Error Condition="!Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\dotnet\Fody.targets'))" />
   </Target>
   <Import Project="..\packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(SolutionDir)\Libs\RBA_SDK.dll" "$(TargetDir)" /Y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -20,10 +21,28 @@ namespace Y_POS.Controls
     [TemplatePart(Name = "PART_ItemsBack", Type = typeof (Button))]
     public class MenuSelectorControl : Control
     {
+        #region Fields
+        
+        private readonly Subject<bool> _closingStream = new Subject<bool>();
+
+        #endregion
+
         static MenuSelectorControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof (MenuSelectorControl),
                 new FrameworkPropertyMetadata(typeof (MenuSelectorControl)));
+        }
+
+        public MenuSelectorControl()
+        {
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            Unloaded -= OnUnloaded;
+            _closingStream.OnNext(true);
+            _closingStream.OnCompleted();
         }
 
         #region Categories property
@@ -334,11 +353,13 @@ namespace Y_POS.Controls
             {
                 case "PART_ItemsNext":
                     canExecute = this.WhenAny(control => control.ItemsPage, control => control.SelectedCategory,
-                        (page, seletedCategory) => page.Value < GetItemsPagesCount());
+                        (page, seletedCategory) => page.Value < GetItemsPagesCount())
+                        .TakeUntil(_closingStream); // DO NOT REMOVE. NECESSARY TO PROPER GC OF CONTROL
                     execute = () => ItemsPage++;
                     break;
                 case "PART_ItemsBack":
-                    canExecute = this.WhenAnyValue(control => control.ItemsPage).Select(page => page > 1);
+                    canExecute = this.WhenAny(control => control.ItemsPage, page => page.Value > 1)
+                        .TakeUntil(_closingStream); // DO NOT REMOVE. NECESSARY TO PROPER GC OF CONTROL
                     execute = () => ItemsPage--;
                     break;
                 default:
@@ -367,18 +388,19 @@ namespace Y_POS.Controls
             {
                 case "PART_CategoriesNext":
                     canExecute = this.WhenAny(control => control.CurrentCategoriesPage, control => control.Categories,
-                        (page, categories) => categories.Value != null && page.Value < GetCategoriesPagesCount());
+                        (page, categories) => categories.Value != null && page.Value < GetCategoriesPagesCount())
+                        .TakeUntil(_closingStream); // DO NOT REMOVE. NECESSARY TO PROPER GC OF CONTROL
                     execute = () => { CurrentCategoriesPage++; };
                     break;
                 case "PART_CategoriesBack":
-                    canExecute = this.WhenAnyValue(control => control.CurrentCategoriesPage).Select(page => page > 1);
+                    canExecute = this.WhenAny(control => control.CurrentCategoriesPage, page => page.Value > 1)
+                        .TakeUntil(_closingStream); // DO NOT REMOVE. NECESSARY TO PROPER GC OF CONTROL
                     execute = () => { CurrentCategoriesPage--; };
                     break;
                 default:
                     throw new ArgumentException(string.Format("Template part name {0} is not defined", partName));
             }
             var cmd = ReactiveCommand.Create(canExecute);
-
             cmd.Subscribe(_ => execute());
 
             btn.Command = cmd;
