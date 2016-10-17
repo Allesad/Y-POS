@@ -10,6 +10,8 @@ using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using Y_POS.Core.Checkout;
 using Y_POS.Core.Extensions;
+using Y_POS.Core.Infrastructure.Exceptions;
+using Y_POS.Core.Properties;
 
 namespace Y_POS.Core.ViewModels.PageParts
 {
@@ -83,6 +85,12 @@ namespace Y_POS.Core.ViewModels.PageParts
             _commandStart.Subscribe();
             _commandDone.Subscribe();
 
+            _commandCloseOrder.ThrownExceptions
+                .Merge(_commandCloseAndCreateNew.ThrownExceptions)
+                .Merge(_commandStart.ThrownExceptions)
+                .Merge(_commandDone.ThrownExceptions)
+                .Subscribe(HandleError);
+
             _controller.OrderStatusStream
                 .Select(status => status == OrderStatus.Prepared || status == OrderStatus.Closed
                     ? OrderProgressState.Prepared
@@ -96,6 +104,13 @@ namespace Y_POS.Core.ViewModels.PageParts
         }
 
         #endregion
+
+        protected override void HandleError(Exception exception)
+        {
+            if (!(exception is ServerRuntimeException)) throw exception;
+            Logger.Error(exception.Message, exception);
+            DialogService.ShowErrorMessage(Resources.Dialog_Error_ServerRuntimeError);
+        }
 
         #region Private methods
 

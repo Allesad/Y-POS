@@ -59,12 +59,23 @@
     <Compile Include="Enums\PaymentType.cs" />
     <Compile Include="Extensions\DialogEx.cs" />
     <Compile Include="Extensions\ObservableExtensions.cs" />
-    <Compile Include="Infrastructure\Decorators\ServerRuntimeErrorDecorator.cs" />
+    <Compile Include="Infrastructure\Decorators\ApiLoggerDecorator.cs">
+      <DependentUpon>ApiLoggerDecorator.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Infrastructure\Decorators\ServerRuntimeErrorDecorator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServerRuntimeErrorDecorator.tt</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\Error.cs" />
     <Compile Include="Infrastructure\Exceptions\ServerRuntimeException.cs" />
     <Compile Include="Infrastructure\Guard.cs" />
+    <Compile Include="Infrastructure\ReflectionExtensions.cs" />
     <Compile Include="Infrastructure\ResponseMessage.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />
+    <Compile Include="Infrastructure\TimeLogger.cs" />
     <Compile Include="Infrastructure\TypeExtensions.cs" />
     <Compile Include="MockData\MockAccountServiceManager.cs" />
     <Compile Include="MockData\MockAppServiceManager.cs" />
@@ -228,14 +239,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
-    <Content Include="Infrastructure\Decorators\ServerErrorDecorator.tt">
+    <Content Include="Infrastructure\Decorators\ApiLoggerDecorator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ServerErrorDecorator.txt</LastGenOutput>
+      <LastGenOutput>ApiLoggerDecorator.cs</LastGenOutput>
     </Content>
-    <Content Include="Infrastructure\Decorators\ServerErrorDecorator.txt">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ServerErrorDecorator.tt</DependentUpon>
+    <Content Include="Infrastructure\Decorators\ServerRuntimeErrorDecorator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ServerRuntimeErrorDecorator.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

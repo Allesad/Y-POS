@@ -512,4 +512,7 @@
   <data name="Start" xml:space="preserve">
     <value>Начать</value>
   </data>
+  <data name="Dialog_Error_ServerRuntimeError" xml:space="preserve">
+    <value>Произошла ошибка на сервере</value>
+  </data>
 </root>

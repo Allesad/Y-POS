@@ -15,6 +15,8 @@ using Y_POS.Core.Checkout;
 using Y_POS.Core.Enums;
 using Y_POS.Core.Extensions;
 using Y_POS.Core.Infrastructure;
+using Y_POS.Core.Infrastructure.Exceptions;
+using Y_POS.Core.Properties;
 using Y_POS.Core.ViewModels.Dialogs;
 
 namespace Y_POS.Core.ViewModels.PageParts
@@ -180,6 +182,7 @@ namespace Y_POS.Core.ViewModels.PageParts
             cmdResetMultiplePayment.SubscribeToObserveOnUi(_ => Reset());
             cmdSubmitPartialPayment.Where(tenderParams => tenderParams != null).SubscribeToObserveOnUi(OnAddTenderParams);
             cmdCheckout.Subscribe(OnPaymentComplete);
+            cmdCheckout.ThrownExceptions.Subscribe(HandleError);
 
             // Assign commands
             CommandSetMultiplePayment = cmdSetMultiplePayment;
@@ -189,6 +192,17 @@ namespace Y_POS.Core.ViewModels.PageParts
             CommandSubmitPartialPayment = cmdSubmitPartialPayment;
             CommandResetMultiplePayment = cmdResetMultiplePayment;
             CommandCheckout = cmdCheckout;
+        }
+
+        #endregion
+
+        #region Overridden methods
+
+        protected override void HandleError(Exception exception)
+        {
+            if (!(exception is ServerRuntimeException)) throw exception;
+            Logger.Error(exception.Message, exception);
+            DialogService.ShowErrorMessage(Resources.Dialog_Error_ServerRuntimeError);
         }
 
         #endregion

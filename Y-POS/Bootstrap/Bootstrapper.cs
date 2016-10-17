@@ -32,6 +32,7 @@ using YumaPos.Shared.Infrastructure;
 using Y_POS.Configuration;
 using Y_POS.Core;
 using Y_POS.Core.Checkout;
+using Y_POS.Core.Infrastructure.Decorators;
 using Y_POS.Core.MockData;
 using Y_POS.Core.Receipt;
 using Y_POS.Core.ViewModels.PageParts;
@@ -47,6 +48,8 @@ namespace Y_POS.Bootstrap
 
         #region Properties
 
+        private static bool UseTimeLoggerForApi => false;
+
         #endregion
 
         public static IResolver Run()
@@ -58,7 +61,7 @@ namespace Y_POS.Bootstrap
 
             var container = builder.Build();
 
-            var mainScope = container.BeginLifetimeScope("MainScope");
+            var mainScope = container.BeginLifetimeScope(MAIN_SCOPE);
 
             return mainScope.Resolve<IResolver>();
         }
@@ -75,11 +78,20 @@ namespace Y_POS.Bootstrap
             builder.Register<ResourceService>().As<IResourcesService>();
 
             // API
-            //builder.Register<MockAuthApi>().As<IAuthorizationApi>();
-            builder.Register<ApiConfig>().As<IAPIConfig>();
+            builder.Register<ApiConfig>(Lifecycles.Singleton).As<IAPIConfig>();
+            builder.Register<AuthorizationApi>(Lifecycles.PerScope).As<IAuthorizationApi>();
             builder.Register<SerializationService>().As<ISerializationService>();
-            builder.Register<AuthorizationApi>(Lifecycles.PerDependency).As<IAuthorizationApi>();
-            builder.Register<TerminalApi>().As<ITerminalApi>();
+            builder.Register<TerminalApi>();
+            builder.Register(ctx =>
+            {
+                ITerminalApi api = ctx.Resolve<TerminalApi>();
+                api = new ServerRuntimeErrorDecorator(api);
+                if (UseTimeLoggerForApi)
+                {
+                    api = new ApiLoggerDecorator(api);
+                }
+                return api;
+            }).As<ITerminalApi>().InstancePerMatchingLifetimeScope(MAIN_SCOPE);
             builder.Register<BackOfficeApi>().As<IBackOfficeApi>();
 
             // Data access

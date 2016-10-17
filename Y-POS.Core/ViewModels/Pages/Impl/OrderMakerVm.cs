@@ -16,6 +16,7 @@ using YumaPos.Client.UI.ViewModels.Contracts;
 using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using Y_POS.Core.Extensions;
+using Y_POS.Core.Infrastructure.Exceptions;
 using Y_POS.Core.Properties;
 using Y_POS.Core.ViewModels.Dialogs;
 using Y_POS.Core.ViewModels.Items.Contracts;
@@ -125,7 +126,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
             if (orderId != Guid.Empty)
             {
-                _orderCreator.LoadOrder(orderId).SubscribeToObserveOnUi();
+                _orderCreator.LoadOrder(orderId).SubscribeToObserveOnUi(_ => {}, HandleError);
             }
             else
             {
@@ -237,6 +238,13 @@ namespace Y_POS.Core.ViewModels.Pages
                     h => _selectCustomerVm.CancelEvent += h,
                     h => _selectCustomerVm.CancelEvent -= h))
                 .Subscribe(_ => DetailsType = OrderMakerDetailsType.Menu));
+        }
+
+        protected override void HandleError(Exception exception)
+        {
+            if (!(exception is ServerRuntimeException)) throw exception;
+            Logger.Error(exception.Message, exception);
+            DialogService.ShowErrorMessage(Resources.Dialog_Error_ServerRuntimeError);
         }
 
         #endregion

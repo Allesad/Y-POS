@@ -1,0 +1,75 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Runtime" #>
+<#@ assembly name="System.Reflection" #>
+<#@ assembly name="$(SolutionDir)\Libs\YumaPos.Shared.Infrastructure.dll" #>
+<#@ assembly name="$(SolutionDir)\Y-POS.Core\bin\Debug\Y-POS.Core.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="YumaPos.Shared.Infrastructure" #>
+<#@ import namespace="Y_POS.Core.Infrastructure" #>
+<#@ output extension=".cs" #>
+<#
+
+    var t = typeof(ITerminalApi);
+
+    var template = "return await _actor.{placeholder};";
+
+    var voidTemplate = "            _actor.{placeholder};";
+
+    var placeholder = "{placeholder}";
+
+ #>
+using System;
+using YumaPos.Shared.Infrastructure;
+using YumaPos.FrontEnd.Infrastructure.CommandProcessing;
+
+namespace Y_POS.Core.Infrastructure.Decorators
+{
+	public sealed class ApiLoggerDecorator : <#= t.Name #>
+	{
+		private readonly <#= t.Name #> _actor;
+
+		#region Properties
+
+		public ExecutionContext ExecutionContext {
+            get { return _actor.ExecutionContext; }
+            set { _actor.ExecutionContext = value; }
+        }
+
+		#endregion
+
+		public ApiLoggerDecorator(<#= t.Name #> actor)
+		{
+			if (actor == null) throw new ArgumentNullException(nameof(actor));
+
+		    _actor = actor;
+		}
+
+<#
+
+    var methodsWithoutProperties = from m in t.GetMethods()
+            where !t.GetProperties().Any(p => p.GetGetMethod() == m || p.GetSetMethod() == m)
+            select m;
+
+    foreach(var m in methodsWithoutProperties){
+        Write("         ");
+        WriteLine(m.GenerateMethodSignature());
+        WriteLine("         {");
+        if (m.ReturnType.IsVoid()){
+            WriteLine(m.GetMethodBody(voidTemplate, placeholder));
+        }else{
+            WriteLine("using (TimeLogger.GetTimeLogger(\"" + m.Name + "\"))");
+            WriteLine("{");
+            WriteLine(m.GetMethodBody(template, placeholder));
+            WriteLine("}");
+        }
+        WriteLine("         }");
+        WriteLine("");
+    }
+
+ #>
+	}
+}

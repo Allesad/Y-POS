@@ -12,6 +12,7 @@ using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using Y_POS.Core.Checkout;
 using Y_POS.Core.Extensions;
+using Y_POS.Core.Infrastructure.Exceptions;
 using Y_POS.Core.ViewModels.Items.Impl;
 using Y_POS.Core.ViewModels.PageParts;
 
@@ -267,7 +268,7 @@ namespace Y_POS.Core.ViewModels.Pages
                     ? CheckoutOperationType.PaymentComplete
                     : CheckoutOperationType.Payment;
             }
-            catch (Exception ex)
+            catch (ServerRuntimeException ex)
             {
                 Logger.Error(ex.Message, ex);
                 DialogService.ShowErrorMessage($"Cannot load order: {ex.Message}");

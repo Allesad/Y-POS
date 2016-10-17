@@ -440,6 +440,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server error occurred.
+        /// </summary>
+        public static string Dialog_Error_ServerRuntimeError {
+            get {
+                return ResourceManager.GetString("Dialog_Error_ServerRuntimeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirmation.
         /// </summary>
         public static string Dialog_Title_Confirmation {

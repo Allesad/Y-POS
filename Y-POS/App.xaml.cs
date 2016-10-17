@@ -15,6 +15,7 @@ using YumaPos.Client.Helpers;
 using YumaPos.Common.Infrastructure.IoC;
 using YumaPos.Common.Infrastructure.Logging;
 using Y_POS.Bootstrap;
+using Y_POS.Core.Infrastructure;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views;
 using LogLevel = Awesomium.Core.LogLevel;
@@ -96,6 +97,7 @@ namespace Y_POS
 
             LoggerHelper.LoggingService = resolver.Resolve<ILoggingService>();
             ServiceLocator.Init(resolver);
+            TimeLogger.logger = resolver.Resolve<ILoggingService>().GetLog("TimeLogger");
             await resolver.Resolve<IAppServiceManager>().InitAsync();
 
             ShowUi(resolver);
