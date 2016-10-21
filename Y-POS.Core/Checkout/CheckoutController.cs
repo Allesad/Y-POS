@@ -93,12 +93,12 @@ namespace Y_POS.Core.Checkout
 
         #region Pubic methods
 
-        public Task Init(Guid orderId)
+        public Task InitAsync(Guid orderId)
         {
-            return Init(orderId, CancellationToken.None);
+            return InitAsync(orderId, CancellationToken.None);
         }
 
-        public Task Init(Guid orderId, CancellationToken ct)
+        public Task InitAsync(Guid orderId, CancellationToken ct)
         {
             Guard.NonEmptyGuid(orderId, nameof(orderId));
             if (IsInitialized)
@@ -128,24 +128,24 @@ namespace Y_POS.Core.Checkout
          * SPLITTING
          * */
 
-        public Task SplitAllOnOne()
+        public Task SplitAllOnOneAsync()
         {
-            return SplitAllOnOne(CancellationToken.None);
+            return SplitAllOnOneAsync(CancellationToken.None);
         }
 
-        public Task SplitAllOnOne(CancellationToken ct)
+        public Task SplitAllOnOneAsync(CancellationToken ct)
         {
             CheckInitialized();
 
             return SplitInternal(SplittingType.AllOnOne, null, ct);
         }
 
-        public Task SplitEvenly(int count)
+        public Task SplitEvenlyAsync(int count)
         {
-            return SplitEvenly(count, CancellationToken.None);
+            return SplitEvenlyAsync(count, CancellationToken.None);
         }
 
-        public Task SplitEvenly(int count, CancellationToken ct)
+        public Task SplitEvenlyAsync(int count, CancellationToken ct)
         {
             Guard.IsPositive(count, nameof(count));
 
@@ -154,12 +154,12 @@ namespace Y_POS.Core.Checkout
             return SplitInternal(SplittingType.SplitEvently, count, ct);
         }
 
-        public Task SplitProportionally(int[] proportions)
+        public Task SplitProportionallyAsync(int[] proportions)
         {
-            return SplitProportionally(proportions, CancellationToken.None);
+            return SplitProportionallyAsync(proportions, CancellationToken.None);
         }
 
-        public Task SplitProportionally(int[] proportions, CancellationToken ct)
+        public Task SplitProportionallyAsync(int[] proportions, CancellationToken ct)
         {
             Guard.NotEmpty(proportions, nameof(proportions));
             if (proportions.Sum() != 100)
@@ -252,14 +252,14 @@ namespace Y_POS.Core.Checkout
          * PROGRESS
          */
 
-        public Task StartOrder()
+        public Task StartOrderAsync()
         {
             CheckInitialized();
 
             return UpdateOrderStatus(OrderStatus.InProgress);
         }
 
-        public Task DoneOrder()
+        public Task DoneOrderAsync()
         {
             CheckInitialized();
 
@@ -315,13 +315,20 @@ namespace Y_POS.Core.Checkout
             var order = orderTask.Result;
 
             OrderStatus = order.Status;
-            CustomerName = order.CustomerName;
-            EmployeeName = order.EmployeeName;
+            if (order.CustomerDto != null)
+            {
+                CustomerName = FormattingUtils.FullName(order.CustomerDto.FirstName, order.CustomerDto.LastName);
+            }
+            if (order.EmployeeDto != null)
+            {
+                EmployeeName = FormattingUtils.FullName(order.EmployeeDto.FirstName, order.EmployeeDto.LastName);
+            }
             SplittingType = order.Splitting;
         }
 
         private async Task SetCustomerInternal(CustomerDto customer, CancellationToken ct)
         {
+            // ReSharper disable once PossibleInvalidOperationException
             await _orderService.UpdateOrderCustomer(OrderId, customer.CustomerId.Value).ToTask(ct).ConfigureAwait(false);
             
             CustomerName = FormattingUtils.FullName(customer.FirstName, customer.LastName);

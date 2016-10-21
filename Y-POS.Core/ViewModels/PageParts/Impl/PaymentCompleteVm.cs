@@ -72,10 +72,10 @@ namespace Y_POS.Core.ViewModels.PageParts
 
             _commandStart = ReactiveCommand.CreateAsyncTask(
                 this.WhenAnyValue(vm => vm.ProgressState).Select(state => state == OrderProgressState.NotStarted), 
-                _ => _controller.StartOrder());
+                _ => _controller.StartOrderAsync());
             _commandDone = ReactiveCommand.CreateAsyncTask(
                 this.WhenAnyValue(vm => vm.ProgressState).Select(state => state == OrderProgressState.InProgress), 
-                _ => _controller.DoneOrder());
+                _ => _controller.DoneOrderAsync());
 
             // Subscribe to commands
             _commandCloseOrder.SubscribeToObserveOnUi(_ => NavigateToActiveOrders());

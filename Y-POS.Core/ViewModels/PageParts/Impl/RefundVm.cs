@@ -41,7 +41,7 @@ namespace Y_POS.Core.ViewModels.PageParts
             _selectedReceiptController = selectedReceiptController;
 
             _selectedReceiptController.SelectedReceiptStream
-                .Select(item => item?.TotalPaid ?? 0)
+                .Select(item => item?.Total ?? 0)
                 .ToPropertyEx(this, vm => vm.RefundAmount, 0, SchedulerService.UiScheduler);
 
             // Cancel

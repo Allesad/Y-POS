@@ -5,6 +5,7 @@
 
     <commonConverters:InvertThicknessConverter x:Key="InvertThicknessConverter"/>
     <commonConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <commonConverters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     <commonConverters:TextCaseCoverter x:Key="UpperCaseCoverter"/>
     <converters:OrderStatusToTextConverter x:Key="OrderStatusToTextConverter"/>
     <converters:OrderStatusNewVisibilityConverter x:Key="OrderStatusNewVisibilityConverter"/>

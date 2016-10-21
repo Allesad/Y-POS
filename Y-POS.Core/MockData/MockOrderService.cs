@@ -27,7 +27,6 @@ namespace Y_POS.Core.MockData
                 OrderId = Guid.NewGuid(),
                 Number = i,
                 Amount = MockDataGenerator.GetRandomAmount(10, 40),
-                CustomerName = MockDataGenerator.GetRandomCustomerName(),
                 Created = MockDataGenerator.GetRandomDate(DateTime.Today, DateTime.Now),
                 Status = MockDataGenerator.GetOrderStatus(),
                 Type = OrderType.Quick

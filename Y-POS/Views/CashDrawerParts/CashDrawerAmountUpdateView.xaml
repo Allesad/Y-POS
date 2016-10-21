@@ -7,6 +7,7 @@
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
              xmlns:controls="clr-namespace:Y_POS.Controls"
              mc:Ignorable="d"
+             Name="Uc"
              d:DesignHeight="700" d:DesignWidth="800">
 
     <Grid>
@@ -37,12 +38,14 @@
 
         <!-- REASON -->
         <TextBox Grid.Row="1" Grid.Column="0"
+                 Name="ReasonTb"
                  Height="{Binding ElementName=KeypadContainer, Path=ActualHeight}"
                  HorizontalAlignment="Stretch"
                  Margin="40,0,0,0"
                  helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.CashDrawer_AmountUpdateReason}"
                  TextWrapping="Wrap"
-                 AcceptsReturn="True" />
+                 AcceptsReturn="True"
+                 Text="{Binding ElementName=Uc, Path=Reason, Mode=OneWayToSource}"/>
 
         <!-- KEYPAD CONTROL -->
         <StackPanel Grid.Row="1" Grid.Column="1"
@@ -50,15 +53,17 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center">
 
-            <TextBox Width="{Binding ElementName=Keypad, Path=ActualWidth}"
+            <TextBox Name="AmountTb" 
+                     Width="{Binding ElementName=Keypad, Path=ActualWidth}"
                      Margin="0,0,0,50"
                      IsEnabled="False"
                      HorizontalAlignment="Stretch"
                      helpers:PlaceholderTextHelper.PlaceholderText="{x:Static p:Resources.Amount}"
-                     Text="$55.00" />
+                     TextChanged="AmountInput_OnTextChanged" />
 
             <controls:NumericKeypadControl x:Name="Keypad"
-                                           HorizontalAlignment="Center" />
+                                           HorizontalAlignment="Center" 
+                                           TargetBox="{Binding ElementName=AmountTb}"/>
         </StackPanel>
 
     </Grid>

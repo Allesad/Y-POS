@@ -1,14 +1,52 @@
 ﻿<views:BaseView x:Class="Y_POS.Views.CashDrawerView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:Y_POS.Controls"
-             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-             xmlns:cashDrawerParts="clr-namespace:Y_POS.Views.CashDrawerParts"
-             xmlns:views="clr-namespace:Y_POS.Views"
-             mc:Ignorable="d"
-             d:DesignHeight="768" d:DesignWidth="1024">
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:controls="clr-namespace:Y_POS.Controls"
+                xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+                xmlns:cashDrawerParts="clr-namespace:Y_POS.Views.CashDrawerParts"
+                xmlns:views="clr-namespace:Y_POS.Views"
+                xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
+                xmlns:converters="clr-namespace:Y_POS.Converters"
+                mc:Ignorable="d"
+                d:DesignHeight="768" d:DesignWidth="1024"
+                d:DataContext="{d:DesignInstance pages:CashdrawerVm, d:IsDesignTimeCreatable=False}">
+
+    <UserControl.Resources>
+        
+        <converters:CashierStateToCheckedConverter x:Key="StateToCheckedConverter"/>
+
+        <!-- OPERATION BUTTON DATA TEMPLATE -->
+        <DataTemplate x:Key="CashdrawerOperationButtonDt">
+            <StackPanel Orientation="Horizontal"
+                        UseLayoutRounding="True"
+                        Margin="0,10">
+
+                <!-- ICON -->
+                <Path VerticalAlignment="Center"
+                      Data="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:OperationSelectionButton}}, Path=Icon}"
+                      Height="24"
+                      Width="24"
+                      Margin="0,0,35,0"
+                      Stretch="Uniform"
+                      Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:OperationSelectionButton}}, Path=Foreground}" />
+
+                <!-- TITLE -->
+                <TextBlock Text="{Binding}"
+                           VerticalAlignment="Center"
+                           FontSize="18" />
+
+            </StackPanel>
+        </DataTemplate>
+
+        <Style x:Key="CashdrawerOperationBtn" TargetType="controls:OperationSelectionButton"
+               BasedOn="{StaticResource RightOperationButton}">
+            <Setter Property="Padding" Value="35,10,25,10" />
+            <Setter Property="ContentTemplate" Value="{StaticResource CashdrawerOperationButtonDt}" />
+        </Style>
+
+    </UserControl.Resources>
 
     <DockPanel>
 
@@ -22,20 +60,110 @@
                        Background="{StaticResource PrimaryBrush}">
 
                 <!-- ACTION BAR -->
-                <controls:ActionBarButton DockPanel.Dock="Bottom"
-                                          Margin="-1,0,0,0"
-                                          Style="{StaticResource ActionBarNegativeActionButton}"
-                                          Title="{Binding Source={x:Static p:Resources.OpenCashdrawer}, 
-                Converter={StaticResource UpperCaseCoverter}}" />
+                <Border Background="{StaticResource ActionBarBg}"
+                        DockPanel.Dock="Bottom"
+                        Margin="-1,0,0,0">
+                    <controls:ActionBarButton Style="{StaticResource ActionBarNegativeActionButton}"
+                                              Title="{Binding Source={x:Static p:Resources.OpenCashdrawer}, 
+                                                Converter={StaticResource UpperCaseCoverter}}"
+                                              Command="{Binding CommandOpenDrawer}" />
+                </Border>
 
                 <!-- OPERATIONS LIST -->
-                <ListBox Name="OperationsList"
-                         DockPanel.Dock="Top"
-                         ItemContainerStyle="{StaticResource RightMarkedIconHorizontalListItem}"
-                         SelectionChanged="OperationsList_OnSelectionChanged" />
+                <ItemsControl DockPanel.Dock="Top">
+                    <ItemsControl.Items>
 
-                <!-- SUMAMRY INFO -->
-                <cashDrawerParts:CashDrawerSummaryView Margin="25,10"/>
+                        <!-- CASHIER IN -->
+                        <controls:OperationSelectionButton Style="{StaticResource CashdrawerOperationBtn}"
+                                                           Visibility="{Binding IsCashierIn, Converter={StaticResource BoolToVisibilityConverter}, 
+                                                                ConverterParameter=true}"
+                                                           Icon="{StaticResource CashierInIcon}"
+                                                           Tag="CashierIn"
+                                                           Content="{Binding Source={x:Static p:Resources.Cashdrawer_CashierIn}, 
+                                                                Converter={StaticResource UpperCaseCoverter}}"
+                                                           IsChecked="{Binding State, Mode=OneWay, Converter={StaticResource StateToCheckedConverter}, 
+                                                                ConverterParameter={x:Static pages:CashdrawerState.CashierIn}}"
+                                                           Command="{Binding CommandGoToState}" 
+                                                           CommandParameter="{x:Static pages:CashdrawerState.CashierIn}"/>
+
+                        <!-- CASHIER OUT -->
+                        <controls:OperationSelectionButton Style="{StaticResource CashdrawerOperationBtn}"
+                                                           Visibility="{Binding IsCashierIn, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                           Icon="{StaticResource CashierOutIcon}"
+                                                           Tag="CashierOut"
+                                                           Content="{Binding Source={x:Static p:Resources.Cashdrawer_CashierOut}, 
+                                                                Converter={StaticResource UpperCaseCoverter}}"
+                                                           IsChecked="{Binding State, Mode=OneWay, Converter={StaticResource StateToCheckedConverter}, 
+                                                                ConverterParameter={x:Static pages:CashdrawerState.CashierOut}}"
+                                                           Command="{Binding CommandGoToState}"
+                                                           CommandParameter="{x:Static pages:CashdrawerState.CashierOut}"/>
+
+                        <!-- CASHDRAWER CHECK -->
+                        <controls:OperationSelectionButton Style="{StaticResource CashdrawerOperationBtn}"
+                                                           Icon="{StaticResource MathIcon}"
+                                                           IsEnabled="{Binding IsCashierIn}"
+                                                           Tag="Check"
+                                                           Content="{Binding Source={x:Static p:Resources.Cashdrawer_Check}, 
+                                                                Converter={StaticResource UpperCaseCoverter}}"
+                                                           IsChecked="{Binding State, Mode=OneWay, Converter={StaticResource StateToCheckedConverter}, 
+                                                                ConverterParameter={x:Static pages:CashdrawerState.Check}}"
+                                                           Command="{Binding CommandGoToState}" 
+                                                           CommandParameter="{x:Static pages:CashdrawerState.Check}"/>
+
+                        <!-- BANK WITHDRAW -->
+                        <controls:OperationSelectionButton Style="{StaticResource CashdrawerOperationBtn}"
+                                                           Icon="{StaticResource BankIcon}"
+                                                           IsEnabled="{Binding IsCashierIn}"
+                                                           Tag="BankWithdraw"
+                                                           Content="{Binding Source={x:Static p:Resources.Cashdrawer_BankWithdraw}, 
+                                                                Converter={StaticResource UpperCaseCoverter}}"
+                                                           IsChecked="{Binding State, Mode=OneWay, Converter={StaticResource StateToCheckedConverter}, 
+                                                                ConverterParameter={x:Static pages:CashdrawerState.BankWithdraw}}"
+                                                           Command="{Binding CommandGoToState}"
+                                                           CommandParameter="{x:Static pages:CashdrawerState.BankWithdraw}"/>
+
+                        <!-- CASH IN -->
+                        <controls:OperationSelectionButton Style="{StaticResource CashdrawerOperationBtn}"
+                                                           Icon="{StaticResource ArrowDownIcon}"
+                                                           IsEnabled="{Binding IsCashierIn}"
+                                                           Tag="CashIn"
+                                                           Content="{Binding Source={x:Static p:Resources.Cashdrawer_CashIn}, 
+                                                                Converter={StaticResource UpperCaseCoverter}}"
+                                                           IsChecked="{Binding State, Mode=OneWay, Converter={StaticResource StateToCheckedConverter}, 
+                                                                ConverterParameter={x:Static pages:CashdrawerState.CashIn}}"
+                                                           Command="{Binding CommandGoToState}" 
+                                                           CommandParameter="{x:Static pages:CashdrawerState.CashIn}"/>
+
+                        <!-- CASH OUT -->
+                        <controls:OperationSelectionButton Style="{StaticResource CashdrawerOperationBtn}"
+                                                           Icon="{StaticResource ArrowUpIcon}"
+                                                           IsEnabled="{Binding IsCashierIn}"
+                                                           Tag="CashOut"
+                                                           Content="{Binding Source={x:Static p:Resources.Cashdrawer_CashOut}, 
+                                                                Converter={StaticResource UpperCaseCoverter}}"
+                                                           IsChecked="{Binding State, Mode=OneWay, Converter={StaticResource StateToCheckedConverter}, 
+                                                                ConverterParameter={x:Static pages:CashdrawerState.CashOut}}"
+                                                           Command="{Binding CommandGoToState}"
+                                                           CommandParameter="{x:Static pages:CashdrawerState.CashOut}"/>
+
+                        <!-- PERFORMANCE -->
+                        <controls:OperationSelectionButton Style="{StaticResource CashdrawerOperationBtn}"
+                                                           Icon="{StaticResource PerformanceIcon}"
+                                                           IsEnabled="{Binding IsCashierIn}"
+                                                           Tag="Performance"
+                                                           Content="{Binding Source={x:Static p:Resources.Cashdrawer_Performance}, 
+                                                                Converter={StaticResource UpperCaseCoverter}}"
+                                                           IsChecked="{Binding State, Mode=OneWay, Converter={StaticResource StateToCheckedConverter}, 
+                                                                ConverterParameter={x:Static pages:CashdrawerState.PerformanceLog}}"
+                                                           Command="{Binding CommandGoToState}"
+                                                           CommandParameter="{x:Static pages:CashdrawerState.PerformanceLog}"/>
+
+                    </ItemsControl.Items>
+                </ItemsControl>
+
+                <!-- SUMMARY INFO -->
+                <cashDrawerParts:CashDrawerSummaryView Margin="25,10"
+                                                       DataContext="{Binding}" />
 
             </DockPanel>
 
@@ -48,13 +176,14 @@
 
             <!-- MENU -->
             <controls:ActionBarButton DockPanel.Dock="Left"
-                                      Style="{StaticResource ActionBarMenuButton}"/>
+                                      Style="{StaticResource ActionBarMenuButton}" />
 
             <!-- CASHIER IN -->
             <controls:ActionBarButton DockPanel.Dock="Right"
                                       x:Name="MainActionButton"
                                       Style="{StaticResource ActionBarMainActionButton}"
                                       Width="{StaticResource CenterColumnWidth}"
+                                      PreviewMouseUp="MainActionButton_OnPreviewMouseUp"
                                       Title="CASHIER IN" />
 
             <!-- SEND -->

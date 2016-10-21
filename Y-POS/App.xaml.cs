@@ -15,6 +15,7 @@ using YumaPos.Client.Helpers;
 using YumaPos.Common.Infrastructure.IoC;
 using YumaPos.Common.Infrastructure.Logging;
 using Y_POS.Bootstrap;
+using Y_POS.Core.Cashdrawer;
 using Y_POS.Core.Infrastructure;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views;
@@ -62,8 +63,7 @@ namespace Y_POS
             {
                 WebCore.Initialize(new WebConfig
                 {
-                    LogLevel = LogLevel.Normal,
-                    //HomeURL = new Uri("https://habrahabr.ru/all/")
+                    LogLevel = LogLevel.Normal
                 }, true);
             }
 
@@ -84,7 +84,7 @@ namespace Y_POS
             base.OnExit(e);
         }
 
-        private void InitExceptionHandlers()
+        private static void InitExceptionHandlers()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             Current.DispatcherUnhandledException += DispatcherOnUnhandledException;
@@ -98,6 +98,9 @@ namespace Y_POS
             LoggerHelper.LoggingService = resolver.Resolve<ILoggingService>();
             ServiceLocator.Init(resolver);
             TimeLogger.logger = resolver.Resolve<ILoggingService>().GetLog("TimeLogger");
+            // TODO: move to some more appropriate place
+            await resolver.Resolve<CashierManager>().InitAsync();
+
             await resolver.Resolve<IAppServiceManager>().InitAsync();
 
             ShowUi(resolver);

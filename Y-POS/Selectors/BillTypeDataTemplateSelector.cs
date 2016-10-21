@@ -5,13 +5,6 @@ namespace Y_POS.Selectors
 {
     public sealed class BillTypeDataTemplateSelector : DataTemplateSelector
     {
-        #region Fields
-
-        /*private DataTemplate _defaultTemplate;
-        private DataTemplate _coinsTemplate;*/
-
-        #endregion
-
         #region Properties
 
         public DataTemplate DefaultTemplate { get; set; }
@@ -27,16 +20,7 @@ namespace Y_POS.Selectors
             FrameworkElement element = container as FrameworkElement;
             if (element == null) return null;
 
-            if (billItem.IsCoins)
-            {
-                /*_coinsTemplate = (DataTemplate) (_coinsTemplate ?? element.FindResource("CoinsTypeDt"));
-                return _coinsTemplate;*/
-                return CoinsTemplate;
-            }
-
-            /*_defaultTemplate = (DataTemplate) (_defaultTemplate ?? element.FindResource("BillTypeDt"));
-            return _defaultTemplate;*/
-            return DefaultTemplate;
+            return billItem.IsCoins ? CoinsTemplate : DefaultTemplate;
         }
     }
 }

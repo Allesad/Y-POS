@@ -167,6 +167,9 @@
     <Compile Include="Controls\ContentPresenterEx.cs" />
     <Compile Include="Controls\MenuSelectorControl.cs" />
     <Compile Include="Controls\NumericKeypadControl.cs" />
+    <Compile Include="Controls\OperationSelectionButton.cs" />
+    <Compile Include="Converters\CashierByToCheckedConverter.cs" />
+    <Compile Include="Converters\CashierStateToCheckedConverter.cs" />
     <Compile Include="Converters\CheckoutCustomerNameToTitleConverter.cs" />
     <Compile Include="Converters\CheckoutOperationToCheckedConverter.cs" />
     <Compile Include="Converters\DiscountToTextConverter.cs" />
@@ -207,8 +210,8 @@
     <Compile Include="Views\CashDrawerParts\CashDrawerAmountUpdateView.xaml.cs">
       <DependentUpon>CashDrawerAmountUpdateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CashDrawerParts\CashDrawerInitView.xaml.cs">
-      <DependentUpon>CashDrawerInitView.xaml</DependentUpon>
+    <Compile Include="Views\CashDrawerParts\CashDrawerCheckView.xaml.cs">
+      <DependentUpon>CashDrawerCheckView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CashDrawerParts\CashDrawerPerformanceView.xaml.cs">
       <DependentUpon>CashDrawerPerformanceView.xaml</DependentUpon>
@@ -216,7 +219,6 @@
     <Compile Include="Views\CashDrawerParts\CashDrawerSummaryView.xaml.cs">
       <DependentUpon>CashDrawerSummaryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CashDrawerParts\CashdrawerVm.cs" />
     <Compile Include="Views\CashDrawerView.xaml.cs">
       <DependentUpon>CashDrawerView.xaml</DependentUpon>
     </Compile>
@@ -391,7 +393,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CashDrawerParts\CashDrawerInitView.xaml">
+    <Page Include="Views\CashDrawerParts\CashDrawerCheckView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -546,9 +548,7 @@
       <Name>YumaPos.WPF.UI</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MarkupExtensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\bg.png" />
   </ItemGroup>

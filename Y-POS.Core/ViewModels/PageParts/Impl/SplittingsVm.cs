@@ -40,7 +40,7 @@ namespace Y_POS.Core.ViewModels.PageParts
             CommandCancel = cmdCancel;
             
             //var cmdAllOnOne = ReactiveCommand.CreateAsyncObservable(_ => _checkoutManager.SplitAllOnOne());
-            var cmdAllOnOne = ReactiveCommand.CreateAsyncTask((_, ct) => _controller.SplitAllOnOne(ct));
+            var cmdAllOnOne = ReactiveCommand.CreateAsyncTask((_, ct) => _controller.SplitAllOnOneAsync(ct));
             cmdAllOnOne.Subscribe(_ => RaiseCloseEvent());
 
             CommandAllOnOne = cmdAllOnOne;
@@ -48,7 +48,7 @@ namespace Y_POS.Core.ViewModels.PageParts
             /*var cmdSplitEvenly =
                 ReactiveCommand.CreateAsyncObservable(param => _checkoutManager.SplitEvenly(int.Parse(param.ToString())));*/
             var cmdSplitEvenly =
-                ReactiveCommand.CreateAsyncTask((param, ct) => _controller.SplitEvenly(Convert.ToInt32(param.ToString()), ct));
+                ReactiveCommand.CreateAsyncTask((param, ct) => _controller.SplitEvenlyAsync(Convert.ToInt32(param.ToString()), ct));
             cmdSplitEvenly.Subscribe(_ => RaiseCloseEvent());
 
             CommandSplitEvenly = cmdSplitEvenly;

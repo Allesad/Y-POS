@@ -516,4 +516,32 @@
   <data name="Dialog_Error_ServerRuntimeError" xml:space="preserve">
     <value>Server error occurred</value>
   </data>
+  <data name="Cashdrawer_BankWithdraw" xml:space="preserve">
+    <value>Bank Withdraw</value>
+  </data>
+  <data name="Cashdrawer_CashierIn" xml:space="preserve">
+    <value>Cashier In</value>
+  </data>
+  <data name="Cashdrawer_CashierOut" xml:space="preserve">
+    <value>Cashier Out</value>
+  </data>
+  <data name="Cashdrawer_CashIn" xml:space="preserve">
+    <value>Cash In</value>
+  </data>
+  <data name="Cashdrawer_CashOut" xml:space="preserve">
+    <value>Cash Out</value>
+  </data>
+  <data name="Cashdrawer_Check" xml:space="preserve">
+    <value>Cashdrawer Check</value>
+  </data>
+  <data name="Cashdrawer_Performance" xml:space="preserve">
+    <value>Performance</value>
+  </data>
+  <data name="Dialog_Confirmation_CheckCashdrawerAmountMismatch" xml:space="preserve">
+    <value>Provided amount ({0}) does not match current balance ({1}). Proceed anyway?</value>
+  </data>
+  <data name="Dialog_Error_Cashdrawer_AmountGtreaterBalance" xml:space="preserve">
+    <value>Requested amount is greater than avaiable balance</value>
+    <comment>For cases when user is trying to extract from cashdrawer more money than available</comment>
+  </data>
 </root>

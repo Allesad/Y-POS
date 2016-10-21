@@ -9,6 +9,7 @@ using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using YumaPos.Shared.API.Models;
+using YumaPos.Shared.Core.Utils.Formating;
 using Y_POS.Core.Extensions;
 using Y_POS.Core.ViewModels.Items.Contracts;
 
@@ -48,8 +49,8 @@ namespace Y_POS.Core.ViewModels.Items.Impl
             OrderNumber = dto.Number;
             CreationTime = dto.Created;
             Status = dto.Status;
-            CustomerPhoto = ImageService.GetImage(dto.CustomerImage);
-            CustomerName = dto.CustomerName;
+            CustomerPhoto = ImageService.GetImage(dto.CustomerDto?.ImageId);
+            CustomerName = dto.CustomerDto != null ? FormattingUtils.FullName(dto.CustomerDto.FirstName, dto.CustomerDto.LastName) : string.Empty;
             Amount = dto.Amount;
 
             _isReadOnly = dto.Transactions != null && dto.Transactions.Any();

@@ -263,7 +263,7 @@ namespace Y_POS.Core.ViewModels.Pages
             // Load receipts
             try
             {
-                await _controller.Init(orderId);
+                await _controller.InitAsync(orderId);
                 CurrentOperationType = _controller.OrderIsPaid 
                     ? CheckoutOperationType.PaymentComplete
                     : CheckoutOperationType.Payment;

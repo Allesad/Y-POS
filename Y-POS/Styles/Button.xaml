@@ -2,10 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ui="clr-namespace:YumaPos.WPF.UI;assembly=YumaPos.WPF.UI"
                     xmlns:ex="clr-namespace:YumaPos.WPF.UI.MarkupExtensions;assembly=YumaPos.WPF.UI"
-                    xmlns:controls="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI">
+                    xmlns:controls="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI"
+                    xmlns:controls1="clr-namespace:Y_POS.Controls">
 
     <ResourceDictionary.MergedDictionaries>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Themes/ColorScheme.xaml" />
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Icons/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="ButtonBase">
@@ -86,7 +88,7 @@
     <Style TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}" />
 
     <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ButtonBase}}">
-        <Setter Property="ex:StyleExtensions.BgOnChecked" Value="{StaticResource ButtonBackgroundPressed}"/>
+        <Setter Property="ex:StyleExtensions.BgOnChecked" Value="{StaticResource ButtonBackgroundPressed}" />
         <Setter Property="ex:StyleExtensions.ForegroundOnChecked">
             <Setter.Value>
                 <Binding RelativeSource="{RelativeSource Self}" Path="Foreground" />
@@ -94,23 +96,25 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, 
-                                Path=(ex:StyleExtensions.BgOnChecked)}"/>
-                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self},
-                                Path=(ex:StyleExtensions.ForegroundOnChecked)}"/>
+                <Setter Property="Background"
+                        Value="{Binding RelativeSource={RelativeSource Self}, 
+                                Path=(ex:StyleExtensions.BgOnChecked)}" />
+                <Setter Property="Foreground"
+                        Value="{Binding RelativeSource={RelativeSource Self},
+                                Path=(ex:StyleExtensions.ForegroundOnChecked)}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="Opacity" Value="1" />
             </Trigger>
         </Style.Triggers>
     </Style>
-    
-    <Style TargetType="RepeatButton" BasedOn="{StaticResource {x:Type ButtonBase}}"></Style>
+
+    <Style TargetType="RepeatButton" BasedOn="{StaticResource {x:Type ButtonBase}}" />
 
     <Style x:Key="SquareBtn" TargetType="Button" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Height">
             <Setter.Value>
-                <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
+                <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth" />
             </Setter.Value>
         </Setter>
     </Style>
@@ -118,7 +122,7 @@
     <Style x:Key="SquareToggleBtn" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Setter Property="Height">
             <Setter.Value>
-                <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
+                <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth" />
             </Setter.Value>
         </Setter>
     </Style>
@@ -132,7 +136,7 @@
     <!-- NEXT PAGE NAVIGATION ARROW -->
     <Style x:Key="NavigationNextBtn" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -140,7 +144,7 @@
                           Height="24"
                           Width="24"
                           Stretch="Uniform"
-                          Data="F1M15.52,13.993C15.748,14.221 15.86,14.521 15.86,14.818 15.86,15.115 15.748,15.415 15.52,15.64L2.001,29.293C1.547,29.756 0.807,29.759 0.346,29.303 -0.111,28.848 -0.118,28.105 0.339,27.646L11.895,15.978 13.096,14.78 11.871,13.634 0.339,1.993C-0.118,1.538 -0.111,0.795 0.346,0.336 0.807,-0.116 1.547,-0.112 2.001,0.347z"/>
+                          Data="F1M15.52,13.993C15.748,14.221 15.86,14.521 15.86,14.818 15.86,15.115 15.748,15.415 15.52,15.64L2.001,29.293C1.547,29.756 0.807,29.759 0.346,29.303 -0.111,28.848 -0.118,28.105 0.339,27.646L11.895,15.978 13.096,14.78 11.871,13.634 0.339,1.993C-0.118,1.538 -0.111,0.795 0.346,0.336 0.807,-0.116 1.547,-0.112 2.001,0.347z" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -169,76 +173,155 @@
     </Style>
 
     <!-- NEXT PAGE NAVIGATION ARROW (SMALL SIZE ICON) -->
-    <Style x:Key="NavigationNextSmallBtn" TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type ButtonBase}}">
-        <Setter Property="MinWidth" Value="50"/>
+    <Style x:Key="NavigationNextSmallBtn" TargetType="controls:IconButton"
+           BasedOn="{StaticResource {x:Type ButtonBase}}">
+        <Setter Property="MinWidth" Value="50" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-        <Setter Property="IconHeight" Value="14"/>
-        <Setter Property="IconWidth" Value="14"/>
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="IconHeight" Value="14" />
+        <Setter Property="IconWidth" Value="14" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Path Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=Foreground}"
-                          Height="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconHeight}"
-                          Width="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconWidth}"
-                          StrokeThickness="2"
-                          Stretch="Uniform"
-                          Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601"/>
+                    <Path
+                        Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=Foreground}"
+                        Height="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconHeight}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconWidth}"
+                        StrokeThickness="2"
+                        Stretch="Uniform"
+                        Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <!-- END NAVIGATION ARROW (SMALL SIZE ICON) -->
-    <Style x:Key="NavigationEndSmallBtn" TargetType="controls:IconButton" BasedOn="{StaticResource NavigationNextSmallBtn}">
+    <Style x:Key="NavigationEndSmallBtn" TargetType="controls:IconButton"
+           BasedOn="{StaticResource NavigationNextSmallBtn}">
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Path Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=Foreground}"
-                          Height="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconHeight}"
-                          Width="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconWidth}"
-                          StrokeThickness="2"
-                          Stretch="Uniform"
-                          Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601"/>
+                    <Path
+                        Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=Foreground}"
+                        Height="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconHeight}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconWidth}"
+                        StrokeThickness="2"
+                        Stretch="Uniform"
+                        Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <!-- PREVIOUS PAGE NAVIGATION ARROW (SMALL SIZE ICON) -->
-    <Style x:Key="NavigationPrevSmallBtn" TargetType="controls:IconButton" BasedOn="{StaticResource NavigationNextSmallBtn}">
+    <Style x:Key="NavigationPrevSmallBtn" TargetType="controls:IconButton"
+           BasedOn="{StaticResource NavigationNextSmallBtn}">
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Path Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=Foreground}"
-                          Height="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconHeight}"
-                          Width="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconWidth}"
-                          StrokeThickness="2"
-                          RenderTransformOrigin="0.5,0.5"
-                          Stretch="Uniform"
-                          Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601">
+                    <Path
+                        Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=Foreground}"
+                        Height="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconHeight}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconWidth}"
+                        StrokeThickness="2"
+                        RenderTransformOrigin="0.5,0.5"
+                        Stretch="Uniform"
+                        Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601">
                         <Path.RenderTransform>
-                            <RotateTransform Angle="180"/>
+                            <RotateTransform Angle="180" />
                         </Path.RenderTransform>
                     </Path>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- BEGIN NAVIGATION ARROW (SMALL SIZE ICON) -->
-    <Style x:Key="NavigationBeginSmallBtn" TargetType="controls:IconButton" BasedOn="{StaticResource NavigationPrevSmallBtn}">
-        
+    <Style x:Key="NavigationBeginSmallBtn" TargetType="controls:IconButton"
+           BasedOn="{StaticResource NavigationPrevSmallBtn}" />
+
+    <SolidColorBrush x:Key="OperationButtonSelectionBrush" Color="{StaticResource TextColor}" Opacity="0.8" />
+
+    <!-- RIGHT OPERATION BUTTON (SIMILAR TO RIGHT MARKED LIST ITEM) -->
+    <Style x:Key="RightOperationButton" TargetType="controls1:OperationSelectionButton"
+           BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="GroupName" Value="OperationType" />
+        <Setter Property="Padding" Value="35,15,25,15" />
+        <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="ex:StyleExtensions.BgOnChecked" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls1:OperationSelectionButton">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <!-- This is used for ListView that does not use GridView -->
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Margin="{TemplateBinding Padding}"
+                                              Content="{TemplateBinding ContentControl.Content}"
+                                              ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                              ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                                              HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                              SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                        </Border>
+
+                        <Border Name="SelectionMark"
+                                Background="{StaticResource OperationButtonSelectionBrush}"
+                                Width="20"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Left"
+                                Visibility="Collapsed">
+
+                            <Path VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Data="{StaticResource GreaterThanIcon}"
+                                  Fill="{StaticResource PrimaryBrush}"
+                                  RenderTransformOrigin="0.5,0.5">
+                                <Path.RenderTransform>
+                                    <RotateTransform Angle="180" />
+                                </Path.RenderTransform>
+                            </Path>
+
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background"
+                                    Value="{Binding RelativeSource={RelativeSource Self}, 
+                                Path=(ex:StyleExtensions.BgOnHover)}" />
+                            <Setter Property="Foreground"
+                                    Value="{Binding RelativeSource={RelativeSource Self},
+                                Path=(ex:StyleExtensions.ForegroundOnHover)}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Foreground"
+                                    Value="{Binding RelativeSource={RelativeSource Self},
+                                Path=(ex:StyleExtensions.ForegroundOnPressed)}" />
+                            <Setter TargetName="SelectionMark" Property="Visibility" Value="Visible" />
+                            <Setter Property="BorderBrush" Value="{StaticResource OperationButtonSelectionBrush}" />
+                            <Setter Property="BorderThickness" Value="0,1" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource DisabledText}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
-    
+
     <!-- CIRCLE BUTTON -->
     <Style x:Key="CircleButton" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-        <Setter Property="Width" Value="45"/>
-        <Setter Property="Height" Value="45"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="Width" Value="45" />
+        <Setter Property="Height" Value="45" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -246,31 +329,30 @@
                             Height="{TemplateBinding Width}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <Grid>
-                            <Path x:Name="Bg" 
-                                  Data="F1M64,32C64,49.673 49.673,64 32,64 14.327,64 0,49.673 0,32 0,14.327 14.327,0 32,0 49.673,0 64,14.327 64,32" 
-                                  Fill="{TemplateBinding Background}" 
-                                  Margin="0" 
+                            <Path x:Name="Bg"
+                                  Data="F1M64,32C64,49.673 49.673,64 32,64 14.327,64 0,49.673 0,32 0,14.327 14.327,0 32,0 49.673,0 64,14.327 64,32"
+                                  Fill="{TemplateBinding Background}"
+                                  Margin="0"
                                   Width="{TemplateBinding Width}"
-                                  Height="{TemplateBinding Width}" 
+                                  Height="{TemplateBinding Width}"
                                   Opacity="0.8"
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
-                                  Stretch="Uniform"/>
+                                  Stretch="Uniform" />
                             <ContentPresenter Name="Presenter"
                                               VerticalAlignment="Center"
-                                              HorizontalAlignment="Center"
-                                              />
+                                              HorizontalAlignment="Center" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bg" Property="Opacity" Value="0.5"/>
+                            <Setter TargetName="Bg" Property="Opacity" Value="0.5" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Bg" Property="Opacity" Value="1"/>
+                            <Setter TargetName="Bg" Property="Opacity" Value="1" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.5"/>
+                            <Setter Property="Opacity" Value="0.5" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -283,16 +365,16 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Path x:Name="Path" 
-                          Data="M0,5 H10 M5,5 V10Z" 
+                    <Path x:Name="Path"
+                          Data="M0,5 H10 M5,5 V10Z"
                           Height="10" Width="10"
-                          Margin="0" 
-                          Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" 
+                          Margin="0"
+                          Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                           StrokeThickness="2" />
                     <DataTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Path" Property="Fill" 
-                                    Value="{DynamicResource DisabledText}"/>
+                            <Setter TargetName="Path" Property="Fill"
+                                    Value="{DynamicResource DisabledText}" />
                         </Trigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
@@ -305,16 +387,16 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Path x:Name="Path" 
-                          Data="M0,5 H10" 
+                    <Path x:Name="Path"
+                          Data="M0,5 H10"
                           Height="10" Width="10"
-                          Margin="0" 
-                          Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" 
+                          Margin="0"
+                          Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                           StrokeThickness="2" />
                     <DataTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Path" Property="Stroke" 
-                                    Value="{DynamicResource DisabledText}"/>
+                            <Setter TargetName="Path" Property="Stroke"
+                                    Value="{DynamicResource DisabledText}" />
                         </Trigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>

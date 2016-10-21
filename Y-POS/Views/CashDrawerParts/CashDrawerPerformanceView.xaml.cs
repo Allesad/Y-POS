@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using Y_POS.Core.ViewModels.Pages;
 
 namespace Y_POS.Views.CashDrawerParts
 {
@@ -14,24 +16,15 @@ namespace Y_POS.Views.CashDrawerParts
         {
             InitializeComponent();
 
-            PerformanceList.ItemsSource = new[]
-            {
-                new { Time = DateTime.Now, Activity = "Cashier In", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Cashier In", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Cashier In", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Transaction #325", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Cashier In", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Cashier In", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Bank Withdraw", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Cashier Out", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Cashier In", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Cashier In", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Cashier In", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Cashier In", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Cashier In", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-                new { Time = DateTime.Now, Activity = "Cashier In", Amount = RandomAmount(), StaffName = "Melissa Jefferson" },
-            };
+            Loaded += OnLoaded;
         }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            ViewModel.CommandUpdateLog.Execute(null);
+        }
+
+        private CashdrawerVm ViewModel => (CashdrawerVm) DataContext;
 
         public static decimal RandomAmount()
         {
