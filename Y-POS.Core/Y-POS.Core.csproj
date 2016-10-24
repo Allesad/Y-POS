@@ -52,6 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppNavigation.cs" />
+    <Compile Include="Cashdrawer\BillTypeItem.cs" />
+    <Compile Include="Cashdrawer\CashDrawerSummary.cs" />
+    <Compile Include="Cashdrawer\CashierManager.cs" />
     <Compile Include="Checkout\CheckoutController.cs" />
     <Compile Include="Checkout\ReceiptItem.cs" />
     <Compile Include="Checkout\ReceiptItemMapping.cs" />
@@ -70,6 +73,7 @@
       <DependentUpon>ServerRuntimeErrorDecorator.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Error.cs" />
+    <Compile Include="Infrastructure\Exceptions\NotEnoughAmountException.cs" />
     <Compile Include="Infrastructure\Exceptions\ServerRuntimeException.cs" />
     <Compile Include="Infrastructure\Guard.cs" />
     <Compile Include="Infrastructure\ReflectionExtensions.cs" />
@@ -105,6 +109,7 @@
     <Compile Include="ViewModels\Dialogs\GiftCardNumberDialog.cs" />
     <Compile Include="ViewModels\Dialogs\ProcessingDialog.cs" />
     <Compile Include="ViewModels\Dialogs\SetOrderItemQtyDialogVm.cs" />
+    <Compile Include="ViewModels\Items\Impl\CashierLogItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\DiscountItemVm.cs" />
     <Compile Include="ViewModels\Items\Impl\ReceiptItemVm.cs" />
     <Compile Include="ViewModels\PageParts\ClosablePagePartVm.cs" />

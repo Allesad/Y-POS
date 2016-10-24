@@ -47,5 +47,10 @@
     <SolidColorBrush x:Key="ListItemBgHover" Color="{StaticResource SecondaryColor}"/>
     <SolidColorBrush x:Key="ListItemBgSelected" Color="{StaticResource AccentColor}"/>
     <SolidColorBrush x:Key="ListItemTextSelected" Color="{StaticResource PrimaryColor}"/>
+
+    <!-- COMMON BACKGROUNDS -->
+    <SolidColorBrush x:Key="DefaultBg" Color="{StaticResource SecondaryColor}"/>
+    <SolidColorBrush x:Key="SemiTransparentBg" Color="{StaticResource SecondaryColor}" Opacity="0.6"/>
+    <SolidColorBrush x:Key="SemiTransparentDimmedBg" Color="{StaticResource TextColor}" Opacity="0.3"/>
     
 </ResourceDictionary>

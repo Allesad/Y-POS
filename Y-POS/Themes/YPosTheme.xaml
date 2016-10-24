@@ -31,7 +31,5 @@
     <Thickness x:Key="DefaultDetailsMargin">15,10</Thickness>
     
     <ImageBrush x:Key="DefaultImageBg" ImageSource="/Y-POS;component/Images/bg.png"/>
-    <SolidColorBrush x:Key="DefaultBg" Color="{StaticResource SecondaryColor}"/>
-    <SolidColorBrush x:Key="SemiTransparentBg" Color="{StaticResource SecondaryColor}" Opacity="0.6"/>
 
 </ResourceDictionary>

@@ -52,6 +52,7 @@
     <Compile Include="Controls\IconButton.cs" />
     <Compile Include="Controls\SearchTextBox.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\InvertThicknessConverter.cs" />
     <Compile Include="Converters\TextCaseCoverter.cs" />
     <Compile Include="Helpers\PlaceholderTextHelper.cs" />

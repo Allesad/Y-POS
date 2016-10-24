@@ -206,11 +206,83 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Tips.
+        /// </summary>
+        public static string Cashdrawer_AddTips {
+            get {
+                return ResourceManager.GetString("Cashdrawer_AddTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reason.
         /// </summary>
         public static string CashDrawer_AmountUpdateReason {
             get {
                 return ResourceManager.GetString("CashDrawer_AmountUpdateReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bank Withdraw.
+        /// </summary>
+        public static string Cashdrawer_BankWithdraw {
+            get {
+                return ResourceManager.GetString("Cashdrawer_BankWithdraw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cashier In.
+        /// </summary>
+        public static string Cashdrawer_CashierIn {
+            get {
+                return ResourceManager.GetString("Cashdrawer_CashierIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cashier Out.
+        /// </summary>
+        public static string Cashdrawer_CashierOut {
+            get {
+                return ResourceManager.GetString("Cashdrawer_CashierOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash In.
+        /// </summary>
+        public static string Cashdrawer_CashIn {
+            get {
+                return ResourceManager.GetString("Cashdrawer_CashIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash Out.
+        /// </summary>
+        public static string Cashdrawer_CashOut {
+            get {
+                return ResourceManager.GetString("Cashdrawer_CashOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cashdrawer Check.
+        /// </summary>
+        public static string Cashdrawer_Check {
+            get {
+                return ResourceManager.GetString("Cashdrawer_Check", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Performance.
+        /// </summary>
+        public static string Cashdrawer_Performance {
+            get {
+                return ResourceManager.GetString("Cashdrawer_Performance", resourceCulture);
             }
         }
         
@@ -413,11 +485,29 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Provided amount ({0}) does not match current balance ({1}). Proceed anyway?.
+        /// </summary>
+        public static string Dialog_Confirmation_CheckCashdrawerAmountMismatch {
+            get {
+                return ResourceManager.GetString("Dialog_Confirmation_CheckCashdrawerAmountMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Void order?.
         /// </summary>
         public static string Dialog_Confirmation_VoidOrder {
             get {
                 return ResourceManager.GetString("Dialog_Confirmation_VoidOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested amount is greater than avaiable balance.
+        /// </summary>
+        public static string Dialog_Error_Cashdrawer_AmountGtreaterBalance {
+            get {
+                return ResourceManager.GetString("Dialog_Error_Cashdrawer_AmountGtreaterBalance", resourceCulture);
             }
         }
         
@@ -1183,6 +1273,42 @@ namespace Y_POS.Core.Properties {
         public static string Tips {
             get {
                 return ResourceManager.GetString("Tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} ended break.
+        /// </summary>
+        public static string Toast_UserBreakEnded {
+            get {
+                return ResourceManager.GetString("Toast_UserBreakEnded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} started break.
+        /// </summary>
+        public static string Toast_UserBreakStarted {
+            get {
+                return ResourceManager.GetString("Toast_UserBreakStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} clocked in.
+        /// </summary>
+        public static string Toast_UserClockedIn {
+            get {
+                return ResourceManager.GetString("Toast_UserClockedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} clocked out.
+        /// </summary>
+        public static string Toast_UserClockedOut {
+            get {
+                return ResourceManager.GetString("Toast_UserClockedOut", resourceCulture);
             }
         }
         

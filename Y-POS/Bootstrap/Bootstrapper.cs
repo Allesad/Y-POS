@@ -31,6 +31,7 @@ using YumaPos.Shared.Core.Reciept.Contracts;
 using YumaPos.Shared.Infrastructure;
 using Y_POS.Configuration;
 using Y_POS.Core;
+using Y_POS.Core.Cashdrawer;
 using Y_POS.Core.Checkout;
 using Y_POS.Core.Infrastructure.Decorators;
 using Y_POS.Core.MockData;
@@ -121,6 +122,9 @@ namespace Y_POS.Bootstrap
             builder.Register<CheckoutService>().As<ICheckoutService>();
             builder.Register<PaymentService>().As<IPaymentService>();
             builder.Register<DiscountService>().As<IDiscountService>();
+            builder.Register<CashDrawerService>().As<ICashDrawerService>();
+            builder.Register<ShiftService>().As<IShiftService>();
+            builder.Register<EmployeeClockService>().As<IEmployeeClockService>();
 
             // Hardware
             builder.Register<MockPrinter>().As<IPrintService>();
@@ -134,6 +138,7 @@ namespace Y_POS.Bootstrap
             builder.Register<OrderCreator>(Lifecycles.PerScope).As<IOrderCreator>();
             builder.Register<OrderItemConstructor>(Lifecycles.PerScope).As<IOrderItemConstructor>();
             builder.Register<CheckoutManager>(Lifecycles.PerScope).As<ICheckoutManager>();
+            builder.Register<CashierManager>();
 
             // Factories
             builder.Register<ReceiptTemplateFactory>().As<IReceiptTemplateFactory>();

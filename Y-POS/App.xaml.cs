@@ -62,8 +62,7 @@ namespace Y_POS
             {
                 WebCore.Initialize(new WebConfig
                 {
-                    LogLevel = LogLevel.Normal,
-                    //HomeURL = new Uri("https://habrahabr.ru/all/")
+                    LogLevel = LogLevel.Normal
                 }, true);
             }
 
@@ -84,7 +83,7 @@ namespace Y_POS
             base.OnExit(e);
         }
 
-        private void InitExceptionHandlers()
+        private static void InitExceptionHandlers()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             Current.DispatcherUnhandledException += DispatcherOnUnhandledException;
@@ -98,6 +97,7 @@ namespace Y_POS
             LoggerHelper.LoggingService = resolver.Resolve<ILoggingService>();
             ServiceLocator.Init(resolver);
             TimeLogger.logger = resolver.Resolve<ILoggingService>().GetLog("TimeLogger");
+
             await resolver.Resolve<IAppServiceManager>().InitAsync();
 
             ShowUi(resolver);

@@ -4,8 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+             xmlns:impl="clr-namespace:Y_POS.Core.ViewModels.Items.Impl;assembly=Y-POS.Core"
+             xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance pages:CashdrawerVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
 
@@ -19,7 +22,7 @@
         </Style>
 
         <!-- PERFORMANCE ITEM DATA TEMPLATE -->
-        <DataTemplate x:Key="PerformanceItemDt">
+        <DataTemplate x:Key="PerformanceItemDt" DataType="{x:Type impl:CashierLogItemVm}">
 
             <Grid Height="65">
                 <Grid.ColumnDefinitions>
@@ -58,7 +61,7 @@
                     
                     <!-- NAME -->
                     <TextBlock Style="{StaticResource PerformanceListItemText}"
-                               Text="{Binding StaffName, Mode=OneWay}"/>
+                               Text="{Binding EmployeeName, Mode=OneWay}"/>
 
                 </StackPanel>
             </Grid>
@@ -112,7 +115,8 @@
 
         <ListBox Name="PerformanceList"
                  Background="{StaticResource PrimaryBrush}" 
-                 ItemContainerStyle="{StaticResource PerformanceListItem}"/>
+                 ItemContainerStyle="{StaticResource PerformanceListItem}"
+                 ItemsSource="{Binding LogItems, Mode=OneWay}"/>
 
     </DockPanel>
 

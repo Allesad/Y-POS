@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using DialogManagement.Contracts;
 using YumaPos.Client.Helpers;
 using YumaPos.Client.Navigation.Contracts;

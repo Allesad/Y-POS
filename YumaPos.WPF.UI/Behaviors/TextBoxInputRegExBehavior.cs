@@ -69,7 +69,7 @@ namespace YumaPos.WPF.UI.Behaviors
         #endregion
 
         /// <summary>
-        ///     Attach our behaviour. Add event handlers
+        ///     Attach our behavior. Add event handlers
         /// </summary>
         protected override void OnAttached()
         {
@@ -81,7 +81,7 @@ namespace YumaPos.WPF.UI.Behaviors
         }
 
         /// <summary>
-        ///     Deattach our behaviour. remove event handlers
+        ///     Deattach our behavior. remove event handlers
         /// </summary>
         protected override void OnDetaching()
         {

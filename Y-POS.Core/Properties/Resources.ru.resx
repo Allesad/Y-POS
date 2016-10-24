@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Action_Break" xml:space="preserve">
-    <value>Пауза</value>
+    <value>Перерыв</value>
   </data>
   <data name="Action_ClockIn" xml:space="preserve">
-    <value>Clock In</value>
+    <value>Начать работу</value>
   </data>
   <data name="Action_ClockOut" xml:space="preserve">
-    <value>Clock Out</value>
+    <value>Закончить работу</value>
   </data>
   <data name="Action_CloseAndNewOrder" xml:space="preserve">
     <value>Закрыть и создать новый</value>
@@ -514,5 +514,47 @@
   </data>
   <data name="Dialog_Error_ServerRuntimeError" xml:space="preserve">
     <value>Произошла ошибка на сервере</value>
+  </data>
+  <data name="Cashdrawer_BankWithdraw" xml:space="preserve">
+    <value>Инкассация</value>
+  </data>
+  <data name="Cashdrawer_CashierIn" xml:space="preserve">
+    <value>Cashier In</value>
+  </data>
+  <data name="Cashdrawer_CashierOut" xml:space="preserve">
+    <value>Cashier Out</value>
+  </data>
+  <data name="Cashdrawer_CashIn" xml:space="preserve">
+    <value>Добавить в кассу</value>
+  </data>
+  <data name="Cashdrawer_CashOut" xml:space="preserve">
+    <value>Изъять из кассы</value>
+  </data>
+  <data name="Cashdrawer_Check" xml:space="preserve">
+    <value>Проверка кассы</value>
+  </data>
+  <data name="Cashdrawer_Performance" xml:space="preserve">
+    <value>Журнал операций</value>
+  </data>
+  <data name="Dialog_Confirmation_CheckCashdrawerAmountMismatch" xml:space="preserve">
+    <value>Указанная сумма ({0}) не соответствует текущему балансу ({1}). Продолжить?</value>
+  </data>
+  <data name="Cashdrawer_AddTips" xml:space="preserve">
+    <value>Добавить чаевые</value>
+  </data>
+  <data name="Dialog_Error_Cashdrawer_AmountGtreaterBalance" xml:space="preserve">
+    <value>Запрошенная сумма больше имеющейся в кассе</value>
+  </data>
+  <data name="Toast_UserBreakEnded" xml:space="preserve">
+    <value>{0} закончил плевать в потолок</value>
+  </data>
+  <data name="Toast_UserBreakStarted" xml:space="preserve">
+    <value>{0} сделал привал</value>
+  </data>
+  <data name="Toast_UserClockedIn" xml:space="preserve">
+    <value>{0} начал работу</value>
+  </data>
+  <data name="Toast_UserClockedOut" xml:space="preserve">
+    <value>{0} закончил работу</value>
   </data>
 </root>

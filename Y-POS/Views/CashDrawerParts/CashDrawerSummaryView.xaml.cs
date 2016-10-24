@@ -14,16 +14,6 @@ namespace Y_POS.Views.CashDrawerParts
             InitializeComponent();
 
             CurrentDate.Text = DateTime.Now.ToShortDateString();
-            Balance = 438.11m;
-            Sales = 452.25m;
-            Refund = 100m;
-            CashIn = 145.25m;
-            CashOut = 10.52m;
-            BankWithdraw = 458.25m;
-            Tips = 55.25m;
-
-            LastCashierIn = 458.85m;
-            LastCashierOut = 477.52m;
         }
 
         #region Balance

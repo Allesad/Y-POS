@@ -18,7 +18,8 @@
 
     <Grid Name="MainContainer">
 
-        <controls:ContentPresenterEx Content="{Binding CurrentPage}" ContentChanged="Page_OnContentChanged"/>
+        <controls:ContentPresenterEx x:Name="ContentContainer" 
+                                     Content="{Binding CurrentPage}" ContentChanged="Page_OnContentChanged"/>
 
         <Grid Grid.Row="0"
               Name="NavMenuContainer"
