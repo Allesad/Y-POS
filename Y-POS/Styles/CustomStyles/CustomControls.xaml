@@ -198,7 +198,19 @@
                                 Name="PART_Dot"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
+                                Visibility="Collapsed"
                                 Content="." />
+                        <Button Style="{StaticResource NumpadButton}"
+                                Name="PART_Clear"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom">
+                            <Button.Content>
+                                <Path Data="{StaticResource ClearIcon}"
+                                      Fill="{StaticResource ButtonText}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                            </Button.Content>
+                        </Button>
                     </UniformGrid>
                 </ControlTemplate>
             </Setter.Value>

@@ -124,6 +124,7 @@ namespace Y_POS.Bootstrap
             builder.Register<DiscountService>().As<IDiscountService>();
             builder.Register<CashDrawerService>().As<ICashDrawerService>();
             builder.Register<ShiftService>().As<IShiftService>();
+            builder.Register<EmployeeClockService>().As<IEmployeeClockService>();
 
             // Hardware
             builder.Register<MockPrinter>().As<IPrintService>();

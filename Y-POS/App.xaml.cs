@@ -15,7 +15,6 @@ using YumaPos.Client.Helpers;
 using YumaPos.Common.Infrastructure.IoC;
 using YumaPos.Common.Infrastructure.Logging;
 using Y_POS.Bootstrap;
-using Y_POS.Core.Cashdrawer;
 using Y_POS.Core.Infrastructure;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views;

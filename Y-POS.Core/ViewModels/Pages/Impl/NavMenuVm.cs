@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Reactive.Linq;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using YumaPos.Client.Account;
 using YumaPos.Client.App;
 using YumaPos.Client.UI.ViewModels.Impl;
 using Y_POS.Core.Extensions;
@@ -15,7 +15,7 @@ namespace Y_POS.Core.ViewModels.Pages
     {
         #region Fields
 
-        private readonly IAppService _appService;
+        private readonly IAccountServiceManager _accountServiceManager;
 
         #endregion
 
@@ -31,11 +31,10 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Constructor
 
-        public NavMenuVm(IAppService appService)
+        public NavMenuVm(IAppService appService, IAccountServiceManager accountServiceManager)
         {
+            _accountServiceManager = accountServiceManager;
             if (appService == null) throw new ArgumentNullException(nameof(appService));
-
-            _appService = appService;
 
             Items = GetNavigationItems();
 
@@ -53,16 +52,16 @@ namespace Y_POS.Core.ViewModels.Pages
 
         #region Private methods
 
-        private static INavMenuItemVm[] GetNavigationItems()
+        private INavMenuItemVm[] GetNavigationItems()
         {
-            return new[]
+            return new INavMenuItemVm[]
             {
                 new NavMenuItemVm(AppNavigation.ActiveOrders),
                 new NavMenuItemVm(AppNavigation.ClosedOrders),
                 new NavMenuItemVm(AppNavigation.Cashdrawer),
                 new NavMenuItemVm(AppNavigation.Reports),
                 new NavMenuItemVm(AppNavigation.Settings),
-                new NavMenuItemVm(AppNavigation.PinLogin)
+                new NavMenuItemVm(_accountServiceManager)
             };
         }
 

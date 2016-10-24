@@ -1,6 +1,8 @@
-﻿using System.Reactive.Linq;
+﻿using System;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using ReactiveUI;
+using YumaPos.Client.Account;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Impl;
 using Y_POS.Core.Extensions;
@@ -36,6 +38,22 @@ namespace Y_POS.Core.ViewModels.Items.Impl
             cmd.Where(_ => !TargetUri.Equals(NavigationService.CurrenUri))
                 .SubscribeToObserveOnUi(
                     _ => NavigationService.StartIntent(new Intent(TargetUri).SetFlags(IntentFlags.ClearTop)));
+            CommandNavigate = cmd;
+        }
+
+        public NavMenuItemVm(IAccountServiceManager accountServiceManager)
+        {
+            if (accountServiceManager == null) throw new ArgumentNullException(nameof(accountServiceManager));
+
+            var accManager = accountServiceManager;
+
+            TargetUri = AppNavigation.PinLogin;
+
+            Title = GetTitle(TargetUri);
+
+            var cmd = ReactiveCommand.CreateAsyncTask(_ => accManager.Logout());
+            cmd.ThrownExceptions.Subscribe(HandleError);
+            cmd.SubscribeToObserveOnUi(_ => NavigationService.StartIntent(new Intent(TargetUri).SetFlags(IntentFlags.NoHistory)));
             CommandNavigate = cmd;
         }
 

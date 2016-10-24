@@ -49,7 +49,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override void OnStart()
         {
-            NavigationService.StartIntent(new Intent(AppNavigation.Login));
+            NavigationService.StartIntent(new Intent(AppNavigation.PinLogin));
         }
     }
 }

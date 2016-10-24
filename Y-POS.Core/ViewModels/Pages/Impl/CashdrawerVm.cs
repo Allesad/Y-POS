@@ -163,17 +163,14 @@ namespace Y_POS.Core.ViewModels.Pages
                 .ToPropertyEx(this, vm => vm.IsBillTypeInputEnabled));
         }
 
-        protected override async void OnCreate(IArgsBundle args)
+        protected override async void OnStart()
         {
             if (!_cashier.IsInitialized)
             {
                 await _cashier.InitAsync();
                 State = _cashier.IsCashierIn ? CashdrawerState.PerformanceLog : CashdrawerState.CashierIn;
             }
-        }
 
-        protected override void OnStart()
-        {
             _cashDrawerService.GetMoneyTypes()
                 .Select(types => types.Select(type => new BillTypeItem((int) type.Value))
                     .Concat(new[]
