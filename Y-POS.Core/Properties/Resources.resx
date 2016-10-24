@@ -540,6 +540,9 @@
   <data name="Dialog_Confirmation_CheckCashdrawerAmountMismatch" xml:space="preserve">
     <value>Provided amount ({0}) does not match current balance ({1}). Proceed anyway?</value>
   </data>
+  <data name="Cashdrawer_AddTips" xml:space="preserve">
+    <value>Add Tips</value>
+  </data>
   <data name="Dialog_Error_Cashdrawer_AmountGtreaterBalance" xml:space="preserve">
     <value>Requested amount is greater than avaiable balance</value>
     <comment>For cases when user is trying to extract from cashdrawer more money than available</comment>

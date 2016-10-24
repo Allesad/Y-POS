@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -85,6 +86,7 @@ namespace Y_POS.Views
                 case CashdrawerState.CashIn:
                 case CashdrawerState.CashOut:
                 case CashdrawerState.BankWithdraw:
+                case CashdrawerState.AddTips:
                     _amountUpdateView = _amountUpdateView ?? new CashDrawerAmountUpdateView { DataContext = DataContext };
                     return _amountUpdateView;
                 case CashdrawerState.PerformanceLog:
@@ -99,17 +101,19 @@ namespace Y_POS.Views
             switch (state)
             {
                 case CashdrawerState.CashierIn:
-                    return Core.Properties.Resources.Cashdrawer_CashierIn;
+                    return Core.Properties.Resources.Cashdrawer_CashierIn.ToUpper(CultureInfo.CurrentUICulture);
                 case CashdrawerState.CashierOut:
-                    return Core.Properties.Resources.Cashdrawer_CashierOut;
+                    return Core.Properties.Resources.Cashdrawer_CashierOut.ToUpper(CultureInfo.CurrentUICulture);
                 case CashdrawerState.Check:
-                    return Core.Properties.Resources.Cashdrawer_Check;
+                    return Core.Properties.Resources.Cashdrawer_Check.ToUpper(CultureInfo.CurrentUICulture);
                 case CashdrawerState.BankWithdraw:
-                    return Core.Properties.Resources.Cashdrawer_BankWithdraw;
+                    return Core.Properties.Resources.Cashdrawer_BankWithdraw.ToUpper(CultureInfo.CurrentUICulture);
+                case CashdrawerState.AddTips:
+                    return Core.Properties.Resources.Cashdrawer_AddTips.ToUpper(CultureInfo.CurrentUICulture);
                 case CashdrawerState.CashIn:
-                    return Core.Properties.Resources.Cashdrawer_CashIn;
+                    return Core.Properties.Resources.Cashdrawer_CashIn.ToUpper(CultureInfo.CurrentUICulture);
                 case CashdrawerState.CashOut:
-                    return Core.Properties.Resources.Cashdrawer_CashOut;
+                    return Core.Properties.Resources.Cashdrawer_CashOut.ToUpper(CultureInfo.CurrentUICulture);
                 default:
                     throw new ArgumentException("Invalid state! " + state);
             }

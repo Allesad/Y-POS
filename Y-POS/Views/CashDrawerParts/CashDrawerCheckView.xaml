@@ -93,7 +93,7 @@
 
             <TextBlock Name="TitleTbl"
                        FontSize="18"
-                       Width="340"
+                       Width="280"
                        Margin="40,0,20,0"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>

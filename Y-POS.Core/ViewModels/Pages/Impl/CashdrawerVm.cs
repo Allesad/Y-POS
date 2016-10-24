@@ -32,6 +32,7 @@ namespace Y_POS.Core.ViewModels.Pages
         CashierOut,
         Check,
         BankWithdraw,
+        AddTips,
         CashIn,
         CashOut,
         PerformanceLog
@@ -167,6 +168,7 @@ namespace Y_POS.Core.ViewModels.Pages
             if (!_cashier.IsInitialized)
             {
                 await _cashier.InitAsync();
+                State = _cashier.IsCashierIn ? CashdrawerState.PerformanceLog : CashdrawerState.CashierIn;
             }
         }
 
@@ -179,8 +181,6 @@ namespace Y_POS.Core.ViewModels.Pages
                         new BillTypeItem(), 
                     }).ToArray())
                 .SubscribeToObserveOnUi(items => BillTypes = items);
-
-            State = _cashier.IsCashierIn ? CashdrawerState.PerformanceLog : CashdrawerState.CashierIn;
         }
 
         #endregion
@@ -227,6 +227,9 @@ namespace Y_POS.Core.ViewModels.Pages
                     break;
                 case CashdrawerState.BankWithdraw:
                     await _cashier.BankWithdrawAsync(amount);
+                    break;
+                case CashdrawerState.AddTips:
+                    await _cashier.AddTipsAsync(amount, reason);
                     break;
                 case CashdrawerState.CashIn:
                     await _cashier.AddCashAsync(amount, reason);

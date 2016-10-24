@@ -206,6 +206,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Tips.
+        /// </summary>
+        public static string Cashdrawer_AddTips {
+            get {
+                return ResourceManager.GetString("Cashdrawer_AddTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reason.
         /// </summary>
         public static string CashDrawer_AmountUpdateReason {

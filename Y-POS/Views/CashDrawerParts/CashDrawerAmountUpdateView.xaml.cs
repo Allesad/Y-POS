@@ -44,13 +44,17 @@ namespace Y_POS.Views.CashDrawerParts
             ResetFields();
             AmountTb.Focus();
 
-            this.WhenAnyValue(view => view.ViewModel.State)
-                .Where(
-                    state =>
-                        state == CashdrawerState.BankWithdraw || state == CashdrawerState.CashIn ||
-                        state == CashdrawerState.CashOut)
+            var stateStream = this.WhenAnyValue(view => view.ViewModel.State)
+                .Where(StateFilter());
+                //.Publish().RefCount();
+
+            stateStream    
                 .Select(GetTitleForState)
                 .SubscribeToObserveOnUi(title => UpdateTitle.Text = title);
+
+            stateStream
+                .Select(GetReasonEnabledForState)
+                .SubscribeToObserveOnUi(isEnabled => ReasonTb.IsEnabled = isEnabled);
         }
 
         private static string GetTitleForState(CashdrawerState state)
@@ -59,6 +63,8 @@ namespace Y_POS.Views.CashDrawerParts
             {
                 case CashdrawerState.BankWithdraw:
                     return Core.Properties.Resources.Cashdrawer_BankWithdraw.ToUpper(CultureInfo.CurrentUICulture);
+                case CashdrawerState.AddTips:
+                    return Core.Properties.Resources.Cashdrawer_AddTips.ToUpper(CultureInfo.CurrentUICulture);
                 case CashdrawerState.CashIn:
                     return Core.Properties.Resources.Cashdrawer_CashIn.ToUpper(CultureInfo.CurrentUICulture);
                 case CashdrawerState.CashOut:
@@ -66,6 +72,18 @@ namespace Y_POS.Views.CashDrawerParts
                 default:
                     throw new ArgumentException("Invalid state! " + state);
             }
+        }
+
+        private static bool GetReasonEnabledForState(CashdrawerState state)
+        {
+            return state != CashdrawerState.AddTips && state != CashdrawerState.BankWithdraw;
+        }
+
+        private static Func<CashdrawerState, bool> StateFilter()
+        {
+            return state =>
+                state == CashdrawerState.BankWithdraw || state == CashdrawerState.CashIn ||
+                state == CashdrawerState.CashOut || state == CashdrawerState.AddTips;
         }
 
         private void AmountInput_OnTextChanged(object sender, TextChangedEventArgs e)

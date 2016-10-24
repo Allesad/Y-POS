@@ -539,6 +539,9 @@
   <data name="Dialog_Confirmation_CheckCashdrawerAmountMismatch" xml:space="preserve">
     <value>Указанная сумма ({0}) не соответствует текущему балансу ({1}). Продолжить?</value>
   </data>
+  <data name="Cashdrawer_AddTips" xml:space="preserve">
+    <value>Добавить чаевые</value>
+  </data>
   <data name="Dialog_Error_Cashdrawer_AmountGtreaterBalance" xml:space="preserve">
     <value>Запрошенная сумма больше имеющейся в кассе</value>
   </data>

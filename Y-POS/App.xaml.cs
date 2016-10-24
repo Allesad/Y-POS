@@ -98,8 +98,6 @@ namespace Y_POS
             LoggerHelper.LoggingService = resolver.Resolve<ILoggingService>();
             ServiceLocator.Init(resolver);
             TimeLogger.logger = resolver.Resolve<ILoggingService>().GetLog("TimeLogger");
-            // TODO: move to some more appropriate place
-            await resolver.Resolve<CashierManager>().InitAsync();
 
             await resolver.Resolve<IAppServiceManager>().InitAsync();
 

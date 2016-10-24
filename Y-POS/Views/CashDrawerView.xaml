@@ -121,6 +121,17 @@
                                                                 ConverterParameter={x:Static pages:CashdrawerState.BankWithdraw}}"
                                                            Command="{Binding CommandGoToState}"
                                                            CommandParameter="{x:Static pages:CashdrawerState.BankWithdraw}"/>
+                        
+                        <!-- ADD TIPS -->
+                        <controls:OperationSelectionButton Style="{StaticResource CashdrawerOperationBtn}"
+                                                           Icon="{StaticResource PiggyBankIcon}"
+                                                           IsEnabled="{Binding IsCashierIn}"
+                                                           Content="{Binding Source={x:Static p:Resources.Cashdrawer_AddTips}, 
+                                                                Converter={StaticResource UpperCaseCoverter}}"
+                                                           IsChecked="{Binding State, Mode=OneWay, Converter={StaticResource StateToCheckedConverter},
+                                                                ConverterParameter={x:Static pages:CashdrawerState.AddTips}}"
+                                                           Command="{Binding CommandGoToState}"
+                                                           CommandParameter="{x:Static pages:CashdrawerState.AddTips}"/>
 
                         <!-- CASH IN -->
                         <controls:OperationSelectionButton Style="{StaticResource CashdrawerOperationBtn}"
@@ -145,6 +156,7 @@
                                                                 ConverterParameter={x:Static pages:CashdrawerState.CashOut}}"
                                                            Command="{Binding CommandGoToState}"
                                                            CommandParameter="{x:Static pages:CashdrawerState.CashOut}"/>
+                        
 
                         <!-- PERFORMANCE -->
                         <controls:OperationSelectionButton Style="{StaticResource CashdrawerOperationBtn}"

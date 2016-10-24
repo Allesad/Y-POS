@@ -45,10 +45,7 @@ namespace Y_POS.Views.CashDrawerParts
             AmountInput.Focus();
 
             this.WhenAnyValue(view => view.ViewModel.State)
-                .Where(
-                    state =>
-                        state == CashdrawerState.CashierIn || state == CashdrawerState.CashierOut ||
-                        state == CashdrawerState.Check)
+                .Where(StateFilter())
                 .Select(GetTitleForState)
                 .SubscribeToObserveOnUi(title => TitleTbl.Text = title);
 
@@ -87,16 +84,23 @@ namespace Y_POS.Views.CashDrawerParts
             }
         }
 
+        private static Func<CashdrawerState, bool> StateFilter()
+        {
+            return state =>
+                state == CashdrawerState.CashierIn || state == CashdrawerState.CashierOut ||
+                state == CashdrawerState.Check;
+        }
+
         private static string GetTitleForState(CashdrawerState state)
         {
             switch (state)
             {
                 case CashdrawerState.CashierIn:
-                    return Core.Properties.Resources.Cashdrawer_CashierIn;
+                    return Core.Properties.Resources.Cashdrawer_CashierIn.ToUpper(CultureInfo.CurrentUICulture);
                 case CashdrawerState.CashierOut:
-                    return Core.Properties.Resources.Cashdrawer_CashierOut;
+                    return Core.Properties.Resources.Cashdrawer_CashierOut.ToUpper(CultureInfo.CurrentUICulture);
                 case CashdrawerState.Check:
-                    return Core.Properties.Resources.Cashdrawer_Check;
+                    return Core.Properties.Resources.Cashdrawer_Check.ToUpper(CultureInfo.CurrentUICulture);
             }
             return string.Empty;
         }
@@ -111,10 +115,13 @@ namespace Y_POS.Views.CashDrawerParts
         private void ResetFields()
         {
             AmountInput.Text = "0";
-            foreach (var billType in _billTypes)
+            if (_billTypes != null)
             {
-                billType.Qty = 0;
-                billType.Value = 0;
+                foreach (var billType in _billTypes)
+                {
+                    billType.Qty = 0;
+                    billType.Value = 0;
+                }
             }
         }
 
