@@ -1570,7 +1570,7 @@ namespace Y_POS.Core.Infrastructure.Decorators
             }
          }
 
-         public async System.Threading.Tasks.Task<YumaPos.Shared.API.ResponseDtos.TerminalResponseDto> GetTerminal(System.String terminalId)
+         public async System.Threading.Tasks.Task<YumaPos.Shared.API.ResponseDtos.TerminalResponseDto> GetTerminal(System.Guid terminalId)
          {
            try
             {

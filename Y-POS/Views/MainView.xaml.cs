@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Input;
 using DialogManagement.Contracts;
 using YumaPos.Client.Helpers;
 using YumaPos.Client.Navigation.Contracts;
+using Y_POS.Core.Extensions;
+using Y_POS.Core.Infrastructure.Notifications;
 
 namespace Y_POS.Views
 {
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class MainView : BaseView, IDialogHost
+    public partial class MainView : BaseView, IDialogHost, IToastManager
     {
         #region Fields
 
         private readonly Stack<DialogWindow> _dialogs = new Stack<DialogWindow>(3);
+
+        private readonly IObservable<long> _notificationObservable = Observable.Timer(TimeSpan.FromSeconds(2));
+        private IDisposable _notificationHandler;
 
         #endregion
 
@@ -80,6 +86,19 @@ namespace Y_POS.Views
         private void Page_OnContentChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             NavMenuContainer.Visibility = Visibility.Collapsed;
+        }
+
+        public void Show(string message)
+        {
+            _notificationHandler?.Dispose();
+            Notification.IsOpen = false;
+            NotificationMessage.Text = message;
+            Notification.IsOpen = true;
+            _notificationHandler = _notificationObservable.SubscribeToObserveOnUi(_ =>
+            {
+                Notification.IsOpen = false;
+                _notificationHandler = null;
+            });
         }
     }
 }

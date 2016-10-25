@@ -5,12 +5,13 @@ using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Account;
+using YumaPos.Client.Helpers;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.Services;
 using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using YumaPos.Shared.Core.Utils.Formating;
-using Y_POS.Core.Extensions;
+using Y_POS.Core.Infrastructure.Notifications;
 using Y_POS.Core.Properties;
 
 namespace Y_POS.Core.ViewModels.Pages
@@ -33,6 +34,8 @@ namespace Y_POS.Core.ViewModels.Pages
 
         [Reactive]
         public string FakePin { get; set; }
+
+        private IToastManager Toast => ServiceLocator.Resolve<IToastManager>();
 
         #endregion
 
@@ -103,7 +106,7 @@ namespace Y_POS.Core.ViewModels.Pages
             var state = await _employeeClockService.GetEmployeeClockState();
             if (state.IsClockIn)
             {
-                await ShowActionAlreadyPerformedNotification();
+                ShowActionAlreadyPerformedNotification();
                 return false;
             }
             await PerformOperation(UserActivityType.ClockIn);
@@ -116,7 +119,7 @@ namespace Y_POS.Core.ViewModels.Pages
             var state = await _employeeClockService.GetEmployeeClockState();
             if (!state.IsClockIn)
             {
-                await ShowActionAlreadyPerformedNotification();
+                ShowActionAlreadyPerformedNotification();
                 return false;
             }
             await PerformOperation(UserActivityType.ClockOut);
@@ -148,11 +151,11 @@ namespace Y_POS.Core.ViewModels.Pages
                     await _employeeClockService.BreakEndAsync();
                     break;
             }
-            await ShowOperationCompletedNotification(operation);
+            ShowOperationCompletedNotification(operation);
             return true;
         }
 
-        private Task ShowActionAlreadyPerformedNotification()
+        private void ShowActionAlreadyPerformedNotification()
         {
             /*var activityName = string.Empty;
             switch (activityType)
@@ -166,10 +169,11 @@ namespace Y_POS.Core.ViewModels.Pages
                 case UserActivityType.BreakEnd:
                     break;
             }*/
-            return DialogService.ShowNotificationMessageAsync("Operation already performed");
+            Toast.Show("Operation already performed");
+            //return DialogService.ShowNotificationMessageAsync("Operation already performed");
         }
 
-        private Task ShowOperationCompletedNotification(UserActivityType activityType)
+        private void ShowOperationCompletedNotification(UserActivityType activityType)
         {
             var username = FormattingUtils.FullName(_accountServiceManager.User.FirstName,
                 _accountServiceManager.User.LastName);
@@ -190,7 +194,8 @@ namespace Y_POS.Core.ViewModels.Pages
                     break;
             }
 
-            return DialogService.ShowNotificationMessageAsync(string.Format(message, username));
+            Toast.Show(string.Format(message, username));
+            //return DialogService.ShowNotificationMessageAsync(string.Format(message, username));
         }
 
         #endregion

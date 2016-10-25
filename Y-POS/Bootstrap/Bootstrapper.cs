@@ -34,11 +34,13 @@ using Y_POS.Core;
 using Y_POS.Core.Cashdrawer;
 using Y_POS.Core.Checkout;
 using Y_POS.Core.Infrastructure.Decorators;
+using Y_POS.Core.Infrastructure.Notifications;
 using Y_POS.Core.MockData;
 using Y_POS.Core.Receipt;
 using Y_POS.Core.ViewModels.PageParts;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Resources;
+using Y_POS.Views;
 using IReceiptBuilder = YumaPos.Client.Builders.IReceiptBuilder;
 
 namespace Y_POS.Bootstrap
@@ -133,6 +135,9 @@ namespace Y_POS.Bootstrap
 
             // Dialogs
             builder.Register<DialogManager>().As<IDialogManager>();
+
+            // Toast notifications
+            builder.Register<MainView>().As<IToastManager>().AsSelf();
             
             // Business logic
             builder.Register<OrderCreator>(Lifecycles.PerScope).As<IOrderCreator>();
