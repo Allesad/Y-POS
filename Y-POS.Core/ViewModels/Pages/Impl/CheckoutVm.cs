@@ -8,7 +8,6 @@ using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Common;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.UI.ViewModels.Contracts;
-using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using Y_POS.Core.Checkout;
 using Y_POS.Core.Extensions;
@@ -44,7 +43,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
     #endregion
 
-    public sealed class CheckoutVm : PageVm
+    public sealed class CheckoutVm : PosPageVm
     {
         #region Fields
 
@@ -264,7 +263,7 @@ namespace Y_POS.Core.ViewModels.Pages
             try
             {
                 await _controller.InitAsync(orderId);
-                CurrentOperationType = _controller.OrderIsPaid 
+                CurrentOperationType = _controller.OrderIsPaid
                     ? CheckoutOperationType.PaymentComplete
                     : CheckoutOperationType.Payment;
             }
@@ -273,6 +272,10 @@ namespace Y_POS.Core.ViewModels.Pages
                 Logger.Error(ex.Message, ex);
                 DialogService.ShowErrorMessage($"Cannot load order: {ex.Message}");
                 NavigationService.Back();
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
             }
         }
 

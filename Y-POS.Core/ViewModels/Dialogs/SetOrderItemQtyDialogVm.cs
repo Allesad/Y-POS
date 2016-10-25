@@ -6,11 +6,10 @@ using DialogManagement.Contracts;
 using DialogManagement.Core;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using YumaPos.Client.UI.ViewModels.Impl;
 
 namespace Y_POS.Core.ViewModels.Dialogs
 {
-    public sealed class SetOrderItemQtyDialogVm : BaseVm, IDialogButtonsConfigProvider
+    public sealed class SetOrderItemQtyDialogVm : PosBaseVm, IDialogButtonsConfigProvider
     {
         #region Properties
 

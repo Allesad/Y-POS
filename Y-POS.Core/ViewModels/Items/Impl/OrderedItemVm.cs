@@ -45,7 +45,7 @@ namespace Y_POS.Core.ViewModels.Items.Impl
                 .Select(
                     items =>
                         string.Join(" / ",
-                            items.Select(item => $"{item.Title} - {item.Qty.ToString()} x {item.Price.ToString("C")}")))
+                            items.Select(item => $"{item.Title} - {item.Qty.ToString()} x {item.Price:C}")))
                 .ToPropertyEx(this, vm => vm.Description);
         }
 

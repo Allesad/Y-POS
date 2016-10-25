@@ -72,9 +72,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ServerRuntimeErrorDecorator.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Decorators\UnauthorizeErrorApiDecorator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UnauthorizeErrorApiDecorator.tt</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\Error.cs" />
     <Compile Include="Infrastructure\Exceptions\NotEnoughAmountException.cs" />
     <Compile Include="Infrastructure\Exceptions\ServerRuntimeException.cs" />
+    <Compile Include="Infrastructure\Exceptions\UnauthorizedException.cs" />
     <Compile Include="Infrastructure\Guard.cs" />
     <Compile Include="Infrastructure\Notifications\IToastManager.cs" />
     <Compile Include="Infrastructure\ReflectionExtensions.cs" />
@@ -107,6 +113,7 @@
     </Compile>
     <Compile Include="Receipt\ReceiptBuilder.cs" />
     <Compile Include="Receipt\ReceiptTemplateFactory.cs" />
+    <Compile Include="ViewModels\PosBaseVm.cs" />
     <Compile Include="ViewModels\Dialogs\GiftCardNumberDialog.cs" />
     <Compile Include="ViewModels\Dialogs\ProcessingDialog.cs" />
     <Compile Include="ViewModels\Dialogs\SetOrderItemQtyDialogVm.cs" />
@@ -172,6 +179,8 @@
     <Compile Include="ViewModels\Pages\Impl\ReportsVm.cs" />
     <Compile Include="ViewModels\Pages\Impl\SettingsVm.cs" />
     <Compile Include="ViewModels\PageParts\Impl\SelectCustomerVm.cs" />
+    <Compile Include="ViewModels\PosLifecycleVm.cs" />
+    <Compile Include="ViewModels\PosPageVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -252,6 +261,10 @@
     <Content Include="Infrastructure\Decorators\ServerRuntimeErrorDecorator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ServerRuntimeErrorDecorator.cs</LastGenOutput>
+    </Content>
+    <Content Include="Infrastructure\Decorators\UnauthorizeErrorApiDecorator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UnauthorizeErrorApiDecorator.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

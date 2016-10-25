@@ -2,11 +2,10 @@
 using System.Threading;
 using DialogManagement.Contracts;
 using DialogManagement.Core;
-using YumaPos.Client.UI.ViewModels.Impl;
 
 namespace Y_POS.Core.ViewModels.Dialogs
 {
-    public sealed class ProcessingDialog : BaseVm, IDialogButtonsConfigProvider
+    public sealed class ProcessingDialog : PosBaseVm, IDialogButtonsConfigProvider
     {
         #region Fields
 

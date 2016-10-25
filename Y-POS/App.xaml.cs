@@ -14,6 +14,7 @@ using YumaPos.Client.App;
 using YumaPos.Client.Helpers;
 using YumaPos.Common.Infrastructure.IoC;
 using YumaPos.Common.Infrastructure.Logging;
+using YumaPos.WPF.UI.Controls;
 using Y_POS.Bootstrap;
 using Y_POS.Core.Infrastructure;
 using Y_POS.Core.ViewModels.Pages;
@@ -54,6 +55,7 @@ namespace Y_POS
             RxApp.TaskpoolScheduler = TaskPoolScheduler.Default;
             // Disable range notification to avoid "Range actions are not supported" in ListCollectionView from call from ReactiveList
             RxApp.SupportsRangeNotifications = false;
+            FileCache.AppCacheMode = FileCache.CacheMode.Dedicated;
 
             InitExceptionHandlers();
 

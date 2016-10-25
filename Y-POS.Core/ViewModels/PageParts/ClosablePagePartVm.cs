@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading;
-using YumaPos.Client.UI.ViewModels.Impl;
 
 namespace Y_POS.Core.ViewModels.PageParts
 {
-    public abstract class ClosablePagePartVm : BaseVm
+    public abstract class ClosablePagePartVm : PosBaseVm
     {
         #region Events
 

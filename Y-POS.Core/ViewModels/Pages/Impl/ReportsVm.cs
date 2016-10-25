@@ -1,8 +1,6 @@
-﻿using YumaPos.Client.UI.ViewModels.Impl;
-
-namespace Y_POS.Core.ViewModels.Pages
+﻿namespace Y_POS.Core.ViewModels.Pages
 {
-    public sealed class ReportsVm : PageVm, IReportsVm
+    public sealed class ReportsVm : PosPageVm, IReportsVm
     {
     }
 }

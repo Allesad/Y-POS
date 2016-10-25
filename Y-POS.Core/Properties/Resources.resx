@@ -559,4 +559,7 @@
   <data name="Toast_UserClockedOut" xml:space="preserve">
     <value>{0} clocked out</value>
   </data>
+  <data name="Dialog_Notification_UnauthorizedLogout" xml:space="preserve">
+    <value>Auto logout occured. Please, relogin to the application.</value>
+  </data>
 </root>

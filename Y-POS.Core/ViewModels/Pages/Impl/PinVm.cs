@@ -8,7 +8,6 @@ using YumaPos.Client.Account;
 using YumaPos.Client.Helpers;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.Services;
-using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using YumaPos.Shared.Core.Utils.Formating;
 using Y_POS.Core.Infrastructure.Notifications;
@@ -16,7 +15,7 @@ using Y_POS.Core.Properties;
 
 namespace Y_POS.Core.ViewModels.Pages
 {
-    public sealed class PinVm : PageVm, IPinVm
+    public sealed class PinVm : PosPageVm, IPinVm
     {
         #region Fields
 
@@ -34,8 +33,6 @@ namespace Y_POS.Core.ViewModels.Pages
 
         [Reactive]
         public string FakePin { get; set; }
-
-        private IToastManager Toast => ServiceLocator.Resolve<IToastManager>();
 
         #endregion
 

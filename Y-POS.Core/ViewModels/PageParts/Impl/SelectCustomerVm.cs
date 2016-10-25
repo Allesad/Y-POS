@@ -8,17 +8,19 @@ using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Extensions;
+using YumaPos.Client.Helpers;
 using YumaPos.Client.Services;
 using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using YumaPos.Shared.API.Models;
+using YumaPos.Shared.Infrastructure;
 using Y_POS.Core.Extensions;
 using Y_POS.Core.ViewModels.Items.Contracts;
 using Y_POS.Core.ViewModels.Items.Impl;
 
 namespace Y_POS.Core.ViewModels.PageParts
 {
-    public sealed class SelectCustomerVm : LifecycleVm, ISelectCustomerVm
+    public sealed class SelectCustomerVm : PosLifecycleVm, ISelectCustomerVm
     {
         #region Fields
 
@@ -127,7 +129,7 @@ namespace Y_POS.Core.ViewModels.PageParts
                 .Select(GetCustomers)
                 .Switch()
                 .Select(dto => dto.Results.Select(customerDto => new CustomerItemVm(customerDto)).ToArray())
-                .SubscribeToObserveOnUi(vms => Customers = vms);
+                .SubscribeToObserveOnUi(vms => Customers = vms, HandleError);
         }
 
         #endregion

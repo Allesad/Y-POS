@@ -1,0 +1,90 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Runtime" #>
+<#@ assembly name="System.Reflection" #>
+<#@ assembly name="$(SolutionDir)\Libs\YumaPos.Shared.Infrastructure.dll" #>
+<#@ assembly name="$(SolutionDir)\Y-POS.Core\bin\Debug\Y-POS.Core.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="YumaPos.Shared.Infrastructure" #>
+<#@ import namespace="Y_POS.Core.Infrastructure" #>
+<#@ output extension=".cs" #>
+
+<#
+
+    var t = typeof(ITerminalApi);
+
+    var template = @"           try
+            {
+                return await _actor.{placeholder};
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.Flatten().InnerExceptions.OfType<FaultException>().Any(e => e.Code.Name.Equals(""401""))) throw new UnauthorizedException();
+                throw;
+            }";
+
+    var voidTemplate = "            _actor.{placeholder};";
+
+    var placeholder = "{placeholder}";
+
+ #>
+using System;
+using System.Linq;
+using System.ServiceModel;
+using YumaPos.Shared.Infrastructure;
+using YumaPos.Client.Navigation.Contracts;
+using YumaPos.FrontEnd.Infrastructure.CommandProcessing;
+using Y_POS.Core.Infrastructure.Exceptions;
+
+namespace Y_POS.Core.Infrastructure.Decorators
+{
+	public sealed class UnauthorizeErrorApiDecorator : <#= t.Name #>
+	{
+        #region Fields
+
+        private readonly <#= t.Name #> _actor;
+
+        #endregion
+
+		#region Properties
+
+		public ExecutionContext ExecutionContext 
+        {
+            get { return _actor.ExecutionContext; }
+            set { _actor.ExecutionContext = value; }
+        }
+
+		#endregion
+
+		public UnauthorizeErrorApiDecorator(<#= t.Name #> actor)
+		{
+			if (actor == null) throw new ArgumentNullException(nameof(actor));
+
+		    _actor = actor;
+		}
+
+<#
+
+    var methodsWithoutProperties = from m in t.GetMethods()
+            where !t.GetProperties().Any(p => p.GetGetMethod() == m || p.GetSetMethod() == m)
+            select m;
+
+    foreach(var m in methodsWithoutProperties){
+        Write("         ");
+        WriteLine(m.GenerateMethodSignature());
+        WriteLine("         {");
+        if (m.ReturnType.IsVoid()){
+            WriteLine(m.GetMethodBody(voidTemplate, placeholder));
+        }else{
+            WriteLine(m.GetMethodBody(template, placeholder));
+        }
+        WriteLine("         }");
+        WriteLine("");
+    }
+
+ #>
+	}
+}

@@ -11,7 +11,7 @@ using Y_POS.Core.ViewModels.Items.Contracts;
 
 namespace Y_POS.Core.ViewModels.Items.Impl
 {
-    public class NavMenuItemVm : BaseVm, INavMenuItemVm
+    public class NavMenuItemVm : PosBaseVm, INavMenuItemVm
     {
         #region Properties
 

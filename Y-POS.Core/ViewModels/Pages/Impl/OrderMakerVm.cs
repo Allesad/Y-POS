@@ -25,7 +25,7 @@ using Y_POS.Core.ViewModels.PageParts;
 
 namespace Y_POS.Core.ViewModels.Pages
 {
-    public sealed class OrderMakerVm : PageVm, IOrderMakerVm
+    public sealed class OrderMakerVm : PosPageVm, IOrderMakerVm
     {
         #region Fields
 

@@ -10,7 +10,6 @@ using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using YumaPos.Shared.API.Models;
 using YumaPos.Shared.Core.Utils.Formating;
-using Y_POS.Core.Extensions;
 using Y_POS.Core.ViewModels.Items.Contracts;
 
 namespace Y_POS.Core.ViewModels.Items.Impl

@@ -9,7 +9,6 @@ using DialogManagement.Contracts;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Services;
-using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Common.Infrastructure.BusinessLogic.Tendering;
 using Y_POS.Core.Checkout;
 using Y_POS.Core.Enums;
@@ -21,7 +20,7 @@ using Y_POS.Core.ViewModels.Dialogs;
 
 namespace Y_POS.Core.ViewModels.PageParts
 {
-    public class PaymentVm : BaseVm, IPaymentVm
+    public class PaymentVm : PosBaseVm, IPaymentVm
     {
         public enum PaymentMode
         {
