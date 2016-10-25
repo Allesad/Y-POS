@@ -10,14 +10,13 @@ using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Builders;
 using YumaPos.Client.Common;
 using YumaPos.Client.Extensions;
-using YumaPos.Client.UI.ViewModels.Impl;
 using Y_POS.Core.Extensions;
 using Y_POS.Core.ViewModels.Items.Contracts;
 using Y_POS.Core.ViewModels.Items.Impl;
 
 namespace Y_POS.Core.ViewModels.PageParts
 {
-    public sealed class OrderItemConstructorVm : LifecycleVm, IOrderItemConstructorVm
+    public sealed class OrderItemConstructorVm : PosLifecycleVm, IOrderItemConstructorVm
     {
         #region Fields
 

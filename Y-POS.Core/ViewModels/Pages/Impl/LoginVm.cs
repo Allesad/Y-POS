@@ -6,11 +6,10 @@ using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Account;
 using YumaPos.Client.Common;
 using YumaPos.Client.Navigation;
-using YumaPos.Client.UI.ViewModels.Impl;
 
 namespace Y_POS.Core.ViewModels.Pages
 {
-    public sealed class LoginVm : PageVm, ILoginVm
+    public sealed class LoginVm : PosPageVm, ILoginVm
     {
         #region Fields
 

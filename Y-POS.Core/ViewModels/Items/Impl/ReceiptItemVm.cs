@@ -35,7 +35,7 @@ namespace Y_POS.Core.ViewModels.Items.Impl
 
         public override string ToString()
         {
-            return $"Receipt {SplittingNumber.ToString("D")}\tTotal: {Total.ToString("C")}";
+            return $"Receipt {SplittingNumber:D}\tTotal: {Total:C}";
         }
     }
 }

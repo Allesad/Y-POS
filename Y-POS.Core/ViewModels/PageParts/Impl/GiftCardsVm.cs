@@ -17,7 +17,7 @@ using Y_POS.Core.ViewModels.Items.Impl;
 
 namespace Y_POS.Core.ViewModels.PageParts
 {
-    public sealed class GiftCardsVm : LifecycleVm, IGiftCardsVm
+    public sealed class GiftCardsVm : PosLifecycleVm, IGiftCardsVm
     {
         private enum SectionType
         {

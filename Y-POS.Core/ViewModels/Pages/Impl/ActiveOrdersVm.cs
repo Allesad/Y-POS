@@ -8,18 +8,17 @@ using YumaPos.Client.Common;
 using YumaPos.Client.Extensions;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.Services;
-using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using Y_POS.Core.ViewModels.Items.Contracts;
 using Y_POS.Core.ViewModels.Items.Impl;
 
 namespace Y_POS.Core.ViewModels.Pages
 {
-    public class ActiveOrdersVm : PageVm, IActiveOrdersVm
+    public class ActiveOrdersVm : PosPageVm, IActiveOrdersVm
     {
-        private readonly IOrderService _orderService;
-
         #region Fields
+
+        private readonly IOrderService _orderService;
 
         private ReactiveCommand<object> _commandCreateOrder;
         private ReactiveCommand<object> _commandCheckout;
@@ -95,7 +94,7 @@ namespace Y_POS.Core.ViewModels.Pages
             _orderService.GetActiveOrdersResponse(0, 30)
                 .Select(dto => dto.Results.Select(orderDto => new ActiveOrderItemVm(orderDto)).ToArray())
                 .ObserveOn(SchedulerService.UiScheduler)
-                .Subscribe(dtos => Items = dtos);
+                .Subscribe(dtos => Items = dtos, HandleError);
         }
 
         #endregion
@@ -110,7 +109,7 @@ namespace Y_POS.Core.ViewModels.Pages
             }
             catch (Exception ex)
             {
-                DialogService.CreateMessageDialog(ex.Message, "Error").Show();
+                HandleError(ex);
             }
         }
 
@@ -121,7 +120,7 @@ namespace Y_POS.Core.ViewModels.Pages
             if (res)
             {
                 _orderService.UpdateOrderStatus(orderId, (int) OrderStatus.Void)
-                    .Subscribe(_ => {}, () => ((ActiveOrderItemVm) Items.First(vm => vm.ToGuid() == orderId)).UpdateStatus(OrderStatus.Void));
+                    .Subscribe(_ => {}, HandleError, () => ((ActiveOrderItemVm) Items.First(vm => vm.ToGuid() == orderId)).UpdateStatus(OrderStatus.Void));
             }
         }
 

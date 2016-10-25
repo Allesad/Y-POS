@@ -16,7 +16,7 @@ using Y_POS.Core.ViewModels.Items.Impl;
 
 namespace Y_POS.Core.ViewModels.PageParts
 {
-    public sealed class OrderMakerMenuVm : LifecycleVm, IOrderMakerMenuVm
+    public sealed class OrderMakerMenuVm : PosLifecycleVm, IOrderMakerMenuVm
     {
         #region Fields
 

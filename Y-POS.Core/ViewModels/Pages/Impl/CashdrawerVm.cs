@@ -1,22 +1,15 @@
 ﻿using System;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using YumaPos.Client.Common;
-using YumaPos.Client.Helpers;
 using YumaPos.Client.Services;
-using YumaPos.Client.UI.ViewModels.Impl;
-using YumaPos.Shared.API.Enums;
 using YumaPos.Shared.API.Models;
-using YumaPos.Shared.API.ResponseDtos;
 using Y_POS.Core.Cashdrawer;
 using Y_POS.Core.Extensions;
-using Y_POS.Core.Infrastructure.Notifications;
 using Y_POS.Core.Properties;
 using Y_POS.Core.ViewModels.Items.Impl;
 
@@ -40,7 +33,7 @@ namespace Y_POS.Core.ViewModels.Pages
         PerformanceLog
     }
 
-    public sealed class CashdrawerVm : PageVm, ICashdrawerVm
+    public sealed class CashdrawerVm : PosPageVm, ICashdrawerVm
     {
         #region Fields
         
@@ -77,8 +70,6 @@ namespace Y_POS.Core.ViewModels.Pages
         public decimal CheckTotal { get; set; }
         [Reactive]
         public bool IsCashierIn { get; private set; }
-
-        private IToastManager Toast => ServiceLocator.Resolve<IToastManager>();
 
         #endregion
 
@@ -159,6 +150,13 @@ namespace Y_POS.Core.ViewModels.Pages
             // Command Go to state
             AddLifetimeSubscription(_commandGoToState.Select(param => (CashdrawerState) param).SubscribeToObserveOnUi(state => State = state));
 
+            // Handle command exceptions
+            AddLifetimeSubscription(_commandCashierIn.ThrownExceptions
+                .Merge(_commandCashierOut.ThrownExceptions)
+                .Merge(_commandPerformOperation.ThrownExceptions)
+                .Merge(_commandUpdateLog.ThrownExceptions)
+                .Subscribe(HandleError));
+
             // CashierBy tracking
             var cashierByStream = this.WhenAnyValue(vm => vm.CashierBy);
             AddLifetimeSubscription(cashierByStream.Select(cashierBy => cashierBy == CashierBy.Amount)
@@ -185,7 +183,7 @@ namespace Y_POS.Core.ViewModels.Pages
                     {
                         new BillTypeItem(), 
                     }).ToArray())
-                .SubscribeToObserveOnUi(items => BillTypes = items);
+                .SubscribeToObserveOnUi(items => BillTypes = items, HandleError);
         }
 
         #endregion
@@ -255,47 +253,8 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private Task<CashierLogItemVm[]> GetLogAsync()
         {
-            /*return _cashDrawerService.GetLogResponse(GetFilter())
-                .Select(dto => dto.Results)*/
-            return Observable.Return(new[]
-                {
-                    new CashDrawerItemDto
-                    {
-                        Activity = CashDrawerActivity.BankWithdraw,
-                        Amount = 15,
-                        Date = DateTime.Now
-                    },
-                    new CashDrawerItemDto
-                    {
-                        Activity = CashDrawerActivity.CashIn,
-                        Amount = 15,
-                        Date = DateTime.Now
-                    },
-                    new CashDrawerItemDto
-                    {
-                        Activity = CashDrawerActivity.CashOut,
-                        Amount = 15,
-                        Date = DateTime.Now
-                    },
-                    new CashDrawerItemDto
-                    {
-                        Activity = CashDrawerActivity.Tips,
-                        Amount = 15,
-                        Date = DateTime.Now
-                    },
-                    new CashDrawerItemDto
-                    {
-                        Activity = CashDrawerActivity.Check,
-                        Amount = 15,
-                        Date = DateTime.Now
-                    },
-                    new CashDrawerItemDto
-                    {
-                        Activity = CashDrawerActivity.Refund,
-                        Amount = 15,
-                        Date = DateTime.Now
-                    },
-                })
+            return _cashDrawerService.GetLogResponse(GetFilter())
+                .Select(dto => dto.Results)
                 .Select(dtos => dtos.Select(dto => new CashierLogItemVm(dto)).ToArray()).ToTask();
         }
 

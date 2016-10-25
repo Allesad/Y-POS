@@ -557,4 +557,7 @@
   <data name="Toast_UserClockedOut" xml:space="preserve">
     <value>{0} закончил работу</value>
   </data>
+  <data name="Dialog_Notification_UnauthorizedLogout" xml:space="preserve">
+    <value>Произошел автоматический выход. Пожалуйста, залогиньтесь заново.</value>
+  </data>
 </root>

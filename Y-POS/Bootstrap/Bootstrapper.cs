@@ -88,6 +88,9 @@ namespace Y_POS.Bootstrap
             builder.Register(ctx =>
             {
                 ITerminalApi api = ctx.Resolve<TerminalApi>();
+                // Handle unauthorized exceptions
+                api = new UnauthorizeErrorApiDecorator(api);
+                // Handle server unhandled exceptions
                 api = new ServerRuntimeErrorDecorator(api);
                 if (UseTimeLoggerForApi)
                 {

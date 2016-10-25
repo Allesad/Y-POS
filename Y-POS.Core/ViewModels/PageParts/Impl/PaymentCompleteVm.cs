@@ -6,7 +6,6 @@ using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Navigation;
-using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
 using Y_POS.Core.Checkout;
 using Y_POS.Core.Extensions;
@@ -22,7 +21,7 @@ namespace Y_POS.Core.ViewModels.PageParts
         Prepared
     }
 
-    public sealed class PaymentCompleteVm : BaseVm, IPaymentCompleteVm
+    public sealed class PaymentCompleteVm : PosBaseVm, IPaymentCompleteVm
     {
         #region Fields
 

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using DialogManagement.Contracts;
 using DialogManagement.Core;
-using YumaPos.Client.UI.ViewModels.Impl;
 
 namespace Y_POS.Core.ViewModels.Dialogs
 {
-    public sealed class GiftCardNumberDialog : BaseVm, IDialogButtonsConfigProvider, IDisposable
+    public sealed class GiftCardNumberDialog : PosBaseVm, IDialogButtonsConfigProvider, IDisposable
     {
         #region Fields
 

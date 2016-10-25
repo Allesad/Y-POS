@@ -539,6 +539,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto logout occured. Please, relogin to the application..
+        /// </summary>
+        public static string Dialog_Notification_UnauthorizedLogout {
+            get {
+                return ResourceManager.GetString("Dialog_Notification_UnauthorizedLogout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirmation.
         /// </summary>
         public static string Dialog_Title_Confirmation {
