@@ -143,6 +143,5 @@ namespace Y_POS.Views
         }
 
         #endregion
-
     }
 }

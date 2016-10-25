@@ -22,11 +22,14 @@
             <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
             <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
         </Style>
+        
+        <SolidColorBrush x:Key="ToastBg" Color="#212121" Opacity="0.8"/>
 
     </UserControl.Resources>
 
     <DockPanel HorizontalAlignment="Center"
                VerticalAlignment="Center"
+               Name="Container"
                Height="542">
 
         <!-- RIGHT PANEL -->
@@ -60,7 +63,7 @@
             <Button Name="BreakBtn"
                     Style="{StaticResource ActionButton}"
                     Content="{Binding Source={x:Static p:Resources.Action_Break}, Converter={StaticResource UpperCaseCoverter}}"
-                    Command="{Binding CommandBreak}" />
+                    Command="{Binding CommandBreak}"/>
         </StackPanel>
 
         <StackPanel Background="{StaticResource SemiTransparentBg}"
@@ -88,6 +91,7 @@
                                            HorizontalAlignment="Center"
                                            Margin="0,0,0,40"
                                            ButtonClick="Keypad_OnButtonClick" />
+            
         </StackPanel>
 
     </DockPanel>

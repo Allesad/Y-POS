@@ -52,5 +52,6 @@
     <SolidColorBrush x:Key="DefaultBg" Color="{StaticResource SecondaryColor}"/>
     <SolidColorBrush x:Key="SemiTransparentBg" Color="{StaticResource SecondaryColor}" Opacity="0.6"/>
     <SolidColorBrush x:Key="SemiTransparentDimmedBg" Color="{StaticResource TextColor}" Opacity="0.3"/>
-    
+    <SolidColorBrush x:Key="ToastBg" Color="#212121" Opacity="0.8"/>
+
 </ResourceDictionary>

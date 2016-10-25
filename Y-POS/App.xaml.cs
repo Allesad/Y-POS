@@ -108,14 +108,13 @@ namespace Y_POS
             var screenWidth = SystemParameters.PrimaryScreenWidth;
             var screenHeight = SystemParameters.PrimaryScreenHeight;
 
-            IAppMainVm mainVm = resolver.Resolve<IAppMainVm>();
+            var mainVm = resolver.Resolve<IAppMainVm>();
             mainVm.Init();
+            var mainView = resolver.Resolve<MainView>();
+            mainView.DataContext = mainVm;
             MainWindow = new MainWindow
             {
-                Content = new MainView
-                {
-                    DataContext = mainVm
-                }
+                Content = mainView
             };
             MainWindow.Left = screenWidth / 2f - MainWindow.Width / 2f;
             MainWindow.Top = screenHeight / 2f - MainWindow.Height / 2f;

@@ -10,29 +10,53 @@
                 d:DesignHeight="768"
                 d:DesignWidth="1024"
                 d:DataContext="{d:DesignInstance pages:IAppMainVm, d:IsDesignTimeCreatable=False}">
-    
+
     <UserControl.CommandBindings>
-        <CommandBinding Command="NavigationCommands.BrowseBack" Executed="OnBrowseBack"/>
-        <CommandBinding Command="NavigationCommands.NavigateJournal" Executed="OnSwitchMenuState"/>
+        <CommandBinding Command="NavigationCommands.BrowseBack" Executed="OnBrowseBack" />
+        <CommandBinding Command="NavigationCommands.NavigateJournal" Executed="OnSwitchMenuState" />
     </UserControl.CommandBindings>
 
     <Grid Name="MainContainer">
 
-        <controls:ContentPresenterEx x:Name="ContentContainer" 
-                                     Content="{Binding CurrentPage}" ContentChanged="Page_OnContentChanged"/>
+        <controls:ContentPresenterEx x:Name="ContentContainer"
+                                     Content="{Binding CurrentPage}" ContentChanged="Page_OnContentChanged" />
 
         <Grid Grid.Row="0"
               Name="NavMenuContainer"
               Visibility="Collapsed"
               Margin="0,0,0,75">
-            <views:NavMenuView DataContext="{Binding NavMenuVm, Mode=OneTime}"/>
+            <views:NavMenuView DataContext="{Binding NavMenuVm, Mode=OneTime}" />
         </Grid>
         
+        <Border Name="NotificationBox"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Stretch"
+                Height="220"
+                />
+
+        <Popup Name="Notification"
+               StaysOpen="True"
+               MaxWidth="240"
+               Placement="Center"
+               PlacementTarget="{Binding ElementName=NotificationBox}"
+               PopupAnimation="Fade"
+               AllowsTransparency="True">
+            <Border Background="{StaticResource ToastBg}">
+                <TextBlock Margin="10,5"
+                           Name="NotificationMessage"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           Foreground="{StaticResource PrimaryBrush}"
+                           FontSize="20">
+                </TextBlock>
+            </Border>
+        </Popup>
+
         <!-- SHADOW LAYER TO SHOW WHILE DIALOG IS OPEN -->
         <Border Name="ShadowOverlay"
                 Visibility="Collapsed">
             <Border.Background>
-                <SolidColorBrush Color="#030303" Opacity="0.5"/>
+                <SolidColorBrush Color="#030303" Opacity="0.5" />
             </Border.Background>
         </Border>
     </Grid>
