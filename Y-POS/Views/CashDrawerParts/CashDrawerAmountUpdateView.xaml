@@ -62,6 +62,7 @@
                      TextChanged="AmountInput_OnTextChanged" />
 
             <controls:NumericKeypadControl x:Name="Keypad"
+                                           ShowSeparatorSymbol="True"
                                            HorizontalAlignment="Center" 
                                            TargetBox="{Binding ElementName=AmountTb}"/>
         </StackPanel>

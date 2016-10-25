@@ -8,6 +8,7 @@ using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Common;
+using YumaPos.Client.Helpers;
 using YumaPos.Client.Services;
 using YumaPos.Client.UI.ViewModels.Impl;
 using YumaPos.Shared.API.Enums;
@@ -15,6 +16,7 @@ using YumaPos.Shared.API.Models;
 using YumaPos.Shared.API.ResponseDtos;
 using Y_POS.Core.Cashdrawer;
 using Y_POS.Core.Extensions;
+using Y_POS.Core.Infrastructure.Notifications;
 using Y_POS.Core.Properties;
 using Y_POS.Core.ViewModels.Items.Impl;
 
@@ -75,6 +77,8 @@ namespace Y_POS.Core.ViewModels.Pages
         public decimal CheckTotal { get; set; }
         [Reactive]
         public bool IsCashierIn { get; private set; }
+
+        private IToastManager Toast => ServiceLocator.Resolve<IToastManager>();
 
         #endregion
 
@@ -150,7 +154,7 @@ namespace Y_POS.Core.ViewModels.Pages
             AddLifetimeSubscription(_commandUpdateLog.SubscribeToObserveOnUi(logItems => LogItems = logItems));
 
             // Command Open drawer
-            AddLifetimeSubscription(_commandOpenDrawer.SubscribeToObserveOnUi(_ => DialogService.ShowNotificationMessage("Drawer opened")));
+            AddLifetimeSubscription(_commandOpenDrawer.SubscribeToObserveOnUi(_ => Toast.Show("Drawer opened")));
 
             // Command Go to state
             AddLifetimeSubscription(_commandGoToState.Select(param => (CashdrawerState) param).SubscribeToObserveOnUi(state => State = state));
@@ -163,17 +167,18 @@ namespace Y_POS.Core.ViewModels.Pages
                 .ToPropertyEx(this, vm => vm.IsBillTypeInputEnabled));
         }
 
-        protected override async void OnCreate(IArgsBundle args)
+        protected override async void OnStart()
         {
             if (!_cashier.IsInitialized)
             {
                 await _cashier.InitAsync();
                 State = _cashier.IsCashierIn ? CashdrawerState.PerformanceLog : CashdrawerState.CashierIn;
             }
-        }
+            else
+            {
+                State = _cashier.IsCashierIn ? CashdrawerState.PerformanceLog : CashdrawerState.CashierIn;
+            }
 
-        protected override void OnStart()
-        {
             _cashDrawerService.GetMoneyTypes()
                 .Select(types => types.Select(type => new BillTypeItem((int) type.Value))
                     .Concat(new[]

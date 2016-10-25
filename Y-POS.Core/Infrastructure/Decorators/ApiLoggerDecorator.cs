@@ -589,7 +589,7 @@ return await _actor.GetSystemSettings(listOfSystemSettings);
 }
          }
 
-         public async System.Threading.Tasks.Task<YumaPos.Shared.API.ResponseDtos.TerminalResponseDto> GetTerminal(System.String terminalId)
+         public async System.Threading.Tasks.Task<YumaPos.Shared.API.ResponseDtos.TerminalResponseDto> GetTerminal(System.Guid terminalId)
          {
 using (TimeLogger.GetTimeLogger("GetTerminal"))
 {

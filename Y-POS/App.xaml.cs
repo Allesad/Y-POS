@@ -15,7 +15,6 @@ using YumaPos.Client.Helpers;
 using YumaPos.Common.Infrastructure.IoC;
 using YumaPos.Common.Infrastructure.Logging;
 using Y_POS.Bootstrap;
-using Y_POS.Core.Cashdrawer;
 using Y_POS.Core.Infrastructure;
 using Y_POS.Core.ViewModels.Pages;
 using Y_POS.Views;
@@ -109,14 +108,13 @@ namespace Y_POS
             var screenWidth = SystemParameters.PrimaryScreenWidth;
             var screenHeight = SystemParameters.PrimaryScreenHeight;
 
-            IAppMainVm mainVm = resolver.Resolve<IAppMainVm>();
+            var mainVm = resolver.Resolve<IAppMainVm>();
             mainVm.Init();
+            var mainView = resolver.Resolve<MainView>();
+            mainView.DataContext = mainVm;
             MainWindow = new MainWindow
             {
-                Content = new MainView
-                {
-                    DataContext = mainVm
-                }
+                Content = mainView
             };
             MainWindow.Left = screenWidth / 2f - MainWindow.Width / 2f;
             MainWindow.Top = screenHeight / 2f - MainWindow.Height / 2f;

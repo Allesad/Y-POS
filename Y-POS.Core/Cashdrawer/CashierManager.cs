@@ -173,7 +173,6 @@ namespace Y_POS.Core.Cashdrawer
         {
             CheckInitialized();
             CheckCashierIn();
-            Guard.IsPositive(amount, nameof(amount));
 
             return PerformCheckInternal(amount, CancellationToken.None);
         }

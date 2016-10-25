@@ -92,7 +92,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         protected override void OnStart()
         {
-            _orderService.GetActiveOrdersResponse()
+            _orderService.GetActiveOrdersResponse(0, 30)
                 .Select(dto => dto.Results.Select(orderDto => new ActiveOrderItemVm(orderDto)).ToArray())
                 .ObserveOn(SchedulerService.UiScheduler)
                 .Subscribe(dtos => Items = dtos);

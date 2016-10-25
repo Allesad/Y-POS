@@ -547,4 +547,16 @@
     <value>Requested amount is greater than avaiable balance</value>
     <comment>For cases when user is trying to extract from cashdrawer more money than available</comment>
   </data>
+  <data name="Toast_UserBreakEnded" xml:space="preserve">
+    <value>{0} ended break</value>
+  </data>
+  <data name="Toast_UserBreakStarted" xml:space="preserve">
+    <value>{0} started break</value>
+  </data>
+  <data name="Toast_UserClockedIn" xml:space="preserve">
+    <value>{0} clocked in</value>
+  </data>
+  <data name="Toast_UserClockedOut" xml:space="preserve">
+    <value>{0} clocked out</value>
+  </data>
 </root>

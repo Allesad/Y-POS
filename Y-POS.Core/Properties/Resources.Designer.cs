@@ -1277,6 +1277,42 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} ended break.
+        /// </summary>
+        public static string Toast_UserBreakEnded {
+            get {
+                return ResourceManager.GetString("Toast_UserBreakEnded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} started break.
+        /// </summary>
+        public static string Toast_UserBreakStarted {
+            get {
+                return ResourceManager.GetString("Toast_UserBreakStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} clocked in.
+        /// </summary>
+        public static string Toast_UserClockedIn {
+            get {
+                return ResourceManager.GetString("Toast_UserClockedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} clocked out.
+        /// </summary>
+        public static string Toast_UserClockedOut {
+            get {
+                return ResourceManager.GetString("Toast_UserClockedOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
         public static string Total {

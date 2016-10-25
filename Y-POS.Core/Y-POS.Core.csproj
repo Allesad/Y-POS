@@ -76,6 +76,7 @@
     <Compile Include="Infrastructure\Exceptions\NotEnoughAmountException.cs" />
     <Compile Include="Infrastructure\Exceptions\ServerRuntimeException.cs" />
     <Compile Include="Infrastructure\Guard.cs" />
+    <Compile Include="Infrastructure\Notifications\IToastManager.cs" />
     <Compile Include="Infrastructure\ReflectionExtensions.cs" />
     <Compile Include="Infrastructure\ResponseMessage.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />

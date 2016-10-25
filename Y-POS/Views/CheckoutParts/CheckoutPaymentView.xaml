@@ -231,6 +231,7 @@
             <!-- KEYPAD -->
             <controls:NumericKeypadControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                                            x:Name="KeypadControl"
+                                           ShowSeparatorSymbol="True"
                                            Visibility="{Binding Mode, Mode=OneWay, Converter={StaticResource ModeToVisibilityConverter},
                                                 ConverterParameter=default}" />
 

@@ -44,6 +44,36 @@ namespace Y_POS.Controls
 
         #endregion
 
+        #region Show separator symbol
+
+        public static readonly DependencyProperty ShowSeparatorSymbolProperty = DependencyProperty.Register(
+            "ShowSeparatorSymbol", typeof(bool), typeof(NumericKeypadControl), new PropertyMetadata(default(bool), OnShowSeparatorSymbolChanged));
+
+        private static void OnShowSeparatorSymbolChanged(DependencyObject o, DependencyPropertyChangedEventArgs args)
+        {
+            var control = (NumericKeypadControl) o;
+            var showSeparator = (bool) args.NewValue;
+            var separatorBtn = control.GetTemplateChild("PART_Dot") as Button;
+            var clearBtn = control.GetTemplateChild("PART_Clear") as Button;
+
+            if (separatorBtn != null)
+            {
+                separatorBtn.Visibility = showSeparator ? Visibility.Visible : Visibility.Collapsed;
+            }
+            if (clearBtn != null)
+            {
+                clearBtn.Visibility = showSeparator ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        public bool ShowSeparatorSymbol
+        {
+            get { return (bool) GetValue(ShowSeparatorSymbolProperty); }
+            set { SetValue(ShowSeparatorSymbolProperty, value); }
+        }
+
+        #endregion
+
         #region ButtonClick event
 
         public static readonly RoutedEvent ButtonClickEvent =
@@ -92,8 +122,12 @@ namespace Y_POS.Controls
             if (partName.Equals("PART_Dot", StringComparison.Ordinal))
             {
                 btn.Content = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+                btn.Visibility = ShowSeparatorSymbol ? Visibility.Visible : Visibility.Collapsed;
             }
-
+            else if (partName.Equals("PART_Clear"))
+            {
+                btn.Visibility = ShowSeparatorSymbol ? Visibility.Collapsed : Visibility.Visible;
+            }
             btn.Click += BtnOnClick;
         }
 
