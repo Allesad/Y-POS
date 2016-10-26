@@ -50,6 +50,8 @@
     <Compile Include="Behaviors\TouchScrollingBehavior.cs" />
     <Compile Include="Controls\CachedImage.cs" />
     <Compile Include="Controls\IconButton.cs" />
+    <Compile Include="Controls\PaginationControl.cs" />
+    <Compile Include="Controls\RepeatIconButton.cs" />
     <Compile Include="Controls\SearchTextBox.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />

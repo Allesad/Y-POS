@@ -5,12 +5,10 @@ using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using YumaPos.Client.Account;
-using YumaPos.Client.Helpers;
 using YumaPos.Client.Navigation;
 using YumaPos.Client.Services;
 using YumaPos.Shared.API.Enums;
 using YumaPos.Shared.Core.Utils.Formating;
-using Y_POS.Core.Infrastructure.Notifications;
 using Y_POS.Core.Properties;
 
 namespace Y_POS.Core.ViewModels.Pages
@@ -154,20 +152,7 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private void ShowActionAlreadyPerformedNotification()
         {
-            /*var activityName = string.Empty;
-            switch (activityType)
-            {
-                case UserActivityType.ClockIn:
-                    break;
-                case UserActivityType.ClockOut:
-                    break;
-                case UserActivityType.BreakStart:
-                    break;
-                case UserActivityType.BreakEnd:
-                    break;
-            }*/
             Toast.Show("Operation already performed");
-            //return DialogService.ShowNotificationMessageAsync("Operation already performed");
         }
 
         private void ShowOperationCompletedNotification(UserActivityType activityType)
@@ -192,7 +177,6 @@ namespace Y_POS.Core.ViewModels.Pages
             }
 
             Toast.Show(string.Format(message, username));
-            //return DialogService.ShowNotificationMessageAsync(string.Format(message, username));
         }
 
         #endregion
