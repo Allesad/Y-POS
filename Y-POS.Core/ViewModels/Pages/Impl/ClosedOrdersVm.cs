@@ -10,6 +10,7 @@ using YumaPos.Client.Services;
 using YumaPos.Shared.API.Models;
 using Y_POS.Core.Extensions;
 using Y_POS.Core.Infrastructure;
+using Y_POS.Core.Properties;
 using Y_POS.Core.ViewModels.Dialogs;
 using Y_POS.Core.ViewModels.Items.Impl;
 
@@ -49,6 +50,12 @@ namespace Y_POS.Core.ViewModels.Pages
 
         [Reactive]
         public int PageSize { get; set; }
+
+        [Reactive]
+        public DateTime? DateStart { get; set; }
+
+        [Reactive]
+        public DateTime? DateEnd { get; set; }
 
         [Reactive]
         private int OrdersCount { get; set; }
@@ -148,18 +155,20 @@ namespace Y_POS.Core.ViewModels.Pages
 
         private IObservable<FilteredRestaurantOrdersDto> ClosedOrdersStream()
         {
-            return this.WhenAny(vm => vm.PageNumber, vm => vm.PageSize, vm => vm.SearchText,
-                    (pageNumber, pageSize, query) => new
+            return this.WhenAny(vm => vm.PageNumber, vm => vm.PageSize, vm => vm.SearchText, vm => vm.DateStart, vm => vm.DateEnd,
+                    (pageNumber, pageSize, query, dateStart, dateEnd) => new
                     {
                         Number = pageNumber.Value,
                         Size = pageSize.Value,
-                        Search = query.Value
+                        Search = query.Value,
+                        DateStart = dateStart.Value,
+                        DateEnd = dateEnd.Value
                     })
                 .Throttle(TimeSpan.FromMilliseconds(200))
                 .Select(args => _orderService.GetClosedOrders(
                         (args.Number - 1) * args.Size,
                         args.Size,
-                        null, null,
+                        args.DateStart, args.DateEnd,
                         args.Search
                     ))
                 .Switch();
@@ -169,7 +178,7 @@ namespace Y_POS.Core.ViewModels.Pages
         {
             DialogService.CreateCustomDialog(
                 new OrderTransactionsViewerDialog(transactions),
-                orderNumber != -1 ? $"Transactions for order #{orderNumber}" : string.Empty).Show();
+                orderNumber != -1 ? string.Format(Resources.Placeholder_TransactionsForOrder, orderNumber) : string.Empty).Show();
         }
 
         #endregion

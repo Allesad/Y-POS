@@ -1043,6 +1043,15 @@ namespace Y_POS.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Transactions for order #{0}.
+        /// </summary>
+        public static string Placeholder_TransactionsForOrder {
+            get {
+                return ResourceManager.GetString("Placeholder_TransactionsForOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Print.
         /// </summary>
         public static string Print {

@@ -106,7 +106,7 @@
                    LastChildFill="False">
 
             <!-- TODO: Replace with single selector control later -->
-            <ComboBox DockPanel.Dock="Left"
+            <!--<ComboBox DockPanel.Dock="Left"
                       MinWidth="110"
                       Background="Transparent"
                       VerticalAlignment="Stretch"
@@ -132,7 +132,20 @@
                 <customControls:RepeatIconButton Style="{StaticResource NavigationNextSmallBtn}"
                                            BorderThickness="1,0,0,0"
                                            BorderBrush="{StaticResource SeparatorBrush}" />
-            </StackPanel>
+            </StackPanel>-->
+            
+            <DatePicker DockPanel.Dock="Left"
+                        Name="DateStartDp"
+                        VerticalAlignment="Center"
+                        Margin="15,0"
+                        SelectedDate="{Binding DateStart, Mode=OneWayToSource}"/>
+            
+            <DatePicker DockPanel.Dock="Left"
+                        Name="DateEndDp"
+                        VerticalAlignment="Center"
+                        Margin="10,0"
+                        SelectedDate="{Binding DateEnd, Mode=OneWayToSource}"
+                        />
 
             <!-- SEARCH BOX -->
             <customControls:SearchTextBox DockPanel.Dock="Right"
