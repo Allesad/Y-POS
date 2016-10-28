@@ -50,6 +50,7 @@ namespace Y_POS.Views
             base.OnUnloaded(sender, routedEventArgs);
 
             SecuredPin.Dispose();
+            _securedPin = null;
         }
 
         #endregion

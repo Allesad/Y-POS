@@ -250,7 +250,7 @@
 
                         <ComboBox Name="PART_PageSizeSelector"
                                   BorderThickness="0"
-                                  Width="130"
+                                  Width="80"
                                   Background="{StaticResource BackgroundBrush}"
                                   SelectedIndex="0"
                                   VerticalAlignment="Stretch"/>
