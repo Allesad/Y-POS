@@ -337,8 +337,8 @@
     <!-- CIRCLE BUTTON -->
     <Style x:Key="CircleButton" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
         <Setter Property="Width" Value="45" />
         <Setter Property="Height" Value="45" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
