@@ -53,7 +53,8 @@
                 BorderBrush="{StaticResource SeparatorBrush}">
             <TextBlock VerticalAlignment="Center"
                        Style="{StaticResource DefaultLargeText}"
-                       Margin="10,5"
+                       FontSize="24"
+                       Margin="10"
                        Text="{Binding Title}"/>
         </Border>
         

@@ -1,19 +1,21 @@
 ﻿<views:BaseView x:Class="Y_POS.Views.ClosedOrdersView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:Y_POS.Controls"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:customControls="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI"
-             xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
-             xmlns:views="clr-namespace:Y_POS.Views"
-             mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:controls="clr-namespace:Y_POS.Controls"
+                xmlns:customControls="clr-namespace:YumaPos.WPF.UI.Controls;assembly=YumaPos.WPF.UI"
+                xmlns:p="clr-namespace:Y_POS.Core.Properties;assembly=Y-POS.Core"
+                xmlns:views="clr-namespace:Y_POS.Views"
+                xmlns:impl="clr-namespace:Y_POS.Core.ViewModels.Items.Impl;assembly=Y-POS.Core"
+                xmlns:pages="clr-namespace:Y_POS.Core.ViewModels.Pages;assembly=Y-POS.Core"
+                mc:Ignorable="d"
+                d:DesignHeight="300" d:DesignWidth="300"
+                d:DataContext="{d:DesignInstance pages:ClosedOrdersVm, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
 
-        <DataTemplate x:Key="OrdersListItemDt">
+        <DataTemplate x:Key="OrdersListItemDt" DataType="{x:Type impl:ClosedOrderItemVm}">
             <Grid Height="65"
                   HorizontalAlignment="Stretch">
 
@@ -37,35 +39,35 @@
 
                 <!-- DATE/TIME -->
                 <TextBlock Grid.Column="0"
-                           Text="06/06/2016 5:55 PM" />
+                           Text="{Binding DateCreated, StringFormat=g}" />
 
                 <!-- AMOUNT -->
                 <TextBlock Grid.Column="1"
-                           Text="$45.85" />
+                           Text="{Binding Amount, StringFormat=c}" />
 
                 <!-- ORDER # -->
                 <TextBlock Grid.Column="2"
-                           Text="125" />
+                           Text="{Binding OrderNumber}" />
 
                 <!-- TRANSACTION # -->
                 <TextBlock Grid.Column="3"
-                           Text="23" />
+                           Text="{Binding TransactionInfo}" />
 
                 <!-- PAYMENT -->
                 <TextBlock Grid.Column="4"
-                           Text="Cash" />
+                           Text="{Binding PaymentType}" />
 
                 <!-- TYPE -->
                 <TextBlock Grid.Column="5"
-                           Text="Quick" />
+                           Text="{Binding OrderType}" />
 
                 <!-- CUSTOMER -->
                 <TextBlock Grid.Column="6"
-                           Text="Ronald McDonald" />
+                           Text="{Binding CustomerName}" />
 
                 <!-- EMPLOYEE -->
                 <TextBlock Grid.Column="7"
-                           Text="Jack Smart" />
+                           Text="{Binding EmployeeName}" />
 
                 <!-- NAVIGATION -->
                 <Button Grid.Column="8"
@@ -95,7 +97,8 @@
 
             <!-- TRANSACTIONS -->
             <controls:ActionBarButton DockPanel.Dock="Right"
-                                      Style="{StaticResource ActionBarTransactions}" />
+                                      Style="{StaticResource ActionBarTransactions}" 
+                                      Command="{Binding CommandShowTransactions}"/>
         </DockPanel>
 
         <DockPanel DockPanel.Dock="Top"
@@ -103,7 +106,7 @@
                    LastChildFill="False">
 
             <!-- TODO: Replace with single selector control later -->
-            <ComboBox DockPanel.Dock="Left"
+            <!--<ComboBox DockPanel.Dock="Left"
                       MinWidth="110"
                       Background="Transparent"
                       VerticalAlignment="Stretch"
@@ -118,7 +121,7 @@
                         Orientation="Horizontal"
                         Background="{StaticResource PrimaryBrush}">
 
-                <customControls:IconButton Style="{StaticResource NavigationPrevSmallBtn}"
+                <customControls:RepeatIconButton Style="{StaticResource NavigationPrevSmallBtn}"
                                            BorderThickness="0,0,1,0"
                                            BorderBrush="{StaticResource SeparatorBrush}" />
                 <TextBlock Width="130"
@@ -126,53 +129,88 @@
                            TextAlignment="Center"
                            FontSize="18"
                            Text="September" />
-                <customControls:IconButton Style="{StaticResource NavigationNextSmallBtn}"
+                <customControls:RepeatIconButton Style="{StaticResource NavigationNextSmallBtn}"
                                            BorderThickness="1,0,0,0"
                                            BorderBrush="{StaticResource SeparatorBrush}" />
-            </StackPanel>
+            </StackPanel>-->
+            
+            <DatePicker DockPanel.Dock="Left"
+                        Name="DateStartDp"
+                        VerticalAlignment="Center"
+                        Margin="15,0"
+                        SelectedDate="{Binding DateStart, Mode=OneWayToSource}"/>
+            
+            <DatePicker DockPanel.Dock="Left"
+                        Name="DateEndDp"
+                        VerticalAlignment="Center"
+                        Margin="10,0"
+                        SelectedDate="{Binding DateEnd, Mode=OneWayToSource}"
+                        />
 
             <!-- SEARCH BOX -->
             <customControls:SearchTextBox DockPanel.Dock="Right"
                                           BorderThickness="1,0,0,0"
-                                          MinWidth="170" />
+                                          MinWidth="170" 
+                                          Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- NAVIGATION (REPLACE WITH SINGLE CONTROL LATER) -->
-            <StackPanel DockPanel.Dock="Right"
+            <customControls:PaginationControl x:Name="Paginator"
+                                              DockPanel.Dock="Right"
+                                              Margin="0"
+                                              Background="{StaticResource PrimaryBrush}"
+                                              CurrentPage="{Binding PageNumber}"
+                                              PagesCount="{Binding LastPageNumber}"
+                                              Begin="{Binding CommandFirstPage}"
+                                              PrevPage="{Binding CommandPrevPage}"
+                                              NextPage="{Binding CommandNextPage}"
+                                              End="{Binding CommandLastPage}"
+                                              SelectedPageSize="{Binding PageSize, Mode=OneWayToSource}"
+                                              PageDisplayType="WithPagesCount"
+                                              />
+            <!--<StackPanel DockPanel.Dock="Right"
                         Orientation="Horizontal"
                         Background="{StaticResource PrimaryBrush}">
 
                 <customControls:IconButton Style="{StaticResource NavigationBeginSmallBtn}"
                                            BorderThickness="0,0,1,0"
                                            BorderBrush="{StaticResource SeparatorBrush}"
-                                           IsEnabled="False" />
+                                           Command="{Binding CommandFirstPage}"/>
                 <customControls:IconButton Style="{StaticResource NavigationPrevSmallBtn}"
                                            BorderThickness="0,0,1,0"
                                            BorderBrush="{StaticResource SeparatorBrush}"
-                                           IsEnabled="False" />
+                                           Command="{Binding CommandPrevPage}"/>
                 <TextBlock Width="110"
                            FontSize="18"
                            VerticalAlignment="Center"
                            TextAlignment="Center"
-                           Text="1 of 10" />
+                           >
+                    <Run Text="{Binding PageNumber, Mode=OneWay}"/>
+                    <Run Text=" of "/>
+                    <Run Text="{Binding LastPageNumber, Mode=OneWay}"/>
+                </TextBlock>
                 <customControls:IconButton Style="{StaticResource NavigationNextSmallBtn}"
                                            BorderThickness="1,0,0,0"
-                                           BorderBrush="{StaticResource SeparatorBrush}" />
+                                           BorderBrush="{StaticResource SeparatorBrush}" 
+                                           Command="{Binding CommandNextPage}"/>
                 <customControls:IconButton Style="{StaticResource NavigationEndSmallBtn}"
                                            BorderThickness="1,0,1,0"
-                                           BorderBrush="{StaticResource SeparatorBrush}" />
+                                           BorderBrush="{StaticResource SeparatorBrush}" 
+                                           Command="{Binding CommandLastPage}"/>
 
-                <ComboBox BorderThickness="0"
+                <ComboBox Name="ItemsPerPageCb"
+                          BorderThickness="0"
                           Width="130"
                           Background="{StaticResource BackgroundBrush}"
                           SelectedIndex="0"
-                          VerticalAlignment="Stretch">
-                    <ComboBoxItem>10 per page</ComboBoxItem>
-                    <ComboBoxItem>25 per page</ComboBoxItem>
-                    <ComboBoxItem>50 per page</ComboBoxItem>
-                    <ComboBoxItem>100 per page</ComboBoxItem>
+                          VerticalAlignment="Stretch"
+                          SelectionChanged="OnItemsPerPageChanged">
+                    <ComboBoxItem Tag="10">10 per page</ComboBoxItem>
+                    <ComboBoxItem Tag="25">25 per page</ComboBoxItem>
+                    <ComboBoxItem Tag="50">50 per page</ComboBoxItem>
+                    <ComboBoxItem Tag="100">100 per page</ComboBoxItem>
                 </ComboBox>
 
-            </StackPanel>
+            </StackPanel>-->
 
             <TextBlock DockPanel.Dock="Right"
                        VerticalAlignment="Center"
@@ -187,14 +225,14 @@
               Background="{StaticResource ActionBarBg}">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="DateTime" Width="180" MaxWidth="180" />
-                <ColumnDefinition SharedSizeGroup="Amount" Width="90" MaxWidth="90"/>
-                <ColumnDefinition SharedSizeGroup="OrderNumber" Width="80" MaxWidth="80"/>
-                <ColumnDefinition SharedSizeGroup="TransactionNumber" Width="80" MaxWidth="80"/>
-                <ColumnDefinition SharedSizeGroup="Payment" Width="110" MaxWidth="110"/>
-                <ColumnDefinition SharedSizeGroup="Type" Width="80" MaxWidth="80"/>
-                <ColumnDefinition SharedSizeGroup="Customer" Width="180" MaxWidth="180"/>
-                <ColumnDefinition SharedSizeGroup="Employee" Width="180" MaxWidth="180"/>
+                <ColumnDefinition SharedSizeGroup="DateTime" Width="160" MaxWidth="160" />
+                <ColumnDefinition SharedSizeGroup="Amount" Width="90" MaxWidth="90" />
+                <ColumnDefinition SharedSizeGroup="OrderNumber" Width="80" MaxWidth="80" />
+                <ColumnDefinition SharedSizeGroup="TransactionNumber" Width="80" MaxWidth="80" />
+                <ColumnDefinition SharedSizeGroup="Payment" Width="110" MaxWidth="110" />
+                <ColumnDefinition SharedSizeGroup="Type" Width="80" MaxWidth="80" />
+                <ColumnDefinition SharedSizeGroup="Customer" Width="180" MaxWidth="180" />
+                <ColumnDefinition SharedSizeGroup="Employee" Width="180" MaxWidth="180" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
@@ -215,16 +253,18 @@
             <TextBlock Grid.Column="2"
                        Style="{StaticResource ListHeaderTb}"
                        HorizontalAlignment="Center">
-                <Run Text="{Binding Source={x:Static p:Resources.Order}, Converter={StaticResource UpperCaseCoverter}, Mode=OneTime}"/>
-                <Run Text=" #"/>
+                <Run
+                    Text="{Binding Source={x:Static p:Resources.Order}, Converter={StaticResource UpperCaseCoverter}, Mode=OneTime}" />
+                <Run Text=" #" />
             </TextBlock>
 
             <!-- TRANSACTION # -->
             <TextBlock Grid.Column="3"
                        Style="{StaticResource ListHeaderTb}"
                        HorizontalAlignment="Center">
-                <Run Text="{Binding Source={x:Static p:Resources.Transaction}, Converter={StaticResource UpperCaseCoverter}, Mode=OneTime}"/>
-                <Run Text=" #"/>
+                <Run
+                    Text="{Binding Source={x:Static p:Resources.Transaction}, Converter={StaticResource UpperCaseCoverter}, Mode=OneTime}" />
+                <Run Text=" #" />
             </TextBlock>
 
             <!-- PAYMENT -->
@@ -253,8 +293,10 @@
         </Grid>
 
         <ListBox ItemContainerStyle="{StaticResource OrdersListItem}"
-                 Background="{StaticResource PrimaryBrush}">
-            <ListBox.Items>
+                 Background="{StaticResource PrimaryBrush}"
+                 ItemsSource="{Binding Items, Mode=OneWay}"
+                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <!--<ListBox.Items>
                 <system:String>1</system:String>
                 <system:String>2</system:String>
                 <system:String>3</system:String>
@@ -263,7 +305,7 @@
                 <system:String>6</system:String>
                 <system:String>7</system:String>
                 <system:String>8</system:String>
-            </ListBox.Items>
+            </ListBox.Items>-->
         </ListBox>
 
     </DockPanel>

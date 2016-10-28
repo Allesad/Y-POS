@@ -129,5 +129,9 @@
     <DataTemplate DataType="{x:Type dialogs:GiftCardNumberDialog}">
         <dialogViews:GetGiftCardNumberDialog DataContext="{Binding}"/>
     </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type dialogs:OrderTransactionsViewerDialog}">
+        <dialogViews:OrderTransactionsViewerDialog DataContext="{Binding}"/>
+    </DataTemplate>
 
 </ResourceDictionary>

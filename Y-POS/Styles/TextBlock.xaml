@@ -5,6 +5,7 @@
 
     <!-- font settings -->
     <FontFamily x:Key="DefaultFontFamily">Segoe UI</FontFamily>
+    <FontFamily x:Key="LightFontFamily">Segoe UI Light</FontFamily>
 
     <system:Double x:Key="DefaultFontSize">16</system:Double>
     <system:Double x:Key="LargeFontSize">22</system:Double>

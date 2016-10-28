@@ -173,8 +173,29 @@
     </Style>
 
     <!-- NEXT PAGE NAVIGATION ARROW (SMALL SIZE ICON) -->
-    <Style x:Key="NavigationNextSmallBtn" TargetType="controls:IconButton"
-           BasedOn="{StaticResource {x:Type ButtonBase}}">
+    <Style x:Key="NavigationNextSmallBtn" TargetType="controls:RepeatIconButton" BasedOn="{StaticResource {x:Type ButtonBase}}">
+        <Setter Property="MinWidth" Value="50" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="IconHeight" Value="14" />
+        <Setter Property="IconWidth" Value="14" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Path
+                        Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:RepeatIconButton}, Path=Foreground}"
+                        Height="{Binding RelativeSource={RelativeSource AncestorType=controls:RepeatIconButton}, Path=IconHeight}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=controls:RepeatIconButton}, Path=IconWidth}"
+                        StrokeThickness="2"
+                        Stretch="Uniform"
+                        Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- END NAVIGATION ARROW (SMALL SIZE ICON) -->
+    <Style x:Key="NavigationEndSmallBtn" TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="MinWidth" Value="50" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
@@ -195,27 +216,30 @@
         </Setter>
     </Style>
 
-    <!-- END NAVIGATION ARROW (SMALL SIZE ICON) -->
-    <Style x:Key="NavigationEndSmallBtn" TargetType="controls:IconButton"
-           BasedOn="{StaticResource NavigationNextSmallBtn}">
+    <!-- PREVIOUS PAGE NAVIGATION ARROW (SMALL SIZE ICON) -->
+    <Style x:Key="NavigationPrevSmallBtn" TargetType="controls:RepeatIconButton" BasedOn="{StaticResource NavigationNextSmallBtn}">
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
                     <Path
-                        Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=Foreground}"
-                        Height="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconHeight}"
-                        Width="{Binding RelativeSource={RelativeSource AncestorType=controls:IconButton}, Path=IconWidth}"
+                        Fill="{Binding RelativeSource={RelativeSource AncestorType=controls:RepeatIconButton}, Path=Foreground}"
+                        Height="{Binding RelativeSource={RelativeSource AncestorType=controls:RepeatIconButton}, Path=IconHeight}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=controls:RepeatIconButton}, Path=IconWidth}"
                         StrokeThickness="2"
+                        RenderTransformOrigin="0.5,0.5"
                         Stretch="Uniform"
-                        Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601" />
+                        Data="F1M7.48,6.601C7.48,6.841,7.389,7.085,7.205,7.266L1.604,12.923C1.015,13.518,0,13.101,0,12.264L0,12.237C0,11.99,0.098,11.753,0.272,11.577L4.27,7.54 5.242,6.57 4.25,5.642 0.272,1.627C0.098,1.451,0,1.214,0,0.967L0,0.94C0,0.102,1.015,-0.315,1.604,0.28L7.205,5.933C7.389,6.117,7.48,6.361,7.48,6.601">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="180" />
+                        </Path.RenderTransform>
+                    </Path>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <!-- PREVIOUS PAGE NAVIGATION ARROW (SMALL SIZE ICON) -->
-    <Style x:Key="NavigationPrevSmallBtn" TargetType="controls:IconButton"
-           BasedOn="{StaticResource NavigationNextSmallBtn}">
+    <!-- BEGIN NAVIGATION ARROW (SMALL SIZE ICON) -->
+    <Style x:Key="NavigationBeginSmallBtn" TargetType="controls:IconButton" BasedOn="{StaticResource NavigationEndSmallBtn}">
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -235,10 +259,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <!-- BEGIN NAVIGATION ARROW (SMALL SIZE ICON) -->
-    <Style x:Key="NavigationBeginSmallBtn" TargetType="controls:IconButton"
-           BasedOn="{StaticResource NavigationPrevSmallBtn}" />
 
     <SolidColorBrush x:Key="OperationButtonSelectionBrush" Color="{StaticResource TextColor}" Opacity="0.8" />
 
@@ -317,8 +337,8 @@
     <!-- CIRCLE BUTTON -->
     <Style x:Key="CircleButton" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
         <Setter Property="Width" Value="45" />
         <Setter Property="Height" Value="45" />
         <Setter Property="SnapsToDevicePixels" Value="True" />

@@ -49,8 +49,7 @@
                                      helpers:PlaceholderTextHelper.PlaceholderText="{TemplateBinding LabelText}"
                                      BorderThickness="0"
                                      Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text, 
-                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     />
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                             <Path Grid.Column="1"
                                   Name="SearchIconPath"
@@ -187,7 +186,7 @@
                                 <Path Data="{StaticResource BackIcon}"
                                       Fill="{StaticResource ButtonText}"
                                       HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
+                                      VerticalAlignment="Center" />
                             </Button.Content>
                         </Button>
                         <Button Style="{StaticResource NumpadButton}"
@@ -208,10 +207,55 @@
                                 <Path Data="{StaticResource ClearIcon}"
                                       Fill="{StaticResource ButtonText}"
                                       HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
+                                      VerticalAlignment="Center" />
                             </Button.Content>
                         </Button>
                     </UniformGrid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- PAGINATOR -->
+    <Style TargetType="controls:PaginationControl">
+        <!--<Setter Property="Width" Value="300"/>-->
+        <Setter Property="Margin" Value="10,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PaginationControl">
+                    <StackPanel Orientation="Horizontal"
+                                Background="{StaticResource PrimaryBrush}">
+
+                        <controls:IconButton Name="PART_Begin" 
+                                             Style="{StaticResource NavigationBeginSmallBtn}"
+                                             BorderThickness="0,0,1,0"
+                                             BorderBrush="{StaticResource SeparatorBrush}"/>
+                        <controls:RepeatIconButton Name="PART_PrevPage" 
+                                             Style="{StaticResource NavigationPrevSmallBtn}"
+                                             BorderThickness="0,0,1,0"
+                                             BorderBrush="{StaticResource SeparatorBrush}"/>
+                        <TextBlock Name="PART_CurrentPage" 
+                                   Width="110"
+                                   FontSize="18"
+                                   VerticalAlignment="Center"
+                                   TextAlignment="Center"/>
+                        <controls:RepeatIconButton Name="PART_NextPage" 
+                                             Style="{StaticResource NavigationNextSmallBtn}"
+                                             BorderThickness="1,0,0,0"
+                                             BorderBrush="{StaticResource SeparatorBrush}"/>
+                        <controls:IconButton Name="PART_End" 
+                                             Style="{StaticResource NavigationEndSmallBtn}"
+                                             BorderThickness="1,0,1,0"
+                                             BorderBrush="{StaticResource SeparatorBrush}"/>
+
+                        <ComboBox Name="PART_PageSizeSelector"
+                                  BorderThickness="0"
+                                  Width="80"
+                                  Background="{StaticResource BackgroundBrush}"
+                                  SelectedIndex="0"
+                                  VerticalAlignment="Stretch"/>
+
+                    </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

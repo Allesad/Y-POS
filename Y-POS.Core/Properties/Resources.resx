@@ -562,4 +562,7 @@
   <data name="Dialog_Notification_UnauthorizedLogout" xml:space="preserve">
     <value>Auto logout occured. Please, relogin to the application.</value>
   </data>
+  <data name="Placeholder_TransactionsForOrder" xml:space="preserve">
+    <value>Transactions for order #{0}</value>
+  </data>
 </root>

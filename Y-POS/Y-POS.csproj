@@ -250,6 +250,9 @@
     <Compile Include="Views\Dialogs\GetGiftCardNumberDialog.xaml.cs">
       <DependentUpon>GetGiftCardNumberDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\OrderTransactionsViewerDialog.xaml.cs">
+      <DependentUpon>OrderTransactionsViewerDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\SetOrderItemQtyDialog.xaml.cs">
       <DependentUpon>SetOrderItemQtyDialog.xaml</DependentUpon>
     </Compile>
@@ -291,6 +294,10 @@
     </Compile>
     <Compile Include="WpfScheduler.cs" />
     <Page Include="Controls\CardNumberInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\DatePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -443,6 +450,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\GetGiftCardNumberDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\OrderTransactionsViewerDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

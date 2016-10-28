@@ -113,6 +113,8 @@
     </Compile>
     <Compile Include="Receipt\ReceiptBuilder.cs" />
     <Compile Include="Receipt\ReceiptTemplateFactory.cs" />
+    <Compile Include="ViewModels\Dialogs\OrderTransactionsViewerDialog.cs" />
+    <Compile Include="ViewModels\Items\Impl\ClosedOrderItemVm.cs" />
     <Compile Include="ViewModels\PosBaseVm.cs" />
     <Compile Include="ViewModels\Dialogs\GiftCardNumberDialog.cs" />
     <Compile Include="ViewModels\Dialogs\ProcessingDialog.cs" />

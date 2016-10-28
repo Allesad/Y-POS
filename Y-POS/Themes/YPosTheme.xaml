@@ -14,6 +14,7 @@
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/ListBox.xaml"/>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/ComboBox.xaml"/>
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/Separator.xaml"/>
+        <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/DatePicker.xaml"/>
         
         <!-- Custom Styles -->
         <ui:SharedResourceDictionary Source="/Y-POS;component/Styles/CustomStyles/CustomControls.xaml"/>

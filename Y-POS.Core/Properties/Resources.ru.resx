@@ -560,4 +560,7 @@
   <data name="Dialog_Notification_UnauthorizedLogout" xml:space="preserve">
     <value>Произошел автоматический выход. Пожалуйста, залогиньтесь заново.</value>
   </data>
+  <data name="Placeholder_TransactionsForOrder" xml:space="preserve">
+    <value>Транзакции для заказа №{0}</value>
+  </data>
 </root>
